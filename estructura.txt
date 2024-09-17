@@ -1,0 +1,30 @@
+Frontend/
+├── node_modules/       // Contiene todas las dependencias del proyecto.
+├── public/             // Contiene los archivos estáticos públicos.
+├── src/                // Carpeta principal para el código fuente de la aplicación.
+│   ├── assets/         // Contiene todos los assets estáticos necesarios (svg, imágenes, sonidos, etc).
+│   │   └── images/     // Contiene las imágenes.
+│   ├── components/     // Contiene todos los componentes de React.
+│   │   ├── context/    // Contiene los React.Context.
+│   │   ├── hooks/      // Contiene los custom hook.
+│   │   ├── layouts/    // Contiene la estructura base de la página.
+│   │   ├── routes/     // Contiene las rutas de la aplicación.
+│   │   ├── shared/     // Contiene los componentes compartidos.
+│   │   └── views/      // Contiene las vistas de la aplicación.
+│   ├── config/         // Contiene la configuración de la aplicación.
+│   ├── data/           // Carpeta para mockear data para testear los componentes.
+│   ├── services/       // Contiene los servicios que se encargan de realizar las peticiones a la API.
+│   ├── styles/         // Contiene los estilos de la aplicación.
+│   ├── types/          // Contiene los tipos de TypeScript.
+│   ├── utils/          // Contiene funciones de utilidad.
+│   ├── validations/    // Contiene las validaciones de los formularios.
+├── eslint.config.js    // Configuración de ESLint.
+├── estructura.txt      // Estructura del proyecto.
+├── index.html          // El archivo HTML principal que carga tu aplicación React.
+├── package-lock.json   // Asegura que las versiones de las dependencias sean consistentes.
+├── package.json        // Contiene información sobre el proyecto y las dependencias.
+├── README.md           // Documentación del proyecto.
+├── tsconfig.app.json   // Configuración de TypeScript para la aplicación.
+├── tsconfig.json       // Configuración de TypeScript.
+├── tsconfignode.json   // Configuración de TypeScript para Node.js.
+└── vite.config.ts      // Configuración de Vite.
