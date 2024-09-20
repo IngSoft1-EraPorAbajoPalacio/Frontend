@@ -1,9 +1,34 @@
-import '../../styles/App.css'
+import '../../styles/App.css';
+
+type CantidadJugadores = 2 | 3 | 4;
+
+class Partida {
+  idPartida: number;
+  nombrePartida: string;
+  cantJugadores: CantidadJugadores;
+  
+  constructor(idPartida: number, nombrePartida: string, cantJugadores: CantidadJugadores) { 
+    this.idPartida = idPartida;
+    this.nombrePartida = nombrePartida;
+    this.cantJugadores = cantJugadores;
+  }
+}
+
+const partida1 : Partida = new Partida(1, 'Partida 1', 2);
+const partida2 : Partida = new Partida(2, 'Partida 2', 3);
+const partida3 : Partida = new Partida(3, 'Partida 3', 4);
+const partida4 : Partida = new Partida(4, 'Los mas kpos del condado', 4);
+
+const partidas : Partida[] = [partida1, partida2, partida3, partida4];
+
+let partidaElegida = 0;
+
+function SeleccionarPartida(id: number) {
+  partidaElegida = id;
+  console.log(partidaElegida);
+};
 
 function App() {
-
-  const nombrepartida = ['Partida 1', 'Partida 2', 'Partida 3', 'Partida 4'];
-  const cantidadjugadores = ['2', '3', '4', '5'];
 
   return (
     <div id='home'>
@@ -13,24 +38,16 @@ function App() {
         </button>
       </div>
       <div id='unirse'>
-        <button className='partida-listada'>
-            <p>{nombrepartida[0]} <br></br> jugadores: {cantidadjugadores[0]}</p>
-
+        {partidas.map((partida) => (
+          <button className='partida-listada' onClick={() => SeleccionarPartida(partida.idPartida)}>
+            <p>{partida.nombrePartida} <br></br> jugadores: {partida.cantJugadores}</p>
           </button>
-          <button className='partida-listada'>
-            <p>{nombrepartida[1]} <br></br> jugadores: {cantidadjugadores[1]}</p>
-          </button>
-
-          <button className='partida-listada'>
-            <p>{nombrepartida[2]} <br></br> jugadores: {cantidadjugadores[2]}</p>
-          </button>
-
-          <button className='partida-listada'>
-            <p>{nombrepartida[3]} <br></br> jugadores: {cantidadjugadores[3]}</p>
-          </button>
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
+
+// Ver para agregar muchas partidas y que se haga scroll (y que no afecte el boton de crear partida)
