@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from '../../assets/images/react.svg'
-import viteLogo from '../../assets/images/vite.svg'
 import '../../styles/App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const nombrepartida = ['Partida 1', 'Partida 2', 'Partida 3', 'Partida 4'];
+  const cantidadjugadores = ['2', '3', '4', '5'];
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div id='home'>
+      <div id='crear'>
+        <button>
+          Crear partida
         </button>
-        <p>
-          Edit <code>src/components/layouts/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <div id='unirse'>
+        <button className='partida-listada'>
+            <p>{nombrepartida[0]} <br></br> jugadores: {cantidadjugadores[0]}</p>
+
+          </button>
+          <button className='partida-listada'>
+            <p>{nombrepartida[1]} <br></br> jugadores: {cantidadjugadores[1]}</p>
+          </button>
+
+          <button className='partida-listada'>
+            <p>{nombrepartida[2]} <br></br> jugadores: {cantidadjugadores[2]}</p>
+          </button>
+
+          <button className='partida-listada'>
+            <p>{nombrepartida[3]} <br></br> jugadores: {cantidadjugadores[3]}</p>
+          </button>
+      </div>
+    </div>
   )
 }
 
