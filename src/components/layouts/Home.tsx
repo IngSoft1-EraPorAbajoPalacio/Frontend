@@ -1,12 +1,24 @@
 import '../../styles/Home.css';
-import { usePartida } from '../hooks';
 import UnirsePartida from '../views/Public/UnirsePartida';
 import CrearPartida from '../views/Public/CrearPartida';
 import ListarPartidas from '../views/Public/ListarPartidas';
+import { useState } from 'react';
+import { Partida } from '../../types/partida';
+import { guardarPartida } from '../context/PlayerContext';
 
 
 const Home = () => {
-  const { partidaElegida, seleccionarPartida, partidaCreada, seleccionarCrear } = usePartida();
+  const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
+  const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
+
+  const seleccionarPartida = (partida: Partida) => {    
+    setPartidaElegida(partida);
+    guardarPartida(partida);
+  };
+
+  const seleccionarCrear = () => {
+    setPartidaCreada(true);
+  };
 
   return (
     <>

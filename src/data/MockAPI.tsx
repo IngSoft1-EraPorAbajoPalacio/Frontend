@@ -1,9 +1,9 @@
 
 export const mockData = {
     "partidas": [
-        {"idPartida": 1, "nombrePartida": "Partida1", "cantJugadores": 2},
-        {"idPartida": 2, "nombrePartida": "Partida1", "cantJugadores": 3},
-        {"idPartida": 3, "nombrePartida": "Partida1", "cantJugadores": 4},
-        {"idPartida": 4, "nombrePartida": "Partida1", "cantJugadores": 2},
+        {"id": 1, "nombre": "Partida1"},
+        {"id": 2, "nombre": "Partida1"},
+        {"id": 3, "nombre": "Partida1"},
+        {"id": 4, "nombre": "Partida1"},
     ]
 }

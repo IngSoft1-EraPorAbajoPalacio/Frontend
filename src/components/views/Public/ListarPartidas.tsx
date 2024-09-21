@@ -1,28 +1,26 @@
-import React from 'react';
-import { partidas } from '../../../types/partida';
+import { Partida, partidas } from '../../../types/partida';
 import obtenerListaPartidas from '../../hooks/ListaPartidas';
 
 interface ListarPartidasProps {
-  seleccionarPartida: (id: number) => void;
+  seleccionarPartida: (partida: Partida) => void;
 }
 
-
-const ListarPartidas: React.FC<ListarPartidasProps> = ({ seleccionarPartida }) => {
+function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
   obtenerListaPartidas();
 
   return (
     <div id='unirse'>
       {partidas.map((partida) => (
         <button
-          key={partida.idPartida}
+          key={partida.id}
           className='partida-listada'
-          onClick={() => seleccionarPartida(partida.idPartida)}
+          onClick={() => seleccionarPartida(partida)}
         >
-          <p>{partida.nombrePartida} <br /> jugadores: {partida.cantJugadores}</p>
+          <p>{partida.nombre}</p>
         </button>
       ))}
     </div>
   );
-};
+}
 
 export default ListarPartidas;

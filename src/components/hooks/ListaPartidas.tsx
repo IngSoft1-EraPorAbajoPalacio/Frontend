@@ -1,7 +1,6 @@
 import { SetStateAction, useEffect, useState } from "react"
-import { Partida, partidas, CantidadJugadores } from "../../types/partida"
+import { Partida, partidas } from "../../types/partida"
 //import { urlBase } from "../../services/url";
-import { useWebSocket } from "../../services/WebSocketContext";
 //import axios from "axios"
 import { mockData } from "../../data/MockAPI"
 
@@ -19,30 +18,26 @@ const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]
         throw new Error("Error obteniendo la lista de partidas");
       } else {
 
-        // Acede a la lista de "partidas" en la respuesta
         const dataPartidas = response.data.partidas;
 
         if (Array.isArray(dataPartidas)) {
           const partidasFormateadas = dataPartidas.map((partida) => 
-            new Partida(partida.idPartida, partida.nombrePartida, partida.cantJugadores as CantidadJugadores)
+            new Partida(partida.id, partida.nombre)
           );
           setLista(partidasFormateadas);
         } else {
           console.error("La respuesta no es un array:", dataPartidas);
-          setLista([]); // Asegura que al menos se mantenga como un array vacío
+          setLista([]);
         }
       }
     } catch (error) {
       console.error("Error obteniendo la lista de partidas:", error);
-      setLista([]); // Inicializa como un array vacío en caso de error
+      setLista([]);
     }
   };
 
 
 function obtenerListaPartidas () {
-
-  const webSocketContext = useWebSocket();
-  const event = webSocketContext ? webSocketContext.event : null;
   const [Lista, setLista] = useState<Partida[]>([])
 
   useEffect(() => {
@@ -52,25 +47,15 @@ function obtenerListaPartidas () {
   useEffect(() => {
     if (Lista.length > 0) {
       const nuevasPartidas = Lista.map((partida) => {
-        return new Partida(partida.idPartida, partida.nombrePartida, partida.cantJugadores as CantidadJugadores);
+        return new Partida(partida.id, partida.nombre);
       });
   
       nuevasPartidas.forEach((partida) => {
-        console.log(partida);
         partidas.push(partida); 
       });
     }
   }, [Lista]);
 
-  useEffect(() => {
-    const type = event ? JSON.parse(event)?.type : null;
-    if (type === "agregarPartida" && event) {
-      const data = JSON.parse(event)?.data;
-      const nuevaPartida = new Partida(data.idPartida, data.nombrePartida, data.cantJugadores as CantidadJugadores);
-      console.log(nuevaPartida);
-      partidas.push(nuevaPartida);
-    }
-  }, [event])
 }
 
 export default obtenerListaPartidas;
