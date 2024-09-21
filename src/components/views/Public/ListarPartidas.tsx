@@ -6,6 +6,7 @@ interface ListarPartidasProps {
   seleccionarPartida: (id: number) => void;
 }
 
+
 const ListarPartidas: React.FC<ListarPartidasProps> = ({ seleccionarPartida }) => {
   obtenerListaPartidas();
 
