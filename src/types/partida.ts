@@ -1,6 +1,6 @@
-type CantidadJugadores = 2 | 3 | 4;
+export type CantidadJugadores = 2 | 3 | 4;
 
-class Partida {
+export class Partida {
   idPartida: number;
   nombrePartida: string;
   cantJugadores: CantidadJugadores;
@@ -18,7 +18,4 @@ const partida2 : Partida = new Partida(2, 'Partida 2', 3);
 const partida3 : Partida = new Partida(3, 'Partida 3', 4);
 const partida4 : Partida = new Partida(4, 'partida 4', 4);
 
-const partidasEx : Partida[] = [partida1, partida2, partida3, partida4];
-
-
-export { Partida, partidasEx };
+export const partidas : Partida[] = [partida1, partida2, partida3, partida4];
