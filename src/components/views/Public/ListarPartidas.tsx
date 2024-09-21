@@ -1,12 +1,20 @@
-import { Partida, partidas } from '../../../types/partida';
-import obtenerListaPartidas from '../../hooks/ListaPartidas';
+import { Partida } from '../../../types/partida';
+import obtenerPartidas from '../../hooks/ListaPartidas';
+import { useState, useEffect } from 'react';
 
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;
 }
 
 function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
-  obtenerListaPartidas();
+  const [partidas, setPartidas] = useState<Partida[]>([]);
+
+  useEffect(() => {
+    obtenerPartidas(setPartidas);
+    if (partidas.length > 0) {
+      console.log("Agregando partidas:", partidas);
+    }
+  }, [])
 
   return (
     <div id='unirse'>
