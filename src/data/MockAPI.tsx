@@ -8,6 +8,10 @@ export const mockData = {
         {id: 6, nombre: "Partida5"},
         {id: 7, nombre: "Partida6"},
         {id: 8, nombre: "Partida7"},
+        {id: 9, nombre: "Partida8"},
+        {id: 10, nombre: "Partida9"},
+        {id: 11, nombre: "Partida10"},
+        {id: 12, nombre: "Partida11"},
 
     ]
 }

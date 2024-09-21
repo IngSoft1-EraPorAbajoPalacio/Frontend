@@ -17,7 +17,7 @@ function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
   }, [])
 
   return (
-    <div id='unirse'>
+    <>
       {partidas.map((partida) => (
         <button
           key={partida.id}
@@ -27,7 +27,7 @@ function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
           <p>{partida.nombre}</p>
         </button>
       ))}
-    </div>
+    </>
   );
 }
 

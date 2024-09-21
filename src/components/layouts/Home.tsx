@@ -27,7 +27,9 @@ const Home = () => {
           <div id='crear'>
             <button onClick={() => seleccionarCrear()}>Crear partida</button>
           </div>
-          <ListarPartidas seleccionarPartida={seleccionarPartida} />
+          <div id='unirse'>
+            <ListarPartidas seleccionarPartida={seleccionarPartida} />
+          </div>
         </div>
       ) : (
         partidaElegida ? <UnirsePartida /> : <CrearPartida />
