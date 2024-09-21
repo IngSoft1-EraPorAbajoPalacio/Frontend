@@ -1,9 +1,9 @@
-import '../../styles/index.css'
+import '../../../styles/index.css'
 
 const UnirsePartida = () => {
     return (
         <div>
-            <h1>Unido</h1>
+            <h1>Unirse</h1>
         </div>
     )
 }

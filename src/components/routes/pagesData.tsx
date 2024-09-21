@@ -1,7 +1,7 @@
 import { routerType, Paths } from "../../types/routes.types";
 import Home from '../layouts/Home';
-import CrearPartida from '../layouts/CrearPartida';
-import UnirsePartida from '../layouts/UnirsePartida';
+import CrearPartida from '../views/Public/CrearPartida';
+import UnirsePartida from '../views/Public/UnirsePartida';
 
 const pagesData: routerType[] = [
     {
