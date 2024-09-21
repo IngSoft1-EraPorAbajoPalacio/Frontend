@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import "../../styles/FormCreateRoom.css";
+
 export function FormCreateRoom() {
 	const [form, setForm] = useState(
 		{
@@ -24,7 +26,7 @@ export function FormCreateRoom() {
 	};
 
 	const incrementMaxPlayersAllowed = () => {
-		if(form.maxPlayers < 8) {
+		if (form.maxPlayers < 8) {
 			setForm({
 				...form,
 				maxPlayers: form.maxPlayers + 1,
@@ -33,7 +35,7 @@ export function FormCreateRoom() {
 	};
 
 	const decrementMaxPlayersAllowed = () => {
-		if(2 < form.maxPlayers && form.minPlayers < form.maxPlayers) {
+		if (2 < form.maxPlayers && form.minPlayers < form.maxPlayers) {
 			setForm({
 				...form,
 				maxPlayers: form.maxPlayers - 1,
@@ -42,7 +44,7 @@ export function FormCreateRoom() {
 	};
 
 	const incrementMinPlayersAllowed = () => {
-		if(form.minPlayers < 8 && form.minPlayers < form.maxPlayers) {
+		if (form.minPlayers < 8 && form.minPlayers < form.maxPlayers) {
 			setForm({
 				...form,
 				minPlayers: form.minPlayers + 1,
@@ -51,7 +53,7 @@ export function FormCreateRoom() {
 	};
 
 	const decrementMinPlayersAllowed = () => {
-		if(2 < form.minPlayers) {
+		if (2 < form.minPlayers) {
 			setForm({
 				...form,
 				minPlayers: form.minPlayers - 1,
@@ -59,44 +61,49 @@ export function FormCreateRoom() {
 		}
 	};
 
-	return (<>
+	return (<div className='form-container'>
 		<form onSubmit={handleSubmit}>
 			<label>
 				Nombre de la Sala:
-				<input type='text'
+				<input className='input'
+					type='text'
 					name='sala'
 					placeholder="SalaDeTorval"
 					value={form.room}
 					onChange={handleRoomNameChange} />
 			</label>
-			<label>
-			<div>
-				Máximo de Jugadores:
-					<button type="button"
-						onClick={() => decrementMaxPlayersAllowed()}>
-						<b>-</b>
-					</button>
-					<span>{form.maxPlayers}</span>
-					<button type="button"
-						onClick={() => incrementMaxPlayersAllowed()}>
-						<b>+</b>
-					</button>
-				</div>
-			</label>
-			<label>
-				Mínimo de Jugadores:
+			<div className='max-min-container'>
 				<div>
-					<button type="button"
-						onClick={decrementMinPlayersAllowed}>
-						<b>-</b>
-					</button>
-					<span>{form.minPlayers}</span>
-					<button type="button"
-						onClick={incrementMinPlayersAllowed}>
-						<b>+</b>
-					</button>
+					Máximo de Jugadores:
+					<label>
+						<button type="button"
+							onClick={() => decrementMaxPlayersAllowed()}>
+							<b>-</b>
+						</button>
+						<span>{form.maxPlayers}</span>
+						<button type="button"
+							onClick={() => incrementMaxPlayersAllowed()}>
+							<b>+</b>
+						</button>
+					</label>
 				</div>
-			</label>
+				<div>
+					Mínimo de Jugadores:
+					<label>
+
+
+						<button type="button"
+							onClick={decrementMinPlayersAllowed}>
+							<b>-</b>
+						</button>
+						<span>{form.minPlayers}</span>
+						<button type="button"
+							onClick={incrementMinPlayersAllowed}>
+							<b>+</b>
+						</button>
+					</label>
+				</div>
+			</div>
 		</form>
-	</>);
+	</div>);
 };

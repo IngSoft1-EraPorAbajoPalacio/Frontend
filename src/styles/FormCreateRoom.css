@@ -1,0 +1,50 @@
+/* FormCreateRoom.css */
+
+.form-container {
+    display: flex;
+    position: relative;
+    left: 50%;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #b6b5b5;
+    border-radius: 12px;
+    max-width: 100%;
+    background-color: #f9f9f8;
+    align-items: right;
+}
+
+.input{
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #b6b5b5;
+    border-radius: 5px; 
+}
+
+.form-container input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.max-min-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.max-min-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.max-min-container label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
