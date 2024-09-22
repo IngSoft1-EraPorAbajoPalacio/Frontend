@@ -110,6 +110,9 @@ export function FormCreateRoom() {
 					</button>
 				</div>
 			</div>
+			<div id='submit-button'>
+				<button type='submit' >Crear Sala</button>
+			</div>
 		</form>
 	</div>);
 };
