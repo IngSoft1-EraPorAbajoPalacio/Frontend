@@ -2,12 +2,20 @@ import { useState } from 'react';
 
 import "../../styles/FormCreateRoom.css";
 
+interface FormInputs {
+	room: string,
+	minPlayers: number,
+	maxPlayers: number,
+}
+
 export function FormCreateRoom() {
-	const [form, setForm] = useState(
+	const [dirty, setDirty] = useState<boolean>(false);
+
+	const [form, setForm] = useState<FormInputs>(
 		{
 			room: '',
 			minPlayers: 2,
-			maxPlayers: 8,
+			maxPlayers: 4,
 		}
 	);
 
@@ -26,7 +34,7 @@ export function FormCreateRoom() {
 	};
 
 	const incrementMaxPlayersAllowed = () => {
-		if (form.maxPlayers < 8) {
+		if (form.maxPlayers < 4) {
 			setForm({
 				...form,
 				maxPlayers: form.maxPlayers + 1,
@@ -63,45 +71,43 @@ export function FormCreateRoom() {
 
 	return (<div className='form-container'>
 		<form onSubmit={handleSubmit}>
-			<label>
-				Nombre de la Sala:
-				<input className='input'
+			<div className='room-name'>
+				<h3>Nombre de la Sala</h3>
+			</div>
+			<div className='room-name'>
+				<input className={'input' + (form.room === '' && dirty ? ' input-invalid' : '')}
 					type='text'
 					name='sala'
 					placeholder="SalaDeTorval"
 					value={form.room}
-					onChange={handleRoomNameChange} />
-			</label>
+					onChange={(e) => { setDirty(true); handleRoomNameChange(e); }}
+					required />
+			</div>
+
 			<div className='max-min-container'>
-				<div>
-					Máximo de Jugadores:
-					<label>
-						<button type="button"
-							onClick={() => decrementMaxPlayersAllowed()}>
-							<b>-</b>
-						</button>
-						<span>{form.maxPlayers}</span>
-						<button type="button"
-							onClick={() => incrementMaxPlayersAllowed()}>
-							<b>+</b>
-						</button>
-					</label>
+				<div className='p-container'><p>Mínimo de Jugadores</p></div>
+				<div className='buttons-container'>
+					<button type="button"
+						onClick={decrementMinPlayersAllowed}>
+						<b>-</b>
+					</button>
+					<b><span>{form.minPlayers}</span></b>
+					<button type="button"
+						onClick={incrementMinPlayersAllowed}>
+						<b>+</b>
+					</button>
 				</div>
-				<div>
-					Mínimo de Jugadores:
-					<label>
-
-
-						<button type="button"
-							onClick={decrementMinPlayersAllowed}>
-							<b>-</b>
-						</button>
-						<span>{form.minPlayers}</span>
-						<button type="button"
-							onClick={incrementMinPlayersAllowed}>
-							<b>+</b>
-						</button>
-					</label>
+				<div className='p-container'><p>Máximo de Jugadores</p></div>
+				<div className='buttons-container'>
+					<button type="button"
+						onClick={decrementMaxPlayersAllowed}>
+						<b>-</b>
+					</button>
+					<b><span>{form.maxPlayers}</span></b>
+					<button type="button"
+						onClick={incrementMaxPlayersAllowed}>
+						<b>+</b>
+					</button>
 				</div>
 			</div>
 		</form>
