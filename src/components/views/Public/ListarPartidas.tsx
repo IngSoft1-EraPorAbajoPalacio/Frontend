@@ -43,7 +43,10 @@ function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
           className='partida-listada'
           onClick={() => seleccionarPartida(partida)}
         >
-          <p>{partida.nombre}</p>
+          <p>
+            <h3>{partida.nombre}</h3>
+            Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax}
+          </p>
         </button>
       ))}
     </>

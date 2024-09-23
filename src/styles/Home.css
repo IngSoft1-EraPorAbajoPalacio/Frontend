@@ -48,3 +48,13 @@ body {
   padding: 3%;
   text-align: left;
 }
+
+#unirse p {
+  margin: 0%;
+  padding: 0%;
+}
+
+#unirse h3 {
+  margin-bottom: 1%;
+  margin-top: 0%;
+}
