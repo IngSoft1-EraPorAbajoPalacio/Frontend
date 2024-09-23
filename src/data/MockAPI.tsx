@@ -1,6 +1,7 @@
 
 export const mockData = {
     partidas: [
+        {id: 1, nombre: "Partida0"},
         {id: 2, nombre: "Partida1"},
         {id: 3, nombre: "Partida2"},
         {id: 4, nombre: "Partida3"},
@@ -9,9 +10,6 @@ export const mockData = {
         {id: 7, nombre: "Partida6"},
         {id: 8, nombre: "Partida7"},
         {id: 9, nombre: "Partida8"},
-        {id: 10, nombre: "Partida9"},
-        {id: 11, nombre: "Partida10"},
-        {id: 12, nombre: "Partida11"},
-
+        {id: 10, nombre: "Partida9"}
     ]
 }

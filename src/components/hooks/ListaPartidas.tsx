@@ -1,12 +1,11 @@
 import { SetStateAction } from "react"
 import { Partida } from "../../types/partida"
-//import { urlBase } from "../../services/url";
 //import axios from "axios"
 import { mockData } from "../../data/MockAPI"
 
 const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]>>) => {
     try {
-      //const url = `${urlBase}/partidas`;
+      //const url = 'http://localhost:5173/';
 
       // Simula una llamada a la API usando datos simulados
       const response = { status: 200, data: mockData };
