@@ -33,10 +33,23 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>, form :FormInpu
 export const handleRoomNameChange = (e: React.ChangeEvent<HTMLInputElement>, 
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>, form: FormInputs
 ) => {
-    if (1/*checkAppropiateRoomName(e.target.value)*/) {
+    if (validateRoomName(e.target.value)) {
         setForm({
             ...form,
             room: e.target.value,
         });
     }
+};
+
+export const handlePlayerNameChange = (e: React.ChangeEvent<HTMLInputElement>,
+    setForm: React.Dispatch<React.SetStateAction<FormInputs>>, form: FormInputs
+) => {
+    setForm({
+        ...form,
+        playerName: e.target.value,
+    });
+    }
+
+export const validateRoomName = (roomName: string) => {
+    return roomName.length <= 30;
 };

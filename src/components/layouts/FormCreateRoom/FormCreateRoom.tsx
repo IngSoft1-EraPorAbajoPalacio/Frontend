@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 import "../../../styles/FormCreateRoom.css";
 import {FormInputs} from "./types.ts";
-import {handleSubmit, handleRoomNameChange} from "./handlers.ts";
+import {handleSubmit, handleRoomNameChange, handlePlayerNameChange} from "./handlers.ts";
+import {incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, 
+	incrementMinPlayersAllowed, decrementMinPlayersAllowed} from "./controlRoomLimit.ts";
 
 export function FormCreateRoom() {
 	const [dirty, setDirty] = useState<boolean>(false); // To check if the information of the input is missing
@@ -10,48 +12,14 @@ export function FormCreateRoom() {
 	const [form, setForm] = useState<FormInputs>(
 		{
 			idPlayer: "aaa1",//Falta asignar bien un id
-			playerName: 'Player',
+			playerName: '',
 			room: '',
 			minPlayers: 2,
 			maxPlayers: 4,
 		}
 	);
 
-	const incrementMaxPlayersAllowed = () => {
-		if (form.maxPlayers < 4) {
-			setForm({
-				...form,
-				maxPlayers: form.maxPlayers + 1,
-			});
-		}
-	};
-
-	const decrementMaxPlayersAllowed = () => {
-		if (2 < form.maxPlayers && form.minPlayers < form.maxPlayers) {
-			setForm({
-				...form,
-				maxPlayers: form.maxPlayers - 1,
-			});
-		}
-	};
-
-	const incrementMinPlayersAllowed = () => {
-		if (form.minPlayers < 8 && form.minPlayers < form.maxPlayers) {
-			setForm({
-				...form,
-				minPlayers: form.minPlayers + 1,
-			});
-		}
-	};
-
-	const decrementMinPlayersAllowed = () => {
-		if (2 < form.minPlayers) {
-			setForm({
-				...form,
-				minPlayers: form.minPlayers - 1,
-			});
-		}
-	};
+	
 
 	return (<div className='form-container'>
 		<form onSubmit={(e) => handleSubmit(e, form)}>
@@ -72,30 +40,44 @@ export function FormCreateRoom() {
 				<div className='p-container'><p>Mínimo de Jugadores</p></div>
 				<div className='buttons-container'>
 					<button type="button"
-						onClick={decrementMinPlayersAllowed}>
+						onClick={() => decrementMinPlayersAllowed(setForm,form)}>
 						<b>-</b>
 					</button>
 					<b><span>{form.minPlayers}</span></b>
 					<button type="button"
-						onClick={incrementMinPlayersAllowed}>
+						onClick={() => incrementMinPlayersAllowed(setForm,form)}>
 						<b>+</b>
 					</button>
 				</div>
 				<div className='p-container'><p>Máximo de Jugadores</p></div>
 				<div className='buttons-container'>
 					<button type="button"
-						onClick={decrementMaxPlayersAllowed}>
+						onClick={() => decrementMaxPlayersAllowed(setForm,form)}>
 						<b>-</b>
 					</button>
 					<b><span>{form.maxPlayers}</span></b>
 					<button type="button"
-						onClick={incrementMaxPlayersAllowed}>
+						onClick={() => incrementMaxPlayersAllowed(setForm,form)}>
 						<b>+</b>
 					</button>
 				</div>
 			</div>
+			<div id="create-player">
+				<div>
+				<h4>Alias: </h4>
+				</div>
+				<div>
+				<input className={'input' + (form.room === '' && dirty ? ' input-invalid' : '')}
+					type='text' 
+					placeholder='Achi123'
+					value={form.playerName}
+					onChange={(e) => { setDirty(true); handlePlayerNameChange(e,setForm, form); }}
+					required
+				/>
+				</div>
+			</div>
 			<div id='submit-button'>
-				<button type='submit' >Crear Sala</button>
+				<button type='submit'>Crear Sala</button>
 			</div>
 		</form>
 	</div>);
