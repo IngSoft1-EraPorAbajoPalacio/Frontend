@@ -1,6 +1,9 @@
 import { FormInputs } from "./types";
+import {v4} from 'uuid';
 
-export const handleSubmit = (e: React.FormEvent<HTMLFormElement>, form :FormInputs) => {
+export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
+    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
+    form :FormInputs) => {
     e.preventDefault();
     const data = {
         id_host: form.idPlayer,
@@ -19,7 +22,14 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>, form :FormInpu
             //Now i have to connect with the endpoint to send the info of the room
             const response = await fetch('http://127.0.0.1:8000/partida', options);
             if (response.ok) {
-                console.log('Room created');
+                if(localStorage.getItem('id') === null){ //Id doesnt exist
+                    const newId = v4(); //Get random id
+                    localStorage.setItem('id', newId); //Save id in local storage
+                    setForm({ 
+                        ...form,
+                        idPlayer: newId,
+                    }); //Set it in the hook to send it to the backend 
+                }
             } else {
                 console.log('Failed to create room');
             }

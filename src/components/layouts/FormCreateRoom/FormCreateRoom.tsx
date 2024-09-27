@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import "../../../styles/FormCreateRoom.css";
 import {FormInputs} from "./types.ts";
@@ -11,7 +11,7 @@ export function FormCreateRoom() {
 
 	const [form, setForm] = useState<FormInputs>(
 		{
-			idPlayer: "aaa1",//Falta asignar bien un id
+			idPlayer: '',
 			playerName: '',
 			room: '',
 			minPlayers: 2,
@@ -19,10 +19,8 @@ export function FormCreateRoom() {
 		}
 	);
 
-	
-
 	return (<div className='form-container'>
-		<form onSubmit={(e) => handleSubmit(e, form)}>
+		<form onSubmit={(e) => handleSubmit(e, setForm, form)}>
 			<div className='room-name'>
 				<h3>Nombre de la Sala</h3>
 			</div>
@@ -69,7 +67,7 @@ export function FormCreateRoom() {
 				<div>
 				<input className={'input' + (form.room === '' && dirty ? ' input-invalid' : '')}
 					type='text' 
-					placeholder='Achi123'
+					placeholder='Player1'
 					value={form.playerName}
 					onChange={(e) => { setDirty(true); handlePlayerNameChange(e,setForm, form); }}
 					required
