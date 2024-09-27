@@ -13,6 +13,7 @@ export function FormCreateRoom() {
 	const [form, setForm] = useState<FormInputs>(
 		{
 			idPlayer: '',
+			idRoom: '',
 			playerName: '',
 			room: '',
 			minPlayers: 2,
