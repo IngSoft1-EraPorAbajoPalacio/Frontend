@@ -1,42 +1,25 @@
 import { Partida } from '../../../types/partida';
-import obtenerPartidas from '../../hooks/ListaPartidas';
-import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import obtenerPartidas from '../../hooks/ObtenerPartidas';
+import { useState } from 'react';
+import useSocketPartidas from '../../hooks/ObtenerPartidaNueva';
 
-const url = 'http://localhost:5173/';
-const socket = io(url);
+const partidasPrueba: Partida[] = [
+  new Partida(1, 'Partida 1', 4, 4),
+  new Partida(2, 'Partida 2', 3, 3),
+];
+
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;
 }
 
 function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
-  const [partidas, setPartidas] = useState<Partida[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+  const [partidas, setPartidas] = useState<Partida[]>(partidasPrueba);
 
-  useEffect(() => {
-
-    socket.on('connect', () => setIsConnected(true));
-
-    socket.on('AgregarPartida', (mensaje: Partida) => {
-      setPartidas((partidas) => [...partidas, mensaje]);
-    });
-
-    return () => {
-      socket.off('connect');
-    }
-
-  }, []);
-
-  useEffect(() => {
-    obtenerPartidas(setPartidas);
-    if (partidas.length > 0) {
-      console.log("Agregando partidas:", partidas);
-    }
-  }, [])
+  obtenerPartidas(setPartidas);
+  useSocketPartidas(setPartidas);
 
   return (
     <>
-      <p> {isConnected ? 'Conectado' : 'Desconectado'} </p>
       {partidas.map((partida) => (
         <button
           key={partida.id}
