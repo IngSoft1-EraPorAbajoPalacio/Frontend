@@ -17,7 +17,8 @@
     "react-scroll": "^1.9.0",
     "react-use-websocket": "^4.8.1",
     "reduce": "^1.0.3",
-    "reducer": "^0.19.2"
+    "reducer": "^0.19.2",
+    "socket.io-client": "^4.8.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
