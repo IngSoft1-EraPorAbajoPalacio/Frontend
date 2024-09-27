@@ -7,7 +7,8 @@ import {incrementMaxPlayersAllowed, decrementMaxPlayersAllowed,
 	incrementMinPlayersAllowed, decrementMinPlayersAllowed} from "./controlRoomLimit.ts";
 
 export function FormCreateRoom() {
-	const [dirty, setDirty] = useState<boolean>(false); // To check if the information of the input is missing
+	const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
+	const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
 
 	const [form, setForm] = useState<FormInputs>(
 		{
@@ -19,18 +20,26 @@ export function FormCreateRoom() {
 		}
 	);
 
+	const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {
+        e.target.setCustomValidity('Por favor, rellene el campo.');
+    };
+	const handleValid = (e: React.InvalidEvent<HTMLInputElement>) => {
+        e.target.setCustomValidity('');
+    };
+
 	return (<div className='form-container'>
 		<form onSubmit={(e) => handleSubmit(e, setForm, form)}>
 			<div className='room-name'>
 				<h3>Nombre de la Sala</h3>
 			</div>
 			<div className='room-name'>
-				<input className={'input' + (form.room === '' && dirty ? ' input-invalid' : '')}
+				<input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}
 					type='text'
 					name='sala'
 					placeholder="SalaDeTorval"
 					value={form.room}
-					onChange={(e) => { setDirty(true); handleRoomNameChange(e,setForm, form); }}
+					onChange={(e) => { setDirtyRoom(true); handleRoomNameChange(e,setForm, form); handleValid(e); }}
+					onInvalid={handleInvalid}
 					required />
 			</div>
 
@@ -65,11 +74,12 @@ export function FormCreateRoom() {
 				<h4>Alias: </h4>
 				</div>
 				<div>
-				<input className={'input' + (form.room === '' && dirty ? ' input-invalid' : '')}
+				<input className={'input' + (form.playerName === '' && dirtyAlias ? ' input-invalid' : '')}
 					type='text' 
 					placeholder='Player1'
 					value={form.playerName}
-					onChange={(e) => { setDirty(true); handlePlayerNameChange(e,setForm, form); }}
+					onChange={(e) => {setDirtyAlias(true); handlePlayerNameChange(e,setForm, form); handleValid(e) }}
+					onInvalid={handleInvalid}
 					required
 				/>
 				</div>
