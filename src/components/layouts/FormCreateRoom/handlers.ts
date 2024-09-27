@@ -62,6 +62,6 @@ export const handlePlayerNameChange = (e: React.ChangeEvent<HTMLInputElement>,
     }
 }
 
-export const validateNames = (roomName: string) => {
-    return roomName.length <= 20;
+export const validateNames = (name: string) => {
+    return name.length <= 20;
 };
