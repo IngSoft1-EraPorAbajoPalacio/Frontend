@@ -10,7 +10,8 @@ import { Overlay } from '../overlay/Overlay';
 const Home = () => {
 	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
 	const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
-	const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
+	const [tryJoinGame, setTryJoinGame] = useState(partidaElegida !== null);
 
 	const seleccionarPartida = (partida: Partida) => {
 		setPartidaElegida(partida);
@@ -29,9 +30,9 @@ const Home = () => {
 					<button onClick={() => seleccionarCrear()}>Crear partida</button>
 				</div>
 				<div id='unirse'>
-					<ListarPartidas seleccionarPartida={seleccionarPartida} setIsOverlayOpen={setIsOverlayOpen} />
+					<ListarPartidas seleccionarPartida={seleccionarPartida} setTryJoinGame={setTryJoinGame} />
 				</div>
-				<Overlay isOpen={isOverlayOpen} onClose={() => { setIsOverlayOpen(!isOverlayOpen) }}>
+				<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
 					<FormJoinRoom />
 				</Overlay>
 			</div>
