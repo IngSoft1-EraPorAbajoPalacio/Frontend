@@ -1,5 +1,6 @@
-import Jugador from "../../types/jugador";
-import { Partida } from "../../types/partida";
+import { Jugador, Partida } from "../../types/partidaListada";
+import { PartidaEnCurso } from "../../types/partidaEnCurso";
+
 
 export const guardarJugador = (jugador: Jugador) => {
     localStorage.setItem('jugador', JSON.stringify(jugador));
@@ -21,4 +22,17 @@ export const obtenerPartida = () => {
 
 export const borrarPartida = () => {
     localStorage.clear();
+}
+
+export const guardarPartidaEnCurso = (partida: PartidaEnCurso) => {
+    localStorage.setItem('partidaEnCurso', JSON.stringify(partida));
+}
+
+export const obtenerPartidaEnCurso = () => {
+    const partida = localStorage.getItem('partidaEnCurso');
+    return partida ? JSON.parse(partida) : {};
+}
+
+export const borrarPartidaEnCurso = () => {
+    localStorage.removeItem('partidaEnCurso');
 }

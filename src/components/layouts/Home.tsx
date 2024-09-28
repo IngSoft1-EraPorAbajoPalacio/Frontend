@@ -3,9 +3,8 @@ import UnirsePartida from '../views/Public/UnirsePartida';
 import CrearPartida from '../views/Public/CrearPartida';
 import ListarPartidas from '../views/Public/ListarPartidas';
 import { useState } from 'react';
-import { Partida } from '../../types/partida';
-import { guardarPartida } from '../context/PlayerContext';
-
+import { Partida } from '../../types/partidaListada';
+import { guardarPartida } from '../context/GameContext';
 
 const Home = () => {
   const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);

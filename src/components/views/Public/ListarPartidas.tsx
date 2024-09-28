@@ -1,25 +1,20 @@
-import { Partida } from '../../../types/partida';
+import { Partida } from '../../../types/partidaListada';
 import obtenerPartidas from '../../hooks/ObtenerPartidas';
 import { useState, useEffect } from 'react';
-import useSocketPartidas from '../../hooks/ObtenerPartidaNueva';
-
-const partidasPrueba: Partida[] = [
-  new Partida(1, 'Partida 1', 4, 4),
-  new Partida(2, 'Partida 2', 3, 3),
-];
+import { ObtenerPartidaNueva } from '../../hooks/ObtenerPartidaNueva';
 
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;
 }
 
 function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
-  const [partidas, setPartidas] = useState<Partida[]>(partidasPrueba);
+  const [partidas, setPartidas] = useState<Partida[]>([]);
 
   useEffect(() => {
     obtenerPartidas(setPartidas);
   }, []);
 
-  useSocketPartidas(setPartidas);
+  ObtenerPartidaNueva(setPartidas);
 
   return (
     <>
@@ -31,7 +26,7 @@ function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
         >
           <div>
             <h3>{partida.nombre}</h3>
-            <p>Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax} </p>
+            <p>Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax}</p>
           </div>
         </button>
       ))}
