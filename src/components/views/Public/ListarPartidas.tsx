@@ -3,18 +3,12 @@ import obtenerPartidas from '../../hooks/ObtenerPartidas';
 import { useState, useEffect } from 'react';
 import { ObtenerPartidaNueva } from '../../hooks/ObtenerPartidaNueva';
 
-
-const partidasPrueba: Partida[] = [
-  new Partida(1, 'Partida 1', 4, 4),
-  new Partida(2, 'Partida 2', 3, 3),
-];
-
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;
 }
 
 function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
-  const [partidas, setPartidas] = useState<Partida[]>(partidasPrueba);
+  const [partidas, setPartidas] = useState<Partida[]>([]);
 
   useEffect(() => {
     obtenerPartidas(setPartidas);

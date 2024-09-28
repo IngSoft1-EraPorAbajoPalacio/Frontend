@@ -15,6 +15,12 @@ export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAc
         }
         return partidas;
       });
+      setPartidas((partidas) => {
+        if (!partidas.some(p => p.id === partida.id)) {
+          return [...partidas, partida];
+        }
+        return partidas;
+      });
     };
 
     socket.on('AgregarPartida', handleAgregarPartida);
