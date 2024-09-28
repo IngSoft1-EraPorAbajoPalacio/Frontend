@@ -1,17 +1,11 @@
 import '../../styles/Home.css';
-import UnirsePartida from '../views/Public/UnirsePartida';
 import CrearPartida from '../views/Public/CrearPartida';
 import ListarPartidas from '../views/Public/ListarPartidas';
 import { useState } from 'react';
-<<<<<<< HEAD
 import { Partida } from '../../types/partidaListada';
 import { guardarPartida } from '../context/GameContext';
-=======
-import { Partida } from '../../types/partida';
-import { guardarPartida } from '../context/PlayerContext';
-import { FormJoinRoom } from '../forms/FormJoinRoom';
+import { FormJoinRoom } from '../forms/JoinRoom/FormJoinRoom';
 import { Overlay } from '../overlay/Overlay';
->>>>>>> 10b936c (feature_ING-39 Formulario sin lógica integrado a lista de partidas con Overlay)
 
 const Home = () => {
 	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
@@ -29,19 +23,19 @@ const Home = () => {
 
 	return (
 		<>
-      
-        <div id='home'>
-          <div id='crear'>
-            <button onClick={() => seleccionarCrear()}>Crear partida</button>
-          </div>
-          <div id='unirse'>
-			<ListarPartidas seleccionarPartida={seleccionarPartida} setIsOverlayOpen={setIsOverlayOpen} />
-          </div>
-		  <Overlay isOpen={isOverlayOpen} onClose={() => { setIsOverlayOpen(!isOverlayOpen) }}>
-			<FormJoinRoom />
-		</Overlay> 
-        </div>
-    </>
+
+			<div id='home'>
+				<div id='crear'>
+					<button onClick={() => seleccionarCrear()}>Crear partida</button>
+				</div>
+				<div id='unirse'>
+					<ListarPartidas seleccionarPartida={seleccionarPartida} setIsOverlayOpen={setIsOverlayOpen} />
+				</div>
+				<Overlay isOpen={isOverlayOpen} onClose={() => { setIsOverlayOpen(!isOverlayOpen) }}>
+					<FormJoinRoom />
+				</Overlay>
+			</div>
+		</>
 	);
 }
 
