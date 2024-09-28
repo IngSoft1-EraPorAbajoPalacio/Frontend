@@ -10,18 +10,18 @@ export class Ficha {
     color: color;
 
     constructor(x: posicion, y: posicion, color: color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
+      this.x = x;
+      this.y = y;
+      this.color = color;
     }
 
     mover(x: posicion, y: posicion) {
-        this.x = x;
-        this.y = y;
+      this.x = x;
+      this.y = y;
     }
 
     getColor() {
-        return this.color;
+      return this.color;
     }
 }
 
@@ -49,15 +49,17 @@ export class JugadorEnCurso {
   id: idJugadores;
   nombre: string;
   cartasFigura: CartaFigura[];
-  cartasMovimiento: CartaMovimiento[]; // No es nulo para el jugador que guarda los datos
+  cartasMovimiento: CartaMovimiento[]; // Es vacío para el jugador que no guarda los datos
   enPartida: boolean; // Para ver si el jugador abandonó
+  esGuardador: boolean; // Nueva propiedad para identificar al jugador que guarda los datos
 
-  constructor(id: idJugadores, nombre: string, cartasFigura: CartaFigura[], cartasMovimiento: CartaMovimiento[], enPartida: boolean) {
+  constructor(id: idJugadores, nombre: string, cartasFigura: CartaFigura[], cartasMovimiento: CartaMovimiento[], enPartida: boolean, esGuardador: boolean) {
     this.id = id;
     this.nombre = nombre;
     this.cartasFigura = cartasFigura;
     this.cartasMovimiento = cartasMovimiento;
     this.enPartida = enPartida;
+    this.esGuardador = esGuardador;
   }
 }
 

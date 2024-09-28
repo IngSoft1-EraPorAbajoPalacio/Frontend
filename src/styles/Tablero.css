@@ -1,9 +1,10 @@
 .Tablero-columna {
     display: flex;
     flex-direction: column;
-    flex: 1;
     justify-content: center;
-    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
   }
   
   .Tablero-fila {

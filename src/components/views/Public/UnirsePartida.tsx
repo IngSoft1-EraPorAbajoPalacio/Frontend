@@ -1,5 +1,5 @@
 import "../../../styles/index.css"
-import { obtenerPartida } from "../../context/PlayerContext";
+import { obtenerPartida } from "../../context/GameContext";
 
 const UnirsePartida = () => {
     let nombrePartida = obtenerPartida()?.nombre;

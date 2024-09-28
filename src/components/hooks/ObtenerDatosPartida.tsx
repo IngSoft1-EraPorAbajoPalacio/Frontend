@@ -1,20 +1,31 @@
 import { useEffect } from 'react';
-import socket from './ObtenerPartidaNueva';
-import { Partida } from '../../types/partidaListada';
+import { socket } from './ObtenerPartidaNueva';
+import { idJugadores } from '../../types/partidaListada';
+import { JugadorEnCurso, PartidaEnCurso } from '../../types/partidaEnCurso';
+import { obtenereJugador, obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
 
-const useSocketPartidas = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
+const obtenerDatosPartida = () => {    
+
   useEffect(() => {
-    const handleAgregarPartida = (mensaje: any) => {
-      const partida = new Partida(mensaje.idPartida, mensaje.nombrePartida, mensaje.cantJugadoresMin, mensaje.cantJugadoresMax);
-      setPartidas((partidas) => [...partidas, partida]);
+    const handleIniciarPartida = (mensaje: any) => {
+      const jugadores = mensaje.cartasFigura.map( ( mazo: {"idJugador": idJugadores, "nombreJugador": string, "cartas":[{"id": number, "figura": number}]} ) => {
+        //const jugador = (mazo.idJugador === 3) ? //Mockear contexto del jugador 
+        const jugador = (mazo.idJugador === obtenereJugador().id) ?
+          new JugadorEnCurso(mazo.idJugador, mazo.nombreJugador, mazo.cartas, mensaje.cartasMovimiento, true, true) :
+          new JugadorEnCurso(mazo.idJugador, mazo.nombreJugador, mazo.cartas, [], true, false);
+        return jugador;
+      });
+
+      const partida = new PartidaEnCurso(obtenerPartida().id, obtenerPartida().nombre, mensaje.orden.length, jugadores, mensaje.fichas, mensaje.orden);
+      guardarPartidaEnCurso(partida);
     };
 
-    socket.on('IniciarPartida', handleAgregarPartida);
+    socket.on('IniciarPartida', handleIniciarPartida);
 
     return () => {
-      socket.off('IniciarPartida', handleAgregarPartida);
+      socket.off('IniciarPartida', handleIniciarPartida);
     };
-  }, [setPartidas]);
+  }, [socket]);
 };
 
-export default useSocketPartidas;
+export default obtenerDatosPartida;
