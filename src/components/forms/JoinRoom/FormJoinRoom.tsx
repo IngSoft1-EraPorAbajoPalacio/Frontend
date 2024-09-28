@@ -1,7 +1,7 @@
 import { useState } from "react";
 import '../../../styles/FormJoinRoom.css';
 import { obtenerPartida } from "../../context/GameContext";
-import { handleSubmit, handleAliasChange } from "./handlers/handleSubmit";
+import { handleSubmit, handleAliasChange } from "./handlers";
 
 export const FormJoinRoom = () => {
     const [alias, setAlias] = useState('');
