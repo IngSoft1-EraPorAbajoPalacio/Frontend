@@ -5,6 +5,7 @@ import {FormInputs} from "./types.ts";
 import {handleSubmit, handleRoomNameChange, handlePlayerNameChange} from "./handlers.ts";
 import {incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, 
 	incrementMinPlayersAllowed, decrementMinPlayersAllowed} from "./controlRoomLimit.ts";
+import { obtenerPartida } from '../../context/GameContext.tsx';
 
 export function FormCreateRoom() {
 	const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
@@ -21,6 +22,9 @@ export function FormCreateRoom() {
 		}
 	);
 
+	const room = obtenerPartida();
+    const roomName = room ? room.nombre : '';
+
 	const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {
         e.target.setCustomValidity('Por favor, rellene el campo.');
     };
@@ -31,7 +35,7 @@ export function FormCreateRoom() {
 	return (<div className='form-container'>
 		<form onSubmit={(e) => handleSubmit(e, setForm, form)}>
 			<div className='room-name'>
-				<h3>Nombre de la Sala</h3>
+				<h3>{roomName}</h3>
 			</div>
 			<div className='room-name'>
 				<input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}

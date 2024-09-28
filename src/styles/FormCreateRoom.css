@@ -3,7 +3,7 @@
 .form-container {
     display: flex;
     position: relative;
-    left: 50%;
+   
     flex-direction: column;
     align-items: center;
     padding: 30px;
@@ -91,7 +91,7 @@
 }
 
 #submit-button button {
-  background-color: #242424;
+  background-color: #007bff;
   padding: 7%;
   border: none;
   border-radius: 5px;
