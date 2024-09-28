@@ -5,9 +5,10 @@ import { ObtenerPartidaNueva } from '../../hooks/ObtenerPartidaNueva';
 
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;
+  setIsOverlayOpen : React.Dispatch<React.SetStateAction<boolean>> 
 }
 
-function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
+function ListarPartidas({ seleccionarPartida, setIsOverlayOpen}: ListarPartidasProps) {
   const [partidas, setPartidas] = useState<Partida[]>([]);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ function ListarPartidas({ seleccionarPartida }: ListarPartidasProps) {
         <button
           key={partida.id}
           className='partida-listada'
-          onClick={() => seleccionarPartida(partida)}
+          onClick={() => {seleccionarPartida(partida); setIsOverlayOpen(true)}}
         >
           <div>
             <h3>{partida.nombre}</h3>
