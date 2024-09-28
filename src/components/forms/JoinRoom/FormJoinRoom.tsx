@@ -1,6 +1,7 @@
 import { useState } from "react";
-import '../../styles/FormJoinRoom.css';
-import { obtenerPartida } from "../context/PlayerContext";
+import '../../../styles/FormJoinRoom.css';
+import { obtenerPartida } from "../../context/GameContext";
+import { handleSubmit, handleAliasChange } from "./handlers/handleSubmit";
 
 export const FormJoinRoom = () => {
     const [alias, setAlias] = useState('');
@@ -9,9 +10,16 @@ export const FormJoinRoom = () => {
     const room = obtenerPartida();
     const roomName = room ? room.nombre : '';
 
+    const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {
+        e.target.setCustomValidity('Por favor, rellene el campo.');
+    };
+	const handleValid = (e: React.InvalidEvent<HTMLInputElement>) => {
+        e.target.setCustomValidity('');
+    };
+
     return (
         <div className="form-container">
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="form-title">
                     <h3><b>Unirse a Sala: </b></h3>
                     <span>{roomName}</span>
@@ -23,7 +31,8 @@ export const FormJoinRoom = () => {
                             type='text'
                             placeholder="Player2"
                             value={alias}
-                            onChange={() => { setDirtyAlias(true) }}
+                            onChange={(e) => { setDirtyAlias(true); handleAliasChange(e, setAlias); handleValid(e);}}
+                            onInvalid={handleInvalid}
                             required />
                     </div>
                     <button className="submit-button"
