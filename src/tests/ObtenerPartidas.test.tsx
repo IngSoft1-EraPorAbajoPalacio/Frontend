@@ -3,7 +3,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import obtenerPartidas from "../components/hooks/ObtenerPartidas";
 import { afterEach, describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { Partida } from "../types/partida";
+import { Partida } from "../types/partidaListada";
 
 describe("obtenerPartidas", () => {
   let mock: MockAdapter;

@@ -1,4 +1,4 @@
-import { Partida } from '../../../types/partida';
+import { Partida } from '../../../types/partidaListada';
 import obtenerPartidas from '../../hooks/ObtenerPartidas';
 import { useState } from 'react';
 import useSocketPartidas from '../../hooks/ObtenerPartidaNueva';

@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
-import { io } from 'socket.io-client';
+import socket from './ObtenerPartidaNueva';
 import { Partida } from '../../types/partidaListada';
-
-const url = 'ws://localhost:8000';
-export const socket = io(url);
 
 const useSocketPartidas = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
   useEffect(() => {
@@ -12,10 +9,10 @@ const useSocketPartidas = (setPartidas: React.Dispatch<React.SetStateAction<Part
       setPartidas((partidas) => [...partidas, partida]);
     };
 
-    socket.on('AgregarPartida', handleAgregarPartida);
+    socket.on('IniciarPartida', handleAgregarPartida);
 
     return () => {
-      socket.off('AgregarPartida', handleAgregarPartida);
+      socket.off('IniciarPartida', handleAgregarPartida);
     };
   }, [setPartidas]);
 };

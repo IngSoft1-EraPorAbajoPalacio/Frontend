@@ -1,5 +1,5 @@
-import Jugador from "../../types/jugador";
-import { Partida } from "../../types/partida";
+import { Jugador } from "../../types/partidaListada";
+import { Partida } from "../../types/partidaListada";
 
 export const guardarJugador = (jugador: Jugador) => {
     localStorage.setItem('jugador', JSON.stringify(jugador));
