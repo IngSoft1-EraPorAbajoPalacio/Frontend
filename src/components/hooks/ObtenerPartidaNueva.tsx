@@ -25,5 +25,5 @@ export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAc
 
     socket.on('AgregarPartida', handleAgregarPartida);
 
-  }, [setPartidas]);
+  }, [socket]);
 };
