@@ -65,6 +65,12 @@
     cursor: pointer;
 }
 
+.JugadorEnTurno {  
+    font-size: 1.5em;
+    color: #8d681a;
+    font-style: italic;
+}
+
 .Carta:hover {
     background-color: #f1b73b31;
     border-radius: 8px;
@@ -85,11 +91,6 @@
     flex-direction: row;
     align-items: center;
     justify-content:space-evenly;
-}
-
-.EnTurno {  
-    color: rgb(156, 57, 57);
-    font-size: 1.5em;    
 }
 
 .ManosHorizontal {
