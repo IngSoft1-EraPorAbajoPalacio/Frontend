@@ -1,40 +1,46 @@
 import '../../styles/Home.css';
-import UnirsePartida from '../views/Public/UnirsePartida';
-import CrearPartida from '../views/Public/CrearPartida';
 import ListarPartidas from '../views/Public/ListarPartidas';
 import { useState } from 'react';
 import { Partida } from '../../types/partidaListada';
 import { guardarPartida } from '../context/GameContext';
+import { FormJoinRoom } from '../forms/JoinRoom/FormJoinRoom';
+import { Overlay } from '../overlay/Overlay';
+import { FormCreateRoom } from '../forms/FormCreateRoom/FormCreateRoom';
 
 const Home = () => {
-  const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
-  const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
+	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
+	const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
 
-  const seleccionarPartida = (partida: Partida) => {    
-    setPartidaElegida(partida);
-    guardarPartida(partida);
-  };
+	const [tryJoinGame, setTryJoinGame] = useState(partidaElegida !== null);
 
-  const seleccionarCrear = () => {
-    setPartidaCreada(true);
-  };
+	const seleccionarPartida = (partida: Partida) => {
+		setPartidaElegida(partida);
+		guardarPartida(partida);
+	};
 
-  return (
-    <>
-      {(!partidaElegida && !partidaCreada) ? (
-        <div id='home'>
-          <div id='crear'>
-            <button onClick={() => seleccionarCrear()}>Crear partida</button>
-          </div>
-          <div id='unirse'>
-            <ListarPartidas seleccionarPartida={seleccionarPartida} />
-          </div>
-        </div>
-      ) : (
-        partidaElegida ? <UnirsePartida /> : <CrearPartida />
-      )}
-    </>
-  );
-} 
+	const seleccionarCrear = () => {
+		setPartidaCreada(true);
+	};
+
+	return (
+		<>
+
+			<div id='home'>
+				<div id='crear'>
+					<button onClick={() => seleccionarCrear()}>Crear partida</button>
+				</div>
+				<div id='unirse'>
+					<ListarPartidas seleccionarPartida={seleccionarPartida} setTryJoinGame={setTryJoinGame} />
+				</div>
+				<Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
+					<FormCreateRoom />
+				</Overlay>
+				<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
+					<FormJoinRoom />
+				</Overlay>
+			</div>
+		</>
+	);
+}
 
 export default Home;

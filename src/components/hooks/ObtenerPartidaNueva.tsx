@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { Partida } from '../../types/partidaListada';
 
-const url = 'http://localhost:3000/';
+const url = 'ws://localhost:3000/';
 export const socket = io(url);
 
 export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
