@@ -35,7 +35,7 @@ export function FormCreateRoom() {
 	return (<div className='form-container'>
 		<form onSubmit={(e) => handleSubmit(e, setForm, form)}>
 			<div className='room-name'>
-				<h3>{roomName}</h3>
+				<h3>Nombre de partida:</h3>
 			</div>
 			<div className='room-name'>
 				<input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}

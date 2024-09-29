@@ -1,4 +1,5 @@
-import { guardarPartida } from "../../context/GameContext";
+import { cantidadJugadores } from "../../../types/partidaListada";
+import { guardarJugador, guardarPartida } from "../../context/GameContext";
 import { FormInputs } from "./types";
 
 export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
@@ -30,10 +31,9 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
                     idRoom: id_partida,
                     idPlayer: id_jugador,
                 });
-                localStorage.setItem("id_room", form.idRoom);
-                localStorage.setItem("id_player", form.idPlayer);
+                guardarJugador({id: id_jugador, nombre: data.nombre_host, isHost: true});
                 console.log('Room created with ID:', id_partida);
-                //guardarPartida({id: id_partida, nombre: nombre_partida, cantJugadoresMin: form.minPlayers, cantJugadoresMax: form.maxPlayers});
+                guardarPartida({id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores});
             } else {
                 console.log('Failed to create room');
             }
