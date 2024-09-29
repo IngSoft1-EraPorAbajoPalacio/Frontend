@@ -1,3 +1,4 @@
+import { guardarPartida } from "../../context/GameContext";
 import { FormInputs } from "./types";
 
 export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
@@ -5,13 +6,12 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
     form: FormInputs) => {
     e.preventDefault();
     const data = {
-        id_host: '',
         nombre_host: form.playerName,
-        cantJugadores: 1,
         nombre_partida: form.room,
         cant_min_jugadores: form.minPlayers,
         cant_max_jugadores: form.maxPlayers,
     };
+
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }, //Ill send a json
@@ -24,14 +24,16 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
             if (response.ok) {
                 const ids = await response.json();
                 console.log(ids);
-                const { id_partida, cantJugadores} = await ids;
+                const { id_partida, id_jugador} = await ids;
                 setForm({
                     ...form,
                     idRoom: id_partida,
-                
+                    idPlayer: id_jugador,
                 });
                 localStorage.setItem("id_room", form.idRoom);
+                localStorage.setItem("id_player", form.idPlayer);
                 console.log('Room created with ID:', id_partida);
+                //guardarPartida({id: id_partida, nombre: nombre_partida, cantJugadoresMin: form.minPlayers, cantJugadoresMax: form.maxPlayers});
             } else {
                 console.log('Failed to create room');
             }
@@ -39,6 +41,11 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
             console.error(error);
         }
     }
+    
+
+    //Ahora cargo la data de la partida y jugdaor en el local storage
+    
+
     asyncPost();
 };
 
