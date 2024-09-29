@@ -1,8 +1,9 @@
 import "../../../styles/Juego.css";
 import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../types/partidaEnCurso";
-import { PasarTurno } from "../../hooks/PasarTurno";
+import PasarTurno from "../../hooks/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../context/GameContext";
 import { SetStateAction } from "react";
+import { Jugador } from "../../../types/partidaListada";
 
 const EXT = ".svg";
 
@@ -21,7 +22,7 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
         <div className="ManoHorizontal">
             <h2 className={`${turnoActual !== null && jugador.id === partida.orden[turnoActual] ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
             <div className="Cartas">
-                {cartasSrc?.map((src: string) => <img className="Figura" src={src}/>)}
+                {cartasSrc?.map((src: string | undefined, index: number) => <img key={index} className="Figura" src={src}/>)}
             </div>
         </div>
     )
@@ -29,12 +30,13 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 export function MostrarMovimientos({ partida, setPartida }: { partida: PartidaEnCurso | null, setPartida: React.Dispatch<SetStateAction<PartidaEnCurso | null>> }) {
 
-    console.log("Turno actual: ", partida?.orden[partida?.turnoActual]);
     const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === 1); // Para moquear el contexto del jugador
     const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "movimientos/mov" + carta.movimiento + EXT);
 
     const handlePasarTurno = () => {
-        PasarTurno();
+        if (partida && jugadordado) {
+            PasarTurno(partida.id, jugadordado.id);
+        }
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
     }    
@@ -47,8 +49,10 @@ export function MostrarMovimientos({ partida, setPartida }: { partida: PartidaEn
                 <button disabled>Pasar Turno</button>
             }
             <div className="ManoHorizontal">
-                <div className="Cartas">
-                    {cartasSrc?.map((src: string | undefined) => <img className="Movimiento" src={src} alt="Movimiento" />)}
+                <div className="Cartas"> 
+                    {cartasSrc?.map((src: string | undefined, index: number) => (
+                        <img key={index} className="Movimiento" src={src} alt="Movimiento" />
+                    ))} 
                 </div>
             </div>
         </div>

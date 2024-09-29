@@ -1,9 +1,14 @@
-import { obtenerPartidaEnCurso, borrarPartidaEnCurso, guardarPartidaEnCurso } from "../context/GameContext";
+import { idJugadores } from "../../types/partidaListada"
+import axios from "axios"
 
-export function PasarTurno() {
-    let partida = obtenerPartidaEnCurso();
-    console.log("Turno actual: ", partida.orden[partida.turnoActual]);
-    partida.turnoActual = (partida.turnoActual + 1) % partida.cantJugadores;
-    borrarPartidaEnCurso();
-    guardarPartidaEnCurso(partida);
-}
+const PasarTurno = async (idPartida: number | null, idJugador: idJugadores | null) => {
+  try {
+    const url = `http://localhost:8000/partida/${idPartida}/jugador/${idJugador}`;
+    const response = await axios.patch(url);
+    if ((response.status !== 202)) throw new Error("Error pasando de turno");
+  } catch (error) {
+    console.error("Error pasando de turno:", error);
+  }
+};
+
+export default PasarTurno;

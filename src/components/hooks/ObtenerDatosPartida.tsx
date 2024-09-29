@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { socket } from './ObtenerPartidaNueva';
 import { idJugadores } from '../../types/partidaListada';
 import { JugadorEnCurso, PartidaEnCurso } from '../../types/partidaEnCurso';
-import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
+//import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
+import { obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
 
 const obtenerDatosPartida = () => {    
 

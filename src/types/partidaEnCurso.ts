@@ -80,6 +80,8 @@ export class PartidaEnCurso {
     this.jugadores = jugadores;
     this.fichas = fichas;
     this.orden = orden;
-    this.turnoActual = 0;
+    this.turnoActual = 1;
   }
+
+  
 }

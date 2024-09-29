@@ -23,12 +23,8 @@ const Home = () => {
     <>
       {(!partidaElegida && !partidaCreada) ? (
         <div id='home'>
-          <div id='crear'>
-            <button onClick={() => seleccionarCrear()}>Crear partida</button>
-          </div>
-          <div id='unirse'>
-            <ListarPartidas seleccionarPartida={seleccionarPartida} />
-          </div>
+          <div id='crear'> <button onClick={() => seleccionarCrear()}>Crear partida</button> </div>
+          <div id='unirse'> <ListarPartidas seleccionarPartida={seleccionarPartida} /> </div>
         </div>
       ) : (
         partidaElegida ? <UnirsePartida /> : <CrearPartida />

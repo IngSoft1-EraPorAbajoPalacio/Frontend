@@ -5,15 +5,19 @@ import { obtenerPartidaEnCurso } from "../context/GameContext";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
+import { obtenerPasarTurno } from "../hooks/ObtenerPasarTurno";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(null);
+
 
     obtenerDatosPartida();
 
     useEffect(() => {
         setPartida(obtenerPartidaEnCurso());
     }, []);
+
+    obtenerPasarTurno(setPartida);
     
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
