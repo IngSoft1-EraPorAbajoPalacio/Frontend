@@ -5,10 +5,12 @@ import {FormInputs} from "./types.ts";
 import {handleSubmit, handleRoomNameChange, handlePlayerNameChange} from "./handlers.ts";
 import {incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, 
 	incrementMinPlayersAllowed, decrementMinPlayersAllowed} from "./controlRoomLimit.ts";
+import { useNavigate } from 'react-router-dom';
 
 export function FormCreateRoom() {
 	const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
 	const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
+	const navigate = useNavigate();
 
 	const [form, setForm] = useState<FormInputs>(
 		{
@@ -30,7 +32,7 @@ export function FormCreateRoom() {
     };
 
 	return (<div className='form-container'>
-		<form onSubmit={(e) => handleSubmit(e, setForm, form)}>
+		<form onSubmit={(e) => handleSubmit(e, setForm, form, navigate)}>
 			<div className='room-name'>
 				<h3>Nombre de partida:</h3>
 			</div>
