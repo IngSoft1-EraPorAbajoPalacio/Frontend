@@ -43,7 +43,7 @@ export const handleSubmit = (e: React.FormEvent<HTMLFormElement>,
     }
     
 
-    //Ahora cargo la data de la partida y jugdaor en el local storage
+    //Ahora cargo la data de la partida y jugador en el local storage
     
 
     asyncPost();

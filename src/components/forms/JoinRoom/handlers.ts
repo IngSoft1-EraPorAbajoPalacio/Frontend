@@ -25,7 +25,7 @@ export function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
                 console.log('Unido correctamente a la partida con ID:', id_partida);
                 
             } else {
-                console.log('Failed to create room');
+                console.log('Error al unirse a una partida');
             }
         } catch (error) {
             console.error(error);

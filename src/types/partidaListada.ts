@@ -2,7 +2,7 @@ export type idJugadores = 0 | 1 | 2 | 3;
 export type cantidadJugadores = 2 | 3 | 4;
 
 export class Partida {
-  id: idJugadores;
+  id: number;
   nombre: string;
   cantJugadoresMin: cantidadJugadores;
   cantJugadoresMax: cantidadJugadores;
