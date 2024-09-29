@@ -3,8 +3,8 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import obtenerPartidas from "../components/hooks/ObtenerPartidas";
 import { afterEach, describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { mockData } from '../data/MockListaPartidas';
 import { Partida } from "../types/partidaListada";
+import { partidasMock } from "../data/MockListaPartidas";
 
 describe("obtenerPartidas", () => {
   let mock: MockAdapter;
@@ -23,7 +23,7 @@ describe("obtenerPartidas", () => {
 
   it("Debería obtener y establecer la lista de partidas correctamente", async () => {
 
-    mock.onGet("http://localhost:8000/partidas").reply(200, { partidas: mockData });
+    mock.onGet("http://localhost:8000/partidas").reply(200, { partidas: partidasMock });
 
     const setLista = vi.fn();
 

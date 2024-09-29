@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "axios-mock-adapter": "^2.0.0",
     "lru-cache": "^10.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -39,7 +41,8 @@
     "mock-socket": "^9.3.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vitest": "^2.1.1"
   },
   "resolutions": {
     "glob": "^9.0.0",

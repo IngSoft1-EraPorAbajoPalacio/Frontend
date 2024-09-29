@@ -1,4 +1,4 @@
-import '../../../styles/Tablero.css';
+import '../../../styles/Juego.css';
 import { posicion } from '../../../types/partidaEnCurso';
 import { obtenerPartidaEnCurso } from '../../context/GameContext';
 
@@ -13,7 +13,7 @@ function Tablero () {
 
         return (
             <div key={posicion} className='Tablero-casilla'>
-                <button className={color}> {posicion} </button>
+                <button className={color}></button>
             </div>
         )
     }
