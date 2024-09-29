@@ -99,3 +99,31 @@
   width: 100%;
   color: #ffffff;
 } 
+@media (prefers-color-scheme: dark) {
+  .form-container {
+    background-color: #333333;
+    border-color: #555555;
+    color: #ffffff;
+  }
+  .input {
+    background-color: #444444;
+    border-color: #666666;
+    color: #ffffff;
+  }
+  .input-invalid {
+    border-color: red !important;
+  }
+  .form-container input[type="text"] {
+    background-color: #444444;
+    border-color: #666666;
+    color: #ffffff;
+  }
+  .buttons-container button {
+    background-color: #666666;
+    color: #ffffff;
+  }
+  #submit-button button {
+    background-color: #0056b3;
+    color: #ffffff;
+  }
+}
