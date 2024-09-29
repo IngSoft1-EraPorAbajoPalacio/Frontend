@@ -1,0 +1,145 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+
+#Juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-evenly;
+    height: 100vh;
+}
+
+.Tablero-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.Tablero-fila {
+    display: flex;
+    flex-direction: row;
+}
+
+.Tablero-casilla {
+    width: 85px;
+    height: 85px;
+    border-radius: 10px;
+    background-color: #3b302a;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Tablero-casilla button {
+    width: 85%;
+    height: 85%;
+}
+
+.Tablero-casilla button:hover {
+    background-color: #c9b791d8;
+    border-radius: 8px;
+}
+
+.Tablero-casilla .Amarillo {
+    background: yellow;
+}
+
+.Tablero-casilla .Rojo {
+    background: red;
+}
+
+.Tablero-casilla .Verde {
+    background: green;
+}
+
+.Tablero-casilla .Azul {
+    background: blue;
+}
+
+.Carta {
+    width: 120px;
+    height: auto;
+    cursor: pointer;
+}
+
+.Carta:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+.Figura {
+    width: 110px;
+}
+
+.Figura:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+#Centro {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+.EnTurno {  
+    color: rgb(156, 57, 57);
+    font-size: 1.5em;    
+}
+
+.ManosHorizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ManoHorizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15%;
+    margin-top: 15%;
+}
+
+#ManoJugador {
+    height: 140px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+}
+
+#ManoJugador button {
+    width: 300px;
+    height: 90px;
+    border-radius: 10px;
+    background-color: #3b302a;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ManoJugador img {
+    width: 90px;
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#ManoJugador img:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+#ManoJugador button:hover {
+    background-color: #c9b791d8;
+    border-radius: 8px;
+}

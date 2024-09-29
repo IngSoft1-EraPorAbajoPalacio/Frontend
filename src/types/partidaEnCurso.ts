@@ -1,6 +1,7 @@
 import { idJugadores, cantidadJugadores } from "./partidaListada";
 
-export type movimiento = 'LíneaContiguo' | 'LíneaConUnEspacio' | 'DiagonalContiguo' | 'DiagonalConUnEspacio' | 'LDerechaConDosEspacios' | 'LIzquierdaConDosEspacios' | 'LíneaAlLateral';
+export type movimiento = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type figura = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25;
 export type color = "Rojo" | "Azul" | "Verde" | "Amarillo";
 export type posicion = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -64,14 +65,14 @@ export class JugadorEnCurso {
 }
 
 export class PartidaEnCurso {
-  id: idJugadores;
+  id: number;
   nombre: string;
   cantJugadores: cantidadJugadores;
   jugadores: JugadorEnCurso[];
   fichas: Ficha[];
   orden: idJugadores[];
 
-  constructor(id: idJugadores, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: idJugadores[]) {
+  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: idJugadores[]) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadores = cantJugadores;

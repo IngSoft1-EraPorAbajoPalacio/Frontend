@@ -10,7 +10,7 @@ const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]
       if ((response?.status !== 200) || (response?.data?.partidas === undefined)) {
         throw new Error("Error obteniendo la lista de partidas");
       } else {
-        const dataPartidas = response.data.partidas.map((partida: { idPartida: idJugadores; nombrePartida: string; cantJugadoresMin: cantidadJugadores; cantJugadoresMax: cantidadJugadores}) => (
+        const dataPartidas = response?.data?.partidas.map((partida: { idPartida: idJugadores; nombrePartida: string; cantJugadoresMin: cantidadJugadores; cantJugadoresMax: cantidadJugadores}) => (
           new Partida(partida.idPartida, partida.nombrePartida, partida.cantJugadoresMin, partida.cantJugadoresMax)
         ));
 

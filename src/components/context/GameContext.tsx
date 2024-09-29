@@ -6,7 +6,7 @@ export const guardarJugador = (jugador: Jugador) => {
     localStorage.setItem('jugador', JSON.stringify(jugador));
 }
 
-export const obtenereJugador = () => {
+export const obtenerJugador = () => {
     const jugador = localStorage.getItem('jugador');
     return jugador ? JSON.parse(jugador) : {};
 };
