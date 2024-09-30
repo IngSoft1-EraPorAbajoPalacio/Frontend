@@ -3,7 +3,6 @@ import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../types/
 import PasarTurno from "../../hooks/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../context/GameContext";
 import { SetStateAction } from "react";
-import { Jugador } from "../../../types/partidaListada";
 
 const EXT = ".svg";
 

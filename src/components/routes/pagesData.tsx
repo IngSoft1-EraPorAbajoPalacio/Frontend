@@ -12,12 +12,12 @@ const pagesData: routerType[] = [
         path: Paths.Game,
         element: <Juego/>,
         title: "game"
-    },
-    {
-        path: Paths.Lobby,
-        element: <div>lobby</div>,
-        title: "lobby"
     }
+    // {
+    //     path: Paths.Lobby,
+    //     element: <Lobby/>,
+    //     title: "lobby"
+    // }
 ];
 
 export default pagesData;
