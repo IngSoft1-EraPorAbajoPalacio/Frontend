@@ -1,4 +1,4 @@
-import { obtenerJugador, obtenerPartida } from "../../context/GameContext";
+import { obtenerJugador, obtenerPartida, guardarJugador } from "../../context/GameContext";
 
 export function handleSubmit(e: React.FormEvent<HTMLFormElement>, alias: string, setUnido: React.Dispatch<React.SetStateAction<boolean>>) {
     e.preventDefault();
@@ -19,13 +19,14 @@ export function handleSubmit(e: React.FormEvent<HTMLFormElement>, alias: string,
             const response = await fetch('http://127.0.0.1:8000/partida/'+ id +'/jugador', options);
             
             if (response.status === 201) {                
-                const id_partida = await response.json();
-                
-                console.log('Unido correctamente a la partida con ID:', id_partida);
+                const id_jugador = await response.json();
+                guardarJugador({ id: id_jugador, nombre: data.nombreJugador, isHost: false });
                 setUnido(true);
             } else {
                 console.log('Error al unirse a una partida');
             }
+            
+           
         } catch (error) {
             console.log(options.body);
             console.error(error);
