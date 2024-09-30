@@ -2,7 +2,7 @@ import { SetStateAction } from "react"
 import { Partida, cantidadJugadores } from "../../types/partidaListada"
 import axios from "axios"
 
-const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]>>) => {
+const obtenerPartidas = async (setLista) => {
     try {
       const url = "http://localhost:8000/partidas";
       const response = await axios.get(url);
@@ -17,14 +17,20 @@ const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]
         if (Array.isArray(dataPartidas)) {
           setLista(dataPartidas);
         } else {
-          console.error("La respuesta no es un array:", dataPartidas);
-          setLista([]);
+            const dataPartidas = response.data.map((partida) => 
+                new Partida(
+                    partida.id_partida,
+                    partida.nombre_partida,
+                    partida.cant_min_jugadores,
+                    partida.cant_max_jugadores
+                )
+            );
+            setLista(dataPartidas);
         }
-      }
     } catch (error) {
-      console.error("Error obteniendo la lista de partidas:", error);
-      setLista([]);
+        console.error("Error obteniendo la lista de partidas:", error);
+        setLista([]);
     }
-  };
+};
 
 export default obtenerPartidas;
