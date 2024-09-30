@@ -6,7 +6,7 @@ import { MostrarFiguras, MostrarMovimientos } from "../views/Public/MostrarCarta
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { obtenerPasarTurno } from "../hooks/ObtenerPasarTurno";
-import { socket } from "../hooks/ObtenerPartidaNueva";
+import { socket } from "../hooks/sockets";
 import { useNavigate } from 'react-router-dom';
 import { Paths } from "../../types/routes.types";
 
@@ -15,22 +15,21 @@ function Juego () {
     const navigate = useNavigate();
 
     useEffect(() => {
-  
-        socket.on('TerminarPartida', (data) => {
-          navigate(Paths.End);
-        });
-    
-        return () => {
-          socket.off('TerminarPartida'); 
+        const handleTerminarPartida = (event: MessageEvent) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'TerminarPartida') {
+                navigate(Paths.End);
+            }
         };
-      }, []);
-
-
-    obtenerDatosPartida();
-
-    useEffect(() => {
-        setPartida(obtenerPartidaEnCurso());
-    }, []);
+    
+        // Add event listener for messages
+        socket.addEventListener('message', handleTerminarPartida);
+    
+        // Cleanup on unmount
+        return () => {
+            socket.removeEventListener('message', handleTerminarPartida);
+        };
+    }, [navigate])
 
     obtenerPasarTurno(setPartida);
     

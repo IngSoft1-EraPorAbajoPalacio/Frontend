@@ -1,29 +1,28 @@
 import { useEffect } from 'react';
-import { io } from 'socket.io-client';
 import { Partida } from '../../types/partidaListada';
-
-const url = 'ws://localhost:3000/';
-export const socket = io(url);
-
+import { socket } from './sockets';
 export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
   useEffect(() => {
-    const handleAgregarPartida = (mensaje: any) => {
-      const partida = new Partida(mensaje.idPartida, mensaje.nombrePartida, mensaje.cantJugadoresMin, mensaje.cantJugadoresMax);
-      setPartidas((partidas) => {
-        if (!partidas.some(p => p.id === partida.id)) {
-          return [...partidas, partida];
-        }
-        return partidas;
-      });
-      setPartidas((partidas) => {
-        if (!partidas.some(p => p.id === partida.id)) {
-          return [...partidas, partida];
-        }
-        return partidas;
-      });
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'AgregarPartida') {
+        const partida = new Partida(
+          message.data.idPartida,
+          message.data.nombrePartida,
+          message.data.cantJugadoresMin,
+          message.data.cantJugadoresMax
+        );
+        setPartidas((partidas) => {
+          if (!partidas.some(p => p.id === partida.id)) {
+            return [...partidas, partida];
+          }
+          return partidas;
+        });
+      }
     };
 
-    socket.on('AgregarPartida', handleAgregarPartida);
-
-  }, [socket]);
+    return () => {
+      socket.close();
+    };
+  }, [setPartidas]);
 };

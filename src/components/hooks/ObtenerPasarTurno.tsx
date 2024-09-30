@@ -1,10 +1,9 @@
 import { guardarPartidaEnCurso, borrarPartidaEnCurso } from "../context/GameContext";
-import { socket } from './ObtenerPartidaNueva';
+import { socket } from "./sockets";
 import { PartidaEnCurso } from "../../types/partidaEnCurso";
 
 export const obtenerPasarTurno = (setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso | null>>) => {    
   const handlePasarTurno = (_mensaje: any) => {
-
     setPartida(partida => {
       if (!partida) return null;
 

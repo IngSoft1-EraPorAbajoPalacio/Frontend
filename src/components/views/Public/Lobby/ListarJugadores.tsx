@@ -1,43 +1,33 @@
-import { io } from "socket.io-client";
-import { Jugador } from "../../../../types/partidaListada";
-import { useState, useEffect } from 'react';
-import '../../../../styles/Lobby.css'
-import { socket } from "../../../hooks/ObtenerPartidaNueva";
+import React, { useEffect, useState } from "react"; // Ensure useState is imported
+import { socket } from "../../../hooks/sockets";
 
-export default function ListarJugadores ({ incrJugs, decrJugs }: { incrJugs: () => void, decrJugs: () => void }) {
-    const [Players, setPlayers] = useState<Jugador[]>([]);
-    const [isConnected, setIsConnected] = useState(false);
-  
+const ListarJugadores = () => {
+    // Define state variables here
+    const [incrJugs, setIncrJugs] = useState(0); // Example initial state
+    const [decrJugs, setDecrJugs] = useState(0); // Example initial state
+
     useEffect(() => {
-      socket.on('connect', () => setIsConnected(true));
+        const handleEliminarJugador = (event: MessageEvent) => {
+            // Logic to handle removing a player
+        };
 
-      socket.on('JugadorUnido', (data) => {
-        console.log(data);
-        setPlayers(data.playerList);
-        incrJugs();
-      });
+        socket.addEventListener('message', handleEliminarJugador);
 
-      socket.on('EliminarJugador', (data) => {
-        setPlayers(data.playerList);
-        decrJugs();
-      });
-  
-      return () => {
-        socket.off('JugadorUnido'); 
-        socket.off('EliminarJugador');
-      };
-    }, [incrJugs, decrJugs]);
+        return () => {
+            socket.removeEventListener('message', handleEliminarJugador);
+        };
+    }, [incrJugs, decrJugs]); // Dependency array includes incrJugs and decrJugs
+
+    // Additional component logic here...
 
     return (
-      <>
-      <h2>{isConnected ? 'CONECTADO' : 'NO CONECTADO'}</h2>
-        <ul>
-            {Players.map(player =>
-                <li key={player.id}>
-                    {player.nombre} 
-                </li>
-            )}
-        </ul>
-        </>
-    )
-} 
+        <div>
+            {/* Your JSX for rendering the player list */}
+        </div>
+    );
+};
+
+export default ListarJugadores;
+
+
+
