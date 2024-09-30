@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import '../../../styles/FormJoinRoom.css';
 import { obtenerPartida } from "../../context/GameContext";
 import { handleSubmit, handleAliasChange } from "./handlers";
@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 export const FormJoinRoom = () => {
     const [alias, setAlias] = useState('');
     const [dirtyAlias, setDirtyAlias] = useState(false);
-    const [unido, setUnido] = useState(false);
     const navigate = useNavigate();
+    const [unido, setUnido] = useState(false);
 
     const room = obtenerPartida();
     const roomName = room ? room.nombre : '';
@@ -16,7 +16,7 @@ export const FormJoinRoom = () => {
     const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {
         e.target.setCustomValidity('Por favor, rellene el campo.');
     };
-    const handleValid = (e: React.InvalidEvent<HTMLInputElement>) => {
+	const handleValid = (e: React.InvalidEvent<HTMLInputElement>) => {
         e.target.setCustomValidity('');
     };
 
@@ -28,7 +28,7 @@ export const FormJoinRoom = () => {
 
     return (
         <div className="form-container">
-            <form onSubmit={(e) => handleSubmit(e, setUnido)}>
+            <form onSubmit={(e) => {console.log(alias);handleSubmit(e, alias, setUnido);}}>
                 <div className="form-title">
                     <h3><b>Unirse a Sala: </b></h3>
                     <span>{roomName}</span>
