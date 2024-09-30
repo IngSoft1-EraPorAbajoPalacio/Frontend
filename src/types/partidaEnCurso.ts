@@ -71,6 +71,7 @@ export class PartidaEnCurso {
   jugadores: JugadorEnCurso[];
   fichas: Ficha[];
   orden: idJugadores[];
+  turnoActual: number;
 
   constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: idJugadores[]) {
     this.id = id;
@@ -79,5 +80,8 @@ export class PartidaEnCurso {
     this.jugadores = jugadores;
     this.fichas = fichas;
     this.orden = orden;
+    this.turnoActual = 1;
   }
+
+  
 }
