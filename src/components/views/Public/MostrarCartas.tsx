@@ -1,7 +1,7 @@
 import "../../../styles/Juego.css";
 import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../types/partidaEnCurso";
 import PasarTurno from "../../hooks/PasarTurno";
-import { obtenerPartidaEnCurso } from "../../context/GameContext";
+import { obtenerPartidaEnCurso, obtenerJugador } from "../../context/GameContext";
 import { SetStateAction } from "react";
 
 const EXT = ".svg";
@@ -29,7 +29,8 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 export function MostrarMovimientos({ partida, setPartida }: { partida: PartidaEnCurso | null, setPartida: React.Dispatch<SetStateAction<PartidaEnCurso | null>> }) {
 
-    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === 1); // Para moquear el contexto del jugador
+    const jugadorGuardado = obtenerJugador();
+    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === jugadorGuardado.id);
     const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "movimientos/mov" + carta.movimiento + EXT);
 
     const handlePasarTurno = () => {
