@@ -14,6 +14,7 @@ const Home = () => {
 	const [tryJoinGame, setTryJoinGame] = useState(partidaElegida !== null);
 
 	const seleccionarPartida = (partida: Partida) => {
+		console.log('Partida seleccionada:', partida);
 		setPartidaElegida(partida);
 		guardarPartida(partida);
 	};

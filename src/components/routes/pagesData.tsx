@@ -11,19 +11,20 @@ const pagesData: routerType[] = [
         title: "home"
     },
     {
-        path: Paths.Game,
-        element: <Juego/>,
-        title: "game"
-    },
-    {
         path: Paths.Lobby,
         element: <Lobby/>,
         title: "lobby"
     },
     {
+        path: Paths.Game,
+        element: <Juego/>,
+        title: "game"
+    },
+
+    {
         path: Paths.End,
         element: <FinPartida/>,
-        title: "lobby"
+        title: "end"
     }
 
 ];
