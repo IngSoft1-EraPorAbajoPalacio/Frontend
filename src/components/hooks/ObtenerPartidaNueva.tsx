@@ -4,6 +4,7 @@ import { socket } from './sockets';
 export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
   useEffect(() => {
     socket.onmessage = (event) => {
+      console.log(event);
       const message = JSON.parse(event.data);
       if (message.type === 'AgregarPartida') {
         const partida = new Partida(
@@ -21,8 +22,5 @@ export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAc
       }
     };
 
-    return () => {
-      socket.close();
-    };
   }, [setPartidas]);
 };

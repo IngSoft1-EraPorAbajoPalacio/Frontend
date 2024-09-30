@@ -27,6 +27,7 @@ export function handleSubmit(
                 console.log('Error al unirse a una partida');
             }
         } catch (error) {
+            console.log(options.body);
             console.error(error);
         }
     };
