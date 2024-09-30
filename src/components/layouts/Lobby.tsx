@@ -1,36 +1,38 @@
-import NombrePartida from '../views/Public/Lobby/NombrePartida';
-import InicioJuego from '../views/Public/Lobby/InicioJuego';
-import ListarJugadores from '../views/Public/Lobby/ListarJugadores';
+import { ListarJugadores, iniciarPartida } from "../views/Public/Lobby/MenajesLobby";
 import { obtenerJugador, obtenerPartida } from "../context/GameContext";
 import { useState } from 'react';
-import Abandono from '../views/Public/Abandono/Abandono';
-
+import { useNavigate } from 'react-router-dom';
 
 function Lobby () {
 
-  const isHost = obtenerJugador()?.isHost;
-  const minplayers = obtenerPartida()?.cantJugadoresMin;
-  const [cantidadjugs, setCantidadJugs] = useState(1);
+  const partida = obtenerPartida();
+  const jugador = obtenerJugador();
+  const [jugadores, setJugadores] = useState<{id: number, nombre: string}[]>([]);
+  const [CantidadJugadores, setCantidadJugadores] = useState<number>(1);
+  const navigate = useNavigate();
 
-  function Incrementcant() {
-    const x = cantidadjugs + 1;
-    setCantidadJugs(x);
-  }
 
-  function Decrementcant() {
-    const x = cantidadjugs - 1;
-    setCantidadJugs(x);
-  }
+  ListarJugadores(setJugadores, setCantidadJugadores);
+
+  const handleIniciarPartida = () => {
+    navigate('/game');
+    iniciarPartida(partida.id, jugador.id);
+  };
   
   return (
     <div>
-      <NombrePartida />
-      <ListarJugadores incrJugs={Incrementcant} decrJugs={Decrementcant} />
-      {isHost && cantidadjugs >= minplayers && <InicioJuego />}
-      {!isHost && <Abandono />}
-
+      <h1>{partida.nombre}</h1>
+      <p> Esperando a jugadores...</p>
+      <ul>
+        {jugadores.map((jugadorListado) => (
+          <li key={jugadorListado.id}><p> {jugadorListado.nombre}</p></li>
+        ))}
+      </ul>
+      {(CantidadJugadores >= 2 && jugador.isHost) ?
+        <button onClick={handleIniciarPartida}> Iniciar Partida</button> : null
+      }
     </div>
   )
 }
 
-export default Lobby
+export default Lobby;

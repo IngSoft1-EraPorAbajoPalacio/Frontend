@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Partida } from '../../types/partidaListada';
 import { socket } from './sockets';
+
 export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
   useEffect(() => {
     socket.onmessage = (event) => {

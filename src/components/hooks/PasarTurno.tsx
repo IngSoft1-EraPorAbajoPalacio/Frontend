@@ -1,7 +1,6 @@
-import { idJugadores } from "../../types/partidaListada"
 import axios from "axios"
 
-const PasarTurno = async (idPartida: number | null, idJugador: idJugadores | null) => {
+const PasarTurno = async (idPartida: number | null, idJugador: number | null) => {
   try {
     const url = `http://localhost:8000/partida/${idPartida}/jugador/${idJugador}`;
     const response = await axios.patch(url);

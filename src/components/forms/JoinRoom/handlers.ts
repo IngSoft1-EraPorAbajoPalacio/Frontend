@@ -18,10 +18,8 @@ export function handleSubmit(e: React.FormEvent<HTMLFormElement>, alias: string,
            
             const response = await fetch('http://127.0.0.1:8000/partida/'+ id +'/jugador', options);
             
-            if (response.ok) {
-                const ids = await response.json();
-                
-                const { id_partida, id_jugador} = await ids;
+            if (response.status === 201) {                
+                const id_partida = await response.json();
                 
                 console.log('Unido correctamente a la partida con ID:', id_partida);
                 setUnido(true);

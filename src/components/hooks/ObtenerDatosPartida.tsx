@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { socket } from './ObtenerPartidaNueva';
 import { JugadorEnCurso, PartidaEnCurso } from '../../types/partidaEnCurso';
 import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
 
