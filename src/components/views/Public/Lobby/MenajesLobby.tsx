@@ -10,7 +10,7 @@ export const ListarJugadores = (
         socket.onmessage = (event) => {
             console.log(event);
             const message = JSON.parse(event.data);
-            if (message.type === 'JugadorUnido') {
+            if (message.type === 'JugadorUnido' || message.type === 'AgregarPartida') {
                 setJugador(message.ListaJugadores);
                 setContador(message.ListaJugadores.length);
             }
