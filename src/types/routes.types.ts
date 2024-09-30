@@ -5,6 +5,7 @@ enum Paths {
     Join = '/join',
     Lobby = '/lobby',
     Game = '/game',
+    End = '/finpartida'
 }
 
 class routerType {

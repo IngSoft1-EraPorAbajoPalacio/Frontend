@@ -6,9 +6,24 @@ import { MostrarFiguras, MostrarMovimientos } from "../views/Public/MostrarCarta
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { obtenerPasarTurno } from "../hooks/ObtenerPasarTurno";
+import { socket } from "../hooks/ObtenerPartidaNueva";
+import { useNavigate } from 'react-router-dom';
+import { Paths } from "../../types/routes.types";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+  
+        socket.on('TerminarPartida', (data) => {
+          navigate(Paths.End);
+        });
+    
+        return () => {
+          socket.off('TerminarPartida'); 
+        };
+      }, []);
 
 
     obtenerDatosPartida();
