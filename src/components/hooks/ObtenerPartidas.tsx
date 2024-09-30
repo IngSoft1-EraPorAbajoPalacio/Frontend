@@ -1,30 +1,27 @@
-import { SetStateAction } from "react"
-import { Partida, cantidadJugadores } from "../../types/partidaListada"
-import axios from "axios"
+import { Partida } from "../../types/partidaListada";
+import axios from "/node_modules/.vite/deps/axios.js?v=b3d0cccb";
 
-const obtenerPartidas = async (setLista: React.Dispatch<SetStateAction<Partida[]>>) => {
+const obtenerPartidas = async (setLista) => {
     try {
-      const url = "http://localhost:8000/partidas";
-      const response = await axios.get(url);
-  
-      if ((response?.status !== 200) || (response?.data?.partidas === undefined)) {
-        throw new Error("Error obteniendo la lista de partidas");
-      } else {
-        const dataPartidas = response?.data?.partidas.map((partida: { idPartida: number; nombrePartida: string; cantJugadoresMin: cantidadJugadores; cantJugadoresMax: cantidadJugadores}) => (
-          new Partida(partida.idPartida, partida.nombrePartida, partida.cantJugadoresMin, partida.cantJugadoresMax)
-        ));
-
-        if (Array.isArray(dataPartidas)) {
-          setLista(dataPartidas);
+        const url = "http://localhost:8000/partidas";
+        const response = await axios.get(url);
+        if (response?.status !== 200 || !Array.isArray(response?.data)) {
+            throw new Error("Error obteniendo la lista de partidas");
         } else {
-          console.error("La respuesta no es un array:", dataPartidas);
-          setLista([]);
+            const dataPartidas = response.data.map((partida) => 
+                new Partida(
+                    partida.id_partida,
+                    partida.nombre_partida,
+                    partida.cant_min_jugadores,
+                    partida.cant_max_jugadores
+                )
+            );
+            setLista(dataPartidas);
         }
-      }
     } catch (error) {
-      console.error("Error obteniendo la lista de partidas:", error);
-      setLista([]);
+        console.error("Error obteniendo la lista de partidas:", error);
+        setLista([]);
     }
-  };
+};
 
 export default obtenerPartidas;
