@@ -28,7 +28,6 @@ function ListarPartidas({ seleccionarPartida, setTryJoinGame}: ListarPartidasPro
         >
           <div>
             <h3>{partida.nombre}</h3>
-            <p>Id: {partida.id}</p>
             <p>Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax}</p>
           </div>
         </button>

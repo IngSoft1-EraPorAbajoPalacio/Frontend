@@ -1,4 +1,3 @@
-export type idJugadores = 0 | 1 | 2 | 3;
 export type cantidadJugadores = 2 | 3 | 4;
 
 export class Partida {
@@ -7,7 +6,7 @@ export class Partida {
   cantJugadoresMin: cantidadJugadores;
   cantJugadoresMax: cantidadJugadores;
   
-  constructor(id: idJugadores, nombre: string, cantJugadoresMin: cantidadJugadores, cantJugadoresMax: cantidadJugadores) {
+  constructor(id: number, nombre: string, cantJugadoresMin: cantidadJugadores, cantJugadoresMax: cantidadJugadores) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadoresMin = cantJugadoresMin;
@@ -16,11 +15,11 @@ export class Partida {
 }
 
 export class Jugador {
-    id: idJugadores;
+    id: number;
     nombre: string;
     isHost: boolean;
     
-    constructor(id: idJugadores, nombre: string, isHost: boolean) { 
+    constructor(id: number, nombre: string, isHost: boolean) { 
       this.id = id;
       this.nombre = nombre;
       this.isHost = isHost;

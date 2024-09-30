@@ -1,4 +1,4 @@
-import { idJugadores, cantidadJugadores } from "./partidaListada";
+import { cantidadJugadores } from "./partidaListada";
 
 export type movimiento = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type figura = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25;
@@ -47,14 +47,14 @@ export class CartaMovimiento {
 }
 
 export class JugadorEnCurso {
-  id: idJugadores;
+  id: number;
   nombre: string;
   cartasFigura: CartaFigura[];
   cartasMovimiento: CartaMovimiento[]; // Es vacío para el jugador que no guarda los datos
   enPartida: boolean; // Para ver si el jugador abandonó
   esGuardador: boolean; // Nueva propiedad para identificar al jugador que guarda los datos
 
-  constructor(id: idJugadores, nombre: string, cartasFigura: CartaFigura[], cartasMovimiento: CartaMovimiento[], enPartida: boolean, esGuardador: boolean) {
+  constructor(id: number, nombre: string, cartasFigura: CartaFigura[], cartasMovimiento: CartaMovimiento[], enPartida: boolean, esGuardador: boolean) {
     this.id = id;
     this.nombre = nombre;
     this.cartasFigura = cartasFigura;
@@ -70,10 +70,10 @@ export class PartidaEnCurso {
   cantJugadores: cantidadJugadores;
   jugadores: JugadorEnCurso[];
   fichas: Ficha[];
-  orden: idJugadores[];
+  orden: number[];
   turnoActual: number;
 
-  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: idJugadores[]) {
+  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: number[]) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadores = cantJugadores;
