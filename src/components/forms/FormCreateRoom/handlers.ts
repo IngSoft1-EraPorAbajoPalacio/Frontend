@@ -1,6 +1,5 @@
-import { NavigateFunction } from "react-router-dom";
 import { cantidadJugadores } from "../../../types/partidaListada";
-import { guardarJugador, guardarPartida } from "../../context/GameContext";
+import { guardarJugador, guardarPartida, guardarJugadoresUnidos } from "../../context/GameContext";
 import { FormInputs } from "./types";
 
 export const handleSubmit = (
@@ -8,7 +7,6 @@ export const handleSubmit = (
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs,
     setPartidaCreada: React.Dispatch<React.SetStateAction<boolean>>,
-    navigate: NavigateFunction 
 ) => {
     e.preventDefault();
 
@@ -39,9 +37,13 @@ export const handleSubmit = (
                 });
                 guardarJugador({ id: id_jugador, nombre: data.nombre_host, isHost: true });
                 console.log('Room created with ID:', id_partida);
-                guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
-
-                setPartidaCreada(true);
+                if (form.maxPlayers < 2 || form.maxPlayers > 4 || form.minPlayers < 2 || form.minPlayers > 4) {
+                    console.error('Invalid number of players.');
+                } else {
+                    guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
+                    guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
+                    setPartidaCreada(true);
+                }
             } else {
                 console.log('Failed to create room');
             }

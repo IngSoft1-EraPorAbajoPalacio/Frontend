@@ -2,7 +2,7 @@ import { socket } from "../../../hooks/sockets";
 import { useEffect } from 'react';
 import axios from "axios"
 import { JugadorEnCurso, PartidaEnCurso } from "../../../../types/partidaEnCurso";
-import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso } from '../../../context/GameContext';
+import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso, borrarJugadoresUnidos } from '../../../context/GameContext';
 
 export const ListarJugadores = (
     setJugador: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
@@ -13,9 +13,10 @@ export const ListarJugadores = (
         socket.onmessage = (event) => {
             console.log(event);
             const message = JSON.parse(event.data);
-            if (message.type === 'JugadorUnido' || message.type === 'AgregarPartida') {
+            if (message.type === 'JugadorUnido') {
                 setJugador(message.ListaJugadores);
                 setContador(message.ListaJugadores.length);
+                borrarJugadoresUnidos();
             }
             if (message.type === 'IniciarPartida') {
                 SetList(true);

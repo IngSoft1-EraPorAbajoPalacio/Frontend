@@ -1,7 +1,7 @@
 import { Partida } from "../../types/partidaListada";
-import axios from "/node_modules/.vite/deps/axios.js?v=b3d0cccb";
+import axios from "axios";
 
-const obtenerPartidas = async (setLista) => {
+const obtenerPartidas = async (setLista: React.Dispatch<React.SetStateAction<Partida[]>>) => {
     try {
         const url = "http://localhost:8000/partidas";
         const response = await axios.get(url);

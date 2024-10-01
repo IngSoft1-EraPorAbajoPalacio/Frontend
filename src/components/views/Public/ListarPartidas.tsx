@@ -12,6 +12,7 @@ interface ListarPartidasProps {
 function ListarPartidas({ seleccionarPartida, setTryJoinGame}: ListarPartidasProps) {
   const [partidas, setPartidas] = useState<Partida[]>([]);
 
+  // Se ejecuta solamnte al montar el componente
   useEffect(() => {
     obtenerPartidas(setPartidas);
   }, []);

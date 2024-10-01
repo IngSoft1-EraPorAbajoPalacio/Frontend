@@ -37,7 +37,7 @@ export function FormCreateRoom() {
 
     return (
         <div className='form-container'>
-            <form onSubmit={(e) => handleSubmit(e, setForm, form, setPartidaCreada, navigate)}>
+            <form onSubmit={(e) => handleSubmit(e, setForm, form, setPartidaCreada)}>
                 <div className='room-name'>
                     <h3>Nombre de partida:</h3>
                 </div>

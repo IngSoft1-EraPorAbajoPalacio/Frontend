@@ -15,13 +15,24 @@ export class Partida {
 }
 
 export class Jugador {
-    id: number;
-    nombre: string;
-    isHost: boolean;
-    
-    constructor(id: number, nombre: string, isHost: boolean) { 
-      this.id = id;
-      this.nombre = nombre;
-      this.isHost = isHost;
-    }
+  id: number;
+  nombre: string;
+  isHost: boolean;
+  
+  constructor(id: number, nombre: string, isHost: boolean) { 
+    this.id = id;
+    this.nombre = nombre;
+    this.isHost = isHost;
+
+  }
+}
+
+export class JugadoresUnidos{
+  id: number;
+  nombre: string;
+  
+  constructor(id: number, nombre: string){
+    this.id = id;
+    this.nombre = nombre;
+  }
 }

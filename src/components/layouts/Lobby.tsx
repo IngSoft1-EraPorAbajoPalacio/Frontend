@@ -1,21 +1,28 @@
 import { ListarJugadores, iniciarPartida } from "../views/Public/Lobby/MenajesLobby";
-import { obtenerJugador, obtenerPartida } from "../context/GameContext";
-import { useState } from 'react';
+import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos } from "../context/GameContext";
+import { useState, useEffect } from 'react';
 import '../../styles/Lobby.css';
 import Juego from "./Juego";
 
 function Lobby() {
   const partida = obtenerPartida();
   const jugador = obtenerJugador();
-  const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>([]);
+  const jugadoresUnidos = obtenerJugadoresUnidos();
+  const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(jugadoresUnidos);
   const [CantidadJugadores, setCantidadJugadores] = useState<number>(1);
   const [partidaEnCurso, setPartidaEnCurso] = useState(false);
+  const [Host, setHost] = useState<boolean>(false);
 
   ListarJugadores(setJugadores, setCantidadJugadores, setPartidaEnCurso);
 
   const handleIniciarPartida = () => {
     iniciarPartida(partida.id, jugador.id);
   };
+
+
+  useEffect(() => {
+    setHost(jugador.isHost);
+  }, []);
 
   return (
     <>
@@ -28,7 +35,8 @@ function Lobby() {
               <li key={jugadorListado.id} className="lobby-list-item"> <p>{jugadorListado.nombre}</p> </li>
             ))}
           </ul>
-          {jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
+
+          {Host && CantidadJugadores >= partida.cantJugadoresMin && (
             <button className="lobby-button" onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
         </div>
