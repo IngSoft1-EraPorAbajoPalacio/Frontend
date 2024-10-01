@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
 import { JugadorEnCurso, PartidaEnCurso } from '../../types/partidaEnCurso';
 import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso } from '../context/GameContext';
+import { useNavigate } from 'react-router-dom';
+import { socket } from './sockets';
+import { Paths } from '../../types/routes.types';
 
 const obtenerDatosPartida = () => {
-  useEffect(() => {
-    // Crear una nueva conexión de WebSocket
-    const socket = new WebSocket('ws://localhost:8000');
+    const navigate = useNavigate();
 
     // Función para manejar el inicio de la partida
     const handleIniciarPartida = (mensaje: any) => {
@@ -26,6 +26,9 @@ const obtenerDatosPartida = () => {
         mensaje.orden
       );
       guardarPartidaEnCurso(partida); // Guardar la partida en el contexto
+
+      // Redirigir al juego
+      navigate(Paths.Game);
     };
 
     // Manejar los mensajes recibidos a través del WebSocket
@@ -35,12 +38,6 @@ const obtenerDatosPartida = () => {
         handleIniciarPartida(mensaje);
       }
     };
-
-    // Cerrar la conexión del WebSocket cuando el componente se desmonte
-    return () => {
-      socket.close();
-    };
-  }, []); // Solo se ejecuta una vez, cuando el componente se monta
 };
 
 export default obtenerDatosPartida;

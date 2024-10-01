@@ -1,7 +1,5 @@
 import Tablero from "../views/Public/Tablero";
-import obtenerDatosPartida from "../hooks/ObtenerDatosPartida";
 import "../../styles/Juego.css";
-import { obtenerPartidaEnCurso } from "../context/GameContext";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
@@ -21,15 +19,11 @@ function Juego () {
                 navigate(Paths.End);
             }
         };
-    
+
         // Add event listener for messages
         socket.addEventListener('message', handleTerminarPartida);
-    
-        // Cleanup on unmount
-        return () => {
-            socket.removeEventListener('message', handleTerminarPartida);
-        };
-    }, [navigate])
+
+    }, [navigate]);
 
     obtenerPasarTurno(setPartida);
     
