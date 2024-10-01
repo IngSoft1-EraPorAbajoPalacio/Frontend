@@ -1,0 +1,107 @@
+# Node modules
+node_modules/
+
+# Vite cache
+.vite/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+jspm_packages/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build output
+dist/
+build/
+out/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+*.temp
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Miscellaneous
+*.bak
+*.backup
+*.orig
+*.rej
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional prettier cache
+.prettiercache
+
+# Optional jest cache
+.jest/
+
+# Optional cypress cache
+.cypress_cache/
+
+# Optional storybook cache
+.storybook_cache/
+
+# Optional next.js cache
+.next/
+
+# Optional parcel cache
+.cache/
+
+# Optional nuxt.js cache
+.nuxt/
+
+# Optional vuepress cache
+.vuepress/dist/
+
+# Optional svelte cache
+.svelte-kit/
+
+# Optional gatsby cache
+.cache/
+
+# Optional docusaurus cache
+.docusaurus/
+
+# Optional expo cache
+.expo/

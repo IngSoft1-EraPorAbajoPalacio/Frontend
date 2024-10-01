@@ -21,6 +21,7 @@ Frontend/
 ├── eslint.config.js    // Configuración de ESLint.
 ├── estructura.txt      // Estructura del proyecto.
 ├── index.html          // El archivo HTML principal que carga tu aplicación React.
+├── main.tsx            // Punto de entrada de la aplicación.
 ├── package-lock.json   // Asegura que las versiones de las dependencias sean consistentes.
 ├── package.json        // Contiene información sobre el proyecto y las dependencias.
 ├── README.md           // Documentación del proyecto.
