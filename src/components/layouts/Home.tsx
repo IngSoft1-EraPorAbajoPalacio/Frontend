@@ -1,11 +1,11 @@
-import '../../styles/Home.css';
-import ListarPartidas from '../views/Public/ListarPartidas';
+import '../../styles/Home/Home.css';
+import ListarPartidas from '../views/Public/Home/ListarPartidas';
 import { useState } from 'react';
 import { Partida } from '../../types/partidaListada';
 import { guardarPartida } from '../context/GameContext';
-import { FormJoinRoom } from '../forms/JoinRoom/FormJoinRoom';
-import { Overlay } from '../overlay/Overlay';
-import { FormCreateRoom } from '../forms/FormCreateRoom/FormCreateRoom';
+import FormularioUnirsePartida from '../views/Public/Home/FormularioUnirsePartida';
+import Overlay from '../views/Public/Home/Overlay';
+import { FormCreateRoom } from '../views/Public/Home/FormularioCrearPartida';
 
 const Home = () => {
 	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
@@ -37,7 +37,7 @@ const Home = () => {
 					<FormCreateRoom />
 				</Overlay>
 				<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
-					<FormJoinRoom />
+					<FormularioUnirsePartida />
 				</Overlay>
 			</div>
 		</>

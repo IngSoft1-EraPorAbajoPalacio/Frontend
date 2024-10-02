@@ -1,6 +1,6 @@
 const WS_URL = 'ws://localhost:8000/ws';
-// Crear y exportar una única instancia de WebSocket
-export const socket = new WebSocket(WS_URL);
+
+const socket = new WebSocket(WS_URL);
 
 socket.onopen = () => {
   console.log('WebSocket connection established');
@@ -13,3 +13,5 @@ socket.onerror = (error) => {
 socket.onclose = () => {
   console.log('WebSocket connection closed');
 };
+
+export default socket;

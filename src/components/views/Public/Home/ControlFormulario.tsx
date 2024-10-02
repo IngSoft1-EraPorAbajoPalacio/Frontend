@@ -1,4 +1,4 @@
-import {FormInputs} from "./types";
+import { FormInputs } from "../../../../types/formularioCrearPartida";
 
 export const incrementMaxPlayersAllowed = (setForm: React.Dispatch<React.SetStateAction<FormInputs>>, 
     form: FormInputs) => {

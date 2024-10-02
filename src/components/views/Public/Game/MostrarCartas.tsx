@@ -1,7 +1,7 @@
-import "../../../styles/Juego.css";
-import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../types/partidaEnCurso";
-import PasarTurno from "../../hooks/PasarTurno";
-import { obtenerPartidaEnCurso, obtenerJugador } from "../../context/GameContext";
+import "../../../../styles/Game/Juego.css";
+import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
+import PasarTurno from "../../../hooks/Game/PasarTurno";
+import { obtenerPartidaEnCurso, obtenerJugador } from "../../../context/GameContext";
 import { SetStateAction } from "react";
 
 const EXT = ".svg";

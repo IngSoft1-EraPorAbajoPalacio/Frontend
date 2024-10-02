@@ -1,4 +1,4 @@
-import { Partida } from "../../types/partidaListada";
+import { Partida } from "../../../types/partidaListada";
 import axios from "axios";
 
 const obtenerPartidas = async (setLista: React.Dispatch<React.SetStateAction<Partida[]>>) => {

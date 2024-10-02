@@ -1,11 +1,10 @@
-import { socket } from "../../../hooks/sockets";
-import { useEffect } from 'react';
-import axios from "axios"
-import { JugadorEnCurso, PartidaEnCurso } from "../../../../types/partidaEnCurso";
-import { obtenerJugador, obtenerPartida, guardarPartidaEnCurso, borrarJugadoresUnidos } from '../../../context/GameContext';
+import socket from "../../../services/sockets";
+import { borrarJugadoresUnidos } from '../../context/GameContext';
+import { guardarPartidaEnCurso, obtenerJugador, obtenerPartida } from '../../context/GameContext';
+import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
 // Escucha los mensajes del servidor en el lobby
-export const ListarJugadores = (
+const ObtenerMensajesLobby = (
   setJugador: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
   setContador: React.Dispatch<React.SetStateAction<number>>,
   SetList: React.Dispatch<React.SetStateAction<boolean>>
@@ -57,13 +56,4 @@ const handleIniciarPartida = (mensaje: any) => {
 
 };
 
-// Llama a la API para iniciar la partida
-export const iniciarPartida = async (idPartida:number, idJugador: number) => {
-    try {
-      const url = `http://localhost:8000/partida/${idPartida}/jugador/${idJugador}`;
-      const response = await axios.post(url);
-      if ((response.status !== 200)) throw new Error("Error iniciando el juego");
-    } catch (error) {
-      console.error("Error iniciando el juego:", error);
-    }
-};
+export default ObtenerMensajesLobby;

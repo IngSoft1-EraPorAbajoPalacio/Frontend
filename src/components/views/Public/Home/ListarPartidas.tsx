@@ -1,8 +1,8 @@
-import { Partida } from '../../../types/partidaListada';
-import obtenerPartidas from '../../hooks/ObtenerPartidas';
+import { Partida } from '../../../../types/partidaListada';
+import obtenerPartidas from '../../../hooks/Home/ObtenerPartidas';
 import { useState, useEffect } from 'react';
-import { ObtenerPartidaNueva } from '../../hooks/ObtenerPartidaNueva';
-import { guardarPartida } from '../../context/GameContext';
+import { ObtenerPartidaNueva } from '../../../hooks/Home/ObtenerPartidaNueva';
+import { guardarPartida } from '../../../context/GameContext';
 
 interface ListarPartidasProps {
   seleccionarPartida: (partida: Partida) => void;

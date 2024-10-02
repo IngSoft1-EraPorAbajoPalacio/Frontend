@@ -1,6 +1,7 @@
-import { Partida } from '../../types/partidaListada';
-import { socket } from './sockets';
+import { Partida } from "../../../types/partidaListada";
+import socket from "../../../services/sockets";
 
+// Escucha los mensajes del servidor para agregar o eliminar una partida
 export const ObtenerPartidaNueva = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
   socket.onmessage = (event) => {
     console.log(event);

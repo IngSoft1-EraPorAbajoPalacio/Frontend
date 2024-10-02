@@ -1,13 +1,13 @@
 import { routerType, Paths } from "../../types/routes.types";
-import FinPartida from "../layouts/Finalizacion";
+import End from "../layouts/End";
 import Home from '../layouts/Home';
-import Juego from '../layouts/Juego';
+import Game from '../layouts/Game';
 import Lobby from "../layouts/Lobby";
 
 const pagesData: routerType[] = [
     {
         path: Paths.Home,
-        element: <Home />,
+        element: <Home/>,
         title: "home"
     },
     {
@@ -17,13 +17,13 @@ const pagesData: routerType[] = [
     },
     {
         path: Paths.Game,
-        element: <Juego/>,
+        element: <Game/>,
         title: "game"
     },
 
     {
         path: Paths.End,
-        element: <FinPartida/>,
+        element: <End/>,
         title: "end"
     }
 

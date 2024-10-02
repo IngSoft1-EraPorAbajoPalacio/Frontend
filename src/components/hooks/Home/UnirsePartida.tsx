@@ -1,13 +1,14 @@
 import { obtenerPartida, guardarJugador } from "../../context/GameContext";
 
-export function handleSubmit(
+// Llamada a la API para unirse a una partida
+function UnirsePartida(
     e: React.FormEvent<HTMLFormElement>, 
     alias: string,
     setUnido: React.Dispatch<React.SetStateAction<boolean>>,
     setJugadoresUnidos: React.Dispatch<React.SetStateAction<{ id: number, nombre: string }[]>>
 ) {
     e.preventDefault();
-    const {id, nombre, min, max} = obtenerPartida();
+    const partida = obtenerPartida();
     const data = { nombreJugador: alias }; // Crea un objeto con la propiedad esperada
     console.log(data);
 
@@ -21,7 +22,7 @@ export function handleSubmit(
         try {
             //Now i have to connect with the endpoint to send the info of the room
            
-            const response = await fetch('http://127.0.0.1:8000/partida/'+ id +'/jugador', options);
+            const response = await fetch('http://127.0.0.1:8000/partida/'+ partida.id +'/jugador', options);
             
             if (response.status === 201) {                
                 const mensasje = await response.json();
@@ -41,10 +42,4 @@ export function handleSubmit(
     asyncPost();
 }
 
-export function handleAliasChange(e: React.ChangeEvent<HTMLInputElement>, setAlias: React.Dispatch<React.SetStateAction<string>>) {
-    if(validateNames(e.target.value)){setAlias(e.target.value);console.log(e.target.value)};
-}
-
-export const validateNames = (name: string) => {
-    return name.length <= 20;
-};
+export default UnirsePartida;

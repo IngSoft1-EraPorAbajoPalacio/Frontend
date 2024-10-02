@@ -1,10 +1,10 @@
-import Tablero from "../views/Public/Tablero";
-import "../../styles/Juego.css";
-import { MostrarFiguras, MostrarMovimientos } from "../views/Public/MostrarCartas";
+import Tablero from "../views/Public/Game/Tablero";
+import "../../styles/Game/Juego.css";
+import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { obtenerPasarTurno } from "../hooks/ObtenerPasarTurno";
-import { socket } from "../hooks/sockets";
+import { obtenerPasarTurno } from "../hooks/Game/ObtenerPasarTurno";
+import socket from "../../services/sockets";
 import { useNavigate } from 'react-router-dom';
 import { Paths } from "../../types/routes.types";
 

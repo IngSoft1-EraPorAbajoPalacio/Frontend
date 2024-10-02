@@ -1,9 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import "../../../styles/FormCreateRoom.css";
-import { FormInputs } from "./types.ts";
-import { handleSubmit, handleRoomNameChange, handlePlayerNameChange } from "./handlers.ts";
-import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./controlRoomLimit.ts";
+import "../../../../styles/Home/Formularios.css";
+import { FormInputs } from '../../../../types/formularioCrearPartida.ts';
+import CrearPartida from "../../../hooks/Home/CrearPartida.tsx";
+import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./ControlFormulario.tsx";
 import { useNavigate } from 'react-router-dom';
+
+export const handleRoomNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
+    form: FormInputs
+) => {
+    if (validateNames(e.target.value)) {
+        setForm({
+            ...form,
+            room: e.target.value,
+        });
+    } else {
+        e.target.setCustomValidity('Por favor, ingrese el nombre de la sala.');
+    }
+};
+
+export const handlePlayerNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
+    form: FormInputs
+) => {
+    if (validateNames(e.target.value)) {
+        setForm({
+            ...form,
+            playerName: e.target.value,
+        });
+    }
+};
+
+export const validateNames = (name: string) => {
+    return name.length <= 20;
+};
 
 export function FormCreateRoom() {
     const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
@@ -37,7 +69,7 @@ export function FormCreateRoom() {
 
     return (
         <div className='form-container'>
-            <form onSubmit={(e) => handleSubmit(e, setForm, form, setPartidaCreada)}>
+            <form onSubmit={(e) => CrearPartida(e, setForm, form, setPartidaCreada)}>
                 <div className='room-name'>
                     <h3>Nombre de partida:</h3>
                 </div>

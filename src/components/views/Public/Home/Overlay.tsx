@@ -1,4 +1,4 @@
-import '../../styles/Overlay.css';
+import '../../../../styles/Home/Overlay.css';
 
 interface OverlayProps {
     children: React.ReactNode;
@@ -6,7 +6,7 @@ interface OverlayProps {
     onClose: () => void;
 }
 
-export function Overlay({ children, isOpen, onClose }: OverlayProps) {
+function Overlay({ children, isOpen, onClose }: OverlayProps) {
     return (
         <div>
             {isOpen ? (
@@ -21,3 +21,5 @@ export function Overlay({ children, isOpen, onClose }: OverlayProps) {
         </div>
     );
 }
+
+export default Overlay;

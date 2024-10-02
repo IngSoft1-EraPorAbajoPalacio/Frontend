@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
-import '../../../styles/FormJoinRoom.css';
-import { obtenerPartida, guardarJugadoresUnidos } from "../../context/GameContext";
-import { handleSubmit, handleAliasChange } from "./handlers";
+import '../../../../styles/Home/Formularios.css';
+import { obtenerPartida, guardarJugadoresUnidos } from "../../../context/GameContext";
+import UnirsePartida from "../../../hooks/Home/UnirsePartida";
 import { useNavigate } from 'react-router-dom';
-import { JugadoresUnidos } from "../../../types/partidaListada";
+import { JugadoresUnidos } from "../../../../types/partidaListada";
 
-export const FormJoinRoom = () => {
+
+function handleAliasChange(e: React.ChangeEvent<HTMLInputElement>, setAlias: React.Dispatch<React.SetStateAction<string>>) {
+    if(validateNames(e.target.value)){setAlias(e.target.value);console.log(e.target.value)};
+}
+
+const validateNames = (name: string) => {
+    return name.length <= 20;
+};
+
+const FormularioUnirsePartida = () => {
     const [alias, setAlias] = useState('');
     const [dirtyAlias, setDirtyAlias] = useState(false);
     const navigate = useNavigate();
@@ -31,7 +40,7 @@ export const FormJoinRoom = () => {
 
     return (
         <div className="form-container">
-            <form onSubmit={(e) => {console.log(alias);handleSubmit(e, alias, setUnido, setJugadoresUnidos);}}>
+            <form onSubmit={(e) => {console.log(alias);UnirsePartida(e, alias, setUnido, setJugadoresUnidos);}}>
                 <div className="form-title">
                     <h3><b>Unirse a Sala: </b></h3>
                     <span>{roomName}</span>
@@ -54,3 +63,5 @@ export const FormJoinRoom = () => {
         </div>
     );
 }
+
+export default FormularioUnirsePartida;

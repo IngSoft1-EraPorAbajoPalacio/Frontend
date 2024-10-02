@@ -1,6 +1,5 @@
 // import { obtenerJugador } from "../context/PlayerContext";
 import Inicioboton from "../views/Public/Finalizacion/VolverInicio";
-import "../../styles/finalizacion.css";
 
 export default function FinPartida () {
     // if (ganador == obtenerJugador().nombre) {

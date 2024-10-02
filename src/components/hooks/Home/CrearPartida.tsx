@@ -1,8 +1,9 @@
 import { cantidadJugadores } from "../../../types/partidaListada";
 import { guardarJugador, guardarPartida, guardarJugadoresUnidos } from "../../context/GameContext";
-import { FormInputs } from "./types";
+import { FormInputs } from "../../../types/formularioCrearPartida";
 
-export const handleSubmit = (
+// Llamada a la API para crear una partida
+const CrearPartida = (
     e: React.FormEvent<HTMLFormElement>,
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs,
@@ -55,34 +56,4 @@ export const handleSubmit = (
     asyncPost();
 };
 
-export const handleRoomNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
-    form: FormInputs
-) => {
-    if (validateNames(e.target.value)) {
-        setForm({
-            ...form,
-            room: e.target.value,
-        });
-    } else {
-        e.target.setCustomValidity('Por favor, ingrese el nombre de la sala.');
-    }
-};
-
-export const handlePlayerNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
-    form: FormInputs
-) => {
-    if (validateNames(e.target.value)) {
-        setForm({
-            ...form,
-            playerName: e.target.value,
-        });
-    }
-};
-
-export const validateNames = (name: string) => {
-    return name.length <= 20;
-};
+export default CrearPartida;

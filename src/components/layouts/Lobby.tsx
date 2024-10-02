@@ -1,9 +1,10 @@
-import { ListarJugadores, iniciarPartida } from '../views/Public/Lobby/MenajesLobby';
+import iniciarPartida from '../hooks/Lobby/IniciarPartida';
+import ObtenerMensajesLobby from '../hooks/Lobby/ObtenerMensajesLobby';
 import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos } from '../context/GameContext';
 import { useState, useEffect } from 'react';
 import { Jugador , Partida } from '../../types/partidaListada';
-import '../../styles/Lobby.css';
-import Juego from './Juego';
+import '../../styles/Lobby/Lobby.css';
+import Juego from './Game';
 
 function Lobby() {
   const jugadoresUnidos = obtenerJugadoresUnidos();
@@ -13,7 +14,7 @@ function Lobby() {
   const [jugador, setJugador] = useState<Jugador>();
   const [partida, setPartida] = useState<Partida>();
 
-  ListarJugadores(setJugadores, setCantidadJugadores, setPartidaEnCurso);
+  ObtenerMensajesLobby(setJugadores, setCantidadJugadores, setPartidaEnCurso);
 
   const handleIniciarPartida = () => {
     if (partida && jugador) {

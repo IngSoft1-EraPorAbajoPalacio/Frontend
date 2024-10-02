@@ -1,7 +1,7 @@
 import { act } from 'react';
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import obtenerPartidas from "../components/hooks/ObtenerPartidas";
+import obtenerPartidas from '../components/hooks/Home/ObtenerPartidas';
 import { afterEach, describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { Partida } from "../types/partidaListada";
 import { partidasMock } from "../data/MockListaPartidas";

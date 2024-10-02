@@ -1,6 +1,6 @@
-import '../../../styles/Juego.css';
-import { posicion } from '../../../types/partidaEnCurso';
-import { obtenerPartidaEnCurso } from '../../context/GameContext';
+import "../../../../styles/Game/Juego.css";
+import { posicion } from '../../../../types/partidaEnCurso';
+import { obtenerPartidaEnCurso } from '../../../context/GameContext';
 
 function Tablero () {
 
