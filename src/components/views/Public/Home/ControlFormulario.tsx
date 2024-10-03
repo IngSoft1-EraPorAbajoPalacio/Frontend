@@ -22,7 +22,7 @@ export const decrementMaxPlayersAllowed = (setForm: React.Dispatch<React.SetStat
 
 export const incrementMinPlayersAllowed = (setForm: React.Dispatch<React.SetStateAction<FormInputs>>, 
     form: FormInputs) => {
-    if (form.minPlayers < 8 && form.minPlayers < form.maxPlayers) {
+    if (form.minPlayers <= 4 && form.minPlayers < form.maxPlayers) {
         setForm({
             ...form,
             minPlayers: form.minPlayers + 1,
