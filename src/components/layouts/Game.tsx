@@ -7,6 +7,7 @@ import { obtenerPasarTurno } from "../hooks/Game/ObtenerPasarTurno";
 import socket from "../../services/sockets";
 import { useNavigate } from 'react-router-dom';
 import { Paths } from "../../types/routes.types";
+import { obtenerPartidaEnCurso } from "../context/GameContext";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(null);
@@ -26,6 +27,10 @@ function Juego () {
     }, [navigate]);
 
     obtenerPasarTurno(setPartida);
+
+    useEffect(() => {
+        setPartida(obtenerPartidaEnCurso())
+    }, []);
     
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
