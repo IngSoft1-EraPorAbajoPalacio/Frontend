@@ -1,5 +1,5 @@
 import iniciarPartida from '../hooks/Lobby/IniciarPartida';
-import ObtenerMensajesLobby from '../hooks/Lobby/ObtenerMensajesLobby';
+import ObtenerMensajesLobby from '../hooks/Lobby/ObtenerMensajes';
 import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos } from '../context/GameContext';
 import { useState, useEffect } from 'react';
 import { Jugador , Partida } from '../../types/partidaListada';
@@ -21,7 +21,6 @@ function Lobby() {
       iniciarPartida(partida.id, jugador.id);
     }
   };
-
 
   useEffect(() => {
     setJugador(obtenerJugador());

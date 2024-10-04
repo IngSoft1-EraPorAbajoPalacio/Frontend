@@ -3,28 +3,11 @@ import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { obtenerPasarTurno } from "../hooks/Game/ObtenerPasarTurno";
-import socket from "../../services/sockets";
-import { useNavigate } from 'react-router-dom';
-import { Paths } from "../../types/routes.types";
+import { obtenerPasarTurno } from "../hooks/Game/ObtenerMensajes";
 import { obtenerPartidaEnCurso } from "../context/GameContext";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const handleTerminarPartida = (event: MessageEvent) => {
-            const data = JSON.parse(event.data);
-            if (data.type === 'TerminarPartida') {
-                navigate(Paths.End);
-            }
-        };
-
-        // Add event listener for messages
-        socket.addEventListener('message', handleTerminarPartida);
-
-    }, [navigate]);
 
     obtenerPasarTurno(setPartida);
 

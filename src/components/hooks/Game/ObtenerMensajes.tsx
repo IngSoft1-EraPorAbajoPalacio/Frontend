@@ -26,6 +26,8 @@ export const obtenerPasarTurno = (setPartida: React.Dispatch<React.SetStateActio
 
         return nuevaPartida;
       });
+    } else if (message.type === 'TerminarPartida') {
+      //navigate(Paths.End);
     }
   }
 };

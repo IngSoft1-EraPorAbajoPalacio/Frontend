@@ -1,7 +1,7 @@
 import { Partida } from '../../../../types/partidaListada';
 import obtenerPartidas from '../../../hooks/Home/ObtenerPartidas';
 import { useState, useEffect } from 'react';
-import { ObtenerPartidaNueva } from '../../../hooks/Home/ObtenerPartidaNueva';
+import { ObtenerPartidaNueva } from '../../../hooks/Home/ObtenerMensajes';
 import { guardarPartida } from '../../../context/GameContext';
 
 interface ListarPartidasProps {
