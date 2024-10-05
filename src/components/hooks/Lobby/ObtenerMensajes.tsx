@@ -10,7 +10,6 @@ const ObtenerMensajesLobby = (
   SetList: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   socket.onmessage = (event) => {
-    console.log(event);
     const message = JSON.parse(event.data);
     // Si el mensaje es de tipo JugadorUnido, actualiza la lista de jugadores en el lobby
     if (message.type === 'JugadorUnido') {

@@ -1,15 +1,13 @@
 import { Partida } from '../../../../types/partidaListada';
 import obtenerPartidas from '../../../hooks/Home/ObtenerPartidas';
 import { useState, useEffect } from 'react';
-import { ObtenerPartidaNueva } from '../../../hooks/Home/ObtenerMensajes';
-import { guardarPartida } from '../../../context/GameContext';
+import ObtenerMensajes from '../../../hooks/Home/ObtenerMensajes';
 
 interface ListarPartidasProps {
-  seleccionarPartida: (partida: Partida) => void;
-  setTryJoinGame : React.Dispatch<React.SetStateAction<boolean>> 
+  setIdPartida: React.Dispatch<React.SetStateAction<number|null>>;
 }
 
-function ListarPartidas({ seleccionarPartida, setTryJoinGame}: ListarPartidasProps) {
+function ListarPartidas({setIdPartida}: ListarPartidasProps) {
   const [partidas, setPartidas] = useState<Partida[]>([]);
 
   // Se ejecuta solamnte al montar el componente
@@ -17,7 +15,7 @@ function ListarPartidas({ seleccionarPartida, setTryJoinGame}: ListarPartidasPro
     obtenerPartidas(setPartidas);
   }, []);
 
-  ObtenerPartidaNueva(setPartidas);
+  ObtenerMensajes(setPartidas);
 
   return (
     <>
@@ -25,7 +23,7 @@ function ListarPartidas({ seleccionarPartida, setTryJoinGame}: ListarPartidasPro
         <button
           key={partida.id}
           className='partida-listada'
-          onClick={() => {seleccionarPartida(partida); setTryJoinGame(true); guardarPartida(partida);}}
+          onClick={() => setIdPartida(partida.id)}
         >
           <div>
             <h3>{partida.nombre}</h3>

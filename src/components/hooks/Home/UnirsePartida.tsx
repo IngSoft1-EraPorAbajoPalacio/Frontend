@@ -1,16 +1,15 @@
-import { obtenerPartida, guardarJugador } from "../../context/GameContext";
+import { guardarJugador, guardarJugadoresUnidos } from "../../context/GameContext";
 
 // Llamada a la API para unirse a una partida
 function UnirsePartida(
     e: React.FormEvent<HTMLFormElement>, 
     alias: string,
-    setUnido: React.Dispatch<React.SetStateAction<boolean>>,
-    setJugadoresUnidos: React.Dispatch<React.SetStateAction<{ id: number, nombre: string }[]>>
+    setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
+    IdPartida: number|null
 ) {
     e.preventDefault();
-    const partida = obtenerPartida();
+    const partida = IdPartida;
     const data = { nombreJugador: alias }; // Crea un objeto con la propiedad esperada
-    console.log(data);
 
     const options = {
         method: 'POST',
@@ -22,20 +21,20 @@ function UnirsePartida(
         try {
             //Now i have to connect with the endpoint to send the info of the room
            
-            const response = await fetch('http://127.0.0.1:8000/partida/'+ partida.id +'/jugador', options);
+            const response = await fetch('http://127.0.0.1:8000/partida/' + (partida ? partida : '') + '/jugador', options);
             
             if (response.status === 201) {                
-                const mensasje = await response.json();
-                guardarJugador({ id: mensasje.id_jugador, nombre: data.nombreJugador, isHost: false });
-                setUnido(true);
-                setJugadoresUnidos(mensasje.unidos);
+                const mensaje = await response.json();
+                guardarJugador({ id: mensaje.idJugador, nombre: data.nombreJugador, isHost: false });
+                guardarJugadoresUnidos(mensaje.unidos);
+                setIdJugador(mensaje.idJugador);
             } else {
-                console.log('Error al unirse a una partida');
+                console.error('Error al unirse a una partida.');
             }
             
            
         } catch (error) {
-            console.log(options.body);
+            console.error(options.body);
             console.error(error);
         }
     }

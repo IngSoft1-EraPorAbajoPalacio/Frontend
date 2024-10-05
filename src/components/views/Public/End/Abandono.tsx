@@ -30,7 +30,6 @@ export default function Abandono() {
             }
           })
             .then(response => response.json())
-            .then(data => console.log('Success:', data))
             .catch(error => console.error('Error:', error));
 
         navigate('/');
