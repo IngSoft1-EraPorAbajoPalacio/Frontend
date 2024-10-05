@@ -2,9 +2,10 @@ import iniciarPartida from '../hooks/Lobby/IniciarPartida';
 import ObtenerMensajesLobby from '../hooks/Lobby/ObtenerMensajes';
 import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos } from '../context/GameContext';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Jugador , Partida } from '../../types/partidaListada';
 import '../../styles/Lobby/Lobby.css';
-import Juego from './Game';
+import useRouteNavigation from '../routes/RouteNavigation';
 
 function Lobby() {
   const jugadoresUnidos = obtenerJugadoresUnidos();
@@ -13,6 +14,16 @@ function Lobby() {
   const [partidaEnCurso, setPartidaEnCurso] = useState(false);
   const [jugador, setJugador] = useState<Jugador>();
   const [partida, setPartida] = useState<Partida>();
+
+  const { redirectToGame, redirectToNotFound } = useRouteNavigation();
+  const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+  const idJugador = Number(gameId);
+  const idPartida = Number(playerId);
+  if (isNaN(idJugador) || isNaN(idPartida)) return redirectToNotFound();
+
+  useEffect(() => {
+    if (partidaEnCurso) redirectToGame(idJugador, idPartida);
+  }, [partidaEnCurso]);
 
   ObtenerMensajesLobby(setJugadores, setCantidadJugadores, setPartidaEnCurso);
 
@@ -29,7 +40,6 @@ function Lobby() {
 
   return (
     <>
-      {partidaEnCurso ? <Juego/> :
         <div className='lobby-container'>
           {partida && <h1 className='lobby-title'>{partida.nombre}</h1>}
           <p className='lobby-subtitle'>Esperando a jugadores...</p>
@@ -43,7 +53,7 @@ function Lobby() {
             <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
         </div>
-      }
+      
     </>
   );
 }
