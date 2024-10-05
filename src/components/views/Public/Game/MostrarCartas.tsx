@@ -1,14 +1,14 @@
 import "../../../../styles/Game/Juego.css";
 import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
 import PasarTurno from "../../../hooks/Game/PasarTurno";
-import { obtenerPartidaEnCurso, obtenerJugador } from "../../../context/GameContext";
+import { obtenerPartidaEnCurso } from "../../../context/GameContext";
 import { SetStateAction } from "react";
 
 const EXT = ".svg";
 
 export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | null) {
     const cartas = jugador.cartasFigura;
-    const PATH = "figuras/fig";
+    const PATH = "/figuras/fig";
     const partida = obtenerPartidaEnCurso();
 
     const cartasSrc: string[] = cartas.map(carta => {
@@ -29,9 +29,8 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 export function MostrarMovimientos({ partida, setPartida }: { partida: PartidaEnCurso | null, setPartida: React.Dispatch<SetStateAction<PartidaEnCurso | null>> }) {
 
-    const jugadorGuardado = obtenerJugador();
-    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === jugadorGuardado.id);
-    const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "movimientos/mov" + carta.movimiento + EXT);
+    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.cartasMovimiento.length === 3);
+    const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "/movimientos/mov" + carta.movimiento + EXT);
 
     const handlePasarTurno = () => {
         if (partida && jugadordado) {

@@ -2,19 +2,12 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
-import { useEffect, useState } from "react";
-import { obtenerPasarTurno } from "../hooks/Game/ObtenerMensajes";
+import { useState } from "react";
 import { obtenerPartidaEnCurso } from "../context/GameContext";
 
 function Juego () {
-    const [partida, setPartida] = useState<PartidaEnCurso | null>(null);
-
-    obtenerPasarTurno(setPartida);
-
-    useEffect(() => {
-        setPartida(obtenerPartidaEnCurso())
-    }, []);
-    
+    const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso());
+        
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
     const jugador3 = (partida && partida.cantJugadores > 2) ? partida.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida.orden[2]) : null;
