@@ -15,7 +15,7 @@ export default function Abandono() {
         setModalOpen(false);
     };
     
-      // Handle confirm action
+      // Handle confirm action MOVER A HOOKS DE GAME
     const confirmAction = () => {
         const idPartida = obtenerPartida()?.id;
         const idJugador = obtenerJugador()?.id;
@@ -30,7 +30,6 @@ export default function Abandono() {
             }
           })
             .then(response => response.json())
-            .then(data => console.log('Success:', data))
             .catch(error => console.error('Error:', error));
 
         navigate('/');

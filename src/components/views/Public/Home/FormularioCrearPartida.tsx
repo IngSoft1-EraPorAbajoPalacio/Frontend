@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import "../../../../styles/Home/Formularios.css";
 import { FormInputs } from '../../../../types/formularioCrearPartida.ts';
 import CrearPartida from "../../../hooks/Home/CrearPartida.tsx";
 import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./ControlFormulario.tsx";
-import { useNavigate } from 'react-router-dom';
 
-export const handleRoomNameChange = (
+const handleRoomNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs
@@ -20,7 +19,7 @@ export const handleRoomNameChange = (
     }
 };
 
-export const handlePlayerNameChange = (
+const handlePlayerNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs
@@ -33,15 +32,18 @@ export const handlePlayerNameChange = (
     }
 };
 
-export const validateNames = (name: string) => {
+const validateNames = (name: string) => {
     return name.length <= 20;
 };
 
-export function FormCreateRoom() {
+interface FormCreateRoomProps {
+    setIdJugador: Dispatch<SetStateAction<number | null>>;
+    setIdPartida: Dispatch<SetStateAction<number | null>>;
+}
+
+const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPartida }) => {
     const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
     const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
-    const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
-    const navigate = useNavigate();
 
     const [form, setForm] = useState<FormInputs>(
         {
@@ -61,15 +63,9 @@ export function FormCreateRoom() {
         e.target.setCustomValidity('');
     };
 
-    useEffect(() => {
-        if (partidaCreada) {
-            navigate('/lobby');
-        }
-    }, [partidaCreada, navigate]);
-
     return (
         <div className='form-container'>
-            <form onSubmit={(e) => CrearPartida(e, setForm, form, setPartidaCreada)}>
+            <form onSubmit={(e) => CrearPartida(e, setForm, form, setIdJugador, setIdPartida)}>
                 <div className='room-name'>
                     <h3>Nombre de partida:</h3>
                 </div>
@@ -132,3 +128,5 @@ export function FormCreateRoom() {
         </div>
     );
 };
+
+export default FormCreateRoom;

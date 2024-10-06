@@ -1,26 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import '../../../../styles/Home/Formularios.css';
-import { obtenerPartida, guardarJugadoresUnidos } from "../../../context/GameContext";
+import { obtenerPartida } from "../../../context/GameContext";
 import UnirsePartida from "../../../hooks/Home/UnirsePartida";
-import { useNavigate } from 'react-router-dom';
-import { JugadoresUnidos } from "../../../../types/partidaListada";
-
 
 function handleAliasChange(e: React.ChangeEvent<HTMLInputElement>, setAlias: React.Dispatch<React.SetStateAction<string>>) {
-    if(validateNames(e.target.value)){setAlias(e.target.value);console.log(e.target.value)};
+    if(validateNames(e.target.value)) setAlias(e.target.value);
 }
 
 const validateNames = (name: string) => {
     return name.length <= 20;
 };
 
-const FormularioUnirsePartida = () => {
+interface FormCreateRoomProps {
+    setIdJugador: Dispatch<SetStateAction<number | null>>;
+    idPartida: number | null;
+}
+
+const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, idPartida }) => {
     const [alias, setAlias] = useState('');
     const [dirtyAlias, setDirtyAlias] = useState(false);
-    const navigate = useNavigate();
-    const [unido, setUnido] = useState(false);
-    const [jugadoresUnidos, setJugadoresUnidos] = useState<JugadoresUnidos[]>([]);
-
     const room = obtenerPartida();
     const roomName = room ? room.nombre : '';
 
@@ -31,16 +29,9 @@ const FormularioUnirsePartida = () => {
         e.target.setCustomValidity('');
     };
 
-    useEffect(() => {
-        if (unido) {
-            guardarJugadoresUnidos(jugadoresUnidos);
-            navigate('/lobby');
-        }
-    }, [unido, navigate]);
-
     return (
         <div className="form-container">
-            <form onSubmit={(e) => {console.log(alias);UnirsePartida(e, alias, setUnido, setJugadoresUnidos);}}>
+            <form onSubmit={(e) => UnirsePartida(e, alias, setIdJugador, idPartida)}>
                 <div className="form-title">
                     <h3><b>Unirse a Sala: </b></h3>
                     <span>{roomName}</span>
