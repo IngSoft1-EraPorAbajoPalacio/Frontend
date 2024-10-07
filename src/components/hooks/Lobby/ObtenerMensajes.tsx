@@ -7,7 +7,7 @@ import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 const ObtenerMensajes = (
   setJugador: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
   setContador: React.Dispatch<React.SetStateAction<number>>,
-  SetList: React.Dispatch<React.SetStateAction<boolean>>,
+  setPartidaIniciada: React.Dispatch<React.SetStateAction<boolean>>,
   idJugador: number,
   idPartida: number
 ) => {
@@ -20,7 +20,7 @@ const ObtenerMensajes = (
     }
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
     else if (message.type === 'IniciarPartida') {
-      SetList(true);
+      setPartidaIniciada(true);
       handleIniciarPartida(message, idJugador, idPartida);
       borrarJugadoresUnidos();
     }
