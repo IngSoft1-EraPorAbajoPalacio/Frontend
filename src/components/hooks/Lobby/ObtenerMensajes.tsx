@@ -11,7 +11,7 @@ const ObtenerMensajes = (
   idJugador: number,
   idPartida: number
 ) => {
-  socket.onmessage = (event) => {
+  socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);
     // Si el mensaje es de tipo JugadorUnido, actualiza la lista de jugadores en el lobby
     if (message.type === 'JugadorUnido') {
