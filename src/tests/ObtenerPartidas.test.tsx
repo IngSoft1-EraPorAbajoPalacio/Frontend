@@ -36,4 +36,28 @@ describe("obtenerPartidas", () => {
       new Partida(2, "Partida 2", 3, 3),
     ]);
   });
+
+  it("Debería establecer la lista de partidas como vacía si hay un error", async () => {
+    mock.onGet("http://localhost:8000/partidas").reply(500);
+
+    const setLista = vi.fn();
+
+    await act(async () => {
+      await obtenerPartidas(setLista);
+    });
+
+    expect(setLista).toHaveBeenCalledWith([]);
+  });
+
+  it ("Debería establecer la lista de partidas como vacía si la respuesta no es un array", async () => {
+    mock.onGet("http://localhost:8000/partidas").reply(200, { message: "Error" });
+
+    const setLista = vi.fn();
+
+    await act(async () => {
+      await obtenerPartidas(setLista);
+    });
+
+    expect(setLista).toHaveBeenCalledWith([]);
+  });
 });
