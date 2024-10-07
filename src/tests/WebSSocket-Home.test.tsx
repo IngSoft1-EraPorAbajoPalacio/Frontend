@@ -42,6 +42,39 @@ describe('ObtenerMensajes', () => {
     ]);
   });
 
+  it('No debería agregar una partida a la lista de partidas si ya existe', () => {
+    const setPartidas = vi.fn();
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setPartidas);
+
+    // Simulamos un mensaje de tipo NuevaPartida
+    const message = JSON.stringify({
+        type: 'AgregarPartida',
+        data: {
+            idPartida: 5,
+            nombrePartida: 'Partida Nueva',
+            cantJugadoresMin: 3,
+            cantJugadoresMax: 4
+        }
+    });
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se agrega la partida correctamente
+    expect(setPartidas).toHaveBeenCalledWith(expect.any(Function));
+    const updateFunction = setPartidas.mock.calls[0][0];
+    const partidas = updateFunction([
+      new Partida(5, 'Partida Nueva', 3, 4),
+    ]);
+    expect(partidas).toEqual([
+      new Partida(5, 'Partida Nueva', 3, 4),
+    ]);
+  });
+
   it('Debería eliminar una partida de la lista de partidas cuando recibe un mensaje de tipo EliminarPartida', () => {
     const setPartidas = vi.fn();
 
