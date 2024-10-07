@@ -1,7 +1,7 @@
 import { act } from 'react';
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import obtenerPartidas from '../components/hooks/Home/ObtenerPartidas';
+import obtenerPartidas from "../components/hooks/Home/ObtenerPartidas";
 import { afterEach, describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { Partida } from "../types/partidaListada";
 import { partidasMock } from "../data/MockListaPartidas";
@@ -23,7 +23,7 @@ describe("obtenerPartidas", () => {
 
   it("Debería obtener y establecer la lista de partidas correctamente", async () => {
 
-    mock.onGet("http://localhost:8000/partidas").reply(200, { partidas: partidasMock });
+    mock.onGet("http://localhost:8000/partidas").reply(200, partidasMock);
 
     const setLista = vi.fn();
 
