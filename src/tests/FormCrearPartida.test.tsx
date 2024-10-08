@@ -5,8 +5,6 @@ import { vi } from 'vitest';
 
 const mockedSets = vi.fn(); 
 const mockMaxLonNombres = 20;
-const mockMinPlayers = 2;
-const mockMaxPlayers = 4;
 
 test('render formulario de creacion', () => {
     render(<FormCreateRoom setIdPartida={mockedSets} setIdJugador={mockedSets} />);
