@@ -18,7 +18,7 @@ function Lobby() {
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
   const idJugador = Number(playerId);
   const idPartida = Number(gameId);
-  if (isNaN(idJugador) || isNaN(idPartida)) return redirectToNotFound();
+  if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
   useEffect(() => {
     if (partidaEnCurso) redirectToGame(idPartida, idJugador);
