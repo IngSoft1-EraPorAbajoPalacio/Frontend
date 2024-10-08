@@ -3,6 +3,7 @@ import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../typ
 import PasarTurno from "../../../hooks/Game/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../../context/GameContext";
 import { SetStateAction } from "react";
+import Abandono from "../Abandono/Abandono";
 
 const EXT = ".svg";
 
@@ -47,7 +48,7 @@ export function MostrarMovimientos({ partida, setPartida, turnoActual }: Mostrar
 
     return (
         <div id='ManoJugador'>
-            <button>Abandonar Partida</button>
+            <Abandono />
             {jugadordado?.id === turnoActual ?
                 <button onClick={handlePasarTurno}>Pasar Turno</button> :
                 <button disabled>Pasar Turno</button>

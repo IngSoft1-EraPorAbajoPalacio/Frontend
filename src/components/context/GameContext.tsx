@@ -21,6 +21,7 @@ export const obtenerPartida = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
+
 export const borrarPartida = () => {
     sessionStorage.clear();
 }
