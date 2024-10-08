@@ -83,3 +83,15 @@ export class PartidaEnCurso {
     this.turnoActual = 1;
   } 
 }
+
+export class Movimiento{
+  carta: CartaMovimiento;
+  primerFicha: Ficha;
+  segundaFicha: Ficha;
+
+  constructor(carta: CartaMovimiento, primerFicha: Ficha, segundaFicha: Ficha) {
+    this.carta = carta;
+    this.primerFicha = primerFicha;
+    this.segundaFicha = segundaFicha;
+  }
+}
