@@ -1,38 +1,54 @@
-import { Jugador, Partida } from "../../types/partidaListada";
+import { Jugador, Partida, JugadoresUnidos } from "../../types/partidaListada";
 import { PartidaEnCurso } from "../../types/partidaEnCurso";
 
-
+// Jugador
 export const guardarJugador = (jugador: Jugador) => {
-    localStorage.setItem('jugador', JSON.stringify(jugador));
+    sessionStorage.setItem('jugador', JSON.stringify(jugador));
 }
 
 export const obtenerJugador = () => {
-    const jugador = localStorage.getItem('jugador');
+    const jugador = sessionStorage.getItem('jugador');
     return jugador ? JSON.parse(jugador) : {};
 };
 
+// Partida
 export const guardarPartida = (partida: Partida) => {
-    localStorage.setItem('partida', JSON.stringify(partida));
+    sessionStorage.setItem('partida', JSON.stringify(partida));
 }
 
 export const obtenerPartida = () => {
-    const partida = localStorage.getItem('partida');
+    const partida = sessionStorage.getItem('partida');
     return partida ? JSON.parse(partida) : {};
 }
 
 export const borrarPartida = () => {
-    localStorage.clear();
+    sessionStorage.clear();
 }
 
+// Partida en curso
 export const guardarPartidaEnCurso = (partida: PartidaEnCurso) => {
-    localStorage.setItem('partidaEnCurso', JSON.stringify(partida));
+    sessionStorage.setItem('partidaEnCurso', JSON.stringify(partida));
 }
 
 export const obtenerPartidaEnCurso = () => {
-    const partida = localStorage.getItem('partidaEnCurso');
+    const partida = sessionStorage.getItem('partidaEnCurso');
     return partida ? JSON.parse(partida) : {};
 }
 
 export const borrarPartidaEnCurso = () => {
-    localStorage.removeItem('partidaEnCurso');
+    sessionStorage.removeItem('partidaEnCurso');
+}
+
+// Jugadores Unidos
+export const guardarJugadoresUnidos = (jugadores: JugadoresUnidos[]) => {
+    sessionStorage.setItem('jugadoresUnidos', JSON.stringify(jugadores));
+}
+
+export const obtenerJugadoresUnidos = () => {
+    const jugadores = sessionStorage.getItem('jugadoresUnidos');
+    return jugadores ? JSON.parse(jugadores) : [];
+}
+
+export const borrarJugadoresUnidos = () => {
+    sessionStorage.removeItem('jugadoresUnidos');
 }

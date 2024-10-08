@@ -81,7 +81,5 @@ export class PartidaEnCurso {
     this.fichas = fichas;
     this.orden = orden;
     this.turnoActual = 1;
-  }
-
-  
+  } 
 }

@@ -1,46 +1,44 @@
-import '../../styles/Home.css';
-import ListarPartidas from '../views/Public/ListarPartidas';
-import { useState } from 'react';
-import { Partida } from '../../types/partidaListada';
-import { guardarPartida } from '../context/GameContext';
-import { FormJoinRoom } from '../forms/JoinRoom/FormJoinRoom';
-import { Overlay } from '../overlay/Overlay';
-import { FormCreateRoom } from '../forms/FormCreateRoom/FormCreateRoom';
+import '../../styles/Home/Home.css';
+import ListarPartidas from '../views/Public/Home/ListarPartidas';
+import { useEffect, useState } from 'react';
+import FormularioUnirsePartida from '../views/Public/Home/FormularioUnirsePartida';
+import Overlay from '../views/Public/Home/Overlay';
+import FormCreateRoom from '../views/Public/Home/FormularioCrearPartida';
+import useRouteNavigation from '../routes/RouteNavigation';
 
 const Home = () => {
-	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
+	const [idPatida, setIdPartida] = useState<number|null>(null);
+	const [idJugador, setIdJugador] = useState<number|null>(null);
 	const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
+	const [tryJoinGame, setTryJoinGame] = useState(idPatida !== null);
 
-	const [tryJoinGame, setTryJoinGame] = useState(partidaElegida !== null);
+	const { redirectToLobby } = useRouteNavigation();
+	const seleccionarCrear = () => setPartidaCreada(true);
 
-	const seleccionarPartida = (partida: Partida) => {
-		console.log('Partida seleccionada:', partida);
-		setPartidaElegida(partida);
-		guardarPartida(partida);
-	};
+	useEffect(() => {
+		if (idJugador !== null && idPatida !== null) redirectToLobby(idPatida, idJugador);
+	}, [idJugador, idPatida]);
 
-	const seleccionarCrear = () => {
-		setPartidaCreada(true);
-	};
+	useEffect(() => {
+        setTryJoinGame(idPatida !== null);
+    }, [idPatida]);
 
 	return (
-		<>
 
-			<div id='home'>
-				<div id='crear'>
-					<button onClick={() => seleccionarCrear()}>Crear partida</button>
-				</div>
-				<div id='unirse'>
-					<ListarPartidas seleccionarPartida={seleccionarPartida} setTryJoinGame={setTryJoinGame} />
-				</div>
-				<Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
-					<FormCreateRoom />
-				</Overlay>
-				<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
-					<FormJoinRoom />
-				</Overlay>
+		<div id='home'>
+			<div id='crear'>
+				<button onClick={() => seleccionarCrear()}>Crear partida</button>
 			</div>
-		</>
+			<div id='unirse'>
+				<ListarPartidas setIdPartida={setIdPartida} />
+			</div>
+			<Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
+				<FormCreateRoom setIdPartida={setIdPartida} setIdJugador={setIdJugador} />
+			</Overlay>
+			<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
+				<FormularioUnirsePartida setIdJugador={setIdJugador} idPartida={idPatida} />
+			</Overlay>
+		</div>
 	);
 }
 
