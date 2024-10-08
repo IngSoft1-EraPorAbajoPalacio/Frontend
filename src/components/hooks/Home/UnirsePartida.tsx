@@ -28,7 +28,10 @@ function UnirsePartida(
                 guardarJugador({ id: mensaje.idJugador, nombre: data.nombreJugador, isHost: false });
                 guardarJugadoresUnidos(mensaje.unidos);
                 setIdJugador(mensaje.idJugador);
-            } else {
+            } else if(response.status === 404){
+                alert("Arctic Monkeys 404 => Partida Llena");
+            } 
+            else {
                 console.error('Error al unirse a una partida.');
             }
             
