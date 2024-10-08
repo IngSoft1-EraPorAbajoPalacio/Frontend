@@ -2,8 +2,6 @@ import FormularioUnirsePartida from "../components/views/Public/Home/FormularioU
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
-import { BrowserRouter } from "react-router-dom";
-import Home from "../components/layouts/Home";
 
 const mockedSets = vi.fn();
 const mockMaxLonNombres = 20;

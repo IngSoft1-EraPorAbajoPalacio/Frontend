@@ -3,8 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 import Home from "../components/layouts/Home";
-import { BrowserRouter, useNavigate } from "react-router-dom";
-import Lobby from "../components/layouts/Lobby";
+import { BrowserRouter } from "react-router-dom";
 
 
 const mockedSets = vi.fn();
