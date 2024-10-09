@@ -7,21 +7,20 @@ if (typeof window === 'undefined') {
   // Estamos en el navegador
   WebSocketClient = WebSocket;
 }
+const createSocketHome = () => {
+  const WS_URL = 'ws://localhost:8000/ws';
 
-const WS_URL = 'ws://localhost:8000/ws';
+  const socketHome = new WebSocketClient(WS_URL);
 
-const socket = new WebSocketClient(WS_URL);
+  socketHome.onopen = () => {
+    console.log('WebSocket connection established');
+  };
 
-socket.onopen = () => {
-  console.log('WebSocket connection established');
-};
+  socketHome.onerror = (error: Event) => {
+    console.error('WebSocket error:', error);
+  };
+  
+  return socketHome;
+}
 
-socket.onerror = (error: Event) => {
-  console.error('WebSocket error:', error);
-};
-
-socket.onclose = () => {
-  console.log('WebSocket connection closed');
-};
-
-export default socket;
+export default createSocketHome;

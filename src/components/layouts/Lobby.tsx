@@ -14,6 +14,7 @@ function Lobby() {
   const [partidaEnCurso, setPartidaEnCurso] = useState(false);
   const [jugador, setJugador] = useState<Jugador>();
   const [partida, setPartida] = useState<Partida>();
+  const [desconexionesLobby, setDesconexionesLobby] = useState(0);
 
   const { redirectToGame, redirectToNotFound } = useRouteNavigation();
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -28,8 +29,16 @@ function Lobby() {
   useEffect(() => {
     const socket = createSocketLobby();
     const cerrarSocketCon = ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, socket);
+    
+    socket.onclose = () => {
+      console.log('WebSocket connection closed for Lobby');
+      setTimeout(() => {
+        setDesconexionesLobby(prev => prev + 1);
+      }, 1000);
+    };
+
     return cerrarSocketCon;
-  }, []);
+  }, [desconexionesLobby]);
 
 
   const handleIniciarPartida = () => {

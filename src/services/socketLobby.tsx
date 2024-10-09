@@ -24,10 +24,6 @@ const createSocketLobby = () => {
     console.error('WebSocket error for Lobby:', error);
   };
 
-  socketLobby.onclose = () => {
-    console.log('WebSocket connection closed for Lobby');
-  };
-
   return socketLobby;
 };
 

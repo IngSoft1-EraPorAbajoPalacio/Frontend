@@ -11,6 +11,7 @@ if (typeof window === 'undefined') {
 }
 
 const createSocketGame = () => {
+
 const partida = obtenerPartida();
 const partidaId = partida.id;
 const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId;
@@ -23,10 +24,6 @@ socketGame.onopen = () => {
 
 socketGame.onerror = (error: Event) => {
   console.error('WebSocket error:', error);
-};
-
-socketGame.onclose = () => {
-  console.log('WebSocket connection closed');
 };
 
   return socketGame;
