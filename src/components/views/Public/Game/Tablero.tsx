@@ -8,7 +8,7 @@ function Tablero () {
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
-        const posicion = x*6+y+1;
+        const posicion = y*6+x+1;
         const color = fichas[posicion-1].color;
 
         return (
@@ -18,15 +18,15 @@ function Tablero () {
         )
     }
     
-    const Fila: React.FC<{ x: posicion }> = ({ x }) => {
+    const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
             <div className='Tablero-fila'>
-                <Cuadro x={x} y={0} />
-                <Cuadro x={x} y={1} />
-                <Cuadro x={x} y={2} />
-                <Cuadro x={x} y={3} />
-                <Cuadro x={x} y={4} />
-                <Cuadro x={x} y={5} />
+                <Cuadro y={y} x={0} />
+                <Cuadro y={y} x={1} />
+                <Cuadro y={y} x={2} />
+                <Cuadro y={y} x={3} />
+                <Cuadro y={y} x={4} />
+                <Cuadro y={y} x={5} />
             </div>
         )
     }
@@ -34,12 +34,12 @@ function Tablero () {
     return (
         <>
             <div className='Tablero-columna'>
-                <Fila x={0} />
-                <Fila x={1} />
-                <Fila x={2} />
-                <Fila x={3} />
-                <Fila x={4} />
-                <Fila x={5} />
+                <Fila y={0} />
+                <Fila y={1} />
+                <Fila y={2} />
+                <Fila y={3} />
+                <Fila y={4} />
+                <Fila y={5} />
             </div>
         </>
     )
