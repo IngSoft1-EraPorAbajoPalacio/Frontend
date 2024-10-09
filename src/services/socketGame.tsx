@@ -31,5 +31,4 @@ socketGame.onclose = () => {
 
   return socketGame;
 }
-
 export default createSocketGame;
