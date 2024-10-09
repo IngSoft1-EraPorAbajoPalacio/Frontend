@@ -1,4 +1,4 @@
-import socket from "../../../services/sockets";
+import socket from "../../../services/socketLobbyAndGame";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (setTurnoActual: React.Dispatch<React.SetStateAction<number|null>>) => {    
