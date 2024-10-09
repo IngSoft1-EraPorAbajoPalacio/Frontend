@@ -1,4 +1,4 @@
-import socket from "../../../services/socketLobbyAndGame";
+import socket from "../../../services/socketLobby";
 import { borrarJugadoresUnidos } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
