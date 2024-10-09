@@ -29,7 +29,7 @@ function Lobby() {
     const socket = createSocketLobby();
     const cerrarSocketCon = ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, socket);
     return cerrarSocketCon;
-  }, [idJugador, idPartida]);
+  }, []);
 
 
   const handleIniciarPartida = () => {

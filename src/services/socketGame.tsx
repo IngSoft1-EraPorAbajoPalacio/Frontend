@@ -9,22 +9,27 @@ if (typeof window === 'undefined') {
   // Estamos en el navegador
   WebSocketClient = WebSocket;
 }
+
+const createSocketGame = () => {
 const partida = obtenerPartida();
 const partidaId = partida.id;
-const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId ;
+const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId;
 
-const socket = new WebSocketClient(WS_URL);
+const socketGame = new WebSocketClient(WS_URL);
 
-socket.onopen = () => {
+socketGame.onopen = () => {
   console.log('WebSocket connection established');
 };
 
-socket.onerror = (error: Event) => {
+socketGame.onerror = (error: Event) => {
   console.error('WebSocket error:', error);
 };
 
-socket.onclose = () => {
+socketGame.onclose = () => {
   console.log('WebSocket connection closed');
 };
 
-export default socket;
+  return socketGame;
+}
+
+export default createSocketGame;

@@ -12,7 +12,7 @@ if (typeof window === 'undefined') {
 const createSocketLobby = () => {
   const partida = obtenerPartida();
   const partidaId = partida.id;
-  const WS_URL = `ws://localhost:8000/ws/lobby/${partidaId}`;
+  const WS_URL = 'ws://localhost:8000/ws/lobby/' + partidaId;
 
   const socketLobby = new WebSocketClient(WS_URL);
 

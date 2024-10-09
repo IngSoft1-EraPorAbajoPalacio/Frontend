@@ -14,10 +14,10 @@ function ListarPartidas({setIdPartida}: ListarPartidasProps) {
   // Se ejecuta solamnte al montar el componente
   useEffect(() => {
     obtenerPartidas(setPartidas);
+    ObtenerMensajes(setPartidas);
   }, []);
 
-  ObtenerMensajes(setPartidas);
-
+  
   return (
     <>
       {partidas.map((partida) => (
