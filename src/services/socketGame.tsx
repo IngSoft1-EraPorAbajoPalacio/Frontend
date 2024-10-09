@@ -11,7 +11,7 @@ if (typeof window === 'undefined') {
 }
 const partida = obtenerPartida();
 const partidaId = partida.id;
-const WS_URL = `ws://localhost:8000/ws/game/${partidaId}`;
+const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId ;
 
 const socket = new WebSocketClient(WS_URL);
 

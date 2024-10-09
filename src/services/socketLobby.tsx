@@ -9,22 +9,26 @@ if (typeof window === 'undefined') {
   // Estamos en el navegador
   WebSocketClient = WebSocket;
 }
-const partida = obtenerPartida();
-const partidaId = partida.id;
-const WS_URL = `ws://localhost:8000/ws/lobby/${partidaId}`;
+const createSocketLobby = () => {
+  const partida = obtenerPartida();
+  const partidaId = partida.id;
+  const WS_URL = `ws://localhost:8000/ws/lobby/${partidaId}`;
 
-const socket = new WebSocketClient(WS_URL);
+  const socketLobby = new WebSocketClient(WS_URL);
 
-socket.onopen = () => {
-  console.log('WebSocket connection established');
+  socketLobby.onopen = () => {
+    console.log('WebSocket connection established for Lobby');
+  };
+
+  socketLobby.onerror = (error: Event) => {
+    console.error('WebSocket error for Lobby:', error);
+  };
+
+  socketLobby.onclose = () => {
+    console.log('WebSocket connection closed for Lobby');
+  };
+
+  return socketLobby;
 };
 
-socket.onerror = (error: Event) => {
-  console.error('WebSocket error:', error);
-};
-
-socket.onclose = () => {
-  console.log('WebSocket connection closed');
-};
-
-export default socket;
+export default createSocketLobby;

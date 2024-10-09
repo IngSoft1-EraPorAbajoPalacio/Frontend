@@ -1,4 +1,3 @@
-import socket from "../../../services/socketLobby";
 import { borrarJugadoresUnidos } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
@@ -9,7 +8,8 @@ const ObtenerMensajes = (
   setContador: React.Dispatch<React.SetStateAction<number>>,
   setPartidaIniciada: React.Dispatch<React.SetStateAction<boolean>>,
   idJugador: number,
-  idPartida: number
+  idPartida: number,
+  socket : any
 ) => {
   socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);

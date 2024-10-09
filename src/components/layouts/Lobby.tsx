@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Jugador , Partida } from '../../types/partidaListada';
 import '../../styles/Lobby/Lobby.css';
 import useRouteNavigation from '../routes/RouteNavigation';
+import createSocketLobby from '../../services/socketLobby';
 
 function Lobby() {
   const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(obtenerJugadoresUnidos());
@@ -24,7 +25,12 @@ function Lobby() {
     if (partidaEnCurso) redirectToGame(idPartida, idJugador);
   }, [partidaEnCurso]);
 
-  ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida);
+  useEffect(() => {
+    const socket = createSocketLobby();
+    const cerrarSocketCon = ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, socket);
+    return cerrarSocketCon;
+  }, [idJugador, idPartida]);
+
 
   const handleIniciarPartida = () => {
     if (partida && jugador) {

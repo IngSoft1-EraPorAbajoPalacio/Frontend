@@ -1,5 +1,5 @@
 import { Partida } from "../../../types/partidaListada";
-import socket from "../../../services/socketHome";
+import socket from "../../../services/sockets";
 
 // Escucha los mensajes del servidor para agregar o eliminar una partida
 const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>) => {
