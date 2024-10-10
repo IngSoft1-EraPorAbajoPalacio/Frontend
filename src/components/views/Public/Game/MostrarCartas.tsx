@@ -44,11 +44,11 @@ export function MostrarMovimientos({ partida, setPartida, turnoActual }: Mostrar
         }
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
-    }    
+    }   
 
     return (
         <div id='ManoJugador'>
-            <Abandono />
+            <Abandono pasarTurno={handlePasarTurno} turnoActual={turnoActual}/>
             {jugadordado?.id === turnoActual ?
                 <button onClick={handlePasarTurno}>Pasar Turno</button> :
                 <button disabled>Pasar Turno</button>

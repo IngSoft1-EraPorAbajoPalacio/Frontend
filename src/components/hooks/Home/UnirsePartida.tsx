@@ -1,4 +1,4 @@
-import { guardarJugador, guardarJugadoresUnidos, guardarPartidaId } from "../../context/GameContext";
+import { guardarJugador, guardarJugadoresUnidos } from "../../context/GameContext";
 
 // Llamada a la API para unirse a una partida
 function UnirsePartida(
@@ -10,7 +10,6 @@ function UnirsePartida(
     e.preventDefault();
     const partida = IdPartida;
     const data = { nombreJugador: alias }; // Crea un objeto con la propiedad esperada
-    IdPartida ? guardarPartidaId(IdPartida) : {};
 
     const options = {
         method: 'POST',

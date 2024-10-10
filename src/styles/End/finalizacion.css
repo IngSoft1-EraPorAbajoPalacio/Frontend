@@ -1,8 +1,8 @@
 .gano_perdio {
     position: fixed;
-    left: 370px;
-    top: 120px;
-    font-size: 130px;
+    left: 470px;
+    top: 310px;
+    font-size: 150px;
 }
 
 .ganador {
@@ -11,3 +11,22 @@
     top: 10px;
 }
 
+ .trofeopic {
+        position: fixed;
+        left: 680px;
+        top: 130px;
+        width: 200px;
+        height: 200px;
+}
+
+
+.botoninicio {
+    position: fixed;
+    bottom: 25px;
+    right: 30px;
+    padding: 10px 20px;
+    background: #555;
+    color: #fff;
+    cursor: 'pointer';
+    font-size: 16px;
+}

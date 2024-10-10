@@ -1,10 +1,14 @@
 import { useState } from "react";
 import Modal from "./Modal";
-import { obtenerJugador, obtenerPartida } from "../../../context/GameContext";
+import { obtenerJugador, obtenerPartida, borrarPartidaEnCurso } from "../../../context/GameContext";
 import useRouteNavigation from "../../../routes/RouteNavigation";
 import { HandleAbandono } from "../../../hooks/Abandono/Abandonar";
 
-export default function Abandono() {
+
+export default function Abandono({ pasarTurno, turnoActual }: {
+    pasarTurno: () => void;
+    turnoActual: number | null;
+}) {
     const [isModalOpen, setModalOpen] = useState(false);
     const { redirectToHome } = useRouteNavigation();
     const idPartida = obtenerPartida().id;
@@ -14,14 +18,18 @@ export default function Abandono() {
         setModalOpen(true);
     };
     
-      // Handle closing the modal
+  
     const closeModal = () => {
         setModalOpen(false);
     };
-    
-      // Handle confirm action
+
+
     const confirmAction = () => {
-        HandleAbandono(idPartida, idJugador);     
+        HandleAbandono(idPartida, idJugador);  
+        console.log(idJugador,turnoActual);
+        idJugador === turnoActual ? pasarTurno() : {};  //esto no esta funcionando
+        borrarPartidaEnCurso();
+        
         redirectToHome();
     };
 

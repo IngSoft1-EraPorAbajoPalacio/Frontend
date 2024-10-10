@@ -5,13 +5,17 @@ import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useState } from "react";
 import { obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
+import useRouteNavigation from "../routes/RouteNavigation";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
 
-    ObtenerMensajes(setTurnoActual);        
-        
+    const { redirectToEnd } = useRouteNavigation(); 
+
+    ObtenerMensajes(setTurnoActual, setPartida, partida, redirectToEnd);
+            
+  
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
     const jugador3 = (partida && partida.cantJugadores > 2) ? partida.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida.orden[2]) : null;
