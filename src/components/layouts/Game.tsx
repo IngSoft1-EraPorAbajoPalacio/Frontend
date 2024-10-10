@@ -20,7 +20,7 @@ function Juego () {
             console.log('WebSocket connection closed');
             setTimeout(() => {
                 setDesconexionesGame(prev => prev + 1);
-              }, 1000);
+            }, 1000);
         };
         return cerrarSocketCon;
     }, [desconexionesGame]);

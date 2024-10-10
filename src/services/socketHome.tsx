@@ -1,7 +1,7 @@
 let WebSocketClient;
 
 if (typeof window === 'undefined') {
-  // Estamos en un entorno de pruebas (Node.js)
+  // Estamos en un entorno de pruebas
   WebSocketClient = require('ws');
 } else {
   // Estamos en el navegador
@@ -18,6 +18,10 @@ const createSocketHome = () => {
 
   socketHome.onerror = (error: Event) => {
     console.error('WebSocket error:', error);
+  };
+
+  socketHome.onclose = () => {
+    console.log('WebSocket connection closed');
   };
   
   return socketHome;

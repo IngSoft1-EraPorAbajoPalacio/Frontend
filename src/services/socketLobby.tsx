@@ -3,7 +3,7 @@ import { obtenerPartida } from "../components/context/GameContext";
 let WebSocketClient;
 
 if (typeof window === 'undefined') {
-  // Estamos en un entorno de pruebas (Node.js)
+  // Estamos en un entorno de pruebas
   WebSocketClient = require('ws');
 } else {
   // Estamos en el navegador
@@ -22,6 +22,10 @@ const createSocketLobby = () => {
 
   socketLobby.onerror = (error: Event) => {
     console.error('WebSocket error for Lobby:', error);
+  };
+
+  socketLobby.onclose = () => {
+    console.log('WebSocket connection closed for Lobby');
   };
 
   return socketLobby;

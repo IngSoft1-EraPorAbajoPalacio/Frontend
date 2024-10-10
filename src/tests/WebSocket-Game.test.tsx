@@ -2,19 +2,30 @@
 import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
-import socket from '../services/sockets';
+import createSocketGame from '../services/socketGame';
 
 // Mockeamos el módulo de socket
-vi.mock('../services/sockets', () => ({
+vi.mock('../services/socketGame', () => ({
   default: {onmessage: vi.fn()},
 }));
 
 describe('ObtenerMensajes', () => {
+
+  let socket: any;
+
+  beforeAll(() => {
+    socket = createSocketGame;
+  });
+
+  afterAll(() => {
+    socket.close;
+  });
+
   it('Debería actualizar el turno actual cuando recibe un mensaje de tipo PasarTurno', () => {
     const setTurnoActual = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual);
+    ObtenerMensajes(setTurnoActual, socket);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2 });
@@ -33,7 +44,7 @@ describe('ObtenerMensajes', () => {
     const setTurnoActual = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual);
+    ObtenerMensajes(setTurnoActual, socket);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
