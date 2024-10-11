@@ -12,9 +12,7 @@ export const HandleAbandono = (idPartida: number, idJugador: number) => {
                     'Content-Type': 'application/json',
                 }});
             
-            if (response.status === 202) {                            
-                console.log('Jugador con id ' + idJugador + ' ha abandonado exitosamente la partida');
-            } else {
+            if (response.status !== 202) {                            
                 throw new Error("Error al abandonar");
             }
         } catch (error) {

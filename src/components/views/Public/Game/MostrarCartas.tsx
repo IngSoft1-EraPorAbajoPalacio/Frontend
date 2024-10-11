@@ -13,8 +13,11 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
     const cartasSrc: string[] = cartas.map(carta => {
         if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
-        else if (carta.figura <= 18) return PATH + carta.figura + EXT;
-        else return PATH + "0" + (carta.figura-18) + EXT;
+        else if (carta.figura <= 25) return PATH + carta.figura + EXT;
+        else{
+            console.error("Error. No existe la carta: " + carta.figura);
+            return "";
+        }
     });
 
     return (
@@ -48,7 +51,7 @@ export function MostrarMovimientos({ partida, setPartida, turnoActual }: Mostrar
 
     return (
         <div id='ManoJugador'>
-            <Abandono pasarTurno={handlePasarTurno} turnoActual={turnoActual}/>
+            <Abandono turnoActual={turnoActual}/>
             {jugadordado?.id === turnoActual ?
                 <button onClick={handlePasarTurno}>Pasar Turno</button> :
                 <button disabled>Pasar Turno</button>
