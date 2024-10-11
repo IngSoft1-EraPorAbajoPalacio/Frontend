@@ -20,32 +20,23 @@ export const ObtenerMensajes = (
         console.log("Handling 'PasarTurno'");
         setTurnoActual(message.turno);
 
-      } else if (message.type === 'TerminarPartida') {
-        console.log("Handling 'TerminarPartida'");
-        window.alert(`No quedan más jugadores en la partida`);
+      } else if (message.type === 'PartidaEliminada') {
+        console.log("Handling 'PartidaEliminada'");
         borrarPartidaEnCurso();
         redirectToEnd(message.data.idPartida, jugadorRestante);
         
       } else if (message.type === "AbandonarPartida") {
         console.log("Handling 'AbandonarPartida'");
         const jugadorAbandonaId = message.data.idJugador; 
-        let nombreJug = "";
-                
+                        
         if (partidaActual) { 
-              const nuevaPartida: PartidaEnCurso = {
-                ...partidaActual,
-                jugadores: partidaActual.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== jugadorAbandonaId),
-            };
+          const nuevaPartida: PartidaEnCurso = {
+            ...partidaActual,
+            jugadores: partidaActual.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== jugadorAbandonaId),
+          };
 
-        const jugadorAbandona = partidaActual.jugadores.find(
-            (jugador: JugadorEnCurso) => jugador.id === jugadorAbandonaId
-        );
-
-        if (jugadorAbandona) nombreJug = jugadorAbandona.nombre;
-          
           setPartida(nuevaPartida);
         }
-        window.alert(`${nombreJug} ha abandonado la partida`);
       }
     };
 
