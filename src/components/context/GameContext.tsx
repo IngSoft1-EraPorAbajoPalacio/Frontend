@@ -11,6 +11,10 @@ export const obtenerJugador = () => {
     return jugador ? JSON.parse(jugador) : {};
 };
 
+export const borrarJugador = () => {
+    sessionStorage.removeItem('jugador');
+}
+
 // Partida
 export const guardarPartida = (partida: Partida) => {
     sessionStorage.setItem('partida', JSON.stringify(partida));
@@ -20,6 +24,7 @@ export const obtenerPartida = () => {
     const partida = sessionStorage.getItem('partida');
     return partida ? JSON.parse(partida) : {};
 }
+
 
 export const borrarPartida = () => {
     sessionStorage.clear();

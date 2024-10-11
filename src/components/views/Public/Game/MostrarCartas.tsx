@@ -3,6 +3,7 @@ import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../typ
 import PasarTurno from "../../../hooks/Game/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../../context/GameContext";
 import { SetStateAction } from "react";
+import Abandono from "../Abandono/Abandono";
 
 const EXT = ".svg";
 
@@ -13,8 +14,10 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
     const cartasSrc: string[] = cartas.map(carta => {
         if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
         else if (carta.figura <= 25) return PATH + carta.figura + EXT;
-        else {console.error("Error carta número");
-            return "";}
+        else{
+            console.error("Error. No existe la carta: " + carta.figura);
+            return "";
+        }
     });
 
     return (
@@ -44,11 +47,11 @@ export function MostrarMovimientos({ partida, setPartida, turnoActual }: Mostrar
         }
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
-    }    
+    }   
 
     return (
         <div id='ManoJugador'>
-            <button>Abandonar Partida</button>
+            <Abandono turnoActual={turnoActual}/>
             {jugadordado?.id === turnoActual ?
                 <button onClick={handlePasarTurno}>Pasar Turno</button> :
                 <button disabled>Pasar Turno</button>

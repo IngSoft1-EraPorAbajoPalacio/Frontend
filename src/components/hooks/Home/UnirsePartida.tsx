@@ -1,12 +1,12 @@
 import { guardarJugador, guardarJugadoresUnidos } from "../../context/GameContext";
 
 // Llamada a la API para unirse a una partida
-function UnirsePartida(
+const UnirsePartida = async (
     e: React.FormEvent<HTMLFormElement>, 
     alias: string,
     setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
     IdPartida: number|null
-) {
+) => {
     e.preventDefault();
     const partida = IdPartida;
     const data = { nombreJugador: alias }; // Crea un objeto con la propiedad esperada

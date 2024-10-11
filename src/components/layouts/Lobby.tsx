@@ -7,6 +7,7 @@ import { Jugador , Partida } from '../../types/partidaListada';
 import '../../styles/Lobby/Lobby.css';
 import useRouteNavigation from '../routes/RouteNavigation';
 import createSocketLobby from '../../services/socketLobby';
+import { HandleAbandono } from '../hooks/Abandono/Abandonar';
 
 function Lobby() {
   const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(obtenerJugadoresUnidos());
@@ -16,7 +17,7 @@ function Lobby() {
   const [partida, setPartida] = useState<Partida>();
   const [desconexionesLobby, setDesconexionesLobby] = useState(0);
 
-  const { redirectToGame, redirectToNotFound } = useRouteNavigation();
+  const { redirectToGame, redirectToNotFound, redirectToHome } = useRouteNavigation();
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
   const idJugador = Number(playerId);
   const idPartida = Number(gameId);
@@ -47,6 +48,11 @@ function Lobby() {
     }
   };
 
+  const handleAbandono = () => {
+    HandleAbandono(idPartida, idJugador);  
+    redirectToHome();
+  }
+
   useEffect(() => {
     setJugador(obtenerJugador());
     setPartida(obtenerPartida());
@@ -62,12 +68,11 @@ function Lobby() {
               <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
             ))}
           </ul>
-
           {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
             <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
+          {jugador && !jugador.isHost && (<button className='lobby-abandono' onClick={handleAbandono}>Abandonar</button>)}
         </div>
-      
     </>
   );
 }
