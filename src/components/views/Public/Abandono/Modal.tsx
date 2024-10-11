@@ -38,6 +38,7 @@ const styles = {
     borderRadius: '5px',
     textAlign: 'center' as 'center',
     width: '300px',
+    color: '#000',
   },
   cancelButton: {
     backgroundColor: 'red',

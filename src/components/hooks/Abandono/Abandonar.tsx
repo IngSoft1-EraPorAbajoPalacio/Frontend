@@ -5,7 +5,6 @@ export const HandleAbandono = (idPartida: number, idJugador: number) => {
     
     const asyncDelete = async () => {
         try {           
-            console.log(idJugador, idPartida);
             const url = `http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}`;
             const response = await axios.delete(url, {
                 headers: {

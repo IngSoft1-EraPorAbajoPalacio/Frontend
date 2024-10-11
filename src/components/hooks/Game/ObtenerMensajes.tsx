@@ -17,16 +17,13 @@ export const ObtenerMensajes = (
       const message = JSON.parse(event.data);
 
       if (message.type === 'PasarTurno') {
-        console.log("Handling 'PasarTurno'");
         setTurnoActual(message.turno);
 
       } else if (message.type === 'PartidaEliminada') {
-        console.log("Handling 'PartidaEliminada'");
         borrarPartidaEnCurso();
         redirectToEnd(message.data.idPartida, jugadorRestante);
         
       } else if (message.type === "AbandonarPartida") {
-        console.log("Handling 'AbandonarPartida'");
         const jugadorAbandonaId = message.data.idJugador; 
                         
         if (partidaActual) { 
