@@ -1,8 +1,13 @@
 import "../../../../styles/Game/Juego.css";
 import { posicion } from '../../../../types/partidaEnCurso';
+<<<<<<< HEAD
 import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
 import { Ficha } from "../../../../types/partidaEnCurso";
 import React, { useState } from "react";
+=======
+import { obtenerPartidaEnCurso } from '../../../context/GameContext';
+import { marcaFiguras } from "../../../hooks/Game/DeclararFiguras";
+>>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
 
 interface TableroParams {
     setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
@@ -10,6 +15,7 @@ interface TableroParams {
     idJugador: number | null
 }
 
+<<<<<<< HEAD
 function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroParams) {
 
     const fichas = obtenerFichasTablero();
@@ -46,6 +52,18 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
 
         }
     }
+=======
+    const fichas = obtenerPartidaEnCurso().fichas;
+    const actualizarFigDeclarada = (fichaNum : number) => {
+        const baseStyle: string = "Tablero-casilla";
+        const marcaStyle: string = `${baseStyle} Figura-formada`;
+        if(fichaNum in marcaFiguras){
+            return marcaStyle;
+        } else{
+            return baseStyle;
+        }
+    };
+>>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
@@ -55,6 +73,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
         const [seleccionada, setSeleccionada] = useState<boolean>( fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false );
 
         return (
+<<<<<<< HEAD
             <div key={posicion} className='Tablero-casilla'>
                 { turnoActual === idJugador ?
                     <button
@@ -67,6 +86,10 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
                         disabled={true}
                     ></button>
                 }
+=======
+            <div key={posicion} className={actualizarFigDeclarada(posicion)}>
+                <button className={color}></button>
+>>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
             </div>
         )
     }

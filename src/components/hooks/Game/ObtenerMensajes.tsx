@@ -1,4 +1,5 @@
 import {Coord, Figura, Figuras} from "../../../types/figura"
+import {fichasMarcadas, limpiarFigMarcadas} from "./DeclararFiguras"
 
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
@@ -122,21 +123,17 @@ const ObtenerMensajes = (
 };
 
 const declararFiguras = (figurasJson : any) => {
-  desmarcarFichasCajon();
+  limpiarFigMarcadas();
   const figuras : Figuras = JSON.parse(figurasJson);
   figuras.figura.forEach((fig : Figura ) => {
     fig.coordenadas.forEach((coord : Coord ) =>{
-      marcarFichaCajon(coord);
+      let numFichaCajon : number = coord[1]*6 + coord[0] + 1;
+      fichasMarcadas(numFichaCajon);
     })
   });
 };
 
-const desmarcarFichasCajon = () => {
 
-};
-const marcarFichaCajon = (coordenada : Coord) => {
-
-};
 
 const declararFiguras = (figurasJson : any) => {
   desmarcarFichasCajon();
