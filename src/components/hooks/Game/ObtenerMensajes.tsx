@@ -1,3 +1,5 @@
+import {Coord, Figura, Figuras} from "../../../types/figura"
+
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
@@ -84,6 +86,9 @@ const ObtenerMensajes = (
       // Setea el movimiento
       setMovimientoDeshecho(true);
 
+    
+    } else if (message.type === 'DeclararFiguras') {
+      declararFiguras(message.figuras);
     }
 
     // Si el mensaje es de tipo DeshacerMovimientos
@@ -114,6 +119,40 @@ const ObtenerMensajes = (
       setMovimientosJugados(0);
     }
   }
+};
+
+const declararFiguras = (figurasJson : any) => {
+  desmarcarFichasCajon();
+  const figuras : Figuras = JSON.parse(figurasJson);
+  figuras.figura.forEach((fig : Figura ) => {
+    fig.coordenadas.forEach((coord : Coord ) =>{
+      marcarFichaCajon(coord);
+    })
+  });
+};
+
+const desmarcarFichasCajon = () => {
+
+};
+const marcarFichaCajon = (coordenada : Coord) => {
+
+};
+
+const declararFiguras = (figurasJson : any) => {
+  desmarcarFichasCajon();
+  const figuras : Figuras = JSON.parse(figurasJson);
+  figuras.figura.forEach((fig : Figura ) => {
+    fig.coordenadas.forEach((coord : Coord ) =>{
+      marcarFichaCajon(coord);
+    })
+  });
+};
+
+const desmarcarFichasCajon = () => {
+
+};
+const marcarFichaCajon = (coordenada : Coord) => {
+
 };
 
 export default ObtenerMensajes;
