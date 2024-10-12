@@ -19,15 +19,15 @@ const createSocketGame = () => {
   const socketGame = new WebSocketClient(WS_URL);
 
   socketGame.onopen = () => {
-    console.log('WebSocket connection established');
+    console.log('WebSocket connection established for Game');
   };
 
   socketGame.onerror = (error: Event) => {
-    console.error('WebSocket error:', error);
+    console.error('WebSocket error for Game:', error);
   };
 
   socketGame.onclose = () => {
-    console.log('WebSocket connection closed');
+    console.log('WebSocket connection closed for Game');
   };
 
   return socketGame;

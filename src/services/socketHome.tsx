@@ -13,15 +13,15 @@ const createSocketHome = () => {
   const socketHome = new WebSocketClient(WS_URL);
 
   socketHome.onopen = () => {
-    console.log('WebSocket connection established');
+    console.log('WebSocket connection established for Home');
   };
 
   socketHome.onerror = (error: Event) => {
-    console.error('WebSocket error:', error);
+    console.error('WebSocket error for Home:', error);
   };
 
   socketHome.onclose = () => {
-    console.log('WebSocket connection closed');
+    console.log('WebSocket connection closed for Home');
   };
   
   return socketHome;

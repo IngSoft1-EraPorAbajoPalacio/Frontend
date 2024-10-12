@@ -2,7 +2,7 @@
 import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Lobby/ObtenerMensajes';
-import createSocketGame from '../services/socketGame';
+import createSocketGame from '../services/socketLobby';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/sockets', () => ({
