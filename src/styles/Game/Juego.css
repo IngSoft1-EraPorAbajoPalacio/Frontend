@@ -186,4 +186,39 @@
 #ManoJugador button:hover {
     background-color: #c9b791d8;
     border-radius: 8px;
+
 }
+
+@keyframes casilla-animada {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    25% {
+        opacity: 0.7;
+        transform: scale(0.97) rotate(1.2deg);
+        background-color: #8d8a8a;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.02) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    75% {
+        opacity: 0.7;
+        transform: scale(0.97) rotate(-1.2deg);
+        background-color: #8d8a8a;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+}
+
