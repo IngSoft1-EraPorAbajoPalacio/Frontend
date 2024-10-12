@@ -2,7 +2,7 @@
 import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Lobby/ObtenerMensajes';
-import createSocketGame from '../services/socketLobby';
+import createSocketLobby from '../services/socketLobby';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/sockets', () => ({
@@ -13,7 +13,7 @@ describe('ObtenerMensajes', () => {
     let socket: any;
 
     beforeAll(() => {
-    socket = createSocketGame;
+    socket = createSocketLobby;
     });
 
     afterAll(() => {

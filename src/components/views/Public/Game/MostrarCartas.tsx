@@ -13,7 +13,7 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
     const cartasSrc: string[] = cartas.map(carta => {
         if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
         else if (carta.figura <= 25) return PATH + carta.figura + EXT;
-        else {console.error("Error carta número")
+        else {console.error("Error carta número");
             return "";}
     });
 
