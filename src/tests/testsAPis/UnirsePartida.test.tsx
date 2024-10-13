@@ -2,17 +2,22 @@ import { describe, it, expect, vi } from 'vitest';
 import UnirsePartida from '../../components/hooks/Home/UnirsePartida';
 import { act } from 'react';
 import { beforeEach } from 'vitest';
+import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
 
 
 describe('UnirsePartida', () => {
     beforeEach(() => {
-        // Clear all instances and calls to constructor and all methods:
         vi.clearAllMocks();
     });
 
+    vi.mock('../../components/context/GameContext', () => ({
+        guardarJugador: vi.fn(),
+        guardarJugadoresUnidos: vi.fn(),
+    }));
+
     it('Deberia mandar correctamente al metodo POST', async () => {
         // Mock response
-        const mockResponse = { idJugador: 1 };
+        const mockResponse = { idJugador: 1, unidos: [{id: 2, nombre: 'pepito'},{id: 1, nombre: 'pepe'}] };
 
         // Mock fetch
         const mockFetch = vi.fn().mockResolvedValue({
@@ -25,9 +30,8 @@ describe('UnirsePartida', () => {
         const mockSetIdJugador = vi.fn();
         const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
         const alias = 'Pepe';
-        const IdPartida = 1; // Example ID
+        const IdPartida = 1; 
 
-        // Call UnirsePartida
         await act(async () => {
             await UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
         });
@@ -38,6 +42,13 @@ describe('UnirsePartida', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombreJugador: alias }),
         });
+
+        // check the call to other functions were made with the correct parameters
+        expect(guardarJugador).toHaveBeenCalledWith({ id: 1, nombre: 'Pepe', isHost: false });
+
+        expect(guardarJugadoresUnidos).toHaveBeenCalledWith(mockResponse.unidos);
+
+        expect(mockSetIdJugador).toHaveBeenCalledWith(mockResponse.idJugador);
        
     });
 });

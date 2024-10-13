@@ -6,8 +6,8 @@ describe('CrearPartida', () => {
     it('Deberia llamar correctamente al metodo POST', async () => {
         // Mock response
         const mockResponse = {
-            id_partida: 1, // Use any value for testing
-            id_jugador: 1,  // Use any value for testing
+            id_partida: 1, 
+            id_jugador: 1,  
         };
 
         // Mock fetch
@@ -32,15 +32,12 @@ describe('CrearPartida', () => {
             maxPlayers: 4,
         };
 
-        // Call CrearPartida
         await act(async () => {
             await CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
         });
 
-        // Destructure the mock response to use in assertions
-        const { id_partida, id_jugador } = mockResponse;
-       // await new Promise(setImmediate);
         
+        const { id_partida, id_jugador } = mockResponse;        
 
         // Check that fetch was called with the correct URL and options
         expect(mockFetch).toHaveBeenCalledWith('http://127.0.0.1:8000/partida', {
@@ -59,8 +56,8 @@ describe('CrearPartida', () => {
         
         expect(mockSetForm).toHaveBeenCalledWith({
             ...formInputs,
-            idRoom: id_partida, // This should match the mock response
-            idPlayer: id_jugador, // This should match the mock response
+            idRoom: id_partida, 
+            idPlayer: id_jugador,
         });
     });
 
@@ -93,7 +90,7 @@ describe('CrearPartida', () => {
         maxPlayers: 4,
     };
 
-    // Call CrearPartida
+
     await CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
 
     // Ensure setForm, setIdJugador, and setIdPartida were not called

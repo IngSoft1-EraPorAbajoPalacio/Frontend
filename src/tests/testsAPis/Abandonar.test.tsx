@@ -5,7 +5,7 @@ import { act } from 'react';
 
 describe('HandleAbandono', () => {
     it('Deberia llamar al metodo DELETE correctamente', async () => {
-        // Mocking axios.delete to resolve successfully
+       
         const axiosDeleteSpy = vi.spyOn(axios, 'delete').mockResolvedValueOnce({
             status: 202,
         });
@@ -13,7 +13,7 @@ describe('HandleAbandono', () => {
         const idPartida = 1;
         const idJugador = 2;
 
-        // Call HandleAbandono
+        
         await act(async () => {
             await HandleAbandono(idPartida, idJugador);
         });        
@@ -25,7 +25,6 @@ describe('HandleAbandono', () => {
             },
         });
 
-        // Restore the original axios.delete
         axiosDeleteSpy.mockRestore();
     });
 
@@ -36,13 +35,13 @@ describe('HandleAbandono', () => {
         const idPartida = 1;
         const idJugador = 2;
 
-        // Call HandleAbandono
+        
         await HandleAbandono(idPartida, idJugador);
 
         // Check that the error was logged
         expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Error al abandonar"), expect.any(Error));
 
-        // Restore the original implementations
+
         errorSpy.mockRestore();
         axiosDeleteSpy.mockRestore();
     });
