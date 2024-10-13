@@ -21,6 +21,7 @@ function Juego () {
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [cartaFiguraDescarte, setCartaFiguraDescarte] = useState<string | null>(null);
     const [marcaFiguras, setMarcaFiguras] = useState<number[]>([]);
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
@@ -34,6 +35,7 @@ function Juego () {
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
+
 
 
 
@@ -87,13 +89,25 @@ function Juego () {
         <div id='Juego'>
             <div id="Centro">
                 <div className="ManosHorizontal">
-                    { jugador1 ? <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
-                    { jugador4 ? <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
+                    {jugador1 ?
+                     <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} 
+                     cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                     : <div className="ManoHorizontal"></div>}
+                    {jugador4 ?
+                    <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} 
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                     : <div className="ManoHorizontal"></div>}
                 </div>
-                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} marcaFiguras={marcaFiguras}/>
+                <Tablero marcaFiguras={marcaFiguras} setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
                 <div className="ManosHorizontal">
-                    { jugador2 ? <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
-                    { jugador3 ? <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
+                    {jugador2 ? 
+                    <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} 
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                    : <div className="ManoHorizontal"></div>}
+                    {jugador3 ? 
+                    <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} 
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                    : <div className="ManoHorizontal"></div>}
                 </div>
             </div>
             <div id='ManoJugador'>
