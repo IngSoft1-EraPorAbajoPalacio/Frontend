@@ -3,6 +3,7 @@ import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../typ
 import PasarTurno from "../../../hooks/Game/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../../context/GameContext";
 import { SetStateAction, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const EXT = ".svg";
 
@@ -10,12 +11,15 @@ interface MostrarFigurasProps{
     jugador: JugadorEnCurso;
     turnoActual: number | null;
     cartaFiguraDescarte: string | null;
-    setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>
+    setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const MostrarFiguras : React.FC<MostrarFigurasProps> = 
 ({jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte}) => {
     const PATH = "/figuras/fig";
+
+    const { playerId } = useParams<{ playerId: string }>();
+    const idJugador = Number(playerId);
 
     const claveCartaFigSeleccionada = (cartaFigNum : number, id :number) =>{
         const cartaFiguraUnica: string = cartaFigNum.toString() + id.toString();
@@ -35,6 +39,7 @@ export const MostrarFiguras : React.FC<MostrarFigurasProps> =
     };
 
     const handleActualizarCartaFigDescarte = (clave : string)=>{
+        if(turnoActual === idJugador)
         setCartaFiguraDescarte(clave);
     }
 
