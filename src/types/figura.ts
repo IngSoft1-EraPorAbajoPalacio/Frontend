@@ -1,4 +1,5 @@
 export interface Figura{
+    tipoFig: number;
     coordenadas: Array<[number, number]>;
 };
 export interface Figuras{
