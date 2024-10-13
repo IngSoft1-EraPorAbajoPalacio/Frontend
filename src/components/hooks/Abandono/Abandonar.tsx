@@ -15,7 +15,7 @@ export const HandleAbandono = (idPartida: number, idJugador: number) => {
                 throw new Error("Error al abandonar");
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error al abandonar', error);
         }
     }
     asyncDelete();

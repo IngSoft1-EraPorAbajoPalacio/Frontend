@@ -5,7 +5,7 @@ import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
-  setJugador: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
+  setJugadores: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
   setContador: React.Dispatch<React.SetStateAction<number>>,
   SetList: React.Dispatch<React.SetStateAction<boolean>>,
   idJugador: number,
@@ -15,7 +15,7 @@ const ObtenerMensajes = (
     const message = JSON.parse(event.data);
     // Si el mensaje es de tipo JugadorUnido, actualiza la lista de jugadores en el lobby
     if (message.type === 'JugadorUnido') {
-      setJugador(message.ListaJugadores);
+      setJugadores(message.ListaJugadores);
       setContador(message.ListaJugadores.length);
     }
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
@@ -23,6 +23,15 @@ const ObtenerMensajes = (
       SetList(true);
       handleIniciarPartida(message, idJugador, idPartida);
       borrarJugadoresUnidos();
+    }
+    else if (message.type === 'AbandonarPartida') {
+      const jugadorQueAbandona = message.data.idJugador;
+        setJugadores((prevJugadores) => {
+        const jugadoresActualizados = prevJugadores.filter((player) => player.id !== jugadorQueAbandona);
+        return jugadoresActualizados;
+      });
+
+      setContador((prevContador) => prevContador > 0 ? prevContador - 1 : 0);
     }
   };
 };
