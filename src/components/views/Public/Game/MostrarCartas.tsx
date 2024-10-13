@@ -39,8 +39,13 @@ export const MostrarFiguras : React.FC<MostrarFigurasProps> =
     };
 
     const handleActualizarCartaFigDescarte = (clave : string)=>{
-        if(turnoActual === idJugador)
-        setCartaFiguraDescarte(clave);
+        if(turnoActual === idJugador){
+            if(cartaFiguraDescarte === clave){ //Ya estaba seleccionada la carta
+                setCartaFiguraDescarte(null); 
+            } else{ //No estaba seleccionada, la seleccionamos
+                setCartaFiguraDescarte(clave);
+            }
+        }
     }
 
     const cartasSrc: string[] = jugador.cartasFigura.map(carta => {
