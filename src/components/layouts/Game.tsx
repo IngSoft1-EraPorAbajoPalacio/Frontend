@@ -21,6 +21,7 @@ function Juego () {
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [marcaFiguras, setMarcaFiguras] = useState<number[]>([]);
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
     const [movimientoDeshecho, setMovimientoDeshecho] = useState<boolean>(false);
@@ -33,6 +34,9 @@ function Juego () {
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
+
+
+
 
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
@@ -86,7 +90,7 @@ function Juego () {
                     { jugador1 ? <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                     { jugador4 ? <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                 </div>
-                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
+                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} marcaFiguras={marcaFiguras}/>
                 <div className="ManosHorizontal">
                     { jugador2 ? <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                     { jugador3 ? <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }

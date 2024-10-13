@@ -1,5 +1,5 @@
 import {Coord, Figura, Figuras} from "../../../types/figura"
-import {fichasMarcadas, limpiarFigMarcadas} from "./DeclararFiguras"
+import definirFigMarcadas from "./DeclararFiguras";
 
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
@@ -14,14 +14,15 @@ const ObtenerMensajes = (
   setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
   setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
-  socket: any
-) => {    
+ socket: any
+, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {    
   socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);
 
     // Si el mensaje es de tipo PasarTurno, setea el turno actual
     if (message.type === 'PasarTurno') {
       setTurnoActual(message.turno);
+      //declararFiguras(message, setMarcaFiguras);
     }
 
     // Si el mensaje es de tipo PartidaEliminada, elimina los datos de la partida 
@@ -88,8 +89,8 @@ const ObtenerMensajes = (
       setMovimientoDeshecho(true);
 
     
-    } else if (message.type === 'DeclararFiguras') {
-      declararFiguras(message.figuras);
+    } else if (message.type === 'DeclararFigura') {
+      declararFiguras(message.figuras, setMarcaFiguras);
     }
 
     // Si el mensaje es de tipo DeshacerMovimientos
@@ -122,9 +123,30 @@ const ObtenerMensajes = (
   }
 };
 
-const declararFiguras = (figurasJson : any) => {
+const declararFiguras = (figurasJson : any, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>> ) => {
+  const {fichasMarcadas, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
   limpiarFigMarcadas();
+  
+  /*const figuras: Figuras = {
+    figura: [
+      {
+        coordenadas: [
+          [0, 0],
+          [1, 1],
+          [2, 2]
+        ]
+      },
+      {
+        coordenadas: [
+          [3, 3],
+          [4, 4],
+          [5, 5]
+        ]
+      }
+    ]
+  };*/ //Harcodeado
   const figuras : Figuras = JSON.parse(figurasJson);
+
   figuras.figura.forEach((fig : Figura ) => {
     fig.coordenadas.forEach((coord : Coord ) =>{
       let numFichaCajon : number = coord[1]*6 + coord[0] + 1;

@@ -1,22 +1,20 @@
 import "../../../../styles/Game/Juego.css";
 import { posicion } from '../../../../types/partidaEnCurso';
-<<<<<<< HEAD
 import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
 import { Ficha } from "../../../../types/partidaEnCurso";
 import React, { useState } from "react";
-=======
+
 import { obtenerPartidaEnCurso } from '../../../context/GameContext';
 import { marcaFiguras } from "../../../hooks/Game/DeclararFiguras";
->>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
 
-interface TableroParams {
+interface TableroProps {
+    marcaFiguras: number[];
     setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
     turnoActual: number | null,
     idJugador: number | null
 }
 
-<<<<<<< HEAD
-function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroParams) {
+const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, turnoActual, idJugador }) => {
 
     const fichas = obtenerFichasTablero();
     const fichasSeleccionadas = obtenerFichasSeleccionadas();
@@ -39,7 +37,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
             }
 
         } else {
-            if (primerPosicion == null){
+            if (primerPosicion == null) {
                 primerPosicion = posicion;
                 setSeleccionada(!seleccionada)
             } else if (segundaPosicion == null) {
@@ -52,48 +50,40 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
 
         }
     }
-=======
-    const fichas = obtenerPartidaEnCurso().fichas;
-    const actualizarFigDeclarada = (fichaNum : number) => {
+
+    const actualizarFigDeclarada = (fichaNum: number) => {
         const baseStyle: string = "Tablero-casilla";
-        const marcaStyle: string = `${baseStyle} Figura-formada`;
-        if(fichaNum in marcaFiguras){
+        const marcaStyle: string = baseStyle + " Figura-formada";
+        if (marcaFiguras.includes(fichaNum)) {
             return marcaStyle;
-        } else{
+        } else {
             return baseStyle;
         }
     };
->>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
         const posicion = y*6+x;
         const color = fichas[posicion].color;
 
-        const [seleccionada, setSeleccionada] = useState<boolean>( fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false );
+        const [seleccionada, setSeleccionada] = useState<boolean>(fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false);
 
         return (
-<<<<<<< HEAD
-            <div key={posicion} className='Tablero-casilla'>
-                { turnoActual === idJugador ?
-                    <button
-                        className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
-                        onClick={() => {handleClick(posicion, seleccionada, setSeleccionada)}}
-                    ></button>
-                :
-                    <button
-                        className={color+'-sin-seleccion'}
-                        disabled={true}
-                    ></button>
-                }
-=======
-            <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                <button className={color}></button>
->>>>>>> 586b00b (SCRUM-91 Logica para marcar figuras validas en el tablero)
-            </div>
+                <div key={posicion} className={actualizarFigDeclarada(posicion)}>
+                    {turnoActual === idJugador ?
+                        <button
+                            className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
+                            onClick={() => { handleClick(posicion, seleccionada, setSeleccionada) }}
+                        ></button>
+                        :
+                        <button
+                            className={color + '-sin-seleccion'}
+                            disabled={true}
+                        ></button>
+                    }
+                </div>
         )
     }
-    
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
             <div className='Tablero-fila'>
@@ -106,7 +96,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
             </div>
         )
     }
-    
+
     return (
         <>
             <div className='Tablero-columna'>

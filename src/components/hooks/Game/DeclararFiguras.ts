@@ -1,11 +1,18 @@
-import { useState } from "react"
+const definirFigMarcadas = (setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {
+    
 
-export const [marcaFiguras, setMarcaFiguras] = useState<Array<number>>([]);
+    const fichasMarcadas = (marcada: number) => {
+        setMarcaFiguras(prevFigMarcadas => [...prevFigMarcadas, marcada]);
+    };
 
-export const fichasMarcadas = (marcada : number) => {
-    setMarcaFiguras(prevFigMarcadas => [...prevFigMarcadas, marcada]);
+    const limpiarFigMarcadas = () => {
+        setMarcaFiguras([]);
+    };
+    
+    return {
+        fichasMarcadas,
+        limpiarFigMarcadas
+    };
 };
 
-export const limpiarFigMarcadas = () => {
-    setMarcaFiguras([]);
-};
+export default definirFigMarcadas;

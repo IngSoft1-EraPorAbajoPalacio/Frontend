@@ -33,6 +33,16 @@
     cursor: pointer;
 }
 
+.Figura-formada{
+    opacity: .8;
+    animation: casilla-animada 2s ease-out infinite;
+}
+
+.Tablero-casilla button {
+    width: 85%;
+    height: 85%;
+}
+
 .Tablero-casilla button:hover {
     background-color: #c9b791d8;
     border-radius: 8px;
