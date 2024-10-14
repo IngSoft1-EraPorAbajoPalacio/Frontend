@@ -31,7 +31,9 @@ const ObtenerMensajes = (
     // Si el mensaje es de tipo AbandonarPartida, actualiza la lista de jugadores en el lobby
     else if (message.type === 'AbandonarPartida') {
       setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
-        const nuevosJugadores = antiguosJugadores.filter((player) => player.id !== message.data.idJugador);
+        const nuevosJugadores = antiguosJugadores.filter((player) => (Number(player.id) !== Number(message.data.idJugador)));
+        console.log(message.data.idJugador);
+        console.log(nuevosJugadores);
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
