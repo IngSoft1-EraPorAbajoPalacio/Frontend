@@ -3,28 +3,54 @@ import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
 import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { obtenerPartidaEnCurso } from "../context/GameContext";
+import { borrarPartidaEnCurso, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
+import useRouteNavigation from "../routes/RouteNavigation";
+import { useParams } from 'react-router-dom';
+import AbandonarPartida from "../hooks/AbandonarPartida";
+import PasarTurno from "../hooks/Game/PasarTurno";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
+    const [newSocket, setSocket] = useState<WebSocket | null>(null);
+    const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
 
-    useEffect(()=> {
-        const socket = createSocketGame();
-        const cerrarSocketCon = ObtenerMensajes(setTurnoActual, socket);
+    const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
+    if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-            setTimeout(() => {
-                setDesconexionesGame(prev => prev + 1);
-            }, 1000);
-        };
-        return cerrarSocketCon;
+
+
+    useEffect(() => {
+        const newSocket = createSocketGame(setDesconexionesGame);
+        setSocket(newSocket);
+        return ObtenerMensajes(setTurnoActual, setPartida, (finalizado) => {
+            setFinalizado(finalizado);
+            if (finalizado) {
+                newSocket.close();
+                borrarPartidaEnCurso();
+                redirectToEnd(idPartida, idJugador);
+            }
+        }, newSocket);
     }, [desconexionesGame]);
-           
+
+    const handleAbandonarPartida = async () => {
+        if (idJugador == turnoActual) await PasarTurno(idPartida, idJugador);
+        AbandonarPartida(idPartida, idJugador);  
+        if (newSocket) newSocket.close();
+        redirectToHome();
+    };
+
+    const handlePasarTurno = () => {
+        if (partida) PasarTurno(partida.id, idJugador);
+        const nuevaPartida = obtenerPartidaEnCurso();
+        setPartida(nuevaPartida);
+    }  
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
@@ -44,7 +70,14 @@ function Juego () {
                     {jugador3 ? MostrarFiguras(jugador3, turnoActual): <div className="ManoHorizontal"></div>}
                 </div>
             </div>
-            <MostrarMovimientos partida={partida} turnoActual={turnoActual} setPartida={setPartida} />
+            <div id='ManoJugador'>
+                {idJugador === turnoActual ?
+                    <button onClick={handlePasarTurno}>Pasar Turno</button> :
+                    <button disabled>Pasar Turno</button>
+                }
+                <button onClick={handleAbandonarPartida}>Abandonar Partida</button>
+                <MostrarMovimientos partida={partida} />
+            </div>
         </div>
     )
 }

@@ -7,6 +7,7 @@ import { Jugador , Partida } from '../../types/partidaListada';
 import '../../styles/Lobby/Lobby.css';
 import useRouteNavigation from '../routes/RouteNavigation';
 import createSocketLobby from '../../services/socketLobby';
+import AbandonarPartida from '../hooks/AbandonarPartida';
 
 function Lobby() {
   const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(obtenerJugadoresUnidos());
@@ -14,43 +15,42 @@ function Lobby() {
   const [partidaEnCurso, setPartidaEnCurso] = useState(false);
   const [jugador, setJugador] = useState<Jugador>();
   const [partida, setPartida] = useState<Partida>();
+  const [newSocket, setSocket] = useState<WebSocket | null>(null);
   const [desconexionesLobby, setDesconexionesLobby] = useState(0);
 
-  const { redirectToGame, redirectToNotFound } = useRouteNavigation();
+  const { redirectToGame, redirectToNotFound, redirectToHome } = useRouteNavigation();
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
   const idJugador = Number(playerId);
   const idPartida = Number(gameId);
   if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
   useEffect(() => {
-    if (partidaEnCurso) redirectToGame(idPartida, idJugador);
-  }, [partidaEnCurso]);
-
-  useEffect(() => {
-    const socket = createSocketLobby();
-    const cerrarSocketCon = ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, socket);
-    
-    socket.onclose = () => {
-      console.log('WebSocket connection closed for Lobby');
-      setTimeout(() => {
-        setDesconexionesLobby(prev => prev + 1);
-      }, 1000);
-    };
-
-    return cerrarSocketCon;
-  }, [desconexionesLobby]);
-
-
-  const handleIniciarPartida = () => {
-    if (partida && jugador) {
-      iniciarPartida(partida.id, jugador.id);
+    if (partidaEnCurso){
+      if (newSocket) newSocket.close();
+      redirectToGame(idPartida, idJugador);
     }
-  };
+  }, [partidaEnCurso]);
 
   useEffect(() => {
     setJugador(obtenerJugador());
     setPartida(obtenerPartida());
-  }, []);
+
+    const newSocket = createSocketLobby(setDesconexionesLobby);
+    setSocket(newSocket);
+
+    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, newSocket);
+  }, [desconexionesLobby]);
+
+
+  const handleIniciarPartida = () => {
+    if (partida && jugador) iniciarPartida(partida.id, jugador.id);
+  };
+
+  const handleAbandonarPartida = () => {
+    AbandonarPartida(idPartida, idJugador);  
+    if (newSocket) newSocket.close();
+    redirectToHome();
+  };
 
   return (
     <>
@@ -66,6 +66,7 @@ function Lobby() {
           {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
             <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
+          {jugador && !jugador.isHost && (<button className='lobby-button' onClick={handleAbandonarPartida}>Abandonar</button>)}
         </div>
       
     </>

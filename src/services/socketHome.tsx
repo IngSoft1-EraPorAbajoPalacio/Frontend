@@ -7,7 +7,7 @@ if (typeof window === 'undefined') {
   // Estamos en el navegador
   WebSocketClient = WebSocket;
 }
-const createSocketHome = () => {
+const createSocketHome = (setDesconexionesHome: React.Dispatch<React.SetStateAction<number>>) => {
   const WS_URL = 'ws://localhost:8000/ws';
 
   const socketHome = new WebSocketClient(WS_URL);
@@ -22,6 +22,9 @@ const createSocketHome = () => {
 
   socketHome.onclose = () => {
     console.log('WebSocket connection closed for Home');
+    setTimeout(() => {
+      setDesconexionesHome((prevDesconexionesHome) => prevDesconexionesHome + 1);
+    }, 1000);
   };
   
   return socketHome;
