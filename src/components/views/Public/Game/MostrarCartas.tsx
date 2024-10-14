@@ -4,6 +4,7 @@ import PasarTurno from "../../../hooks/Game/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../../context/GameContext";
 import { SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "../../../../utils/Cartas/figuraUtils";
 
 const EXT = ".svg";
 
@@ -25,28 +26,6 @@ export const MostrarFiguras : React.FC<MostrarFigurasProps> =
         const cartaFiguraUnica: string = cartaFigNum.toString() + id.toString();
         return cartaFiguraUnica;
     }
-    
-    const actualizarCartaFigDescarte = (clave :string) => {
-        const baseStyle: string = "Figura";
-        const descarteStyle: string = baseStyle + "Selec";
-        
-        if(clave === cartaFiguraDescarte){
-            return descarteStyle;    
-        }else{
-            return baseStyle;
-        }
-        
-    };
-
-    const handleActualizarCartaFigDescarte = (clave : string)=>{
-        if(turnoActual === idJugador){
-            if(cartaFiguraDescarte === clave){ //Ya estaba seleccionada la carta
-                setCartaFiguraDescarte(null); 
-            } else{ //No estaba seleccionada, la seleccionamos
-                setCartaFiguraDescarte(clave);
-            }
-        }
-    }
 
     const cartasSrc: string[] = jugador.cartasFigura.map(carta => {
         if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
@@ -66,8 +45,9 @@ export const MostrarFiguras : React.FC<MostrarFigurasProps> =
             <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
             <div>
                 {cartasSrc?.map((src: string | undefined, index: number) => 
-                    <img key={index} className={actualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id))} 
-                        onClick={()=>handleActualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id))} src={src}/>)}
+                    <img key={index} className={actualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id), cartaFiguraDescarte)} 
+                        onClick={()=>handleActualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id), idJugador, 
+                        cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)} src={src}/>)}
             </div>
         </div>
     )

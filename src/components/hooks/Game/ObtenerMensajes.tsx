@@ -1,4 +1,4 @@
-import declararFiguras from "./DeclararFiguras";
+import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
 
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";

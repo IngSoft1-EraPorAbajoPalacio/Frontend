@@ -1,11 +1,11 @@
 import definirFigMarcadas from "./DefinirFigMarcadas";
-import { Coord, Figura, Figuras } from "../../../types/figura"
+import { Coord, Figura, Figuras } from "../../types/figura"
 
 const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {
     const { fichasMarcadas, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     limpiarFigMarcadas();
 
-    const figuras: Figuras = {
+    /*const figuras: Figuras = {
         figura: [
             {
                 tipoFig: 1,
@@ -24,8 +24,8 @@ const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React
                 ]
             }
         ]
-    }; //Harcodeado
-    //const figuras : Figuras = JSON.parse(figurasJson);
+    };*/ //Harcodeado
+    const figuras : Figuras = JSON.parse(figurasJson);
 
     figuras.figura.forEach((fig: Figura) => {
         fig.coordenadas.forEach((coord: Coord) => {

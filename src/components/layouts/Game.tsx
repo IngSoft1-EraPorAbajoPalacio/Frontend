@@ -50,7 +50,7 @@ function Juego () {
                 borrarPartida();
                 redirectToEnd(idPartida, idJugador);
             }
-        }, newSocket);
+        }, newSocket, setMarcaFiguras);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -95,7 +95,7 @@ function Juego () {
                      : <div className="ManoHorizontal"></div>}
                     {jugador4 ?
                     <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte}/>
                      : <div className="ManoHorizontal"></div>}
                 </div>
                 <Tablero marcaFiguras={marcaFiguras} setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
