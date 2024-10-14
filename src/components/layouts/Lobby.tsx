@@ -42,9 +42,7 @@ function Lobby() {
 
 
   const handleIniciarPartida = () => {
-    if (partida && jugador) {
-      iniciarPartida(partida.id, jugador.id);
-    }
+    if (partida && jugador) iniciarPartida(partida.id, jugador.id);
   };
 
   const handleAbandonarPartida = () => {

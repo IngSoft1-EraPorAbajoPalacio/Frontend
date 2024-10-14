@@ -12,11 +12,11 @@ const ObtenerMensajes = (
     const message = JSON.parse(event.data);
     if (message.type === 'PasarTurno') {
       setTurnoActual(message.turno);
-    } else if (message.type === 'TerminarPartida') {
+    } else if (message.type === 'PartidaEliminada') {
       borrarPartidaEnCurso();
       setFinalizado(true);
+      return () => socket.close();
     } else if (message.type === 'AbandonarPartida') {
-      console.log("Abandonar partida desde Game");
       const partida = obtenerPartidaEnCurso();
       partida.jugadores = partida.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== message.data.idJugador);
       borrarPartidaEnCurso();
