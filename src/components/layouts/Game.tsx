@@ -15,7 +15,8 @@ function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
-    const [finalizado, setFinalizado] = useState(false);
+    const [, setFinalizado] = useState(false);
+    const [desconexionesGame, setDesconexionesGame] = useState(0);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -26,7 +27,7 @@ function Juego () {
 
 
     useEffect(() => {
-        const newSocket = createSocketGame();
+        const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
         return ObtenerMensajes(setTurnoActual, setPartida, (finalizado) => {
             setFinalizado(finalizado);
@@ -36,7 +37,7 @@ function Juego () {
                 redirectToEnd(idPartida, idJugador);
             }
         }, newSocket);
-    }, []);
+    }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
         if (idJugador == turnoActual) await PasarTurno(idPartida, idJugador);

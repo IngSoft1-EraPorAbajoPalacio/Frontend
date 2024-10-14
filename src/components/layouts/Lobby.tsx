@@ -16,6 +16,7 @@ function Lobby() {
   const [jugador, setJugador] = useState<Jugador>();
   const [partida, setPartida] = useState<Partida>();
   const [newSocket, setSocket] = useState<WebSocket | null>(null);
+  const [desconexionesLobby, setDesconexionesLobby] = useState(0);
 
   const { redirectToGame, redirectToNotFound, redirectToHome } = useRouteNavigation();
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -34,11 +35,11 @@ function Lobby() {
     setJugador(obtenerJugador());
     setPartida(obtenerPartida());
 
-    const newSocket = createSocketLobby();
+    const newSocket = createSocketLobby(setDesconexionesLobby);
     setSocket(newSocket);
 
     return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, newSocket);
-  }, []);
+  }, [desconexionesLobby]);
 
 
   const handleIniciarPartida = () => {

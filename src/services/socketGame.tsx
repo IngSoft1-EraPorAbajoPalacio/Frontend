@@ -10,7 +10,7 @@ if (typeof window === 'undefined') {
   WebSocketClient = WebSocket;
 }
 
-const createSocketGame = () => {
+const createSocketGame = (setDesconexionesGame: React.Dispatch<React.SetStateAction<number>>) => {
 
   const partida = obtenerPartida();
   const partidaId = partida.id;
@@ -28,6 +28,9 @@ const createSocketGame = () => {
 
   socketGame.onclose = () => {
     console.log('WebSocket connection closed for Game');
+    setTimeout(() => {
+      setDesconexionesGame((prevDesconexionesGame) => prevDesconexionesGame + 1);
+    }, 1000);
   };
 
   return socketGame;

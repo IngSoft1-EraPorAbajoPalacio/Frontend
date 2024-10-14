@@ -17,6 +17,7 @@ const Home = () => {
     const [tryJoinGame, setTryJoinGame] = useState(idPatida !== null);
     const [partidas, setPartidas] = useState<Partida[]>([]);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
+    const [desconexionesHome, setDesconexionesHome] = useState(0);
 
     const { redirectToLobby } = useRouteNavigation();
     const seleccionarCrear = () => setPartidaCreada(true);
@@ -30,10 +31,10 @@ const Home = () => {
 
     useEffect(() => {
 		obtenerPartidas(setPartidas);
-        const newSocket = createSocketHome();
+        const newSocket = createSocketHome(setDesconexionesHome);
         setSocket(newSocket);
         return ObtenerMensajes(setPartidas, newSocket);
-    }, []);
+    }, [desconexionesHome]);
 
     useEffect(() => {
         setTryJoinGame(idPatida !== null);
