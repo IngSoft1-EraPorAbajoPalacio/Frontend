@@ -25,7 +25,7 @@ const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React
             }
         ]
     };*/ //Harcodeado
-    const figuras : Figuras = JSON.parse(figurasJson);
+    const figuras: Figuras = JSON.parse(figurasJson);
 
     figuras.figura.forEach((fig: Figura) => {
         fig.coordenadas.forEach((coord: Coord) => {

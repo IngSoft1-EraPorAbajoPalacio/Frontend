@@ -1,35 +1,38 @@
+import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
+
+import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
+
 import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
 
-import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
-  setTurnoActual: React.Dispatch<React.SetStateAction<number|null>>,
-  setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso|null>>,
+	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
+	setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso|null>>,
   setMovimiento: React.Dispatch<React.SetStateAction<Movimiento|null>>,
   setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
+
   setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
   setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
  socket: any
 , setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {    
-  socket.onmessage = (event: any) => {
-    const message = JSON.parse(event.data);
+	socket.onmessage = (event: any) => {
+		const message = JSON.parse(event.data);
 
     // Si el mensaje es de tipo PasarTurno, setea el turno actual
-    if (message.type === 'PasarTurno') {
-      setTurnoActual(message.turno);
-      //declararFiguras(message, setMarcaFiguras);
-    }
+		if (message.type === 'PasarTurno') {
+			setTurnoActual(message.turno);
+			////declararFiguras(message, setMarcaFiguras);
+		}
 
     // Si el mensaje es de tipo PartidaEliminada, elimina los datos de la partida 
     else if (message.type === 'PartidaEliminada') {
-      borrarPartida();
-      setFinalizado(true);
-      return () => socket.close();
-    }
+			borrarPartida();
+			setFinalizado(true);
+			return () => socket.close();
+		}
 
     // Si el mensaje es de tipo AbandonarPartida, borra al jugador idJugador de la partida
     else if (message.type === 'AbandonarPartida') {
@@ -120,57 +123,6 @@ const ObtenerMensajes = (
       setMovimientosJugados(0);
     }
   }
-};
-
-const declararFiguras = (figurasJson : any, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>> ) => {
-  const {fichasMarcadas, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
-  limpiarFigMarcadas();
-  
-  /*const figuras: Figuras = {
-    figura: [
-      {
-        coordenadas: [
-          [0, 0],
-          [1, 1],
-          [2, 2]
-        ]
-      },
-      {
-        coordenadas: [
-          [3, 3],
-          [4, 4],
-          [5, 5]
-        ]
-      }
-    ]
-  };*/ //Harcodeado
-  const figuras : Figuras = JSON.parse(figurasJson);
-
-  figuras.figura.forEach((fig : Figura ) => {
-    fig.coordenadas.forEach((coord : Coord ) =>{
-      let numFichaCajon : number = coord[1]*6 + coord[0] + 1;
-      fichasMarcadas(numFichaCajon);
-    })
-  });
-};
-
-
-
-const declararFiguras = (figurasJson : any) => {
-  desmarcarFichasCajon();
-  const figuras : Figuras = JSON.parse(figurasJson);
-  figuras.figura.forEach((fig : Figura ) => {
-    fig.coordenadas.forEach((coord : Coord ) =>{
-      marcarFichaCajon(coord);
-    })
-  });
-};
-
-const desmarcarFichasCajon = () => {
-
-};
-const marcarFichaCajon = (coordenada : Coord) => {
-
 };
 
 export default ObtenerMensajes;
