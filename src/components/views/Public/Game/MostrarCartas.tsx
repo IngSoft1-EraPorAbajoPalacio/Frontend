@@ -2,7 +2,7 @@ import "../../../../styles/Game/Juego.css";
 import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
 import PasarTurno from "../../../hooks/Game/PasarTurno";
 import { obtenerPartidaEnCurso } from "../../../context/GameContext";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const EXT = ".svg";
@@ -54,6 +54,12 @@ export const MostrarFiguras : React.FC<MostrarFigurasProps> =
         else {console.error("Error carta número");
             return "";}
     });
+
+    useEffect(()=> {
+        if (turnoActual !== idJugador) {
+            setCartaFiguraDescarte(null);
+        }
+    }, [turnoActual]);
 
     return (
         <div className="ManoHorizontal">
