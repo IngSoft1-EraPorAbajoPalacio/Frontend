@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 import { obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
+import useRouteNavigation from "../routes/RouteNavigation";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const { redirectToEnd } = useRouteNavigation(); 
 
     useEffect(()=> {
         const socket = createSocketGame();
-        const cerrarSocketCon = ObtenerMensajes(setTurnoActual, socket);
+        const cerrarSocketCon = ObtenerMensajes(setTurnoActual, setPartida, redirectToEnd, socket);
 
         socket.onclose = () => {
             console.log('WebSocket connection closed');

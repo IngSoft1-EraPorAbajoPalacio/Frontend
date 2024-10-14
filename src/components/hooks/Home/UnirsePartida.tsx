@@ -13,14 +13,12 @@ function UnirsePartida(
 
     const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, //Ill send a json
-        body: JSON.stringify(data), //Here is the json
+        headers: { 'Content-Type': 'application/json' }, // Indica que el contenido es JSON
+        body: JSON.stringify(data), // Convierte el objeto a JSON
     };
     
     const asyncPost = async () => {
-        try {
-            //Now i have to connect with the endpoint to send the info of the room
-           
+        try {           
             const response = await fetch('http://127.0.0.1:8000/partida/' + (partida ? partida : '') + '/jugador', options);
             
             if (response.status === 201) {                
@@ -32,12 +30,9 @@ function UnirsePartida(
                 alert("Arctic Monkeys 404 => Partida Llena");
             } 
             else {
-                console.error('Error al unirse a una partida.');
+                throw new Error('Hubo un problema tratando de unirse a la partida.');
             }
-            
-           
         } catch (error) {
-            console.error(options.body);
             console.error(error);
         }
     }
