@@ -7,26 +7,33 @@ import { obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
+import { useParams } from 'react-router-dom';
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
-    const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [newSocket, setSocket] = useState<WebSocket | null>(null);
+    const [finalizado, setFinalizado] = useState(false);
     const { redirectToEnd } = useRouteNavigation(); 
 
-    useEffect(()=> {
-        const socket = createSocketGame();
-        const cerrarSocketCon = ObtenerMensajes(setTurnoActual, setPartida, redirectToEnd, socket);
+    const { redirectToNotFound } = useRouteNavigation();
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
+    if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-            setTimeout(() => {
-                setDesconexionesGame(prev => prev + 1);
-            }, 1000);
-        };
-        return cerrarSocketCon;
-    }, [desconexionesGame]);
-           
+    useEffect(()=> {
+        if (finalizado) {
+            if (newSocket) newSocket.close();
+            redirectToEnd(idPartida, idJugador);
+        }
+    }, [finalizado]);
+
+    useEffect(() => {
+        const newSocket = createSocketGame();
+        setSocket(newSocket);
+        return ObtenerMensajes(setTurnoActual, setPartida, setFinalizado, newSocket);
+    }, []);
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);

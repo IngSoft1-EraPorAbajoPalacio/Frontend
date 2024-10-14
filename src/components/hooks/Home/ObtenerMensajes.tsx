@@ -19,6 +19,8 @@ const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partid
       });
     } else if (message.type === 'EliminarPartida') {
       setPartidas((partidas) => partidas.filter(p => p.id !== message.data.id));
+    } else if (message.type === 'AbandonarPartida') {
+      console.log("Abandonar partida desde Home");
     }
   };
 };
