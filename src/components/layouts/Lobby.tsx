@@ -62,7 +62,6 @@ function Lobby() {
               <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
             ))}
           </ul>
-
           {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
             <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
