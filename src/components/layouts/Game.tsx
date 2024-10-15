@@ -1,7 +1,7 @@
 import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
-import { JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { borrarPartidaEnCurso, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
 import JugarMovimiento from "../hooks/Game/JugarMovimiento";
+import VerificarMovimiento from "../views/Public/Game/VerificarMovimiento";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -56,7 +57,11 @@ function Juego () {
     }  
 
     const MovimientoTrucho = () => {
-        JugarMovimiento(idPartida, idJugador, 2, obtenerPartidaEnCurso()?.fichas[0], obtenerPartidaEnCurso()?.fichas[12]);
+        //Anda solo si el jugador que toca el botón es el primero y la partida es la primera (game/1/player/1)
+        const carta = new CartaMovimiento(3, 3);
+        const movimiento = new Movimiento(carta, obtenerPartidaEnCurso()?.fichas[0], obtenerPartidaEnCurso()?.fichas[1]);
+        if(VerificarMovimiento(movimiento)) JugarMovimiento(idPartida, idJugador, movimiento);
+        else console.error("Movimiento inválido: fichas %d, y %d", movimiento.primerFicha, movimiento.segundaFicha);
     }
 
         
