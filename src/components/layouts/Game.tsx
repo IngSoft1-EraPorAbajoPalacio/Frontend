@@ -1,7 +1,7 @@
 import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
-import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { borrarPartidaEnCurso, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
@@ -10,6 +10,7 @@ import useRouteNavigation from "../routes/RouteNavigation";
 import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
+import JugarMovimiento from "../hooks/Game/JugarMovimiento";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -17,6 +18,8 @@ function Juego () {
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [movimientos, setMovimientos] = useState<Movimiento[]>([]);
+    const [movimientoAgregado, setMovimientoAgregado] = useState(false);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -29,7 +32,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
@@ -51,6 +54,11 @@ function Juego () {
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
     }  
+
+    const MovimientoTrucho = () => {
+        JugarMovimiento(idPartida, idJugador, 2, obtenerPartidaEnCurso()?.fichas[0], obtenerPartidaEnCurso()?.fichas[12]);
+    }
+
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
@@ -59,6 +67,7 @@ function Juego () {
 
     return (
         <div id='Juego'>
+            <button onClick={MovimientoTrucho}>Enviar</button>
             <div id="Centro">
                 <div className="ManosHorizontal">
                     {jugador1 ? MostrarFiguras(jugador1, turnoActual): <div className="ManoHorizontal"></div>}

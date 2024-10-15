@@ -13,20 +13,20 @@ function Tablero () {
 
         return (
             <div key={posicion} className='Tablero-casilla'>
-                <button className={color}></button>
+                <button className={color}>({x}, {y})</button>
             </div>
         )
     }
     
-    const Fila: React.FC<{ y: posicion }> = ({ y }) => {
+    const Fila: React.FC<{ x: posicion }> = ({ x }) => {
         return (
             <div className='Tablero-fila'>
-                <Cuadro y={y} x={0} />
-                <Cuadro y={y} x={1} />
-                <Cuadro y={y} x={2} />
-                <Cuadro y={y} x={3} />
-                <Cuadro y={y} x={4} />
-                <Cuadro y={y} x={5} />
+                <Cuadro x={x} y={0} />
+                <Cuadro x={x} y={1} />
+                <Cuadro x={x} y={2} />
+                <Cuadro x={x} y={3} />
+                <Cuadro x={x} y={4} />
+                <Cuadro x={x} y={5} />
             </div>
         )
     }
@@ -34,12 +34,12 @@ function Tablero () {
     return (
         <>
             <div className='Tablero-columna'>
-                <Fila y={0} />
-                <Fila y={1} />
-                <Fila y={2} />
-                <Fila y={3} />
-                <Fila y={4} />
-                <Fila y={5} />
+                <Fila x={0} />
+                <Fila x={1} />
+                <Fila x={2} />
+                <Fila x={3} />
+                <Fila x={4} />
+                <Fila x={5} />
             </div>
         </>
     )
