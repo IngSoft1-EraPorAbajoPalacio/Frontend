@@ -21,12 +21,12 @@ function Tablero () {
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
             <div className='Tablero-fila'>
-                <Cuadro x={0} y={y} />
-                <Cuadro x={1} y={y} />
-                <Cuadro x={2} y={y} />
-                <Cuadro x={3} y={y} />
-                <Cuadro x={4} y={y} />
-                <Cuadro x={5} y={y} />
+                <Cuadro y={y} x={0} />
+                <Cuadro y={y} x={1} />
+                <Cuadro y={y} x={2} />
+                <Cuadro y={y} x={3} />
+                <Cuadro y={y} x={4} />
+                <Cuadro y={y} x={5} />
             </div>
         )
     }

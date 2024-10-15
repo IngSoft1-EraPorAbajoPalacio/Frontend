@@ -60,8 +60,7 @@ function Juego () {
         //Anda solo si el jugador que toca el botón es el primero y la partida es la primera (game/1/player/1)
         const carta = new CartaMovimiento(3, 3);
         const movimiento = new Movimiento(carta, obtenerPartidaEnCurso()?.fichas[0], obtenerPartidaEnCurso()?.fichas[1]);
-        if(VerificarMovimiento(movimiento)) JugarMovimiento(idPartida, idJugador, movimiento);
-        else console.error("Movimiento inválido: fichas %d, y %d", movimiento.primerFicha, movimiento.segundaFicha);
+        if(VerificarMovimiento(movimiento,idJugador, turnoActual)) JugarMovimiento(idPartida, idJugador, movimiento);
     }
 
         

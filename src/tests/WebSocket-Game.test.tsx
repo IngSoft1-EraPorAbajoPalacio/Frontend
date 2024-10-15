@@ -23,9 +23,13 @@ describe('ObtenerMensajes', () => {
 
   it('Debería actualizar el turno actual cuando recibe un mensaje de tipo PasarTurno', () => {
     const setTurnoActual = vi.fn();
+    const setPartida = vi.fn(); // No se usa en este test
+    const setMovimientos = vi.fn(); // No se usa en este test
+    const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2 });
@@ -42,9 +46,13 @@ describe('ObtenerMensajes', () => {
 
   it('No debería actualizar el turno si el mensaje no es de tipo PasarTurno', () => {
     const setTurnoActual = vi.fn();
+    const setPartida = vi.fn(); // No se usa en este test
+    const setMovimientos = vi.fn(); // No se usa en este test
+    const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
