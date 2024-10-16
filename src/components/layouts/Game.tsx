@@ -11,9 +11,13 @@ import useRouteNavigation from "../routes/RouteNavigation";
 import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
+
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/MovimientoHecho.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
+
+import { Figura } from "../../types/figura";
+
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -29,7 +33,9 @@ function Juego () {
     const [, setFichasSeleccionadas] = useState<Ficha[]>([]);
     const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>(obtenerMovimientos());
     const [movimientosJugados, setMovimientosJugados] = useState(0);
-
+    const [figurasDetectadas, setFigurasDetectadas] = useState<Figura[]>([]);
+    const [figuraSeleccionada, setFiguraSeleccionada] = useState<number | null>(null);
+    
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
@@ -50,7 +56,7 @@ function Juego () {
                 borrarPartida();
                 redirectToEnd(idPartida, idJugador);
             }
-        }, newSocket, setMarcaFiguras);
+        }, newSocket, setMarcaFiguras, setFigurasDetectadas);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {

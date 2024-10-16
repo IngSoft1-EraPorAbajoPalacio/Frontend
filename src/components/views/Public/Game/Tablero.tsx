@@ -1,11 +1,13 @@
 import "../../../../styles/Game/Juego.css";
 import { posicion } from '../../../../types/partidaEnCurso';
+
 import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
 import { Ficha } from "../../../../types/partidaEnCurso";
 import React, { useState } from "react";
 
+import { handleSeleccionFigura } from "../../../../utils/Cartas/figuraSeleccionada";
+
 import { obtenerPartidaEnCurso } from '../../../context/GameContext';
-import { marcaFiguras } from "../../../hooks/Game/DeclararFiguras";
 
 interface TableroProps {
     marcaFiguras: number[];
@@ -69,6 +71,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
         const [seleccionada, setSeleccionada] = useState<boolean>(fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false);
 
         return (
+            <>
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
                     {turnoActual === idJugador ?
                         <button
@@ -82,6 +85,11 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                         ></button>
                     }
                 </div>
+                <div key={posicion} className={actualizarFigDeclarada(posicion)}>
+                <button className={color} onClick={()=>{handleSeleccionFigura(posicion, marcaFiguras);}}></button>
+            </div>
+            </>
+            
         )
     }
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {

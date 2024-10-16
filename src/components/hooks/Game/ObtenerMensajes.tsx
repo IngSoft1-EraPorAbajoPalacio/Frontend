@@ -1,3 +1,4 @@
+import { Figura } from "../../../types/figura";
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
@@ -17,7 +18,9 @@ const ObtenerMensajes = (
   setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
  socket: any
-, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {    
+, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
+  setFigurasDetectadas :React.Dispatch<React.SetStateAction<Figura[]>> ) => {
+
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
 
@@ -92,7 +95,7 @@ const ObtenerMensajes = (
 
     
     } else if (message.type === 'DeclararFigura') {
-      declararFiguras(message.figuras, setMarcaFiguras);
+      declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas);
     }
 
     // Si el mensaje es de tipo DeshacerMovimientos
