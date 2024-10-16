@@ -6,7 +6,7 @@ import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 const ObtenerMensajes = (
   setTurnoActual: React.Dispatch<React.SetStateAction<number|null>>,
   setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso | null>>,
-  setMovimientos: React.Dispatch<React.SetStateAction<Movimiento[]>>,
+  setMovimiento: React.Dispatch<React.SetStateAction<Movimiento>>,
   setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
   socket: any
@@ -29,15 +29,11 @@ const ObtenerMensajes = (
       setPartida(partida);
     }
     else if (message.type === 'MovimientoParcial') {
-      console.log("MovimientoParcial", message);
-      setMovimientoAgregado(true);
-      setMovimientos((movimientos: Movimiento[]) => {
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
       const newMovimiento = new Movimiento(newCarta, message.data.fichas[0], message.data.fichas[1]);
-      console.log(newMovimiento);
-      return [...movimientos, newMovimiento]
-    });
-  }
+      setMovimiento(newMovimiento);
+      setMovimientoAgregado(true);
+    }
   }
 };
 

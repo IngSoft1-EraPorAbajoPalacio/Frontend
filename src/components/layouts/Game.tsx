@@ -19,7 +19,7 @@ function Juego () {
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
-    const [movimientos, setMovimientos] = useState<Movimiento[]>([]);
+    const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState(false);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -33,7 +33,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
@@ -71,7 +71,6 @@ function Juego () {
 
     return (
         <div id='Juego'>
-            <button onClick={MovimientoTrucho}>Enviar</button>
             <div id="Centro">
                 <div className="ManosHorizontal">
                     {jugador1 ? MostrarFiguras(jugador1, turnoActual): <div className="ManoHorizontal"></div>}

@@ -13,7 +13,7 @@ function Tablero () {
 
         return (
             <div key={posicion} className='Tablero-casilla'>
-                <button className={color}>({x}, {y})</button>
+                <button className={color}></button>
             </div>
         )
     }

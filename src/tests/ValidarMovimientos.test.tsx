@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import VerificarMovimiento from "../components/views/Public/Game/VerificarMovimiento";
 import { partidaMock } from "../data/MockPartidaEnCurso";
 
@@ -130,4 +130,25 @@ describe("VerificarMovimiento", () => {
         expect(VerificarMovimiento(movimientoReversa, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
     });
 
+    it("mov1 (dos pasos en diagonal): No debería ser válido jugar una carta de movimiento estando fuera de turno", async () => {
+
+        const movimiento = {
+        carta: partidaMock.jugadores[0].cartasMovimiento[0],
+        primerFicha: partidaMock.fichas[2],
+        segundaFicha: partidaMock.fichas[12]
+        };
+
+        expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[1].id)).toBe(false);
+    });
+
+    it("mov1 (dos pasos en diagonal): No debería ser válido jugar una carta de movimiento, estando en turno, con un movimiento no válido", async () => {
+            
+        const movimiento = {
+        carta: partidaMock.jugadores[0].cartasMovimiento[0],
+        primerFicha: partidaMock.fichas[2],
+        segundaFicha: partidaMock.fichas[13]
+        };
+
+        expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(false);
+    }); 
 });
