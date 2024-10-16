@@ -7,7 +7,7 @@ const VerificarMovimiento = (
 ) => {
 
     if (idJugador !== turnoActual){
-        console.error("Jugador fuera de turno");
+        console.error("Error: Jugador fuera de turno");
         return false;
     }
 
@@ -46,7 +46,7 @@ const VerificarMovimiento = (
 
     // Si el movimiento es válido, se retorna true, de lo contrario, false y se imprime un mensaje de error
     const esValido = movimientos[carta.movimiento] ? movimientos[carta.movimiento]() : false;
-    if(!esValido) console.error("Movimiento inválido.");
+    if(!esValido) console.error("Error: Movimiento inválido.");
 
     return esValido;
 }
