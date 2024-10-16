@@ -107,16 +107,17 @@ function Juego () {
                     cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte}/>
                      : <div className="ManoHorizontal"></div>}
                 </div>
-<<<<<<< HEAD
-                <Tablero marcaFiguras={marcaFiguras} setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
-=======
+
                 <Tablero 
-                marcaFiguras={marcaFiguras} figurasDetectadas={figurasDetectadas} 
+                marcaFiguras={marcaFiguras} 
+                figurasDetectadas={figurasDetectadas} 
                 figuraSeleccionada={figuraSeleccionada} setFiguraSeleccionada={setFiguraSeleccionada}
                 setMarcaFiguras={setMarcaFiguras}
                 marcadasPorSelec={marcadasPorSelec}
-                setMarcadasPorSelec={setMarcadasPorSelec}/>
->>>>>>> 2f1dff3 (Solucion coordenadas y seguir lógica de seleccionar figura)
+                setMarcadasPorSelec={setMarcadasPorSelec}
+                setFichasSeleccionadas={setFichasSeleccionadas} 
+                turnoActual={turnoActual} 
+                idJugador={idJugador}/>
                 <div className="ManosHorizontal">
                     {jugador2 ? 
                     <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} 

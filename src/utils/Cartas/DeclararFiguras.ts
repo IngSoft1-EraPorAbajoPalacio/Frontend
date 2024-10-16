@@ -31,6 +31,7 @@ const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React
         ]
     };*/ //Harcodeado
     const figuras: Figuras = typeof figurasJson === 'string' ? JSON.parse(figurasJson) : figurasJson;
+
     setFigurasDetectadas([]); //Lo vacío para agregar las nuevas figuras detectadas
     figuras.figura.forEach((fig: Figura) => {
         setFigurasDetectadas(prevFiguras => [...prevFiguras, fig]); //Agrego las nuevas figuras detectadas
