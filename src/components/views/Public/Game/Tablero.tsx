@@ -109,6 +109,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
 
         )
     }
+
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
             <div className='Tablero-fila'>
@@ -118,7 +119,6 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                 <Cuadro y={y} x={3} />
                 <Cuadro y={y} x={4} />
                 <Cuadro y={y} x={5} />
-
             </div>
         )
     }
@@ -132,10 +132,10 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                 <Fila y={3} />
                 <Fila y={4} />
                 <Fila y={5} />
-            </div >
+
+            </div>
         </>
     )
 }
-
 
 export default Tablero;
