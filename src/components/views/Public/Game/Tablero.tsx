@@ -1,4 +1,5 @@
 import "../../../../styles/Game/Juego.css";
+import { Figura } from "../../../../types/figura";
 import { posicion } from '../../../../types/partidaEnCurso';
 
 import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
@@ -11,13 +12,20 @@ import { obtenerPartidaEnCurso } from '../../../context/GameContext';
 
 interface TableroProps {
     marcaFiguras: number[];
+
     setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
     turnoActual: number | null,
-    idJugador: number | null
+    idJugador: number | null,
+    figurasDetectadas: Figura[];
+    figuraSeleccionada: number | null;
+    setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>;
+    setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>;
+    marcadasPorSelec: number[],
+    setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, turnoActual, idJugador }) => {
-
+const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, figurasDetectadas, figuraSeleccionada,
+    setFiguraSeleccionada, setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec, turnoActual, idJugador }) => {
     const fichas = obtenerFichasTablero();
     const fichasSeleccionadas = obtenerFichasSeleccionadas();
 
@@ -71,6 +79,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
         const [seleccionada, setSeleccionada] = useState<boolean>(fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false);
 
         return (
+
             <>
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
                     {turnoActual === idJugador ?
@@ -85,11 +94,19 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                         ></button>
                     }
                 </div>
+
+
+
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                <button className={color} onClick={()=>{handleSeleccionFigura(posicion, marcaFiguras);}}></button>
-            </div>
+                    <button className={color} onClick={() => {
+                        handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada,
+                            figuraSeleccionada, setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
+                    }}>
+
+                    </button>
+                </div>
             </>
-            
+
         )
     }
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
@@ -101,6 +118,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                 <Cuadro y={y} x={3} />
                 <Cuadro y={y} x={4} />
                 <Cuadro y={y} x={5} />
+
             </div>
         )
     }
@@ -114,9 +132,10 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                 <Fila y={3} />
                 <Fila y={4} />
                 <Fila y={5} />
-            </div>
+            </div >
         </>
     )
 }
+
 
 export default Tablero;

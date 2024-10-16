@@ -13,13 +13,16 @@ const ObtenerMensajes = (
 	setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso|null>>,
   setMovimiento: React.Dispatch<React.SetStateAction<Movimiento|null>>,
   setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
-
   setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
   setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
  socket: any
 , setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
-  setFigurasDetectadas :React.Dispatch<React.SetStateAction<Figura[]>> ) => {
+  setFigurasDetectadas :React.Dispatch<React.SetStateAction<Figura[]>>,
+
+	figuraSeleccionada: number | null,
+	marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
+	) => {
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
@@ -27,11 +30,7 @@ const ObtenerMensajes = (
     // Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
-			////declararFiguras(message, setMarcaFiguras);
-		}
-
-    // Si el mensaje es de tipo PartidaEliminada, elimina los datos de la partida 
-    else if (message.type === 'PartidaEliminada') {
+		} else if (message.type === 'PartidaEliminada') {
 			borrarPartida();
 			setFinalizado(true);
 			return () => socket.close();
@@ -95,7 +94,9 @@ const ObtenerMensajes = (
 
     
     } else if (message.type === 'DeclararFigura') {
-      declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas);
+      declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
+				marcadasPorSelec, setMarcadasPorSelec
+			);
     }
 
     // Si el mensaje es de tipo DeshacerMovimientos

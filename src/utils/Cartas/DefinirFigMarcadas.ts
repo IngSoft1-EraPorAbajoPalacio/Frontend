@@ -1,16 +1,16 @@
 const definirFigMarcadas = (setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>) => {
     
 
-    const fichasMarcadas = (marcada: number) => {
+    const marcarFicha = (marcada: number) => {
         setMarcaFiguras(prevFigMarcadas => [...prevFigMarcadas, marcada]);
     };
 
-    const limpiarFigMarcadas = () => {
-        setMarcaFiguras([]);
+    const limpiarFigMarcadas = (marcadasPorSelec: number[]) => {
+        setMarcaFiguras(marcadasPorSelec);
     };
     
     return {
-        fichasMarcadas,
+        marcarFicha,
         limpiarFigMarcadas
     };
 };
