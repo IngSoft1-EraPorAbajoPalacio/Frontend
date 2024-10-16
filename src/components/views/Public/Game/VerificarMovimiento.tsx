@@ -22,11 +22,11 @@ const VerificarMovimiento = (
 
     // Se crea un objeto con las posibles validaciones de los movimientos
     const movimientos: { [key: number]: () => boolean } = {
+        
         1: () => // Mover dos pasos en diagonal
             Math.abs(x1 - x2) === 2 && Math.abs(y1 - y2) === 2,
         2: () => // Mover dos pasos horizontalmente o verticalmente
-            (Math.abs(x1 - x2) === 2 && y1 === y2) ||
-            (x1 === x2 && Math.abs(y1 - y2) === 2),
+            (Math.abs(x1 - x2) === 2 && y1 === y2) || (x1 === x2 && Math.abs(y1 - y2) === 2),
         3: () => // Mover un paso horizontalmente o verticalmente
             Math.abs(x1 - x2) + Math.abs(y1 - y2) === 1,
         4: () => //Mover un paso en diagonal
@@ -40,8 +40,7 @@ const VerificarMovimiento = (
                 (x2 - x1 === 1 && y2 - y1 === 2) || (x2 - x1 === -1 && y2 - y1 === -2) :
                 (y2 - y1 === 1 && x2 - x1 === 2) || (y2 - y1 === -1 && x2 - x1 === -2),
         7: () => // Mover hasta un borde manteniendo la misma fila o columna
-            (x1 === x2 && (y2 === 0 || y2 === 5)) ||
-            (y1 === y2 && (x2 === 0 || x2 === 5)),
+            (x1 === x2 && (y2 === 0 || y2 === 5)) || (y1 === y2 && (x2 === 0 || x2 === 5)),
     };
 
     // Si el movimiento es válido, se retorna true, de lo contrario, false y se imprime un mensaje de error

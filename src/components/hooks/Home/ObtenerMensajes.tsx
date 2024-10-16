@@ -4,6 +4,8 @@ import { Partida } from "../../../types/partidaListada";
 const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>, socket: any) => {
   socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);
+
+    // Si el mensaje es de tipo AgregarPartida, guarda la partida en la lista de partidas
     if (message.type === 'AgregarPartida') {
       const partida = new Partida(
         message.data.idPartida,
@@ -17,10 +19,11 @@ const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partid
         }
         return partidas;
       });
-    } else if (message.type === 'EliminarPartida') {
+    }
+    
+    // Si el mensaje es de tipo EliminarPartida, borra la partida en la lista de partidas
+    else if (message.type === 'EliminarPartida') {
       setPartidas((partidas) => partidas.filter(p => p.id !== message.data.id));
-    } else if (message.type === 'AbandonarPartida') {
-      console.log("Abandonar partida desde Home");
     }
   };
 };
