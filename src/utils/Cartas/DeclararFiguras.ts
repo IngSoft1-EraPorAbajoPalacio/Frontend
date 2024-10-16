@@ -37,7 +37,7 @@ const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React
         setFigurasDetectadas(prevFiguras => [...prevFiguras, fig]); //Agrego las nuevas figuras detectadas
         fig.coordenadas.forEach((coord: Coord) => {
 
-            let numFichaCajon: number = coord[1]*6 + coord[0] ;
+            let numFichaCajon: number = coord[1] + coord[0]*6 ;
             if (figuraSeleccionada === null) { // No hay ninguna ficha perteneciente a una figura seleccionada
                 setMarcadasPorSelec([]);
                 marcarFicha(numFichaCajon);
