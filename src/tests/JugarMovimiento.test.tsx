@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
 import JugarMovimiento from '../components/hooks/Game/JugarMovimiento';
-import { act } from 'react';
+import { CartaMovimiento, Ficha, Movimiento } from '../types/partidaEnCurso';
 
 describe('JugarMovimiento', () => {
     it('Deberia llamar al metodo PATCH correctamente', async () => {
@@ -17,7 +17,8 @@ describe('JugarMovimiento', () => {
 
         const idPartida = 1;
         const idJugador = 2;
-        const movimiento = { carta: { id: 1 }, primerFicha: { x: 1, y: 1 }, segundaFicha: { x: 2, y: 2 } };
+        const cartaMovimiento = new CartaMovimiento(1, 1);
+        const movimiento = new Movimiento(cartaMovimiento, new Ficha(1, 1, "Amarillo"), new Ficha(2, 2, "Verde"));
 
         await JugarMovimiento(idPartida, idJugador, movimiento);
 
@@ -30,7 +31,8 @@ describe('JugarMovimiento', () => {
     it('En caso de error, deberia mostrarlo en consola', async () => {
         const idPartida = 1;
         const idJugador = 2;
-        const movimiento = { carta: { id: 1 }, primerFicha: { x: 1, y: 1 }, segundaFicha: { x: 2, y: 2 } };
+        const cartaMovimiento = new CartaMovimiento(1, 1);
+        const movimiento = new Movimiento(cartaMovimiento, new Ficha(1, 1, "Amarillo"), new Ficha(2, 2, "Verde"));
         const data = {
             idCarta: 1,
             posiciones: [

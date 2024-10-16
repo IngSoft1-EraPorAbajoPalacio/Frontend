@@ -148,8 +148,8 @@ describe('ObtenerMensajes', () => {
     });
 
     // Verificamos si se agrega el movimiento
-    const carta = new CartaMovimiento(movimientoParcial.carta.id, movimientoParcial.carta.movimiento);
-    const movimientoEsperado = new Movimiento(carta, movimientoParcial.fichas[0], movimientoParcial.fichas[1]);
+    const carta = new CartaMovimiento(1, 1);
+    const movimientoEsperado = new Movimiento(carta, { x: 0, y: 0, color: 'Azul' }, { x: 0, y: 1, color: 'Azul' });
     
     // Verificamos si se actualiza el estado de movimiento
     expect(setMovimiento).toHaveBeenCalledWith(movimientoEsperado);
