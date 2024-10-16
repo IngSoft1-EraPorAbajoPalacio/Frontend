@@ -1,6 +1,6 @@
 import iniciarPartida from '../hooks/Lobby/IniciarPartida';
 import ObtenerMensajes from '../hooks/Lobby/ObtenerMensajes';
-import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos } from '../context/GameContext';
+import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos, borrarPartida } from '../context/GameContext';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Jugador , Partida } from '../../types/partidaListada';
@@ -17,6 +17,7 @@ function Lobby() {
   const [partida, setPartida] = useState<Partida>();
   const [newSocket, setSocket] = useState<WebSocket | null>(null);
   const [desconexionesLobby, setDesconexionesLobby] = useState(0);
+  const [, setCancelada] = useState(false);
 
   const { redirectToGame, redirectToNotFound, redirectToHome } = useRouteNavigation();
   const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -38,7 +39,15 @@ function Lobby() {
     const newSocket = createSocketLobby(setDesconexionesLobby);
     setSocket(newSocket);
 
-    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida, newSocket);
+    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida,
+      (cancelada) => {
+        setCancelada(cancelada);
+        if (cancelada) {
+            redirectToHome();
+            newSocket.close();
+            borrarPartida(); 
+        }
+    }, newSocket);
   }, [desconexionesLobby]);
 
 
@@ -46,8 +55,9 @@ function Lobby() {
     if (partida && jugador) iniciarPartida(partida.id, jugador.id);
   };
 
-  const handleAbandonarPartida = () => {
-    AbandonarPartida(idPartida, idJugador);  
+  const handleAbandonarPartida = async () => {
+    await AbandonarPartida(idPartida, idJugador); 
+    borrarPartida(); 
     if (newSocket) newSocket.close();
     redirectToHome();
   };
@@ -62,6 +72,9 @@ function Lobby() {
               <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
             ))}
           </ul>
+          {partida && jugador && jugador.isHost && (
+            <button onClick={handleAbandonarPartida}>Cancelar</button>
+          )}
           {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
             <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}

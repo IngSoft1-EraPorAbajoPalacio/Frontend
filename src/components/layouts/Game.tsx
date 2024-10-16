@@ -50,6 +50,7 @@ function Juego () {
         if (idJugador == turnoActual) await PasarTurno(idPartida, idJugador);
         AbandonarPartida(idPartida, idJugador);  
         if (newSocket) newSocket.close();
+        borrarPartidaEnCurso();
         redirectToHome();
     };
 
