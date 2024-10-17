@@ -1,11 +1,8 @@
 import { Figura } from "../../../types/figura";
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-
 import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
-
-import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
-
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
+import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (

@@ -106,7 +106,6 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                     </button>
                 </div>
             </>
-
         )
     }
 
