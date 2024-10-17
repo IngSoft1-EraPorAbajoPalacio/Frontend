@@ -14,17 +14,20 @@ const ObtenerMensajes = (
 ) => {
   socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);
+
     // Si el mensaje es de tipo JugadorUnido, actualiza la lista de jugadores en el lobby
     if (message.type === 'JugadorUnido') {
       setJugadores(message.ListaJugadores);
       setContador(message.ListaJugadores.length);
     }
+
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
     else if (message.type === 'IniciarPartida') {
       setPartidaIniciada(true);
       handleIniciarPartida(message, idJugador, idPartida);
       borrarJugadoresUnidos();
     }
+    
     // Si el mensaje es de tipo AbandonarPartida, actualiza la lista de jugadores en el lobby
     else if (message.type === 'AbandonarPartida') {
       setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
