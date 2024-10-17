@@ -29,36 +29,34 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
-    idPartida: number;
     idJugador: number;
     fichasSeleccionadas: Ficha[];
     turnoActual: number | null;
+    manoMovimiento: CartaMovimiento[];
 }
 
-export function MostrarMovimientos({ partida, idPartida, idJugador, fichasSeleccionadas, turnoActual }: MostrarMovimientosProps) {
+export function MostrarMovimientos({ partida, idJugador, fichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
 
     const handleClick = (carta: CartaMovimiento) => {
         if (fichasSeleccionadas){
             const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1])
             const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
             if(!esValido) window.alert("Movimiento inválido");
-            else JugarMovimiento(idPartida, idJugador, movimiento);
+            else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
             borrarFichasSeleccionadas();
         }
     }
 
-    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.cartasMovimiento.length === 3);
-
     return (
         <div className="ManoHorizontal">
             <div className="Cartas"> 
-                {jugadordado?.cartasMovimiento?.map((carta: CartaMovimiento) => (
+                {manoMovimiento.map((carta: CartaMovimiento) => (
                     <img
                         key={carta.id}
                         className="Movimiento"
                         src={"/movimientos/mov" + carta.movimiento + EXT}
                         alt="Movimiento"
-                        onClick={() => {handleClick(carta)}}
+                        onClick={() => {if (turnoActual === idJugador) handleClick(carta)}}
                     />
                 ))} 
             </div>

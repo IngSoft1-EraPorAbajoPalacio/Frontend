@@ -1,16 +1,18 @@
 import "../../../../styles/Game/Juego.css";
 import { posicion } from '../../../../types/partidaEnCurso';
-import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerPartidaEnCurso } from '../../../context/GameContext';
+import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
 import { Ficha } from "../../../../types/partidaEnCurso";
 import React, { useState } from "react";
 
 interface TableroParams {
     setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    turnoActual: number | null,
+    idJugador: number | null
 }
 
-function Tablero ({ setFichasSeleccionadas }: TableroParams) {
+function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroParams) {
 
-    const fichas = obtenerPartidaEnCurso().fichas;
+    const fichas = obtenerFichasTablero();
     const fichasSeleccionadas = obtenerFichasSeleccionadas();
 
     let primerPosicion: number | null = fichasSeleccionadas[0];
@@ -54,10 +56,17 @@ function Tablero ({ setFichasSeleccionadas }: TableroParams) {
 
         return (
             <div key={posicion} className='Tablero-casilla'>
-                <button
-                    className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
-                    onClick={() => {handleClick(posicion, seleccionada, setSeleccionada)}}
-                ></button>
+                { turnoActual === idJugador ?
+                    <button
+                        className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
+                        onClick={() => {handleClick(posicion, seleccionada, setSeleccionada)}}
+                    ></button>
+                :
+                    <button
+                        className={color+'-sin-seleccion'}
+                        disabled={true}
+                    ></button>
+                }
             </div>
         )
     }

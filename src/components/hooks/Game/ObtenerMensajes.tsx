@@ -1,5 +1,5 @@
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-import { borrarPartida, guardarPartidaEnCurso, obtenerPartidaEnCurso } from "../../context/GameContext";
+import { borrarFichasTablero, borrarPartida, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 
 // Escucha los mensajes del servidor para pasar el turno
@@ -37,10 +37,27 @@ const ObtenerMensajes = (
 
     // Si el mensaje es de tipo MovimientoParcial setea la carta recibida
     else if (message.type === 'MovimientoParcial') {
+      const f1 = message.data.fichas[0];
+      const f2 = message.data.fichas[1];
+
+      // Crea la carta y el movimiento 
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
-      const newMovimiento = new Movimiento(newCarta, message.data.fichas[0], message.data.fichas[1]);
+      const newMovimiento = new Movimiento(newCarta, f1, f2);
+
+      // Setea el movimiento
       setMovimiento(newMovimiento);
       setMovimientoAgregado(true);
+
+      //Intercambia las fichas
+      const fichas = obtenerFichasTablero();
+      const aux = fichas[f1];
+      fichas[f1] = fichas[f2];
+      fichas[f2] = aux;
+
+      //Actualiza los datos del storage
+      borrarFichasTablero();
+      guardarFichasTablero(fichas);
+
     }
   }
 };

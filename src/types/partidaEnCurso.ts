@@ -70,15 +70,13 @@ export class PartidaEnCurso {
   nombre: string;
   cantJugadores: cantidadJugadores;
   jugadores: JugadorEnCurso[];
-  fichas: Ficha[];
   orden: number[];
 
-  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: number[]) {
+  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], orden: number[]) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadores = cantJugadores;
     this.jugadores = jugadores;
-    this.fichas = fichas;
     this.orden = orden;
   } 
 }

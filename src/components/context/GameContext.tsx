@@ -1,5 +1,6 @@
 import { Jugador, Partida, JugadoresUnidos } from "../../types/partidaListada";
 import { PartidaEnCurso } from "../../types/partidaEnCurso";
+import { Ficha } from "../../types/Partida";
 
 // Jugador
 export const guardarJugador = (jugador: Jugador) => {
@@ -31,6 +32,10 @@ export const obtenerPartidaEnCurso = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
+export const borrarPartidaEnCurso = () => {
+    sessionStorage.removeItem('partidaEnCurso');
+}
+
 // Fichas seleccionadas
 export const guardarFichasSeleccionadas = (fichas: number[]) => {
     sessionStorage.setItem('fichasSeleccionadas', JSON.stringify(fichas));
@@ -57,6 +62,20 @@ export const obtenerJugadoresUnidos = () => {
 
 export const borrarJugadoresUnidos = () => {
     sessionStorage.removeItem('jugadoresUnidos');
+}
+
+// Fichas del tablero
+export const guardarFichasTablero = (fichas: Ficha[]) => {
+    sessionStorage.setItem('fichasTablero', JSON.stringify(fichas));
+}
+
+export const obtenerFichasTablero = () => {
+    const fichas = sessionStorage.getItem('fichasTablero');
+    return fichas ? JSON.parse(fichas) : [];
+}
+
+export const borrarFichasTablero = () => {
+    sessionStorage.removeItem('fichasTablero');
 }
 
 // Borra el session storege completo
