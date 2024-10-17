@@ -58,3 +58,8 @@ body {
   margin-bottom: 1%;
   margin-top: 0%;
 }
+
+#barraBusqueda {
+  width: 30%;
+  height: 25px;
+}
