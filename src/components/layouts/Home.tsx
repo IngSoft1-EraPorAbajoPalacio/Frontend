@@ -18,6 +18,7 @@ const Home = () => {
     const [partidas, setPartidas] = useState<Partida[]>([]);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [desconexionesHome, setDesconexionesHome] = useState(0);
+    const [busqueda, setBusqueda] = useState<string>('');
 
     const { redirectToLobby } = useRouteNavigation();
     const seleccionarCrear = () => setPartidaCreada(true);
@@ -40,13 +41,26 @@ const Home = () => {
         setTryJoinGame(idPatida !== null);
     }, [idPatida]);
 
+    const partidasFiltradas = partidas.filter(partida =>
+        partida.nombre.toLowerCase().includes(busqueda.toLowerCase()) // no es caseSensitive
+    );
+
     return (
         <div id='home'>
             <div id='crear'>
                 <button onClick={() => seleccionarCrear()}>Crear partida</button>
-            </div>
+            </div>            
             <div id='unirse'>
-                <ListarPartidas setIdPartida={setIdPartida} partidas={partidas} />
+                <div>
+                    <input
+                        id='barraBusqueda'
+                        type="text"
+                        placeholder="Buscar partidas..."
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
+                    />
+                </div>
+                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} />
             </div>
             <Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
                 <FormCreateRoom setIdPartida={setIdPartida} setIdJugador={setIdJugador} />
