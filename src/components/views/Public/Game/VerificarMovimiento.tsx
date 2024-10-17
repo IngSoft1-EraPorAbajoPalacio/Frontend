@@ -43,11 +43,8 @@ const VerificarMovimiento = (
             (x1 === x2 && (y2 === 0 || y2 === 5)) || (y1 === y2 && (x2 === 0 || x2 === 5)),
     };
 
-    // Si el movimiento es válido, se retorna true, de lo contrario, false y se imprime un mensaje de error
-    const esValido = movimientos[carta.movimiento] ? movimientos[carta.movimiento]() : false;
-    if(!esValido) console.error("Error: Movimiento inválido.");
-
-    return esValido;
+    // Si el movimiento es válido, se retorna true, de lo contrario, false
+    return movimientos[carta.movimiento] ? movimientos[carta.movimiento]() : false;
 }
 
 export default VerificarMovimiento;

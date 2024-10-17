@@ -2,7 +2,7 @@ import '../../styles/Home/Home.css';
 import ListarPartidas from '../views/Public/Home/ListarPartidas';
 import { useEffect, useState } from 'react';
 import FormularioUnirsePartida from '../views/Public/Home/FormularioUnirsePartida';
-import Overlay from '../views/Public/Home/Overlay';
+import Overlay from '../../components/views/Public/Overlay';
 import FormCreateRoom from '../views/Public/Home/FormularioCrearPartida';
 import useRouteNavigation from '../routes/RouteNavigation';
 import ObtenerMensajes from '../hooks/Home/ObtenerMensajes';

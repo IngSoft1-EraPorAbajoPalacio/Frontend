@@ -1,7 +1,7 @@
 import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
-import { JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { Ficha, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { borrarPartida, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
@@ -10,6 +10,8 @@ import useRouteNavigation from "../routes/RouteNavigation";
 import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
+import Overlay from '../../components/views/Public/Overlay';
+import '../../styles/Game/MovimientoHecho.css';
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -18,15 +20,14 @@ function Juego () {
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
     const [, setMovimiento] = useState<Movimiento | null>(null);
-    const [, setMovimientoAgregado] = useState(false);
+    const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
+    const [fichasSeleccionadas, setFichasSeleccionadas] = useState<Ficha[]>([]);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
-
-
 
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
@@ -53,6 +54,10 @@ function Juego () {
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
     }
+
+    useEffect(() => {
+        setTimeout(() => setMovimientoAgregado(false), 1500);
+    }, [movimientoAgregado]);
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
@@ -66,7 +71,7 @@ function Juego () {
                     {jugador1 ? MostrarFiguras(jugador1, turnoActual): <div className="ManoHorizontal"></div>}
                     {jugador4 ? MostrarFiguras(jugador4, turnoActual): <div className="ManoHorizontal"></div>}
                 </div>
-                <Tablero />
+                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} />
                 <div className="ManosHorizontal">
                     {jugador2 ? MostrarFiguras(jugador2, turnoActual): <div className="ManoHorizontal"></div>}
                     {jugador3 ? MostrarFiguras(jugador3, turnoActual): <div className="ManoHorizontal"></div>}
@@ -78,8 +83,14 @@ function Juego () {
                     <button disabled>Pasar Turno</button>
                 }
                 <button onClick={handleAbandonarPartida}>Abandonar Partida</button>
-                <MostrarMovimientos partida={partida} />
+                <MostrarMovimientos partida={partida} idPartida={idPartida} idJugador={idJugador} fichasSeleccionadas={fichasSeleccionadas} turnoActual={turnoActual} />
             </div>
+            <Overlay isOpen={movimientoAgregado} onClose={() => { setMovimientoAgregado(!movimientoAgregado) }}>
+                <div className='MovimientoRealizado'>
+                    <h1>Movimiento Realizado</h1>
+                    <img src="/movimientos/mov5.svg"></img>
+                </div>
+            </Overlay>
         </div>
     )
 }

@@ -31,6 +31,20 @@ export const obtenerPartidaEnCurso = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
+// Fichas seleccionadas
+export const guardarFichasSeleccionadas = (fichas: number[]) => {
+    sessionStorage.setItem('fichasSeleccionadas', JSON.stringify(fichas));
+}
+
+export const borrarFichasSeleccionadas = () => {
+    sessionStorage.removeItem('fichasSeleccionadas');
+}
+
+export const obtenerFichasSeleccionadas = () => {
+    const fichas = sessionStorage.getItem('fichasSeleccionadas');
+    return fichas ? JSON.parse(fichas) : [];
+}
+
 // Jugadores Unidos
 export const guardarJugadoresUnidos = (jugadores: JugadoresUnidos[]) => {
     sessionStorage.setItem('jugadoresUnidos', JSON.stringify(jugadores));
