@@ -17,18 +17,20 @@ interface TableroProps {
     turnoActual: number | null,
     idJugador: number | null,
     figurasDetectadas: Figura[];
+
     figuraSeleccionada: number | null;
     setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>;
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>;
+
     marcadasPorSelec: number[],
     setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>;
 }
+
 
 const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, figurasDetectadas, figuraSeleccionada,
     setFiguraSeleccionada, setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec, turnoActual, idJugador }) => {
     const fichas = obtenerFichasTablero();
     const fichasSeleccionadas = obtenerFichasSeleccionadas();
-
     let primerPosicion: number | null = fichasSeleccionadas[0];
     let segundaPosicion: number | null = fichasSeleccionadas[1];
 
@@ -99,13 +101,14 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
 
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
                     <button className={color} onClick={() => {
-                        handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada,
-                            figuraSeleccionada, setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
+                        handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada
+                            , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
                     }}>
 
                     </button>
                 </div>
             </>
+
         )
     }
 

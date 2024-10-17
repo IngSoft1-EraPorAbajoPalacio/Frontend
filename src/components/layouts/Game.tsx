@@ -112,6 +112,7 @@ function Juego () {
                 marcaFiguras={marcaFiguras} 
                 figurasDetectadas={figurasDetectadas} 
                 figuraSeleccionada={figuraSeleccionada} setFiguraSeleccionada={setFiguraSeleccionada}
+
                 setMarcaFiguras={setMarcaFiguras}
                 marcadasPorSelec={marcadasPorSelec}
                 setMarcadasPorSelec={setMarcadasPorSelec}
