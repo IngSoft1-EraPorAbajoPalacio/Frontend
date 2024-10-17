@@ -101,7 +101,7 @@ function Juego () {
             <Overlay isOpen={movimientoAgregado} onClose={() => { setMovimientoAgregado(!movimientoAgregado) }}>
                 <div className='MovimientoRealizado'>
                     <h1>Movimiento Realizado</h1>
-                    <img src="/movimientos/mov5.svg"></img>
+                    <img src={"/movimientos/mov" + movimiento?.carta.movimiento + ".svg"}></img>
                 </div>
             </Overlay>
         </div>
