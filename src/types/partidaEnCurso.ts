@@ -15,15 +15,6 @@ export class Ficha {
       this.y = y;
       this.color = color;
     }
-
-    mover(x: posicion, y: posicion) {
-      this.x = x;
-      this.y = y;
-    }
-
-    getColor() {
-      return this.color;
-    }
 }
 
 export class CartaFigura {
@@ -71,7 +62,6 @@ export class PartidaEnCurso {
   jugadores: JugadorEnCurso[];
   fichas: Ficha[];
   orden: number[];
-  turnoActual: number;
 
   constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: number[]) {
     this.id = id;
@@ -80,6 +70,17 @@ export class PartidaEnCurso {
     this.jugadores = jugadores;
     this.fichas = fichas;
     this.orden = orden;
-    this.turnoActual = 1;
   } 
+}
+
+export class Movimiento{
+  carta: CartaMovimiento;
+  primerFicha: Ficha;
+  segundaFicha: Ficha;
+
+  constructor(carta: CartaMovimiento, primerFicha: Ficha, segundaFicha: Ficha) {
+    this.carta = carta;
+    this.primerFicha = primerFicha;
+    this.segundaFicha = segundaFicha;
+  }
 }

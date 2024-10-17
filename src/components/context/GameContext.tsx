@@ -21,10 +21,6 @@ export const obtenerPartida = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
-export const borrarPartida = () => {
-    sessionStorage.clear();
-}
-
 // Partida en curso
 export const guardarPartidaEnCurso = (partida: PartidaEnCurso) => {
     sessionStorage.setItem('partidaEnCurso', JSON.stringify(partida));
@@ -33,10 +29,6 @@ export const guardarPartidaEnCurso = (partida: PartidaEnCurso) => {
 export const obtenerPartidaEnCurso = () => {
     const partida = sessionStorage.getItem('partidaEnCurso');
     return partida ? JSON.parse(partida) : {};
-}
-
-export const borrarPartidaEnCurso = () => {
-    sessionStorage.removeItem('partidaEnCurso');
 }
 
 // Jugadores Unidos
@@ -51,4 +43,9 @@ export const obtenerJugadoresUnidos = () => {
 
 export const borrarJugadoresUnidos = () => {
     sessionStorage.removeItem('jugadoresUnidos');
+}
+
+// Borra el session storege completo
+export const borrarPartida = () => {
+    sessionStorage.clear();
 }

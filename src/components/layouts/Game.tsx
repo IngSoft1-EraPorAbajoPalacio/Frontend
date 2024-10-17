@@ -1,9 +1,9 @@
 import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
-import { JugadorEnCurso, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartidaEnCurso, obtenerPartidaEnCurso } from "../context/GameContext";
+import { borrarPartida, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -17,6 +17,8 @@ function Juego () {
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [, setMovimiento] = useState<Movimiento | null>(null);
+    const [, setMovimientoAgregado] = useState(false);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -29,11 +31,11 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
-                borrarPartidaEnCurso();
+                borrarPartida();
                 redirectToEnd(idPartida, idJugador);
             }
         }, newSocket);
@@ -50,7 +52,7 @@ function Juego () {
         if (partida) PasarTurno(partida.id, idJugador);
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
-    }  
+    }
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);

@@ -8,8 +8,8 @@ function Tablero () {
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
-        const posicion = y*6+x+1;
-        const color = fichas[posicion-1].color;
+        const posicion = x*6+y;
+        const color = fichas[posicion].color;
 
         return (
             <div key={posicion} className='Tablero-casilla'>
