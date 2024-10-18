@@ -51,7 +51,7 @@ export const partidaMock: PartidaEnCurso = {
     orden: [5, 6],
 }
 
-export const fichas: Ficha[] = [
+export const fichasMock: Ficha[] = [
     {x: 0, y: 0, color: 'Amarillo'},
     {x: 0, y: 1, color: 'Verde'},
     {x: 0, y: 2, color: 'Verde'},

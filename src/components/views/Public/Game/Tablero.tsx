@@ -52,7 +52,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
         const posicion = x*6+y;
         const color = fichas[posicion].color;
 
-        const [seleccionada, setSeleccionada] = useState( fichasSeleccionadas ? primerPosicion === posicion || segundaPosicion === posicion : false );
+        const [seleccionada, setSeleccionada] = useState<boolean>( fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false );
 
         return (
             <div key={posicion} className='Tablero-casilla'>

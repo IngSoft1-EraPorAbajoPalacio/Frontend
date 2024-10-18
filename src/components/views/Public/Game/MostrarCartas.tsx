@@ -46,14 +46,14 @@ export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas,
                 const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
 
                 borrarFichasSeleccionadas();
-                setFichasSeleccionadas([]);
 
                 if (!esValido) window.alert("Movimiento inválido");
                 else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
+
+                return [];
             }
 
             return fichasSeleccionadas;
-
         });
     }
 

@@ -48,9 +48,10 @@ const ObtenerMensajes = (
 
       //Intercambia las fichas
       const fichas = obtenerFichasTablero();
-      const aux = fichas[f1];
-      fichas[f1] = fichas[f2];
-      fichas[f2] = aux;
+      const aux = fichas[f1].color;
+      fichas[f1].color = fichas[f2].color;
+      fichas[f2].color = aux;
+
       //Actualiza los datos del storage
       borrarFichasTablero();
       guardarFichasTablero(fichas);
