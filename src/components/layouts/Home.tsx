@@ -51,6 +51,18 @@ const Home = () => {
         partida.cantJugadoresMin >= minPlayers &&
         partida.cantJugadoresMax <= maxPlayers
     );
+
+    const ajustarMin = (n: number) => {
+        if (minPlayers + n >= 2 && minPlayers + n <= maxPlayers) {
+            setMinPlayers(minPlayers + n);
+        }
+    };
+
+    const ajustarMax = (n: number) => {
+        if (maxPlayers + n >= minPlayers && maxPlayers + n <= 4) {  
+            setMaxPlayers(maxPlayers + n);
+        }
+    };
     
     return (
         <div id='home'>
@@ -59,6 +71,36 @@ const Home = () => {
             </div>            
             <div id='unirse'>
                 <BusquedaPartidas busqueda={busqueda} setBusqueda={setBusqueda} minPlayers={minPlayers} maxPlayers={maxPlayers} setMinPlayers= {setMinPlayers} setMaxPlayers= {setMaxPlayers} />
+                <div className="filtrarPartidas">
+                    <input
+                        id='barraBusqueda'
+                        type="text"
+                        placeholder="Buscar partidas..."
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
+                    />
+                    <div className="filtarJugs">
+                        <label><strong>Filtrar por cantidad de jugadores</strong></label>
+                        <div className="filtroJug">
+                            <div className="filtroJugItem">
+                                <label>Mín</label>
+                                <div className="controlFiltro">
+                                    <button onClick={() => ajustarMin(-1)}>-</button>
+                                    <span>{minPlayers}</span>
+                                    <button onClick={() => ajustarMin(1)}>+</button>
+                                </div>
+                            </div>
+                            <div className="filtroJugItem">
+                                <label>Máx</label>
+                                <div className="controlFiltro">
+                                    <button onClick={() => ajustarMax(-1)}>-</button>
+                                    <span>{maxPlayers}</span>
+                                    <button onClick={() => ajustarMax(1)}>+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} />
             </div>
             <Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
