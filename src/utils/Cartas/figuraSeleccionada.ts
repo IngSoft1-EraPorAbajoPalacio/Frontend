@@ -24,11 +24,12 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
 
     figurasDetectadas.forEach((fig: Figura) => {
         fig.coordenadas.forEach((coord: Coord) => {
-            let numFichaCajon: number = coord[1] + coord[0]*6;
+            let numFichaCajon: number = coord[1]*6 + coord[0];
             if (figuraSeleccionadaLocal === null) { // No hay ninguna ficha perteneciente a una figura seleccionada
                 setMarcadasPorSelec([]);
             } else if (figuraSeleccionadaLocal !== null && fig.tipoFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
             {
+                console.log("COORD: " + coord)
                 console.log("ESTA ES FACTO: "+ numFichaCajon);
                 setMarcadasPorSelec(prevFichasMarcadas => [...prevFichasMarcadas, numFichaCajon]); // Marco la ficha cajon de la seleccionada
                 marcarFicha(numFichaCajon);
