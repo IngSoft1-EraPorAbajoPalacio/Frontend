@@ -21,9 +21,9 @@ const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partid
       });
     }
     
-    // Si el mensaje es de tipo EliminarPartida, borra la partida en la lista de partidas
-    else if (message.type === 'EliminarPartida') {
-      setPartidas((partidas) => partidas.filter(p => p.id !== message.data.id));
+    // Si el mensaje es de tipo PartidaEliminada, borra la partida de la lista de partidas
+    else if (message.type === 'PartidaEliminada') {
+      setPartidas((partidas) => partidas.filter(p => p.id !== message.data.idPartida));
     }
   };
 };
