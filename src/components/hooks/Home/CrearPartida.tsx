@@ -37,7 +37,7 @@ function CrearPartida (
                     idPlayer: id_jugador,
                 });
                 if (form.maxPlayers < 2 || form.maxPlayers > 4 || form.minPlayers < 2 || form.minPlayers > 4) {
-                    console.error('Número inválido de jugadores.');
+                    console.error('Invalid number of players.');
                 } else {
                     guardarJugador({ id: id_jugador, nombre: data.nombre_host, isHost: true });
                     guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
@@ -46,7 +46,7 @@ function CrearPartida (
                     setIdPartida(id_partida);
                 }
             } else {
-                throw new Error('Hubo un problema tratando de crear la partida.');
+                console.error('Error al crear la partida.');
             }
         } catch (error) {
             console.error(error);

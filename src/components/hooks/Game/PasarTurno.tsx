@@ -5,9 +5,9 @@ const PasarTurno = async (idPartida: number | null, idJugador: number | null) =>
   try {
     const url = `http://localhost:8000/partida/${idPartida}/jugador/${idJugador}`;
     const response = await axios.patch(url);
-    if ((response.status !== 202)) throw new Error("Hubo un problema tratando de pasar turno");
+    if ((response.status !== 202)) throw new Error("Error pasando de turno");
   } catch (error) {
-    console.error(error);
+    console.error("Error pasando de turno:", error);
   }
 };
 

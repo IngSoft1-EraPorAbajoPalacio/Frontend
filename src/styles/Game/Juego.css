@@ -33,63 +33,30 @@
     cursor: pointer;
 }
 
+.Tablero-casilla button {
+    width: 85%;
+    height: 85%;
+}
+
 .Tablero-casilla button:hover {
     background-color: #c9b791d8;
     border-radius: 8px;
 }
 
- /* Con selección */
-.Tablero-casilla .Amarillo-sin-seleccion {
+.Tablero-casilla .Amarillo {
     background: yellow;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
-.Tablero-casilla .Rojo-sin-seleccion {
+.Tablero-casilla .Rojo {
     background: red;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
-.Tablero-casilla .Verde-sin-seleccion {
+.Tablero-casilla .Verde {
     background: green;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
-.Tablero-casilla .Azul-sin-seleccion {
+.Tablero-casilla .Azul {
     background: blue;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
-}
-
-/* Sin selección */
-.Tablero-casilla .Amarillo-con-seleccion {
-    background: rgb(59, 59, 0);
-    width: 85%;
-    height: 85%;
-}
-
-.Tablero-casilla .Rojo-con-seleccion {
-    background: rgba(129, 0, 0, 0.6);
-    width: 85%;
-    height: 85%;
-}
-
-.Tablero-casilla .Verde-con-seleccion {
-    background: rgba(0, 71, 0, 0.6);
-    width: 85%;
-    height: 85%;
-}
-
-.Tablero-casilla .Azul-con-seleccion {
-    background: rgba(0, 0, 121, 0.6);
-    width: 85%;
-    height: 85%;
 }
 
 .Carta {

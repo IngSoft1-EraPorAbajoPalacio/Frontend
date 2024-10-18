@@ -1,8 +1,8 @@
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
-import { borrarFichasSeleccionadas } from "../../../context/GameContext";
-import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
-import VerificarMovimiento from "./VerificarMovimiento";
+import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
+import PasarTurno from "../../../hooks/Game/PasarTurno";
+import { obtenerPartidaEnCurso } from "../../../context/GameContext";
+import { SetStateAction } from "react";
 
 const EXT = ".svg";
 
@@ -12,9 +12,8 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
     const cartasSrc: string[] = cartas.map(carta => {
         if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
-        else if (carta.figura <= 25) return PATH + carta.figura + EXT;
-        else {console.error("Error carta número");
-            return "";}
+        else if (carta.figura <= 18) return PATH + carta.figura + EXT;
+        else return PATH + "0" + (carta.figura-18) + EXT;
     });
 
     return (
@@ -29,46 +28,36 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
-    idJugador: number;
-    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    setPartida: React.Dispatch<SetStateAction<PartidaEnCurso | null>>;
     turnoActual: number | null;
-    manoMovimiento: CartaMovimiento[];
 }
 
-export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
+export function MostrarMovimientos({ partida, setPartida, turnoActual }: MostrarMovimientosProps) {
 
-    const handleClick = (carta: CartaMovimiento) => {
-        setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {
+    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.cartasMovimiento.length === 3);
+    const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "/movimientos/mov" + carta.movimiento + EXT);
 
-            //si hay fichas seleccionadas juega el movimiento
-            if (fichasSeleccionadas.length !== 0) {
-                const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1]);
-                const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
-
-                borrarFichasSeleccionadas();
-
-                if (!esValido) window.alert("Movimiento inválido");
-                else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
-
-                return [];
-            }
-
-            return fichasSeleccionadas;
-        });
-    }
+    const handlePasarTurno = () => {
+        if (partida && jugadordado) {
+            PasarTurno(partida.id, jugadordado.id);
+        }
+        const nuevaPartida = obtenerPartidaEnCurso();
+        setPartida(nuevaPartida);
+    }    
 
     return (
-        <div className="ManoHorizontal">
-            <div className="Cartas"> 
-                {manoMovimiento.map((carta: CartaMovimiento) => (
-                    <img
-                        key={carta.id}
-                        className="Movimiento"
-                        src={"/movimientos/mov" + carta.movimiento + EXT}
-                        alt="Movimiento"
-                        onClick={() => {if (turnoActual === idJugador) handleClick(carta)}}
-                    />
-                ))} 
+        <div id='ManoJugador'>
+            <button>Abandonar Partida</button>
+            {jugadordado?.id === turnoActual ?
+                <button onClick={handlePasarTurno}>Pasar Turno</button> :
+                <button disabled>Pasar Turno</button>
+            }
+            <div className="ManoHorizontal">
+                <div className="Cartas"> 
+                    {cartasSrc?.map((src: string | undefined, index: number) => (
+                        <img key={index} className="Movimiento" src={src} alt="Movimiento" />
+                    ))} 
+                </div>
             </div>
         </div>
     );

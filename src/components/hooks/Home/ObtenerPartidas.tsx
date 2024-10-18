@@ -6,7 +6,7 @@ const obtenerPartidas = async (setLista: React.Dispatch<React.SetStateAction<Par
         const url = "http://localhost:8000/partidas";
         const response = await axios.get(url);
         if (response?.status !== 200 || !Array.isArray(response?.data)) {
-            throw new Error("Hubo un problema tratando de obtener la lista de partidas disponibles");
+            throw new Error("Error obteniendo la lista de partidas");
         } else {
             const dataPartidas = response.data.map((partida) => 
                 new Partida(
@@ -19,7 +19,7 @@ const obtenerPartidas = async (setLista: React.Dispatch<React.SetStateAction<Par
             setLista(dataPartidas);
         }
     } catch (error) {
-        console.error(error);
+        console.error("Error obteniendo la lista de partidas:", error);
         setLista([]);
     }
 };

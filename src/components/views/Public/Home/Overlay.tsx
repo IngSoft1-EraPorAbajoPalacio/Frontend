@@ -1,4 +1,4 @@
-import '../../../styles/Home/Overlay.css';
+import '../../../../styles/Home/Overlay.css';
 
 interface OverlayProps {
     children: React.ReactNode;
