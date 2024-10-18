@@ -1,21 +1,22 @@
 import { describe, it, expect } from "vitest";
 import VerificarMovimiento from "../components/views/Public/Game/VerificarMovimiento";
-import { partidaMock } from "../data/MockPartidaEnCurso";
+import { fichas, partidaMock } from "../data/MockPartidaEnCurso";
 
 describe("VerificarMovimiento", () => {
 
     it("mov1 (dos pasos en diagonal): Debería ser válido jugar una carta de movimiento correctamente estando en turno", async () => {
 
+
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[0],
-        primerFicha: partidaMock.fichas[2],
-        segundaFicha: partidaMock.fichas[12]
+        primerFicha: fichas[2],
+        segundaFicha: fichas[12]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[0],
-            primerFicha: partidaMock.fichas[2],
-            segundaFicha: partidaMock.fichas[12]
+            primerFicha: fichas[2],
+            segundaFicha: fichas[12]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -26,14 +27,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[1],
-        primerFicha: partidaMock.fichas[18],
-        segundaFicha: partidaMock.fichas[20]
+        primerFicha: fichas[18],
+        segundaFicha: fichas[20]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[1],
-            primerFicha: partidaMock.fichas[20],
-            segundaFicha: partidaMock.fichas[18]
+            primerFicha: fichas[20],
+            segundaFicha: fichas[18]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -44,14 +45,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[2],
-        primerFicha: partidaMock.fichas[21],
-        segundaFicha: partidaMock.fichas[22]
+        primerFicha: fichas[21],
+        segundaFicha: fichas[22]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[2],
-            primerFicha: partidaMock.fichas[22],
-            segundaFicha: partidaMock.fichas[21]
+            primerFicha: fichas[22],
+            segundaFicha: fichas[21]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -62,14 +63,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[3],
-        primerFicha: partidaMock.fichas[9],
-        segundaFicha: partidaMock.fichas[16]
+        primerFicha: fichas[9],
+        segundaFicha: fichas[16]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[3],
-            primerFicha: partidaMock.fichas[16],
-            segundaFicha: partidaMock.fichas[9]
+            primerFicha: fichas[16],
+            segundaFicha: fichas[9]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -80,14 +81,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[4],
-        primerFicha: partidaMock.fichas[27],
-        segundaFicha: partidaMock.fichas[23]
+        primerFicha: fichas[27],
+        segundaFicha: fichas[23]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[4],
-            primerFicha: partidaMock.fichas[27],
-            segundaFicha: partidaMock.fichas[31]
+            primerFicha: fichas[27],
+            segundaFicha: fichas[31]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -98,14 +99,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[5],
-        primerFicha: partidaMock.fichas[27],
-        segundaFicha: partidaMock.fichas[35]
+        primerFicha: fichas[27],
+        segundaFicha: fichas[35]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[5],
-            primerFicha: partidaMock.fichas[35],
-            segundaFicha: partidaMock.fichas[27]
+            primerFicha: fichas[35],
+            segundaFicha: fichas[27]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -116,14 +117,14 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[6],
-        primerFicha: partidaMock.fichas[23],
-        segundaFicha: partidaMock.fichas[35]
+        primerFicha: fichas[23],
+        segundaFicha: fichas[35]
         };
 
         const movimientoReversa = {
             carta: partidaMock.jugadores[0].cartasMovimiento[6],
-            primerFicha: partidaMock.fichas[14],
-            segundaFicha: partidaMock.fichas[17]
+            primerFicha: fichas[14],
+            segundaFicha: fichas[17]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -134,8 +135,8 @@ describe("VerificarMovimiento", () => {
 
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[0],
-        primerFicha: partidaMock.fichas[2],
-        segundaFicha: partidaMock.fichas[12]
+        primerFicha: fichas[2],
+        segundaFicha: fichas[12]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[1].id)).toBe(false);
@@ -145,8 +146,8 @@ describe("VerificarMovimiento", () => {
             
         const movimiento = {
         carta: partidaMock.jugadores[0].cartasMovimiento[0],
-        primerFicha: partidaMock.fichas[2],
-        segundaFicha: partidaMock.fichas[13]
+        primerFicha: fichas[2],
+        segundaFicha: fichas[13]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(false);

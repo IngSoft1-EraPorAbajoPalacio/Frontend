@@ -44,7 +44,7 @@ const ObtenerMensajes = (
 
       // Crea la carta y el movimiento 
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
-      const newMovimiento = new Movimiento(newCarta, f1, f2);
+      const newMovimiento = new Movimiento(newCarta, message.data.fichas[0], message.data.fichas[1]);
 
       //Intercambia las fichas
       const fichas = obtenerFichasTablero();
