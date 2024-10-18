@@ -30,21 +30,30 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
     idJugador: number;
-    fichasSeleccionadas: Ficha[];
+    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
     turnoActual: number | null;
     manoMovimiento: CartaMovimiento[];
 }
 
-export function MostrarMovimientos({ partida, idJugador, fichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
+export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
 
     const handleClick = (carta: CartaMovimiento) => {
-        if (fichasSeleccionadas){
-            const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1])
-            const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
-            if(!esValido) window.alert("Movimiento inválido");
-            else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
-            borrarFichasSeleccionadas();
-        }
+        setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {
+
+            //si hay fichas seleccionadas juega el movimiento
+            if (fichasSeleccionadas.length !== 0) {
+                const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1]);
+                const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
+
+                borrarFichasSeleccionadas();
+
+                if (!esValido) window.alert("Movimiento inválido");
+                else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
+
+                return [];
+            }
+            return fichasSeleccionadas;
+        });
     }
 
     return (

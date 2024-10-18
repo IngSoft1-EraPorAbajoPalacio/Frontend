@@ -21,7 +21,7 @@ function Juego () {
     const [desconexionesGame, setDesconexionesGame] = useState(0);
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
-    const [fichasSeleccionadas, setFichasSeleccionadas] = useState<Ficha[]>([]);
+    const [, setFichasSeleccionadas] = useState<Ficha[]>([]);
     const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>([]);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -93,7 +93,7 @@ function Juego () {
                 <MostrarMovimientos
                     partida={partida}
                     idJugador={idJugador}
-                    fichasSeleccionadas={fichasSeleccionadas}
+                    setFichasSeleccionadas={setFichasSeleccionadas}
                     turnoActual={turnoActual}
                     manoMovimiento={manoMovimiento}
                 />

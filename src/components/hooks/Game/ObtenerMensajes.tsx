@@ -1,5 +1,5 @@
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarPartida, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
+import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 
 // Escucha los mensajes del servidor para pasar el turno
@@ -30,7 +30,7 @@ const ObtenerMensajes = (
     else if (message.type === 'AbandonarPartida') {
       const partida = obtenerPartidaEnCurso();
       partida.jugadores = partida.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== message.data.idJugador);
-      borrarPartida();
+      borrarPartidaEnCurso();
       guardarPartidaEnCurso(partida);
       setPartida(partida);
     }
