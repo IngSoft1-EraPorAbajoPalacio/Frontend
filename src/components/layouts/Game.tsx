@@ -3,7 +3,7 @@ import "../../styles/Game/Juego.css";
 import { MostrarFiguras, MostrarMovimientos } from "../views/Public/Game/MostrarCartas";
 import { JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso } from "../context/GameContext";
+import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";

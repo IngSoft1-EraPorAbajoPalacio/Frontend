@@ -31,6 +31,10 @@ export const obtenerPartidaEnCurso = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
+export const borrarPartidaEnCurso = () => {
+    sessionStorage.removeItem('partidaEnCurso');
+}
+
 // Jugadores Unidos
 export const guardarJugadoresUnidos = (jugadores: JugadoresUnidos[]) => {
     sessionStorage.setItem('jugadoresUnidos', JSON.stringify(jugadores));

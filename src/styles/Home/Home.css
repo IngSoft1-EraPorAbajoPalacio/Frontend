@@ -59,7 +59,56 @@ body {
   margin-top: 0%;
 }
 
-#barraBusqueda {
-  width: 30%;
-  height: 25px;
+
+
+.filtrarPartidas {
+  display: flex;
+  align-items: center;
+  gap: 40px; 
+}
+
+
+.filtrarPartidas input#barraBusqueda {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+
+.filtrarJugs{
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+
+.filtroJug {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Space between min and max controls */
+}
+
+/* Each player-filter-item (Mín and Máx) has label above controls */
+.filtroJugItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controlFiltro {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.controlFiltro button {
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.controlFiltro span {
+  font-size: 18px;
+  width: 30px;
+  text-align: center;
 }
