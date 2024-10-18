@@ -82,6 +82,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
 
         return (
 
+
             <>
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
                     {turnoActual === idJugador ?
@@ -108,6 +109,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                     </button>
                 </div>
             </>
+
 
         )
     }
