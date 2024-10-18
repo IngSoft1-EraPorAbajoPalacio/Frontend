@@ -1,6 +1,5 @@
 import { Jugador, Partida, JugadoresUnidos } from "../../types/partidaListada";
-import { PartidaEnCurso } from "../../types/partidaEnCurso";
-import { Ficha } from "../../types/Partida";
+import { PartidaEnCurso, Ficha } from "../../types/partidaEnCurso";
 
 // Jugador
 export const guardarJugador = (jugador: Jugador) => {

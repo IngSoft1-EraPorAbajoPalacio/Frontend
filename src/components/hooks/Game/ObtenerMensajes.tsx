@@ -37,26 +37,27 @@ const ObtenerMensajes = (
 
     // Si el mensaje es de tipo MovimientoParcial setea la carta recibida
     else if (message.type === 'MovimientoParcial') {
-      const f1 = message.data.fichas[0];
-      const f2 = message.data.fichas[1];
+
+      // Calcula las posiciones de las fichas en el array
+      const f1 = message.data.fichas[0].x * 6 + message.data.fichas[0].y;
+      const f2 = message.data.fichas[1].x * 6 + message.data.fichas[1].y;
 
       // Crea la carta y el movimiento 
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
       const newMovimiento = new Movimiento(newCarta, f1, f2);
-
-      // Setea el movimiento
-      setMovimiento(newMovimiento);
-      setMovimientoAgregado(true);
 
       //Intercambia las fichas
       const fichas = obtenerFichasTablero();
       const aux = fichas[f1];
       fichas[f1] = fichas[f2];
       fichas[f2] = aux;
-
       //Actualiza los datos del storage
       borrarFichasTablero();
       guardarFichasTablero(fichas);
+
+      // Setea el movimiento
+      setMovimiento(newMovimiento);
+      setMovimientoAgregado(true);
 
     }
   }
