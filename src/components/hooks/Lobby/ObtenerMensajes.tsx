@@ -1,28 +1,39 @@
-import socket from "../../../services/sockets";
-import { borrarJugadoresUnidos } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
-  setJugador: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
+  setJugadores: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
   setContador: React.Dispatch<React.SetStateAction<number>>,
   setPartidaIniciada: React.Dispatch<React.SetStateAction<boolean>>,
   idJugador: number,
-  idPartida: number
+  idPartida: number,
+  socket : any
 ) => {
   socket.onmessage = (event: any) => {
     const message = JSON.parse(event.data);
+
     // Si el mensaje es de tipo JugadorUnido, actualiza la lista de jugadores en el lobby
     if (message.type === 'JugadorUnido') {
-      setJugador(message.ListaJugadores);
+      setJugadores(message.ListaJugadores);
       setContador(message.ListaJugadores.length);
     }
+
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
     else if (message.type === 'IniciarPartida') {
       setPartidaIniciada(true);
       handleIniciarPartida(message, idJugador, idPartida);
       borrarJugadoresUnidos();
+    }
+    
+    // Si el mensaje es de tipo AbandonarPartida, actualiza la lista de jugadores en el lobby
+    else if (message.type === 'AbandonarPartida') {
+      setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
+        const nuevosJugadores = antiguosJugadores.filter((player) => player.id !== message.data.idJugador);
+        return nuevosJugadores;
+      });
+      setContador((contador: number) => contador - 1);
     }
   };
 };
@@ -48,12 +59,12 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
     obtenerPartida().nombre, 
     mensaje.orden.length, 
     jugadores, 
-    mensaje.fichas, 
     mensaje.orden
   );
 
   // Guardar la partida en el contexto
   guardarPartidaEnCurso(partida);
+  guardarFichasTablero(mensaje.fichas);
 
 };
 

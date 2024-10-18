@@ -2,7 +2,7 @@
 import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Lobby/ObtenerMensajes';
-import socket from '../services/sockets';
+import createSocketLobby from '../services/socketLobby';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/sockets', () => ({
@@ -10,6 +10,16 @@ vi.mock('../services/sockets', () => ({
 }));
 
 describe('ObtenerMensajes', () => {
+    let socket: any;
+
+    beforeAll(() => {
+    socket = createSocketLobby;
+    });
+
+    afterAll(() => {
+    socket.close;
+    });
+
     it('Debería actualizar la lista de jugadores cuando recibe un mensaje de tipo JugadorUnido', () => {
         const setJugadores = vi.fn();
         const setContador = vi.fn();
@@ -19,7 +29,7 @@ describe('ObtenerMensajes', () => {
 
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida);
+        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida, socket);
 
         // Simulamos un mensaje de tipo JugadorUnido
         const message = JSON.stringify({
@@ -35,6 +45,29 @@ describe('ObtenerMensajes', () => {
         // Verificamos si se actualiza la lista de jugadores correctamente
         expect(setJugadores).toHaveBeenCalledWith(['Jugador1', 'Jugador2', 'Jugador3']);
         expect(setContador).toHaveBeenCalledWith(3);
+    });
+
+    it('No debería actualizar la lista de jugadores si el mensaje no es de tipo JugadorUnido', () => {
+        const setJugadores = vi.fn();
+        const setContador = vi.fn();
+        const setList = vi.fn();
+        const idJugador = 1; // No importa el valor
+        const idPartida = 1; // No importa el valor
+
+        // Llamamos a la función que escucha los mensajes
+        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida, socket);
+
+        // Simulamos un mensaje de otro tipo
+        const message = JSON.stringify({ type: 'OtroTipo', ListaJugadores: ['Jugador1', 'Jugador2', 'Jugador3'] });
+
+        // Llamamos al evento onmessage
+        act(() => {
+            socket.onmessage({ data: message });
+        });
+
+        // Verificamos que no se haya llamado setJugadores
+        expect(setJugadores).not.toHaveBeenCalled();
+        expect(setContador).not.toHaveBeenCalled();
     });
 
 });
