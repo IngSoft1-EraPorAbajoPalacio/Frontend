@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, guardarFichasTablero } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
@@ -9,6 +9,7 @@ const ObtenerMensajes = (
   setPartidaIniciada: React.Dispatch<React.SetStateAction<boolean>>,
   idJugador: number,
   idPartida: number,
+  setCancelada: React.Dispatch<React.SetStateAction<boolean>>,
   socket : any
 ) => {
   socket.onmessage = (event: any) => {
@@ -34,6 +35,12 @@ const ObtenerMensajes = (
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
+    }
+    // Si el mensaje es de tipo PartidaEliminada, redirecciona al usuario al Home
+    else if (message.type === 'PartidaEliminada') {
+      borrarPartida();
+      setCancelada(true);
+      return () => socket.close();
     }
   };
 };
