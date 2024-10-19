@@ -3,9 +3,9 @@ import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
-import { partidaMock } from '../data/MockPartidaEnCurso';
+import { partidaMock, fichasMock } from '../data/MockPartidaEnCurso';
 import { JugadorEnCurso } from '../types/partidaEnCurso';
-import { guardarPartidaEnCurso } from '../components/context/GameContext';
+import { guardarFichasTablero, guardarPartidaEnCurso } from '../components/context/GameContext';
 import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
 
 // Mockeamos el módulo de socket
@@ -132,6 +132,7 @@ describe('ObtenerMensajes', () => {
     ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setFinalizado, socket);
 
     // Simulamos un mensaje de tipo MovimientoParcial
+    guardarFichasTablero(fichasMock);
     const movimientoParcial = {
       carta: { id: 1, movimiento: 1 },
       fichas: [

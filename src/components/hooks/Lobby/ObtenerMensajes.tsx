@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, borrarPartida } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
@@ -66,12 +66,12 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
     obtenerPartida().nombre, 
     mensaje.orden.length, 
     jugadores, 
-    mensaje.fichas, 
     mensaje.orden
   );
 
   // Guardar la partida en el contexto
   guardarPartidaEnCurso(partida);
+  guardarFichasTablero(mensaje.fichas);
 
 };
 

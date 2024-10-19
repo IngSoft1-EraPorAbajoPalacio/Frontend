@@ -1,5 +1,5 @@
 import { JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-import { borrarPartida, guardarPartidaEnCurso, obtenerPartidaEnCurso } from "../../context/GameContext";
+import { borrarFichasTablero, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarPartidaEnCurso, obtenerFichasTablero, obtenerPartidaEnCurso } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 
 // Escucha los mensajes del servidor para pasar el turno
@@ -30,17 +30,36 @@ const ObtenerMensajes = (
     else if (message.type === 'AbandonarPartida') {
       const partida = obtenerPartidaEnCurso();
       partida.jugadores = partida.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== message.data.idJugador);
-      borrarPartida();
+      borrarPartidaEnCurso();
       guardarPartidaEnCurso(partida);
       setPartida(partida);
     }
 
     // Si el mensaje es de tipo MovimientoParcial setea la carta recibida
     else if (message.type === 'MovimientoParcial') {
+
+      // Calcula las posiciones de las fichas en el array
+      const f1 = message.data.fichas[0].x * 6 + message.data.fichas[0].y;
+      const f2 = message.data.fichas[1].x * 6 + message.data.fichas[1].y;
+
+      // Crea la carta y el movimiento 
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
       const newMovimiento = new Movimiento(newCarta, message.data.fichas[0], message.data.fichas[1]);
+
+      //Intercambia las fichas
+      const fichas = obtenerFichasTablero();
+      const aux = fichas[f1].color;
+      fichas[f1].color = fichas[f2].color;
+      fichas[f2].color = aux;
+
+      //Actualiza los datos del storage
+      borrarFichasTablero();
+      guardarFichasTablero(fichas);
+
+      // Setea el movimiento
       setMovimiento(newMovimiento);
       setMovimientoAgregado(true);
+
     }
   }
 };

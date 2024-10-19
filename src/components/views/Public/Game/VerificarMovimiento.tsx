@@ -32,22 +32,18 @@ const VerificarMovimiento = (
         4: () => //Mover un paso en diagonal
             Math.abs(x1 - x2) === 1 && Math.abs(y1 - y2) === 1,
         5: () => // Mover en forma de L inversa
-            Math.abs(x1 - x2) === 1 ?
-                (x2 - x1 === 1 && y2 - y1 === -2) || (x2 - x1 === -1 && y2 - y1 === 2) :
-                (y2 - y1 === 1 && x2 - x1 === -2) || (y2 - y1 === -1 && x2 - x1 === 2),
+            (x2 - x1 === 1 && y2 - y1 === -2) || (x2 - x1 === -1 && y2 - y1 === 2) ||
+            (y2 - y1 === 1 && x2 - x1 === 2) || (y2 - y1 === -1 && x2 - x1 === -2),
         6: () => // Mover en forma de L
-            Math.abs(x1 - x2) === 1 ?
-                (x2 - x1 === 1 && y2 - y1 === 2) || (x2 - x1 === -1 && y2 - y1 === -2) :
-                (y2 - y1 === 1 && x2 - x1 === 2) || (y2 - y1 === -1 && x2 - x1 === -2),
+            (x2 - x1 === 1 && y2 - y1 === 2) || (x2 - x1 === -1 && y2 - y1 === -2) ||
+            (y2 - y1 === 1 && x2 - x1 === -2) || (y2 - y1 === -1 && x2 - x1 === 2),
         7: () => // Mover hasta un borde manteniendo la misma fila o columna
-            (x1 === x2 && (y2 === 0 || y2 === 5)) || (y1 === y2 && (x2 === 0 || x2 === 5)),
+            (x1 === x2 && (y2 === 0 || y2 === 5 || y1 === 0 || y1 === 5)) ||
+            (y1 === y2 && (x2 === 0 || x2 === 5 || x1 === 0 || x1 === 5))
     };
 
-    // Si el movimiento es válido, se retorna true, de lo contrario, false y se imprime un mensaje de error
-    const esValido = movimientos[carta.movimiento] ? movimientos[carta.movimiento]() : false;
-    if(!esValido) console.error("Error: Movimiento inválido.");
-
-    return esValido;
+    // Si el movimiento es válido, se retorna true, de lo contrario, false
+    return movimientos[carta.movimiento] ? movimientos[carta.movimiento]() : false;
 }
 
 export default VerificarMovimiento;

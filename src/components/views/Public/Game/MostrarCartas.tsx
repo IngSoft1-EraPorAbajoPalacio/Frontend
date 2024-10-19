@@ -1,5 +1,8 @@
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
+import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
+import { borrarFichasSeleccionadas } from "../../../context/GameContext";
+import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
+import VerificarMovimiento from "./VerificarMovimiento";
 
 const EXT = ".svg";
 
@@ -26,18 +29,45 @@ export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | nu
 
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
+    idJugador: number;
+    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    turnoActual: number | null;
+    manoMovimiento: CartaMovimiento[];
 }
 
-export function MostrarMovimientos({ partida }: MostrarMovimientosProps) {
+export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
 
-    const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.cartasMovimiento.length === 3);
-    const cartasSrc = jugadordado?.cartasMovimiento.map((carta: CartaMovimiento) => "/movimientos/mov" + carta.movimiento + EXT);  
+    const handleClick = (carta: CartaMovimiento) => {
+        setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {
+
+            //si hay fichas seleccionadas juega el movimiento
+            if (fichasSeleccionadas.length !== 0) {
+                const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1]);
+                const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
+
+                borrarFichasSeleccionadas();
+
+                if (!esValido) window.alert("Movimiento inválido");
+                else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
+
+                return [];
+            }
+
+            return fichasSeleccionadas;
+        });
+    }
 
     return (
         <div className="ManoHorizontal">
             <div className="Cartas"> 
-                {cartasSrc?.map((src: string | undefined, index: number) => (
-                    <img key={index} className="Movimiento" src={src} alt="Movimiento" />
+                {manoMovimiento.map((carta: CartaMovimiento) => (
+                    <img
+                        key={carta.id}
+                        className="Movimiento"
+                        src={"/movimientos/mov" + carta.movimiento + EXT}
+                        alt="Movimiento"
+                        onClick={() => {if (turnoActual === idJugador) handleClick(carta)}}
+                    />
                 ))} 
             </div>
         </div>
