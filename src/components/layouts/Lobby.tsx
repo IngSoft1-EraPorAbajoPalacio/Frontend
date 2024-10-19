@@ -72,12 +72,14 @@ function Lobby() {
               <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
             ))}
           </ul>
+          <div className='lobby-buttons'>
           {partida && jugador && jugador.isHost && (
-            <button onClick={handleAbandonarPartida}>Cancelar</button>
+            <button className='lobby-button' onClick={handleAbandonarPartida}>Cancelar</button>
           )}
           {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
-            <button className='lobby-button' onClick={handleIniciarPartida}>Iniciar Partida</button>
+            <button className='lobby-button-iniciar' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
+          </div>
           {jugador && !jugador.isHost && (<button className='lobby-button' onClick={handleAbandonarPartida}>Abandonar</button>)}
         </div>
       
