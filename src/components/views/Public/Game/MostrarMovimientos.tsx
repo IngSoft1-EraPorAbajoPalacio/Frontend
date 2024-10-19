@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "../../../../styles/Game/Juego.css";
 import { PartidaEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
 import { borrarFichasSeleccionadas } from "../../../context/GameContext";
