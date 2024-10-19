@@ -1,31 +1,12 @@
+import { useState } from "react";
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, JugadorEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
+import { PartidaEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
 import { borrarFichasSeleccionadas } from "../../../context/GameContext";
 import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
 import VerificarMovimiento from "./VerificarMovimiento";
+import DeshacerMovimiento from "../../../hooks/Game/DeshacerMovimiento";
 
 const EXT = ".svg";
-
-export function MostrarFiguras(jugador: JugadorEnCurso, turnoActual: number | null) {
-    const cartas = jugador.cartasFigura;
-    const PATH = "/figuras/fig";
-
-    const cartasSrc: string[] = cartas.map(carta => {
-        if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
-        else if (carta.figura <= 25) return PATH + carta.figura + EXT;
-        else {console.error("Error carta número");
-            return "";}
-    });
-
-    return (
-        <div className="ManoHorizontal">
-            <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
-            <div className="Cartas">
-                {cartasSrc?.map((src: string | undefined, index: number) => <img key={index} className="Figura" src={src}/>)}
-            </div>
-        </div>
-    )
-}
 
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
@@ -33,11 +14,14 @@ interface MostrarMovimientosProps {
     setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
     turnoActual: number | null;
     manoMovimiento: CartaMovimiento[];
+    setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[]>>;
 }
 
-export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento }: MostrarMovimientosProps) {
+function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento, setManoMovimiento }: MostrarMovimientosProps) {
 
-    const handleClick = (carta: CartaMovimiento) => {
+    const [movimientosJugados, setMovimientosJugados] = useState(0);
+
+    const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {
 
             //si hay fichas seleccionadas juega el movimiento
@@ -48,7 +32,10 @@ export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas,
                 borrarFichasSeleccionadas();
 
                 if (!esValido) window.alert("Movimiento inválido");
-                else JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
+                else{
+                    JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
+                    setMovimientosJugados(movimientosJugados + 1);
+                }
 
                 return [];
             }
@@ -57,8 +44,20 @@ export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas,
         });
     }
 
+    const handleDeshacerMovimiento = async () => {
+        const carta: CartaMovimiento | undefined = await DeshacerMovimiento(partida?.id ?? null, idJugador);
+        if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[]) => [...manoMovimiento, carta]);
+        setMovimientosJugados(movimientosJugados - 1);
+    }
+
     return (
         <div className="ManoHorizontal">
+            { movimientosJugados > 0 ?
+                <button
+                    id="DeshacerMovimiento"
+                    onClick={() => handleDeshacerMovimiento()}
+                > Deshacer Movimiento </button> :
+                <div></div> }
             <div className="Cartas"> 
                 {manoMovimiento.map((carta: CartaMovimiento) => (
                     <img
@@ -66,10 +65,12 @@ export function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas,
                         className="Movimiento"
                         src={"/movimientos/mov" + carta.movimiento + EXT}
                         alt="Movimiento"
-                        onClick={() => {if (turnoActual === idJugador) handleClick(carta)}}
+                        onClick={() => {if (turnoActual === idJugador) handleHacerMovimiento(carta)}}
                     />
                 ))} 
             </div>
         </div>
     );
 }
+
+export default MostrarMovimientos;
