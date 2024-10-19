@@ -163,4 +163,28 @@ describe('ObtenerMensajes', () => {
     // Verificamos si se actualiza el estado de movimiento agregado
     expect(setMovimientoAgregado).toHaveBeenCalledWith(true);
   });
+
+  it('Debería marcar un movimiento como deshecho si recibe un mensaje de tipo DeshacerMovimiento', () => {
+    const setTurnoActual = vi.fn(); // No se usa en este test
+    const setPartida = vi.fn(); // No se usa en este test
+    const setMovimientos = vi.fn(); // No se usa en este test
+    const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setMovimientoDeshecho = vi.fn();
+    const setFinalizado = vi.fn(); // No se usa en este test
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+
+    // Simulamos un mensaje de tipo DeshacerMovimiento
+    const message = JSON.stringify({ type: 'DeshacerMovimiento', posiciones: [{ x: 0, y: 0 }, { x: 0, y: 1 }] });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se marca el movimiento como deshecho
+    expect(setMovimientoDeshecho).toHaveBeenCalledWith(true);
+  });
+
 });
