@@ -86,16 +86,16 @@ describe('ObtenerMensajes', () => {
     ]);
   });
 
-  it('Debería eliminar una partida de la lista de partidas cuando recibe un mensaje de tipo EliminarPartida', () => {
+  it('Debería eliminar una partida de la lista de partidas cuando recibe un mensaje de tipo PartidaEliminada', () => {
     const setPartidas = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setPartidas, socket);
 
-    // Simulamos un mensaje de tipo EliminarPartida
+    // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({
-      type: 'EliminarPartida',
-      data: { id: 5 },
+      type: 'PartidaEliminada',
+      data: { idPartida: 5 },
     });
 
     // Simulamos recibir el mensaje desde el servidor
@@ -120,8 +120,8 @@ describe('ObtenerMensajes', () => {
 
     // Simulamos un mensaje de tipo EliminarPartida
     const message = JSON.stringify({
-      type: 'EliminarPartida',
-      data: { id: 5 },
+      type: 'PartidaEliminada',
+      data: { idPartida: 5 },
     });
 
     // Simulamos recibir el mensaje desde el servidor

@@ -40,8 +40,8 @@ const BusquedaPartidas: React.FC<BusquedaPartidasProps> = ({
                 onChange={(e) => setBusqueda(e.target.value)}
             />
             <div className="filtarJugs">
-                <label><strong>Filtrar por cantidad de jugadores</strong></label>
                 <div className="filtroJug">
+                    <label>Cant. jugadores:</label>
                     <div className="filtroJugItem">
                         <label>Mín</label>
                         <div className="controlFiltro">
