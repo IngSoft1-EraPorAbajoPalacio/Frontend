@@ -13,9 +13,6 @@ const DeshacerMovimiento = async(
         if ((response.status !== 202)) throw new Error("Hubo un problema tratando de deshacer el movimiento jugado.");
 
         const carta = response.data.carta[0];
-        console.log(carta);
-        console.log(carta.idCarta);
-        console.log(carta.movimiento);
 
         return carta;
 
