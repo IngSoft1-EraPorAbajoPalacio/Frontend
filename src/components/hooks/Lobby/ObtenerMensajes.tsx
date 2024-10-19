@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, guardarFichasTablero, guardarMovimientos, borrarPartida } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
