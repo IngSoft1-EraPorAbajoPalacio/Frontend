@@ -4,7 +4,7 @@ import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
 import { CartaMovimiento, Ficha, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso } from "../context/GameContext";
+import { borrarPartida, obtenerMovimientos, obtenerPartidaEnCurso } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -24,7 +24,8 @@ function Juego () {
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
     const [movimientoDeshecho, setMovimientoDeshecho] = useState<boolean>(false);
     const [, setFichasSeleccionadas] = useState<Ficha[]>([]);
-    const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>([]);
+    const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>(obtenerMovimientos());
+    const [movimientosJugados, setMovimientosJugados] = useState(0);
 
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -66,11 +67,6 @@ function Juego () {
     useEffect(() => {
         setTimeout(() => setMovimientoDeshecho(false), 1500);
     }, [movimientoDeshecho]);
-
-    useEffect(() => {
-        const jugadordado = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.cartasMovimiento.length === 3);
-        if (jugadordado) setManoMovimiento(jugadordado.cartasMovimiento);
-    }, []);
         
     const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
     const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
@@ -103,6 +99,8 @@ function Juego () {
                     turnoActual={turnoActual}
                     manoMovimiento={manoMovimiento}
                     setManoMovimiento={setManoMovimiento}
+                    movimientosJugados={movimientosJugados}
+                    setMovimientosJugados={setMovimientosJugados}
                 />
             </div>
             <Overlay isOpen={movimientoAgregado} onClose={() => { setMovimientoAgregado(!movimientoAgregado) }}>

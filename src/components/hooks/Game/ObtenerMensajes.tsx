@@ -67,8 +67,8 @@ const ObtenerMensajes = (
     else if (message.type === 'DeshacerMovimiento') {
 
       // Calcula las posiciones de las fichas en el array
-      const f1 = message.data.posiciones[0].x * 6 + message.data.posiciones[0].y;
-      const f2 = message.data.posiciones[1].x * 6 + message.data.posiciones[1].y;
+      const f1 = message.posiciones[0].x * 6 + message.posiciones[0].y;
+      const f2 = message.posiciones[1].x * 6 + message.posiciones[1].y;
 
       //Intercambia las fichas
       const fichas = obtenerFichasTablero();

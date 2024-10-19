@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../../../../styles/Game/Juego.css";
 import { PartidaEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
 import { borrarFichasSeleccionadas } from "../../../context/GameContext";
@@ -15,11 +14,11 @@ interface MostrarMovimientosProps {
     turnoActual: number | null;
     manoMovimiento: CartaMovimiento[];
     setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[]>>;
+    movimientosJugados: number;
+    setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento, setManoMovimiento }: MostrarMovimientosProps) {
-
-    const [movimientosJugados, setMovimientosJugados] = useState(0);
+function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }: MostrarMovimientosProps) {
 
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {

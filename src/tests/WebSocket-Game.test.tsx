@@ -30,10 +30,11 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setMovimientoDeshecho = vi.fn(); // No se usa en
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2 });
@@ -53,10 +54,11 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setMovimientoDeshecho = vi.fn(); // No se usa en
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
@@ -75,10 +77,11 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setMovimientoDeshecho = vi.fn(); // No se usa en
     const setFinalizado = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ type: 'PartidaEliminada' });
@@ -97,10 +100,11 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn();
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
+    const setMovimientoDeshecho = vi.fn(); // No se usa en
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
 
     // Simulamos que hay dos jugadores en la partida
     guardarPartidaEnCurso(partidaMock);
@@ -124,12 +128,13 @@ describe('ObtenerMensajes', () => {
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
     const setTurnoActual = vi.fn(); // No se usa en este test
     const setPartida = vi.fn(); // No se usa en este test
-    const setMovimiento = vi.fn();
+    const setMovimientos = vi.fn();
     const setMovimientoAgregado = vi.fn();
+    const setMovimientoDeshecho = vi.fn(); // No se usa en
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo MovimientoParcial
     guardarFichasTablero(fichasMock);
@@ -153,7 +158,7 @@ describe('ObtenerMensajes', () => {
     const movimientoEsperado = new Movimiento(carta, { x: 0, y: 0, color: 'Azul' }, { x: 0, y: 1, color: 'Azul' });
     
     // Verificamos si se actualiza el estado de movimiento
-    expect(setMovimiento).toHaveBeenCalledWith(movimientoEsperado);
+    expect(setMovimientos).toHaveBeenCalledWith(movimientoEsperado);
 
     // Verificamos si se actualiza el estado de movimiento agregado
     expect(setMovimientoAgregado).toHaveBeenCalledWith(true);
