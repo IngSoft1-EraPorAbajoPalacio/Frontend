@@ -1,4 +1,4 @@
-import { Ficha, PartidaEnCurso } from "../types/partidaEnCurso";
+import { Ficha, Movimiento, PartidaEnCurso } from "../types/partidaEnCurso";
 
 export const partidaMock: PartidaEnCurso = {
     id: 34,
@@ -13,17 +13,6 @@ export const partidaMock: PartidaEnCurso = {
             {id: 29, figura: 4},
             {id: 43, figura: 18}
         ],
-        cartasMovimiento: [
-            //Tiene todas las cartas de movimiento
-            {id: 1, movimiento: 1},
-            {id: 2, movimiento: 2},
-            {id: 3, movimiento: 3},
-            {id: 4, movimiento: 4},
-            {id: 5, movimiento: 5},
-            {id: 6, movimiento: 6},
-            {id: 7, movimiento: 7}
-
-        ],
         enPartida: true,
         esGuardador: true
     },{
@@ -33,17 +22,6 @@ export const partidaMock: PartidaEnCurso = {
             {id: 17, figura: 17},
             {id: 49, figura: 24},
             {id: 42, figura: 17}
-        ],
-        cartasMovimiento: [
-            //Tiene todas las cartas de movimiento
-            {id: 1, movimiento: 1},
-            {id: 2, movimiento: 2},
-            {id: 3, movimiento: 3},
-            {id: 4, movimiento: 4},
-            {id: 5, movimiento: 5},
-            {id: 6, movimiento: 6},
-            {id: 7, movimiento: 7}
-    
         ],
         enPartida: true,
         esGuardador: false
@@ -88,4 +66,14 @@ export const fichasMock: Ficha[] = [
     {x: 5, y: 3, color: 'Rojo'},
     {x: 5, y: 4, color: 'Azul'},
     {x: 5, y: 5, color: 'Rojo'}
+]
+
+export const movimientosMock = [
+    {id: 1, movimiento: 1},
+    {id: 2, movimiento: 2},
+    {id: 3, movimiento: 3},
+    {id: 4, movimiento: 4},
+    {id: 5, movimiento: 5},
+    {id: 6, movimiento: 6},
+    {id: 7, movimiento: 7}
 ]
