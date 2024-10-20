@@ -81,15 +81,15 @@ describe("VerificarMovimiento", () => {
     it("mov5 (en forma de L inversa): Debería ser válido jugar una carta de movimiento correctamente estando en turno", async () => {
 
         const movimiento = {
-        carta: new CartaMovimiento(movimientosMock[4].id, movimientosMock[4].movimiento as movimiento),
-        primerFicha: fichasMock[27],
-        segundaFicha: fichasMock[23]
+            carta: new CartaMovimiento(movimientosMock[4].id, movimientosMock[4].movimiento as movimiento),
+            primerFicha: fichasMock[27],
+            segundaFicha: fichasMock[35]
         };
 
         const movimientoReversa = {
             carta: new CartaMovimiento(movimientosMock[4].id, movimientosMock[4].movimiento as movimiento),
-            primerFicha: fichasMock[27],
-            segundaFicha: fichasMock[31]
+            primerFicha: fichasMock[35],
+            segundaFicha: fichasMock[27]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
@@ -99,15 +99,15 @@ describe("VerificarMovimiento", () => {
     it("mov6 (en forma de L): Debería ser válido jugar una carta de movimiento correctamente estando en turno", async () => {
 
         const movimiento = {
-        carta: new CartaMovimiento(movimientosMock[5].id, movimientosMock[5].movimiento as movimiento),
-        primerFicha: fichasMock[27],
-        segundaFicha: fichasMock[35]
+            carta: new CartaMovimiento(movimientosMock[5].id, movimientosMock[5].movimiento as movimiento),
+            primerFicha: fichasMock[27],
+            segundaFicha: fichasMock[23]
         };
 
         const movimientoReversa = {
             carta: new CartaMovimiento(movimientosMock[5].id, movimientosMock[5].movimiento as movimiento),
-            primerFicha: fichasMock[35],
-            segundaFicha: fichasMock[27]
+            primerFicha: fichasMock[27],
+            segundaFicha: fichasMock[31]
         };
 
         expect(VerificarMovimiento(movimiento, partidaMock.jugadores[0].id, partidaMock.jugadores[0].id)).toBe(true);
