@@ -14,27 +14,32 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     for (let figura of figurasDetectadas) {
         for (let coordenadas of figura.coordenadas) {
             if (coordFichaSelec.toString() === coordenadas.toString()) {
-                figuraSeleccionadaLocal = figura.tipoFig;
+                figuraSeleccionadaLocal = figura.idFig;
                 setFiguraSeleccionada(figuraSeleccionadaLocal);
                 break;
             }
         }
         if (figuraSeleccionadaLocal !== null) break;
     }
-
+    setMarcadasPorSelec([]); // Para que no se vayan acumulando las marcadas cada vez que se selecciona
     figurasDetectadas.forEach((fig: Figura) => {
         fig.coordenadas.forEach((coord: Coord) => {
             let numFichaCajon: number = coord[1]*6 + coord[0];
             if (figuraSeleccionadaLocal === null) { // No hay ninguna ficha perteneciente a una figura seleccionada
-                setMarcadasPorSelec([]);
-            } else if (figuraSeleccionadaLocal !== null && fig.tipoFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
+                limpiarFigMarcadas([]);
+            } else if (figuraSeleccionadaLocal !== null && fig.idFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
             {
                 console.log("COORD: " + coord)
                 console.log("ESTA ES FACTO: "+ numFichaCajon);
                 setMarcadasPorSelec(prevFichasMarcadas => [...prevFichasMarcadas, numFichaCajon]); // Marco la ficha cajon de la seleccionada
                 marcarFicha(numFichaCajon);
-            } else if (figuraSeleccionadaLocal !== null) {
+
+                limpiarFigMarcadas(marcadasPorSelec);
+            } 
+            if (figuraSeleccionadaLocal !== null) {
+                console.log("ESTAS ESTAN MARCADAAS: " + marcadasPorSelec);
                 limpiarFigMarcadas(marcadasPorSelec); // Borrar todas las marcas excepto de la seleccionada
+                
             }
 
         })

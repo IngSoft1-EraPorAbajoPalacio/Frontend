@@ -39,7 +39,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
         seleccionada: boolean,
         setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
     ) => {
-        
+        /*
         let nroFichaCajon: number |null= (posicion[0] +posicion[1]*6);
         if (seleccionada) {
             if (primerPosicion === nroFichaCajon) {
@@ -62,9 +62,9 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                 setFichasSeleccionadas([fichas[primerPosicion], fichas[segundaPosicion]]);
             }
 
-        }
-        //handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-        //    , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
+        }*/
+        handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
+            , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
     }
 
     const actualizarFigDeclarada = (fichaNum: number) => {
