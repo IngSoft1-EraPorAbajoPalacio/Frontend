@@ -3,6 +3,7 @@ import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Lobby/ObtenerMensajes';
 import createSocketLobby from '../services/socketLobby';
+import { CartaMovimiento } from '../types/partidaEnCurso';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/sockets', () => ({
@@ -27,10 +28,15 @@ describe('ObtenerMensajes', () => {
         const setCancelada = vi.fn(); // No importa el valor
         const idJugador = 1; // No importa el valor
         const idPartida = 1; // No importa el valor
+        const setEliminado = vi.fn();
 
 
         // Llamamos a la función que escucha los mensajes
+<<<<<<< HEAD
         ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, idJugador, idPartida, setCancelada, socket);
+=======
+        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida, setEliminado, socket);
+>>>>>>> dev
 
         // Simulamos un mensaje de tipo JugadorUnido
         const message = JSON.stringify({
@@ -72,4 +78,28 @@ describe('ObtenerMensajes', () => {
         expect(setContador).not.toHaveBeenCalled();
     });
 
+    it('Deberia avisar cuando la partida haya sido cancelada por el host para que el usuario sea redireccionado al Home', () => {
+        const setJugadores = vi.fn();
+        const setContador = vi.fn();
+        const setPartidaIniciada = vi.fn();
+        const idJugador = 1; // No importa el valor
+        const idPartida = 1; // No importa el valor
+        const setCancelada = vi.fn();
+
+        // Llamamos a la función que escucha los mensajes
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, idJugador, idPartida, setCancelada, socket);
+
+        // Simulamos un mensaje de tipo PartidaEliminada
+        const message = JSON.stringify({
+            type: 'PartidaEliminada',
+        });
+
+        // Simulamos recibir el mensaje desde el servidor
+        act(() => {
+            socket.onmessage({ data: message });
+        });
+
+        // Verificamos si la partida fue seteada como cancelada
+        expect(setCancelada).toHaveBeenCalledWith(true);
+    });
 });

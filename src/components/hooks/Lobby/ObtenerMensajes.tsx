@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos } from '../../context/GameContext';
+=======
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida } from '../../context/GameContext';
+>>>>>>> dev
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
@@ -36,7 +40,6 @@ const ObtenerMensajes = (
       });
       setContador((contador: number) => contador - 1);
     }
-    
     // Si el mensaje es de tipo PartidaEliminada, redirecciona al usuario al Home
     else if (message.type === 'PartidaEliminada') {
       borrarPartida();
