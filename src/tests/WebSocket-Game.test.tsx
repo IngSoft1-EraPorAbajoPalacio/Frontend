@@ -30,11 +30,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
-    const setMovimientoDeshecho = vi.fn(); // No se usa en
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2 });
@@ -54,11 +55,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
-    const setMovimientoDeshecho = vi.fn(); // No se usa en
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
@@ -77,11 +79,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
-    const setMovimientoDeshecho = vi.fn(); // No se usa en
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ type: 'PartidaEliminada' });
@@ -100,11 +103,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn();
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
-    const setMovimientoDeshecho = vi.fn(); // No se usa en
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos que hay dos jugadores en la partida
     guardarPartidaEnCurso(partidaMock);
@@ -130,11 +134,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn();
     const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn(); // No se usa en
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo MovimientoParcial
     guardarFichasTablero(fichasMock);
@@ -169,11 +174,12 @@ describe('ObtenerMensajes', () => {
     const setPartida = vi.fn(); // No se usa en este test
     const setMovimientos = vi.fn(); // No se usa en este test
     const setMovimientoAgregado = vi.fn(); // No se usa en este test
-    const setMovimientoDeshecho = vi.fn();
+    const setMovimientoDeshecho = vi.fn(); // No se usa en este test
+    const setMovimientosJugados = vi.fn(); // No se usa en este test
     const setFinalizado = vi.fn(); // No se usa en este test
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho,  setFinalizado, socket);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket);
 
     // Simulamos un mensaje de tipo DeshacerMovimiento
     const message = JSON.stringify({ type: 'DeshacerMovimiento', posiciones: [{ x: 0, y: 0 }, { x: 0, y: 1 }] });
