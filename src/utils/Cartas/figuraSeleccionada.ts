@@ -6,7 +6,7 @@ import definirFigMarcadas from "./DefinirFigMarcadas";
 export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas: Figura[],
     setFiguraSeleccionada:React.Dispatch<React.SetStateAction<number | null>>,
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
-    marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
+    setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     let figuraSeleccionadaLocal :number|null = null;

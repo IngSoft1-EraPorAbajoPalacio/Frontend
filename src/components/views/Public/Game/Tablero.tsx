@@ -17,8 +17,8 @@ interface TableroProps {
     turnoActual: number | null,
     idJugador: number | null,
     figurasDetectadas: Figura[];
+    cartaFiguraDescarte: string | null;
 
-    figuraSeleccionada: number | null;
     setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>;
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>;
 
@@ -27,8 +27,8 @@ interface TableroProps {
 }
 
 
-const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, figurasDetectadas, figuraSeleccionada,
-    setFiguraSeleccionada, setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec, turnoActual, idJugador }) => {
+const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, figurasDetectadas,
+    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, idJugador, cartaFiguraDescarte }) => {
     const fichas = obtenerFichasTablero();
     const fichasSeleccionadas = obtenerFichasSeleccionadas();
     let primerPosicion: number | null = fichasSeleccionadas[0];
@@ -63,8 +63,10 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
             }
 
         }*/
-        handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-            , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
+       if(cartaFiguraDescarte != null){ // Selección carta de figura previo a seleccionar la figura
+            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
+                , setMarcaFiguras, setMarcadasPorSelec);
+       }
     }
 
     const actualizarFigDeclarada = (fichaNum: number) => {

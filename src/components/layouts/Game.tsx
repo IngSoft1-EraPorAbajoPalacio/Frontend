@@ -111,14 +111,15 @@ function Juego () {
                 <Tablero 
                 marcaFiguras={marcaFiguras} 
                 figurasDetectadas={figurasDetectadas} 
-                figuraSeleccionada={figuraSeleccionada} setFiguraSeleccionada={setFiguraSeleccionada}
-
+                setFiguraSeleccionada={setFiguraSeleccionada}
                 setMarcaFiguras={setMarcaFiguras}
                 marcadasPorSelec={marcadasPorSelec}
                 setMarcadasPorSelec={setMarcadasPorSelec}
                 setFichasSeleccionadas={setFichasSeleccionadas} 
                 turnoActual={turnoActual} 
-                idJugador={idJugador}/>
+                idJugador={idJugador}
+                cartaFiguraDescarte={cartaFiguraDescarte}
+                />
                 <div className="ManosHorizontal">
                     {jugador2 ? 
                     <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} 
