@@ -88,7 +88,8 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                     {turnoActual === idJugador ?
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
-                            onClick={() => { handleClick(posicion, seleccionada, setSeleccionada) }}
+                            onClick={() => { handleClick(posicion, seleccionada, setSeleccionada);handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada
+                                , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec); }}
                         ></button>
                         :
                         <button
@@ -98,16 +99,6 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                     }
                 </div>
 
-
-
-                <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                    <button className={color} onClick={() => {
-                        handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada
-                            , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
-                    }}>
-
-                    </button>
-                </div>
             </>
 
 
