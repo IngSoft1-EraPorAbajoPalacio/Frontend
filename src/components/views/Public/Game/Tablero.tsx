@@ -8,8 +8,6 @@ import React, { useState } from "react";
 
 import { handleSeleccionFigura } from "../../../../utils/Cartas/figuraSeleccionada";
 
-import { obtenerPartidaEnCurso } from '../../../context/GameContext';
-
 interface TableroProps {
     marcaFiguras: number[];
 

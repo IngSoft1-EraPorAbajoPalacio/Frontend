@@ -1,4 +1,3 @@
-import { flushSync } from "react-dom";
 import { Coord, Figura } from "../../types/figura";
 import definirFigMarcadas from "./DefinirFigMarcadas";
 
