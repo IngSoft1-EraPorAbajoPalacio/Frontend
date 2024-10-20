@@ -38,4 +38,5 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
+    
 };
