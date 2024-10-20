@@ -1,5 +1,5 @@
 import "../../../../styles/Game/Juego.css";
-import { Figura } from "../../../../types/figura";
+import { Coord, Figura } from "../../../../types/figura";
 import { posicion } from '../../../../types/partidaEnCurso';
 
 import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
@@ -35,25 +35,27 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
     let segundaPosicion: number | null = fichasSeleccionadas[1];
 
     const handleClick = (
-        posicion: number,
+        posicion: Coord,
         seleccionada: boolean,
         setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
     ) => {
+        
+        let nroFichaCajon: number |null= (posicion[0] +posicion[1]*6);
         if (seleccionada) {
-            if (primerPosicion === posicion) {
+            if (primerPosicion === nroFichaCajon) {
                 primerPosicion = null;
                 setSeleccionada(!seleccionada)
-            } else if (segundaPosicion === posicion) {
+            } else if (segundaPosicion === nroFichaCajon) {
                 segundaPosicion = null;
                 setSeleccionada(!seleccionada)
             }
 
         } else {
             if (primerPosicion == null) {
-                primerPosicion = posicion;
+                primerPosicion = nroFichaCajon;
                 setSeleccionada(!seleccionada)
             } else if (segundaPosicion == null) {
-                segundaPosicion = posicion;
+                segundaPosicion = nroFichaCajon;
                 setSeleccionada(!seleccionada)
                 if (fichasSeleccionadas) borrarFichasSeleccionadas();
                 guardarFichasSeleccionadas([primerPosicion, segundaPosicion]);
@@ -61,6 +63,8 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
             }
 
         }
+        //handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
+        //    , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec);
     }
 
     const actualizarFigDeclarada = (fichaNum: number) => {
@@ -75,7 +79,8 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
-        const posicion = y*6+x;
+        const posicion = x + y*6;
+
         const color = fichas[posicion].color;
 
         const [seleccionada, setSeleccionada] = useState<boolean>(fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false);
@@ -88,8 +93,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
                     {turnoActual === idJugador ?
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
-                            onClick={() => { handleClick(posicion, seleccionada, setSeleccionada);handleSeleccionFigura([x, y], figurasDetectadas, setFiguraSeleccionada
-                                , setMarcaFiguras, marcadasPorSelec, setMarcadasPorSelec); }}
+                            onClick={() => { handleClick([x, y], seleccionada, setSeleccionada); }}
                         ></button>
                         :
                         <button

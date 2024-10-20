@@ -46,8 +46,8 @@ const ObtenerMensajes = (
     else if (message.type === 'MovimientoParcial') {
 
       // Calcula las posiciones de las fichas en el array
-      const f1 = message.data.fichas[0].x * 6 + message.data.fichas[0].y;
-      const f2 = message.data.fichas[1].x * 6 + message.data.fichas[1].y;
+      const f1 = message.data.fichas[0].x + message.data.fichas[0].y * 6;
+      const f2 = message.data.fichas[1].x + message.data.fichas[1].y * 6;
 
       // Crea la carta y el movimiento 
       const newCarta = new CartaMovimiento(message.data.carta.id, message.data.carta.movimiento);
@@ -73,8 +73,8 @@ const ObtenerMensajes = (
     else if (message.type === 'DeshacerMovimiento') {
 
       // Calcula las posiciones de las fichas en el array
-      const f1 = message.posiciones[0].x * 6 + message.posiciones[0].y;
-      const f2 = message.posiciones[1].x * 6 + message.posiciones[1].y;
+      const f1 = message.posiciones[0].x + message.posiciones[0].y * 6;
+      const f2 = message.posiciones[1].x + message.posiciones[1].y * 6;
 
       //Intercambia las fichas
       const fichas = obtenerFichasTablero();
