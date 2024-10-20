@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { Coord, Figura } from "../../types/figura";
 import definirFigMarcadas from "./DefinirFigMarcadas";
 
@@ -9,6 +10,7 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
 ) => {
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     let figuraSeleccionadaLocal :number|null = null;
+    let fichasDeSeleccionLocal: number[] =[];
 
 
     for (let figura of figurasDetectadas) {
@@ -29,19 +31,12 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
                 limpiarFigMarcadas([]);
             } else if (figuraSeleccionadaLocal !== null && fig.idFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
             {
-                console.log("COORD: " + coord)
-                console.log("ESTA ES FACTO: "+ numFichaCajon);
-                setMarcadasPorSelec(prevFichasMarcadas => [...prevFichasMarcadas, numFichaCajon]); // Marco la ficha cajon de la seleccionada
+                fichasDeSeleccionLocal.push(numFichaCajon); // Agrego la ficha de cajón pertenecientes a la figura
                 marcarFicha(numFichaCajon);
-
-                limpiarFigMarcadas(marcadasPorSelec);
-            } 
-            if (figuraSeleccionadaLocal !== null) {
-                console.log("ESTAS ESTAN MARCADAAS: " + marcadasPorSelec);
-                limpiarFigMarcadas(marcadasPorSelec); // Borrar todas las marcas excepto de la seleccionada
-                
+                limpiarFigMarcadas(fichasDeSeleccionLocal);
             }
-
         })
     });
+    setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
+
 };
