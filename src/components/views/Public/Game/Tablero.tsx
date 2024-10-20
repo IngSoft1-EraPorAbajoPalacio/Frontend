@@ -73,7 +73,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
     
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
-            <div className='Tablero-fila'>
+            <div className='Tablero-columna'>
                 <Cuadro y={y} x={0} />
                 <Cuadro y={y} x={1} />
                 <Cuadro y={y} x={2} />
@@ -86,7 +86,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
     
     return (
         <>
-            <div className='Tablero-columna'>
+            <div className='Tablero-fila'>
                 <Fila y={0} />
                 <Fila y={1} />
                 <Fila y={2} />
