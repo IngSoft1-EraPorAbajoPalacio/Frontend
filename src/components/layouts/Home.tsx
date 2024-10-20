@@ -51,18 +51,6 @@ const Home = () => {
         partida.cantJugadoresMin >= minPlayers &&
         partida.cantJugadoresMax <= maxPlayers
     );
-
-    const ajustarMin = (n: number) => {
-        if (minPlayers + n >= 2 && minPlayers + n <= maxPlayers) {
-            setMinPlayers(minPlayers + n);
-        }
-    };
-
-    const ajustarMax = (n: number) => {
-        if (maxPlayers + n >= minPlayers && maxPlayers + n <= 4) {  
-            setMaxPlayers(maxPlayers + n);
-        }
-    };
     
     return (
         <div id='home'>
