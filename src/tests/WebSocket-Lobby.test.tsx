@@ -23,13 +23,14 @@ describe('ObtenerMensajes', () => {
     it('Debería actualizar la lista de jugadores cuando recibe un mensaje de tipo JugadorUnido', () => {
         const setJugadores = vi.fn();
         const setContador = vi.fn();
-        const setList = vi.fn();
+        const setPartidaIniciada = vi.fn(); // No importa el valor
+        const setCancelada = vi.fn(); // No importa el valor
         const idJugador = 1; // No importa el valor
         const idPartida = 1; // No importa el valor
 
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, idJugador, idPartida, setCancelada, socket);
 
         // Simulamos un mensaje de tipo JugadorUnido
         const message = JSON.stringify({
@@ -50,12 +51,13 @@ describe('ObtenerMensajes', () => {
     it('No debería actualizar la lista de jugadores si el mensaje no es de tipo JugadorUnido', () => {
         const setJugadores = vi.fn();
         const setContador = vi.fn();
-        const setList = vi.fn();
+        const setPartidaIniciada = vi.fn(); // No importa el valor
+        const setCancelada = vi.fn(); // No importa el valor
         const idJugador = 1; // No importa el valor
         const idPartida = 1; // No importa el valor
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setList, idJugador, idPartida, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, idJugador, idPartida, setCancelada, socket);
 
         // Simulamos un mensaje de otro tipo
         const message = JSON.stringify({ type: 'OtroTipo', ListaJugadores: ['Jugador1', 'Jugador2', 'Jugador3'] });
