@@ -13,6 +13,7 @@ import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/MovimientoHecho.css';
+import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -36,7 +37,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
@@ -55,7 +56,8 @@ function Juego () {
     };
 
     const handlePasarTurno = () => {
-        if (partida) PasarTurno(partida.id, idJugador);
+        DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+        PasarTurno(idPartida, idJugador);
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
     }
