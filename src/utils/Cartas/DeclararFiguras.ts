@@ -1,9 +1,13 @@
 import definirFigMarcadas from "./DefinirFigMarcadas";
 import { Coord, Figura, Figuras } from "../../types/figura"
 
-const declararFiguras = (figurasJson: any, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
-    setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>, figuraSeleccionada: number | null,
-    marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
+const declararFiguras = (
+    figurasJson: any,
+    setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
+    setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
+    figuraSeleccionada: number | null,
+    marcadasPorSelec: number[],
+    setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     limpiarFigMarcadas(marcadasPorSelec);
