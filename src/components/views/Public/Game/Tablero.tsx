@@ -90,6 +90,15 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
             fichaSeleccionada = -1;
         }
     }
+    const actualizarFigDeclarada = (fichaNum: number) => {
+        const baseStyle: string = "Tablero-casilla";
+        const marcaStyle: string = baseStyle + " Figura-formada";
+        if (marcaFiguras.includes(fichaNum)) {
+            return marcaStyle;
+        } else {
+            return baseStyle;
+        }
+    };
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
@@ -102,7 +111,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
 
             <>
-                <div key={posicion} className={"Tablero-casilla"}>
+                <div key={posicion} className={actualizarFigDeclarada(posicion)}>
                 { ((turnoActual === idJugador && (cartaMovimientoSeleccionado) || cartaFiguraDescarte !== null)) ? // Si se quiere jugar un movimiento o descartar una figura
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
