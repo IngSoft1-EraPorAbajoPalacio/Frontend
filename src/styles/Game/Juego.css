@@ -179,8 +179,11 @@
 }
 
 .Movimiento-con-seleccion{
-    background-color: #f1b73b31;
+    width: 110px;
     border-radius: 8px;
+    transform: translateY(-14px);
+    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
+    transition: transform 0.5s ease;
 }
 
 #ManoJugador img:hover {
