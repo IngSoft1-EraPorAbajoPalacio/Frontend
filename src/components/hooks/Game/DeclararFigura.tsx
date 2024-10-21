@@ -1,6 +1,6 @@
 import axios from "axios"
 
-// Llama a la API para pasar jugar movimiento
+// Llama a la API para pasar declarar figura
 const DeclararFigura = async(
     idPartida: number | null,
     idJugador: number | null,
