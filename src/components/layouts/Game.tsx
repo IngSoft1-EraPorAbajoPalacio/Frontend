@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
 import Overlay from '../../components/views/Public/Overlay';
-import '../../styles/Game/MovimientoHecho.css';
+import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 
 function Juego () {
