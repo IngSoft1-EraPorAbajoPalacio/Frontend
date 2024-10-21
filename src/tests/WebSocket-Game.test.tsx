@@ -21,7 +21,6 @@ vi.mock('../utils/Cartas/DeclararFiguras', () => ({
 }));
 
 describe('ObtenerMensajes', () => {
-
   let socket: any;
   let setTurnoActual: any;
   let setPartida: any;
@@ -35,6 +34,7 @@ describe('ObtenerMensajes', () => {
   let figuraSeleccionada: number;
   let marcadasPorSelec: [1];
   let setMarcadasPorSelec: any;
+  let setManoFigura: any; 
 
   beforeEach(() => {
     setTurnoActual = vi.fn();
@@ -49,6 +49,7 @@ describe('ObtenerMensajes', () => {
     figuraSeleccionada = 1;
     marcadasPorSelec = [1];
     setMarcadasPorSelec = vi.fn();
+    setManoFigura = vi.fn();
   });
 
   beforeAll(() => {
@@ -61,7 +62,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería actualizar el turno actual cuando recibe un mensaje de tipo PasarTurno', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2 });
@@ -79,7 +80,7 @@ describe('ObtenerMensajes', () => {
   it('No debería actualizar el turno si el mensaje no es de tipo PasarTurno', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
@@ -96,7 +97,7 @@ describe('ObtenerMensajes', () => {
   it('Debería finalizar la partida si recibe un mensaje de tipo PartidaEliminada', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ type: 'PartidaEliminada' });
@@ -113,7 +114,7 @@ describe('ObtenerMensajes', () => {
   it('Debería eliminar un jugador si recibe un mensaje de tipo AbandonarPartida', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos que hay dos jugadores en la partida
     guardarPartidaEnCurso(partidaMock);
@@ -137,7 +138,7 @@ describe('ObtenerMensajes', () => {
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos un mensaje de tipo MovimientoParcial
     guardarFichasTablero(fichasMock);
@@ -170,7 +171,7 @@ describe('ObtenerMensajes', () => {
   it('Debería marcar un movimiento como deshecho si recibe un mensaje de tipo DeshacerMovimiento', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Simulamos un mensaje de tipo DeshacerMovimiento
     const message = JSON.stringify({ type: 'DeshacerMovimiento', posiciones: [{ x: 0, y: 0 }, { x: 0, y: 1 }] });
@@ -187,7 +188,7 @@ describe('ObtenerMensajes', () => {
   it('Debería marcar movimiento como deshecho y re-establecer la cantidad de movimientos si recibe un mensaje de tipo DeshacerMovimientos', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
 
     // Inicializamos la cantidad de movimientos jugados
     setMovimientosJugados(2);
@@ -218,7 +219,7 @@ describe('ObtenerMensajes', () => {
     
   
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
   
     // Simulamos un mensaje de tipo DeclararFigura
 
