@@ -217,7 +217,6 @@ describe('ObtenerMensajes', () => {
 
   it('Debería declarar figuras si recibe un mensaje de tipo DeclararFigura', () => {
     
-  
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
   
@@ -245,6 +244,29 @@ describe('ObtenerMensajes', () => {
 
     // Verificamos que la función solo sea llamada una vez
     expect(declararFiguras).toHaveBeenCalledTimes(1);
+
+  });
+
+  it('Debería actualizar la mano de figuras si recibe un mensaje de tipo FiguraDescartar', () => {
+    
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
+  
+    // Simulamos un mensaje de tipo FiguraDescartar
+    const cartas = [
+      { id: 1, figura: 1 },
+      { id: 2, figura: 2 }
+    ];
+
+    const message = JSON.stringify({ type: 'FiguraDescartar', cartas: cartas });
+  
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+  
+    // Verificamos si se actualiza la mano de figuras
+    expect(setManoFigura).toHaveBeenCalledWith(cartas);
 
   });
 
