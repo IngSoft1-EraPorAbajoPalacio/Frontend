@@ -8,48 +8,66 @@ import VerificarMovimiento from "./VerificarMovimiento";
 
 interface TableroParams {
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>,
+    cartaMovimientoSeleccionado: CartaMovimiento | null,
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
     turnoActual: number | null,
     idPartida: number | null,
     idJugador: number | null
 }
 
-function Tablero ({ setCartaMovimientoSeleccionado, setMovimientosJugados, turnoActual, idPartida, idJugador }: TableroParams) {
+function Tablero ({ setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, turnoActual, idPartida, idJugador }: TableroParams) {
 
     const fichas = obtenerFichasTablero();
     let fichaSeleccionada : number = obtenerFichaSeleccionada();
 
-    const handleClick = ( posicion: number, ) => {
+    const handleClick = (
+        posicion: number,
+        setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
+    ) => {
 
-        // Si se selecciona una ficha diferente a la seleccionada, se juega el movimiento
-        if (fichaSeleccionada !== -1 && fichaSeleccionada !== posicion) {
-            setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
-                if (cartaSeleccionada && idPartida && idJugador) {
-                    const movimiento = new Movimiento(cartaSeleccionada, fichas[fichaSeleccionada], fichas[posicion]);
+        // Si no hay carta seleccionada, no se hace nada
+        if (cartaMovimientoSeleccionado) {
+
+            // Si se selecciona una ficha diferente a la seleccionada, se juega el movimiento
+            if (fichaSeleccionada !== -1 && fichaSeleccionada !== posicion) {
+
+                if (idPartida && idJugador) {
+
+                    // Luego, verifica si el movimiento es válido
+                    const movimiento = new Movimiento(cartaMovimientoSeleccionado, fichas[fichaSeleccionada], fichas[posicion]);
                     const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
+                    
+                    // Primero deselecciona la carta seleccionada y la ficha seleccionada
+                    setCartaMovimientoSeleccionado(null);
+                    cartaMovimientoSeleccionado.seleccionada = false;
+                    setSeleccionada(false);
                     borrarFichaSeleccionada();
+                    fichaSeleccionada = -1;
+
+                    // Si el movimiento no es válido, se muestra una alerta
                     if (!esValido) window.alert("Movimiento inválido");
+
+                    // Si el movimiento es válido, se juega el movimiento
                     else {
                         JugarMovimiento(idPartida, idJugador, movimiento);
                         setMovimientosJugados((movimientosJugados: number) => movimientosJugados + 1);
                     }
-                    cartaSeleccionada.seleccionada = false;
                 }
-                fichaSeleccionada = -1;
-                return null;
-            });
-        }
+            }
 
-        // Si se selecciona una ficha ya seleccionada, se deselecciona
-        else if (fichaSeleccionada !== -1 && fichaSeleccionada === posicion) {
-            borrarFichaSeleccionada();                
-            fichaSeleccionada = -1;
-        }
+            // Si se selecciona una ficha ya seleccionada, se deselecciona
+            else if (fichaSeleccionada !== -1 && fichaSeleccionada === posicion) {
+                setSeleccionada(false);
+                borrarFichaSeleccionada();      
+                fichaSeleccionada = -1;          
+            }
 
-        // Si no hay ficha seleccionada, se selecciona la ficha
-        else {
-            guardarFichaSeleccionada(posicion);
-            fichaSeleccionada = posicion;
+            // Si no hay ficha seleccionada, se selecciona la ficha
+            else {
+                setSeleccionada(true);
+                guardarFichaSeleccionada(posicion);
+                fichaSeleccionada = posicion;
+            }
         }
     }
 
@@ -57,13 +75,14 @@ function Tablero ({ setCartaMovimientoSeleccionado, setMovimientosJugados, turno
 
         const posicion = y*6+x;
         const color = fichas[posicion].color;
+        const [seleccionada, setSeleccionada] = React.useState<boolean>(posicion === fichaSeleccionada);
 
         return (
             <div key={posicion} className='Tablero-casilla'>
                 { turnoActual === idJugador ?
                     <button
-                        className={color+`${posicion === fichaSeleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
-                        onClick={() => {handleClick(posicion)}}
+                        className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
+                        onClick={() => handleClick(posicion, setSeleccionada)}
                     ></button>
                 :
                     <button
