@@ -40,10 +40,12 @@ export class CartaFigura {
 export class CartaMovimiento {
   id: number;
   movimiento: movimiento;
+  seleccionada: boolean;
 
   constructor(id: number, movimiento: movimiento) {
     this.id = id;
     this.movimiento = movimiento;
+    this.seleccionada = false;
   }
 }
 

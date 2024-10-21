@@ -1,8 +1,5 @@
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, CartaMovimiento, Movimiento, Ficha } from "../../../../types/partidaEnCurso";
-import { borrarFichasSeleccionadas } from "../../../context/GameContext";
-import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
-import VerificarMovimiento from "./VerificarMovimiento";
+import { PartidaEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
 import DeshacerMovimiento from "../../../hooks/Game/DeshacerMovimiento";
 
 const EXT = ".svg";
@@ -10,7 +7,7 @@ const EXT = ".svg";
 interface MostrarMovimientosProps {
     partida: PartidaEnCurso | null;
     idJugador: number;
-    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>;
     turnoActual: number | null;
     manoMovimiento: CartaMovimiento[];
     setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[]>>;
@@ -18,28 +15,25 @@ interface MostrarMovimientosProps {
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }: MostrarMovimientosProps) {
+function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }: MostrarMovimientosProps) {
 
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
-        setFichasSeleccionadas((fichasSeleccionadas: Ficha[]) => {
-
-            //si hay fichas seleccionadas juega el movimiento
-            if (fichasSeleccionadas.length !== 0) {
-                const movimiento = new Movimiento(carta, fichasSeleccionadas[0], fichasSeleccionadas[1]);
-                const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
-
-                borrarFichasSeleccionadas();
-
-                if (!esValido) window.alert("Movimiento inválido");
-                else{
-                    JugarMovimiento(partida?.id ?? null, idJugador, movimiento);
-                    setMovimientosJugados(movimientosJugados + 1);
-                }
-
-                return [];
+        setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
+            
+            // Si no hay carta seleccionada, selecciona la carta
+            if (cartaSeleccionada === null) {
+                carta.seleccionada = true;
+                return carta;
             }
 
-            return fichasSeleccionadas;
+            // Si la carta seleccionada es la misma que la carta actual, la deselecciona
+            else if (cartaSeleccionada.id === carta.id) {
+                carta.seleccionada = false;
+                return null;
+            }
+            
+            // Si la carta seleccionada es diferente a la carta actual, no hace nada
+            return cartaSeleccionada;
         });
     }
 
@@ -61,7 +55,7 @@ function MostrarMovimientos({ partida, idJugador, setFichasSeleccionadas, turnoA
                 {manoMovimiento.map((carta: CartaMovimiento) => (
                     <img
                         key={carta.id}
-                        className="Movimiento"
+                        className={"Movimiento"+`${carta.seleccionada ? '-con-seleccion' : '' }`}
                         src={"/movimientos/mov" + carta.movimiento + EXT}
                         alt="Movimiento"
                         onClick={() => {if (turnoActual === idJugador) handleHacerMovimiento(carta)}}

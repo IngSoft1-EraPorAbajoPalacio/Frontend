@@ -178,6 +178,11 @@
     cursor: pointer;
 }
 
+.Movimiento-con-seleccion{
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
 #ManoJugador img:hover {
     background-color: #f1b73b31;
     border-radius: 8px;

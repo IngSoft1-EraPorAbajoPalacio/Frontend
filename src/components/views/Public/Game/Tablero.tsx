@@ -1,49 +1,55 @@
 import "../../../../styles/Game/Juego.css";
-import { posicion } from '../../../../types/partidaEnCurso';
-import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
-import { Ficha } from "../../../../types/partidaEnCurso";
-import React, { useState } from "react";
+import { Movimiento, posicion } from '../../../../types/partidaEnCurso';
+import { obtenerFichasTablero, obtenerFichaSeleccionada, borrarFichaSeleccionada, guardarFichaSeleccionada } from '../../../context/GameContext';
+import { CartaMovimiento } from "../../../../types/partidaEnCurso";
+import React from "react";
+import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
+import VerificarMovimiento from "./VerificarMovimiento";
 
 interface TableroParams {
-    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>,
+    setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
     turnoActual: number | null,
+    idPartida: number | null,
     idJugador: number | null
 }
 
-function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroParams) {
+function Tablero ({ setCartaMovimientoSeleccionado, setMovimientosJugados, turnoActual, idPartida, idJugador }: TableroParams) {
 
     const fichas = obtenerFichasTablero();
-    const fichasSeleccionadas = obtenerFichasSeleccionadas();
+    let fichaSeleccionada : number = obtenerFichaSeleccionada();
 
-    let primerPosicion: number | null = fichasSeleccionadas[0];
-    let segundaPosicion: number | null = fichasSeleccionadas[1];
+    const handleClick = ( posicion: number, ) => {
 
-    const handleClick = (
-        posicion: number,
-        seleccionada: boolean,
-        setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
-    ) => {
-        if (seleccionada) {
-            if (primerPosicion === posicion) {
-                primerPosicion = null;
-                setSeleccionada(!seleccionada)
-            } else if (segundaPosicion === posicion) {
-                segundaPosicion = null;
-                setSeleccionada(!seleccionada)
-            }
+        // Si se selecciona una ficha diferente a la seleccionada, se juega el movimiento
+        if (fichaSeleccionada !== -1 && fichaSeleccionada !== posicion) {
+            setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
+                if (cartaSeleccionada && idPartida && idJugador) {
+                    const movimiento = new Movimiento(cartaSeleccionada, fichas[fichaSeleccionada], fichas[posicion]);
+                    const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
+                    borrarFichaSeleccionada();
+                    if (!esValido) window.alert("Movimiento inválido");
+                    else {
+                        JugarMovimiento(idPartida, idJugador, movimiento);
+                        setMovimientosJugados((movimientosJugados: number) => movimientosJugados + 1);
+                    }
+                    cartaSeleccionada.seleccionada = false;
+                }
+                fichaSeleccionada = -1;
+                return null;
+            });
+        }
 
-        } else {
-            if (primerPosicion == null){
-                primerPosicion = posicion;
-                setSeleccionada(!seleccionada)
-            } else if (segundaPosicion == null) {
-                segundaPosicion = posicion;
-                setSeleccionada(!seleccionada)
-                if (fichasSeleccionadas) borrarFichasSeleccionadas();
-                guardarFichasSeleccionadas([primerPosicion, segundaPosicion]);
-                setFichasSeleccionadas([fichas[primerPosicion], fichas[segundaPosicion]]);
-            }
+        // Si se selecciona una ficha ya seleccionada, se deselecciona
+        else if (fichaSeleccionada !== -1 && fichaSeleccionada === posicion) {
+            borrarFichaSeleccionada();                
+            fichaSeleccionada = -1;
+        }
 
+        // Si no hay ficha seleccionada, se selecciona la ficha
+        else {
+            guardarFichaSeleccionada(posicion);
+            fichaSeleccionada = posicion;
         }
     }
 
@@ -52,14 +58,12 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
         const posicion = y*6+x;
         const color = fichas[posicion].color;
 
-        const [seleccionada, setSeleccionada] = useState<boolean>( fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false );
-
         return (
             <div key={posicion} className='Tablero-casilla'>
                 { turnoActual === idJugador ?
                     <button
-                        className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
-                        onClick={() => {handleClick(posicion, seleccionada, setSeleccionada)}}
+                        className={color+`${posicion === fichaSeleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
+                        onClick={() => {handleClick(posicion)}}
                     ></button>
                 :
                     <button
