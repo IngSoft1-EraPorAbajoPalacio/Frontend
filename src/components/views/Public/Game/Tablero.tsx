@@ -79,12 +79,12 @@ function Tablero ({ setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado,
 
         return (
             <div key={posicion} className='Tablero-casilla'>
-                { turnoActual === idJugador ?
+                { (turnoActual === idJugador && cartaMovimientoSeleccionado) ? // Si se quiere jugar un movimiento
                     <button
                         className={color+`${seleccionada ? '-con-seleccion' : '-sin-seleccion' }`}
                         onClick={() => handleClick(posicion, setSeleccionada)}
                     ></button>
-                :
+                : // Si no se quiere jugar una figura o no es el turno del jugador
                     <button
                         className={color+'-sin-seleccion'}
                         disabled={true}
