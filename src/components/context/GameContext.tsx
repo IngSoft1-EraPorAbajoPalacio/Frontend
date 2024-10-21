@@ -35,18 +35,18 @@ export const borrarPartidaEnCurso = () => {
     sessionStorage.removeItem('partidaEnCurso');
 }
 
-// Fichas seleccionadas
-export const guardarFichasSeleccionadas = (fichas: number[]) => {
-    sessionStorage.setItem('fichasSeleccionadas', JSON.stringify(fichas));
+// Ficha seleccionada
+export const guardarFichaSeleccionada = (ficha: number) => {
+    sessionStorage.setItem('fichaSeleccionada', JSON.stringify(ficha));
 }
 
-export const borrarFichasSeleccionadas = () => {
-    sessionStorage.removeItem('fichasSeleccionadas');
+export const borrarFichaSeleccionada = () => {
+    sessionStorage.removeItem('fichaSeleccionada');
 }
 
-export const obtenerFichasSeleccionadas = () => {
-    const fichas = sessionStorage.getItem('fichasSeleccionadas');
-    return fichas ? JSON.parse(fichas) : [];
+export const obtenerFichaSeleccionada = () => {
+    const ficha = sessionStorage.getItem('fichaSeleccionada');
+    return ficha ? JSON.parse(ficha) : -1;
 }
 
 // Jugadores Unidos

@@ -2,7 +2,7 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
-import { CartaMovimiento, Ficha, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
 import Overlay from '../../components/views/Public/Overlay';
-import '../../styles/Game/MovimientoHecho.css';
+import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 
 function Juego () {
@@ -24,7 +24,7 @@ function Juego () {
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
     const [movimientoDeshecho, setMovimientoDeshecho] = useState<boolean>(false);
-    const [, setFichasSeleccionadas] = useState<Ficha[]>([]);
+    const [cartaMovimientoSeleccionado, setCartaMovimientoSeleccionado] = useState<CartaMovimiento | null>(null);
     const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>(obtenerMovimientos());
     const [movimientosJugados, setMovimientosJugados] = useState(0);
 
@@ -86,7 +86,14 @@ function Juego () {
                     { jugador1 ? <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                     { jugador4 ? <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                 </div>
-                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
+                <Tablero
+                    setMovimientosJugados={setMovimientosJugados}
+                    setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
+                    cartaMovimientoSeleccionado={cartaMovimientoSeleccionado}
+                    turnoActual={turnoActual}
+                    idPartida={idPartida}
+                    idJugador={idJugador}
+                />
                 <div className="ManosHorizontal">
                     { jugador2 ? <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
                     { jugador3 ? <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
@@ -101,7 +108,7 @@ function Juego () {
                 <MostrarMovimientos
                     partida={partida}
                     idJugador={idJugador}
-                    setFichasSeleccionadas={setFichasSeleccionadas}
+                    setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
                     turnoActual={turnoActual}
                     manoMovimiento={manoMovimiento}
                     setManoMovimiento={setManoMovimiento}
