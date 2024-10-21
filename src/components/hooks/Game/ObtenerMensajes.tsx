@@ -9,7 +9,7 @@ const ObtenerMensajes = (
   setMovimiento: React.Dispatch<React.SetStateAction<Movimiento|null>>,
   setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
   setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
-  setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
+  manejarFinalizacion: (finalizado: boolean, idGanador?: number, nombreGanador?: string) => void,
   socket: any
 ) => {    
   socket.onmessage = (event: any) => {
@@ -23,7 +23,7 @@ const ObtenerMensajes = (
     // Si el mensaje es de tipo PartidaEliminada, elimina los datos de la partida 
     else if (message.type === 'PartidaEliminada') {
       borrarPartida();
-      setFinalizado(true);
+      manejarFinalizacion(true);
       return () => socket.close();
     }
 
@@ -34,6 +34,12 @@ const ObtenerMensajes = (
       borrarPartidaEnCurso();
       guardarPartidaEnCurso(partida);
       setPartida(partida);
+    }
+
+    else if (message.type === 'PartidaFinalizada') {
+      borrarPartida();
+      manejarFinalizacion(true, message.data.idGanador, message.data.nombreGanador);
+      return () => socket.close();
     }
 
     // Si el mensaje es de tipo MovimientoParcial setea la carta recibida

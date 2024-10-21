@@ -18,7 +18,6 @@ function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
-    const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
@@ -36,12 +35,16 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, (finalizado) => {
-            setFinalizado(finalizado);
+        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, (finalizado, idGanador?: number, nombreGanador?: string) => {
             if (finalizado) {
                 newSocket.close();
                 borrarPartida();
-                redirectToEnd(idPartida, idJugador);
+                if (idGanador && nombreGanador) {
+                    redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
+                }
+                else {
+                    redirectToEnd(idPartida, idJugador, idJugador, 'ganador')
+                }
             }
         }, newSocket);
     }, [desconexionesGame]);

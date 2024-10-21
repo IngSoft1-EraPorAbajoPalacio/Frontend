@@ -10,6 +10,12 @@
     font-size: 150px;
 }
 
+.container h2 {
+    position: fixed;
+    margin-bottom: 700px;
+}
+
+
 .ganador {
     left: 520px;
     top: 10px;
