@@ -6,7 +6,7 @@ const useRouteNavigation = () => {
     const redirectToHome = () => navigate(`/`);
     const redirectToLobby = (gameId: number, playerId: number) => navigate(`/lobby/${gameId}/player/${playerId}`);
     const redirectToGame = (gameId: number, playerId: number) => navigate(`/game/${gameId}/player/${playerId}`);
-    const redirectToEnd = (gameId: number, playerId: number, winnerId: number, winnerName: string) => navigate(`/end/${gameId}/player/${playerId}/${winnerId}/${winnerName}`);
+    const redirectToEnd = (gameId: number, playerId: number, winnerId: number, winnerName: string) => navigate(`/end/${gameId}/player/${playerId}/winner/${winnerId}/${winnerName}`);
     const redirectToNotFound = () => navigate(`/*`);
 
     return {
