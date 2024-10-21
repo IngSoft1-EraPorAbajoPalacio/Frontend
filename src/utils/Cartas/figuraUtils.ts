@@ -1,4 +1,4 @@
-export const actualizarCartaFigDescarte = (clave :string, cartaFiguraDescarte :string | null) => {
+export const actualizarCartaFigDescarte = (clave :string | undefined, cartaFiguraDescarte :string | null) => {
     const baseStyle: string = "Figura";
     const descarteStyle: string = baseStyle + "Selec";
     

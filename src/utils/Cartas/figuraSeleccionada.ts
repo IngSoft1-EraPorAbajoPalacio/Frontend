@@ -5,11 +5,15 @@ import definirFigMarcadas from "./DefinirFigMarcadas";
 export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas: Figura[],
     setFiguraSeleccionada:React.Dispatch<React.SetStateAction<number | null>>,
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
-    setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>
+    setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
+    cartaFiguraDescarte: string |null,
+    gameId: string|undefined,
+    playerId: string|undefined
 ) => {
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     let figuraSeleccionadaLocal :number|null = null;
     let fichasDeSeleccionLocal: number[] =[];
+    let fichasParaJuan : Coord[] = [];
 
 
     for (let figura of figurasDetectadas) {
@@ -31,6 +35,7 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
             } else if (figuraSeleccionadaLocal !== null && fig.idFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
             {
                 fichasDeSeleccionLocal.push(numFichaCajon); // Agrego la ficha de cajón pertenecientes a la figura
+                fichasParaJuan.push(coord);
                 marcarFicha(numFichaCajon);
                 limpiarFigMarcadas(fichasDeSeleccionLocal);
             }
@@ -38,5 +43,32 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
-    
+
+    const data = {
+        idCarta: Number(cartaFiguraDescarte),
+        fichas: fichasParaJuan
+    };
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    };
+
+    const asyncPost = async () => {
+        try {
+            
+            const response = 
+                await fetch('http://127.0.0.1:8000/partida/' + Number(gameId) + "/jugador/" + Number(playerId) + "/tablero/declarar-figura", options);
+            if (response.status === 202) {
+                console.log("EPICO")
+            } else {
+                throw new Error('Hubo un problema tratando de enviar figura a descartar.');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    asyncPost();
 };

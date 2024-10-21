@@ -119,6 +119,8 @@ function Juego () {
                 turnoActual={turnoActual} 
                 idJugador={idJugador}
                 cartaFiguraDescarte={cartaFiguraDescarte}
+                gameId={gameId}
+                playerId={playerId}
                 />
                 <div className="ManosHorizontal">
                     {jugador2 ? 
