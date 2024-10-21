@@ -44,7 +44,11 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
     ) => {
 
         let posicionFicha: number | null = (posicion[0] + posicion[1] * 6);
-
+        if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
+            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
+                , setMarcaFiguras, setMarcadasPorSelec, cartaFiguraDescarte, idPartida, idJugador);
+        }
+        
         // Si no hay carta seleccionada, no se hace nada
         if (cartaMovimientoSeleccionado) {
 
@@ -85,10 +89,6 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
             borrarFichaSeleccionada();
             fichaSeleccionada = -1;
         }
-        if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
-            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-                , setMarcaFiguras, setMarcadasPorSelec, cartaFiguraDescarte, idPartida, idJugador);
-        }
     }
 
     const actualizarFigDeclarada = (fichaNum: number) => {
@@ -113,7 +113,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
             <>
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                { (turnoActual === idJugador && cartaMovimientoSeleccionado) ? // Si se quiere jugar un movimiento
+                { ((turnoActual === idJugador && (cartaMovimientoSeleccionado) || cartaFiguraDescarte != null)) ? // Si se quiere jugar un movimiento o descartar una figura
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
                             onClick={() => { handleClick([x, y], setSeleccionada); }}
