@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Coord, Figura } from "../../types/figura";
 import definirFigMarcadas from "./DefinirFigMarcadas";
+import DeclararFigura from "../../components/hooks/Game/DeclararFigura";
 
 
 export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas: Figura[],
@@ -45,26 +45,5 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
-    
-    const asyncPost = async () => {
-        try {
-            console.log(`URL: http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`);
-            const url = `http://127.0.0.1:8000/partida/${(idPartida)}/jugador/${(idJugador)}/tablero/declarar-figura`;
-            const data = {
-                idCarta: Number(cartaFiguraDescarte),
-                fichas: fichasParaJuan,
-                tipo_figura: figuraGuardadaParaJuan
-            };
-            console.log(data);
-            const response = await axios.post(url, data);
-            if ((response.status !== 202)) throw new Error("Hubo un problema tratando de jugando figura.");
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    asyncPost();
-
-
-
+    DeclararFigura(idPartida ?? null, idJugador ?? null, fichasParaJuan, figuraGuardadaParaJuan, cartaFiguraDescarte);
 };
