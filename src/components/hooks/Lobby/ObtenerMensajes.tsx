@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos, guardarFiguras } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
@@ -62,6 +62,12 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
       new JugadorEnCurso(idJugador, mazo.nombreJugador, mazo.cartas, true, true) :
       new JugadorEnCurso(mazo.idJugador, mazo.nombreJugador, mazo.cartas, true, false)
   );
+  
+  const manoFigura = mensaje.cartasFigura.filter(
+  (mazo: {"idJugador": number, "nombreJugador": string, "cartas": [{"id": number, "figura": number}]}) => mazo.idJugador === idJugador);
+  const cartasFigura = manoFigura.length > 0 ? manoFigura[0].cartas: [];
+  guardarFiguras(cartasFigura);
+  console.log("DesdeLobby: " + cartasFigura)
 
   // Crear una nueva instancia de PartidaEnCurso
   const partida = new PartidaEnCurso(

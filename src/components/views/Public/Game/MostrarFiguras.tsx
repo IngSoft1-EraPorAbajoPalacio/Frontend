@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "../../../../styles/Game/Juego.css";
-import { JugadorEnCurso } from "../../../../types/partidaEnCurso";
+import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
 import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "../../../../utils/Cartas/figuraUtils";
 import { useParams } from "react-router-dom";
 
@@ -11,16 +11,19 @@ interface MostrarFigurasProps {
     turnoActual: number | null;
     cartaFiguraDescarte: string | null;
     setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
+    manoFigura: CartaFigura[];
+    
 }
 
 export const MostrarFiguras: React.FC<MostrarFigurasProps> =
-    ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte }) => {
+    ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
         const PATH = "/figuras/fig";
 
         const { playerId } = useParams<{ playerId: string }>();
         const idJugador = Number(playerId);
 
-        const cartasSrc: string[] = jugador.cartasFigura.map(carta => {
+        console.log(manoFigura);
+        const cartasSrc: string[] |undefined = jugador.cartasFigura?.map(carta => {
             if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
             else if (carta.figura <= 25) return PATH + carta.figura + EXT;
             else {

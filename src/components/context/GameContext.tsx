@@ -1,5 +1,5 @@
 import { Jugador, Partida, JugadoresUnidos } from "../../types/partidaListada";
-import { PartidaEnCurso, Ficha, CartaMovimiento } from "../../types/partidaEnCurso";
+import { PartidaEnCurso, Ficha, CartaMovimiento, CartaFigura } from "../../types/partidaEnCurso";
 
 // Jugador
 export const guardarJugador = (jugador: Jugador) => {
@@ -75,6 +75,16 @@ export const obtenerFichasTablero = () => {
 
 export const borrarFichasTablero = () => {
     sessionStorage.removeItem('fichasTablero');
+}
+
+//Figuras
+export const guardarFiguras = (figuras: CartaFigura[]) => {
+    sessionStorage.setItem('figuras', JSON.stringify(figuras));
+}
+
+export const obtenerFiguras = () =>{
+    const figuras = sessionStorage.getItem('figuras')
+    return figuras ? JSON.parse(figuras) : [];
 }
 
 // Movimientos

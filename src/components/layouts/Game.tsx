@@ -2,9 +2,9 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
-import { CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaFigura, CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos } from "../context/GameContext";
+import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerFiguras } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -35,17 +35,14 @@ function Juego () {
     const [movimientosJugados, setMovimientosJugados] = useState(0);
     const [figurasDetectadas, setFigurasDetectadas] = useState<Figura[]>([]);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<number | null>(null);
-    
+
+    const [manoFigura, setManoFigura] = useState<CartaFigura[]>(obtenerFiguras());
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
-
-
-
-
 
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
@@ -59,7 +56,7 @@ function Juego () {
             }
 
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-        marcadasPorSelec, setMarcadasPorSelec);
+        marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -100,11 +97,13 @@ function Juego () {
                 <div className="ManosHorizontal">
                     {jugador1 ?
                      <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} 
-                     cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                     cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                     manoFigura={manoFigura} />
                      : <div className="ManoHorizontal"></div>}
                     {jugador4 ?
                     <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte}/>
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte}
+                    manoFigura={manoFigura} />
                      : <div className="ManoHorizontal"></div>}
                 </div>
 
@@ -126,11 +125,13 @@ function Juego () {
                 <div className="ManosHorizontal">
                     {jugador2 ? 
                     <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                    manoFigura={manoFigura} />
                     : <div className="ManoHorizontal"></div>}
                     {jugador3 ? 
                     <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} />
+                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                    manoFigura={manoFigura} />
                     : <div className="ManoHorizontal"></div>}
                 </div>
             </div>
