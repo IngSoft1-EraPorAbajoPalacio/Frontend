@@ -8,8 +8,8 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
     setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
     cartaFiguraDescarte: string | null,
-    gameId: string | undefined,
-    playerId: string | undefined
+    idPartida: number | undefined,
+    idJugador: number | undefined
 ) => {
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     let figuraSeleccionadaLocal: number | null = null;
@@ -45,8 +45,7 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
-    let idPartida = gameId;
-    let idJugador = playerId;
+    
     const asyncPost = async () => {
         try {
             console.log(`URL: http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`);

@@ -1,19 +1,22 @@
 import "../../../../styles/Game/Juego.css";
 import { Coord, Figura } from "../../../../types/figura";
-import { posicion } from '../../../../types/partidaEnCurso';
 
-import { borrarFichasSeleccionadas, guardarFichasSeleccionadas, obtenerFichasSeleccionadas, obtenerFichasTablero } from '../../../context/GameContext';
-import { Ficha } from "../../../../types/partidaEnCurso";
-import React, { useState } from "react";
+import { Movimiento, posicion } from '../../../../types/partidaEnCurso';
+import { obtenerFichasTablero, obtenerFichaSeleccionada, borrarFichaSeleccionada, guardarFichaSeleccionada } from '../../../context/GameContext';
+import { CartaMovimiento } from "../../../../types/partidaEnCurso";
+import React from "react";
+import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
+import VerificarMovimiento from "./VerificarMovimiento";
 
 import { handleSeleccionFigura } from "../../../../utils/Cartas/figuraSeleccionada";
 
 interface TableroProps {
     marcaFiguras: number[];
 
-    setFichasSeleccionadas: React.Dispatch<React.SetStateAction<Ficha[]>>;
+    setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>,
+    cartaMovimientoSeleccionado: CartaMovimiento | null,
+    setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
     turnoActual: number | null;
-    idJugador: number | null;
     figurasDetectadas: Figura[];
     cartaFiguraDescarte: string | null;
 
@@ -23,51 +26,69 @@ interface TableroProps {
     marcadasPorSelec: number[];
     setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>;
 
-    gameId:string |undefined;
-    playerId:string |undefined;
+    idPartida: number | undefined;
+    idJugador: number | undefined;
 }
 
 
-const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas, figurasDetectadas,
-    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, idJugador, cartaFiguraDescarte, gameId, playerId }) => {
+const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, figurasDetectadas,
+    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, idPartida, idJugador }) => {
+
+
     const fichas = obtenerFichasTablero();
-    const fichasSeleccionadas = obtenerFichasSeleccionadas();
-    let primerPosicion: number | null = fichasSeleccionadas[0];
-    let segundaPosicion: number | null = fichasSeleccionadas[1];
+    let fichaSeleccionada: number = obtenerFichaSeleccionada();
 
     const handleClick = (
         posicion: Coord,
-        seleccionada: boolean,
         setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
     ) => {
-        /*
-        let nroFichaCajon: number |null= (posicion[0] +posicion[1]*6);
-        if (seleccionada) {
-            if (primerPosicion === nroFichaCajon) {
-                primerPosicion = null;
-                setSeleccionada(!seleccionada)
-            } else if (segundaPosicion === nroFichaCajon) {
-                segundaPosicion = null;
-                setSeleccionada(!seleccionada)
-            }
 
-        } else {
-            if (primerPosicion == null) {
-                primerPosicion = nroFichaCajon;
-                setSeleccionada(!seleccionada)
-            } else if (segundaPosicion == null) {
-                segundaPosicion = nroFichaCajon;
-                setSeleccionada(!seleccionada)
-                if (fichasSeleccionadas) borrarFichasSeleccionadas();
-                guardarFichasSeleccionadas([primerPosicion, segundaPosicion]);
-                setFichasSeleccionadas([fichas[primerPosicion], fichas[segundaPosicion]]);
-            }
+        let posicionFicha: number | null = (posicion[0] + posicion[1] * 6);
 
-        }*/
-       if(cartaFiguraDescarte != null){ // Selección carta de figura previo a seleccionar la figura
+        // Si no hay carta seleccionada, no se hace nada
+        if (cartaMovimientoSeleccionado) {
+
+            // Si se selecciona una ficha diferente a la seleccionada, se juega el movimiento
+            if (fichaSeleccionada !== -1 && fichaSeleccionada !== posicionFicha) {
+
+                if (idPartida && idJugador) {
+
+                    // Luego, verifica si el movimiento es válido
+                    const movimiento = new Movimiento(cartaMovimientoSeleccionado, fichas[fichaSeleccionada], fichas[posicionFicha]);
+                    const esValido = VerificarMovimiento(movimiento, idJugador, turnoActual);
+
+                    // Primero deselecciona la carta seleccionada y la ficha seleccionada
+                    setCartaMovimientoSeleccionado(null);
+                    cartaMovimientoSeleccionado.seleccionada = false;
+                    setSeleccionada(false);
+                    borrarFichaSeleccionada();
+                    fichaSeleccionada = -1;
+
+                    // Si el movimiento no es válido, se muestra una alerta
+                    if (!esValido) window.alert("Movimiento inválido");
+
+                    // Si el movimiento es válido, se juega el movimiento
+                    else {
+                        JugarMovimiento(idPartida, idJugador, movimiento);
+                        setMovimientosJugados((movimientosJugados: number) => movimientosJugados + 1);
+                    }
+                }
+
+            } // Si no hay ficha seleccionada, se selecciona la ficha
+            else {
+                setSeleccionada(true);
+                guardarFichaSeleccionada(posicionFicha);
+                fichaSeleccionada = posicionFicha;
+            }
+        } else if (fichaSeleccionada !== -1 && fichaSeleccionada === posicionFicha) {
+            setSeleccionada(false);
+            borrarFichaSeleccionada();
+            fichaSeleccionada = -1;
+        }
+        if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
             handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-                , setMarcaFiguras, setMarcadasPorSelec, cartaFiguraDescarte, gameId, playerId);
-       }
+                , setMarcaFiguras, setMarcadasPorSelec, cartaFiguraDescarte, idPartida, idJugador);
+        }
     }
 
     const actualizarFigDeclarada = (fichaNum: number) => {
@@ -82,23 +103,22 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setFichasSeleccionadas,
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
-        const posicion = x + y*6;
+        const posicion = x + y * 6;
 
         const color = fichas[posicion].color;
 
-        const [seleccionada, setSeleccionada] = useState<boolean>(fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false);
-
+        const [seleccionada, setSeleccionada] = React.useState<boolean>(posicion === fichaSeleccionada);
         return (
 
 
             <>
                 <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                    {turnoActual === idJugador ?
+                { (turnoActual === idJugador && cartaMovimientoSeleccionado) ? // Si se quiere jugar un movimiento
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
-                            onClick={() => { handleClick([x, y], seleccionada, setSeleccionada); }}
+                            onClick={() => { handleClick([x, y], setSeleccionada); }}
                         ></button>
-                        :
+                        : // Si no se quiere jugar una figura o no es el turno del jugador
                         <button
                             className={color + '-sin-seleccion'}
                             disabled={true}
