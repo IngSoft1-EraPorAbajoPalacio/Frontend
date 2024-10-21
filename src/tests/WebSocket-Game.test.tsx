@@ -23,6 +23,33 @@ vi.mock('../utils/Cartas/DeclararFiguras', () => ({
 describe('ObtenerMensajes', () => {
 
   let socket: any;
+  let setTurnoActual: any;
+  let setPartida: any;
+  let setMovimientos: any;
+  let setMovimientoAgregado: any;
+  let setMovimientoDeshecho: any;
+  let setMovimientosJugados: any;
+  let setFinalizado: any;
+  let setMarcaFiguras: any;
+  let setFigurasDetectadas: any;
+  let figuraSeleccionada: number;
+  let marcadasPorSelec: [1];
+  let setMarcadasPorSelec: any;
+
+  beforeEach(() => {
+    setTurnoActual = vi.fn();
+    setPartida = vi.fn();
+    setMovimientos = vi.fn();
+    setMovimientoAgregado = vi.fn();
+    setMovimientoDeshecho = vi.fn();
+    setMovimientosJugados = vi.fn();
+    setFinalizado = vi.fn();
+    setMarcaFiguras = vi.fn();
+    setFigurasDetectadas = vi.fn();
+    figuraSeleccionada = 1;
+    marcadasPorSelec = [1];
+    setMarcadasPorSelec = vi.fn();
+  });
 
   beforeAll(() => {
     socket = createSocketGame;
@@ -33,19 +60,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería actualizar el turno actual cuando recibe un mensaje de tipo PasarTurno', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
-
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 
@@ -63,18 +77,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('No debería actualizar el turno si el mensaje no es de tipo PasarTurno', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -92,18 +94,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería finalizar la partida si recibe un mensaje de tipo PartidaEliminada', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -121,18 +111,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería eliminar un jugador si recibe un mensaje de tipo AbandonarPartida', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -157,18 +135,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -202,18 +168,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería marcar un movimiento como deshecho si recibe un mensaje de tipo DeshacerMovimiento', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -231,18 +185,6 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería marcar movimiento como deshecho y re-establecer la cantidad de movimientos si recibe un mensaje de tipo DeshacerMovimientos', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
@@ -273,18 +215,7 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería declarar figuras si recibe un mensaje de tipo DeclararFigura', () => {
-    const setTurnoActual = vi.fn();
-    const setPartida = vi.fn();
-    const setMovimientos = vi.fn();
-    const setMovimientoAgregado = vi.fn();
-    const setMovimientoDeshecho = vi.fn();
-    const setMovimientosJugados = vi.fn();
-    const setFinalizado = vi.fn();
-    const setMarcaFiguras = vi.fn();
-    const setFigurasDetectadas = vi.fn();
-    const figuraSeleccionada = 1;
-    const marcadasPorSelec = [1];
-    const setMarcadasPorSelec = vi.fn();
+    
   
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setPartida, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
