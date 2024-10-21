@@ -69,7 +69,7 @@
 
 /* Sin selección */
 .Tablero-casilla .Amarillo-con-seleccion {
-    background: rgb(59, 59, 0);
+    background: rgb(82, 82, 0);
     width: 85%;
     height: 85%;
 }
@@ -81,7 +81,7 @@
 }
 
 .Tablero-casilla .Verde-con-seleccion {
-    background: rgba(0, 71, 0, 0.6);
+    background: rgba(1, 94, 1, 0.6);
     width: 85%;
     height: 85%;
 }
