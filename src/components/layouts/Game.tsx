@@ -64,8 +64,8 @@ function Juego () {
 
     const handleAbandonarPartida = async () => {
         if (idJugador == turnoActual){
-            DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
-            PasarTurno(idPartida, idJugador);
+            await DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+            await PasarTurno(idPartida, idJugador);
         }
         AbandonarPartida(idPartida, idJugador);  
         if (newSocket) newSocket.close();

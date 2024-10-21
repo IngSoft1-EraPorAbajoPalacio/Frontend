@@ -103,7 +103,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
             <>
                 <div key={posicion} className={"Tablero-casilla"}>
-                { ((turnoActual === idJugador && (cartaMovimientoSeleccionado) || cartaFiguraDescarte != null)) ? // Si se quiere jugar un movimiento o descartar una figura
+                { ((turnoActual === idJugador && (cartaMovimientoSeleccionado) || cartaFiguraDescarte !== null)) ? // Si se quiere jugar un movimiento o descartar una figura
                         <button
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
                             onClick={() => { handleClick([x, y], setSeleccionada); }}
