@@ -20,11 +20,6 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> =
         const { playerId } = useParams<{ playerId: string }>();
         const idJugador = Number(playerId);
 
-        const claveCartaFigSeleccionada = (cartaFigNum: number, id: number) => {
-            const cartaFiguraUnica: string = cartaFigNum.toString() + id.toString();
-            return cartaFiguraUnica;
-        }
-
         const cartasSrc: string[] = jugador.cartasFigura.map(carta => {
             if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
             else if (carta.figura <= 25) return PATH + carta.figura + EXT;
@@ -45,8 +40,8 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> =
                 <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
                 <div>
                     {cartasSrc?.map((src: string | undefined, index: number) =>
-                        <img key={index} className={actualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id), cartaFiguraDescarte)}
-                            onClick={() => handleActualizarCartaFigDescarte(claveCartaFigSeleccionada(index, jugador.id), idJugador,
+                        <img key={index} className={actualizarCartaFigDescarte(jugador.cartasFigura[index].id.toString(), cartaFiguraDescarte)}
+                            onClick={() => handleActualizarCartaFigDescarte(jugador.cartasFigura[index].id.toString(), idJugador,
                                 cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)} src={src} />)}
                 </div>
             </div>
