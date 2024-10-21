@@ -9,10 +9,10 @@ const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
 	setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso | null>>,
 	setMovimiento: React.Dispatch<React.SetStateAction<Movimiento | null>>,
-	setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
-	setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
-	setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
-	setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
+  setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
+  setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
+  setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
+  setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
 	socket: any
 	, setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
 	setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
@@ -20,7 +20,7 @@ const ObtenerMensajes = (
 	figuraSeleccionada: number | null,
 	marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
 	setManoFigura: React.Dispatch<React.SetStateAction<CartaFigura[]>>
-) => {
+	) => {
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
