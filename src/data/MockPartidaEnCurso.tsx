@@ -1,4 +1,4 @@
-import { Ficha, Movimiento, PartidaEnCurso } from "../types/partidaEnCurso";
+import { Ficha, PartidaEnCurso } from "../types/partidaEnCurso";
 
 export const partidaMock: PartidaEnCurso = {
     id: 34,

@@ -9,6 +9,7 @@ const ObtenerMensajes = (
   setMovimiento: React.Dispatch<React.SetStateAction<Movimiento|null>>,
   setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
   setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
+  setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
   setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
   socket: any
 ) => {    
@@ -83,6 +84,34 @@ const ObtenerMensajes = (
       // Setea el movimiento
       setMovimientoDeshecho(true);
 
+    }
+
+    // Si el mensaje es de tipo DeshacerMovimientos
+    else if (message.type === 'DeshacerMovimientos') {
+
+      let index = message.cantMovimientosDesechos - 1;
+      const fichas = obtenerFichasTablero();
+
+      while (index >= 0) {
+
+        // Calcula las posiciones de las fichas en el array
+        const f1 = message.posiciones[index][0].x * 6 + message.posiciones[index][0].y;
+        const f2 = message.posiciones[index][1].x * 6 + message.posiciones[index][1].y;
+
+        //Intercambia las fichas
+        const aux = fichas[f1].color;
+        fichas[f1].color = fichas[f2].color;
+        fichas[f2].color = aux;
+        index -= 1;
+      }
+
+      //Actualiza los datos del storage
+      borrarFichasTablero();
+      guardarFichasTablero(fichas);
+
+      // Setea el movimiento
+      setMovimientoDeshecho(true);
+      setMovimientosJugados(0);
     }
   }
 };

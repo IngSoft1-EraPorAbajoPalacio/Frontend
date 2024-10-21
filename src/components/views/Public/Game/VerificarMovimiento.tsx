@@ -37,7 +37,6 @@ const VerificarMovimiento = (
         6: () => // Mover en forma de L
             (x2 - x1 === 1 && y2 - y1 === -2) || (x2 - x1 === -1 && y2 - y1 === 2) ||
             (y2 - y1 === 1 && x2 - x1 === 2) || (y2 - y1 === -1 && x2 - x1 === -2),
-
         7: () => // Mover hasta un borde manteniendo la misma fila o columna
             (x1 === x2 && (y2 === 0 || y2 === 5 || y1 === 0 || y1 === 5)) ||
             (y1 === y2 && (x2 === 0 || x2 === 5 || x1 === 0 || x1 === 5))

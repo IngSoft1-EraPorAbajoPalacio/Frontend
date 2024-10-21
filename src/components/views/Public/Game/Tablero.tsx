@@ -49,7 +49,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
 
     const Cuadro: React.FC<{ x: posicion, y: posicion }> = ({ x, y }) => {
 
-        const posicion = x*6+y;
+        const posicion = y*6+x;
         const color = fichas[posicion].color;
 
         const [seleccionada, setSeleccionada] = useState<boolean>( fichasSeleccionadas ? (primerPosicion === posicion || segundaPosicion === posicion) : false );
@@ -73,7 +73,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
     
     const Fila: React.FC<{ y: posicion }> = ({ y }) => {
         return (
-            <div className='Tablero-columna'>
+            <div className='Tablero-fila'>
                 <Cuadro y={y} x={0} />
                 <Cuadro y={y} x={1} />
                 <Cuadro y={y} x={2} />
@@ -86,7 +86,7 @@ function Tablero ({ setFichasSeleccionadas, turnoActual, idJugador }: TableroPar
     
     return (
         <>
-            <div className='Tablero-fila'>
+            <div className='Tablero-columna'>
                 <Fila y={0} />
                 <Fila y={1} />
                 <Fila y={2} />
