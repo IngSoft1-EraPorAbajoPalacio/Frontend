@@ -6,7 +6,7 @@ import createSocketGame from '../services/socketGame';
 import { fichasMock, j1Mock, j2Mock, j1CartasMock } from '../data/MockPartidaEnCurso';
 import { borrarFiguraJugador1, borrarFiguraJugador2, borrarJugador1, borrarJugador2, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarJugador1, guardarJugador2 } from '../components/context/GameContext';
 import { Movimiento, CartaMovimiento, CartaFigura } from '../types/partidaEnCurso';
-import declararFiguras from '../utils/Cartas/DeclararFiguras';
+import declararFiguras from '../components/views/Public/Game/DeclararFiguras';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/socketGame', () => ({

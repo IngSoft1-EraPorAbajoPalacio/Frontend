@@ -8,7 +8,7 @@ import React from "react";
 import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
 import VerificarMovimiento from "./VerificarMovimiento";
 
-import { handleSeleccionFigura } from "../../../../utils/Cartas/figuraSeleccionada";
+import { handleSeleccionFigura } from "./figuraSeleccionada";
 
 interface TableroProps {
     marcaFiguras: number[];

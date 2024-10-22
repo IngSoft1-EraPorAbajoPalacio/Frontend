@@ -2,7 +2,7 @@
     width: 400px;
     height: 300px;
     border-radius: 15px;
-    background-color: rgb(198, 255, 236);
+    background-color: #00ADEE;
     display: flex;
     flex-direction: column;
     justify-content:space-evenly;
@@ -19,6 +19,6 @@
 .MovimientoRealizado h1 {
     display: flex;
     align-self: center;
-    color: rgb(209, 135, 51);
+    color: #E5E6E7;
     font-size: 30px;
 }

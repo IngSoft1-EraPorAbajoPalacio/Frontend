@@ -2,7 +2,7 @@ import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
-import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
+import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
@@ -178,7 +178,6 @@ const ObtenerMensajes = (
 				const j2 = obtenerJugador2();
 				const j3 = obtenerJugador3();
 				const j4 = obtenerJugador4();
-				console.log(message);
 
 				setTurnoActual((turno: number | null) => {
 					if (j1.id === turno) {
