@@ -78,18 +78,23 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
                     }
                 }
 
-            } // Si no hay ficha seleccionada, se selecciona la ficha
+            }
+
+            else if (fichaSeleccionada === posicionFicha) {
+                setSeleccionada(false);
+                borrarFichaSeleccionada();
+                fichaSeleccionada = -1;
+            }
+            
+            // Si no hay ficha seleccionada, se selecciona la ficha
             else {
                 setSeleccionada(true);
                 guardarFichaSeleccionada(posicionFicha);
                 fichaSeleccionada = posicionFicha;
             }
-        } else if (fichaSeleccionada !== -1 && fichaSeleccionada === posicionFicha) {
-            setSeleccionada(false);
-            borrarFichaSeleccionada();
-            fichaSeleccionada = -1;
         }
     }
+
     const actualizarFigDeclarada = (fichaNum: number) => {
         const baseStyle: string = "Tablero-casilla";
         const marcaStyle: string = baseStyle + " Figura-formada";
