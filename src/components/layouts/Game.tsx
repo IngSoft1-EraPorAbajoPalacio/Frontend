@@ -81,6 +81,10 @@ function Juego () {
     };
 
     const handlePasarTurno = () => {
+        setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
+            if (cartaSeleccionada !== null) cartaSeleccionada.seleccionada = false;
+            return null;
+        });
         DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
         PasarTurno(idPartida, idJugador);
         const nuevaPartida = obtenerPartidaEnCurso();
