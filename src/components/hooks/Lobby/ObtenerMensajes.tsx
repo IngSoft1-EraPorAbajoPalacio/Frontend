@@ -32,8 +32,6 @@ const ObtenerMensajes = (
     else if (message.type === 'AbandonarPartida') {
       setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
         const nuevosJugadores = antiguosJugadores.filter((player) => (Number(player.id) !== Number(message.data.idJugador)));
-        console.log(message.data.idJugador);
-        console.log(nuevosJugadores);
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
@@ -57,7 +55,6 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
   guardarMovimientos(cartasMovimiento);
 
   const cantJugadores = mensaje.orden.length;
-  console.log(mensaje);
 
   // Guarda los jugadores en el contexto
   guardarJugador1(new JugadorEnCurso(mensaje.cartasFigura[0].idJugador, mensaje.cartasFigura[0].nombreJugador, true, mensaje.cartasFigura[0].idJugador === idJugador));
