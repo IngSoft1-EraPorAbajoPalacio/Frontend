@@ -1,4 +1,4 @@
-import { obtenerPartida } from "../components/context/GameContext";
+import { obtenerJugador, obtenerPartida } from "../components/context/GameContext";
 
 let WebSocketClient;
 
@@ -13,8 +13,10 @@ if (typeof window === 'undefined') {
 const createSocketGame = (setDesconexionesGame: React.Dispatch<React.SetStateAction<number>>) => {
 
   const partida = obtenerPartida();
+  const jugador = obtenerJugador();
+  const jugadorId = jugador.id;
   const partidaId = partida.id;
-  const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId;
+  const WS_URL = 'ws://localhost:8000/ws/game/' + partidaId + "/jugador/"+ jugadorId;
 
   const socketGame = new WebSocketClient(WS_URL);
 

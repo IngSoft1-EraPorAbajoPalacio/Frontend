@@ -52,14 +52,12 @@ export class CartaMovimiento {
 export class JugadorEnCurso {
   id: number;
   nombre: string;
-  cartasFigura: CartaFigura[];
   enPartida: boolean; // Para ver si el jugador abandonó
   esGuardador: boolean; // Nueva propiedad para identificar al jugador que guarda los datos
 
-  constructor(id: number, nombre: string, cartasFigura: CartaFigura[], enPartida: boolean, esGuardador: boolean) {
+  constructor(id: number, nombre: string, enPartida: boolean, esGuardador: boolean) {
     this.id = id;
     this.nombre = nombre;
-    this.cartasFigura = cartasFigura;
     this.enPartida = enPartida;
     this.esGuardador = esGuardador;
   }
@@ -69,14 +67,12 @@ export class PartidaEnCurso {
   id: number;
   nombre: string;
   cantJugadores: cantidadJugadores;
-  jugadores: JugadorEnCurso[];
   orden: number[];
 
-  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], orden: number[]) {
+  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, orden: number[]) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadores = cantJugadores;
-    this.jugadores = jugadores;
     this.orden = orden;
   } 
 }

@@ -15,11 +15,11 @@ interface MostrarMovimientosProps {
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }: MostrarMovimientosProps) {
-
+function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
+    : MostrarMovimientosProps) {
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
-            
+
             // Si no hay carta seleccionada, selecciona la carta
             if (cartaSeleccionada === null) {
                 carta.seleccionada = true;
@@ -31,7 +31,7 @@ function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado
                 carta.seleccionada = false;
                 return null;
             }
-            
+
             // Si la carta seleccionada es diferente a la carta actual, no hace nada
             return cartaSeleccionada;
         });
