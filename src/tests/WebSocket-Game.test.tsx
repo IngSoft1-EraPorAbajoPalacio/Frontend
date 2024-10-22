@@ -5,7 +5,7 @@ import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
 import { fichasMock, j1Mock, j2Mock, j1CartasMock } from '../data/MockPartidaEnCurso';
 import { borrarFiguraJugador1, borrarFiguraJugador2, borrarJugador1, borrarJugador2, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarJugador1, guardarJugador2 } from '../components/context/GameContext';
-import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
+import { Movimiento, CartaMovimiento, CartaFigura } from '../types/partidaEnCurso';
 import declararFiguras from '../utils/Cartas/DeclararFiguras';
 
 // Mockeamos el módulo de socket
@@ -148,11 +148,6 @@ describe('ObtenerMensajes', () => {
     // Verificamos si se elimina el jugador
     expect(setFiguraJug1).toHaveBeenCalledWith([]);
     expect(setJugador1).toHaveBeenCalledWith(null);
-
-    borrarFiguraJugador1();
-    borrarFiguraJugador2();
-    borrarJugador1();
-    borrarJugador2();
   });
 
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
@@ -268,35 +263,38 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería actualizar la mano de figuras si recibe un mensaje de tipo FiguraDescartar', () => {
-    
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
-
-    setTurnoActual(5);
-
-    guardarFiguraJugador1(j1CartasMock);
-    guardarJugador1(j1Mock);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+  
+    // Simulamos que el turno actual es del jugador 1
+    setTurnoActual(j1Mock.id);
     setFiguraJug1(j1CartasMock);
     setJugador1(j1Mock);
-
+  
+    // Guardamos las figuras y el jugador en el contexto
+    borrarFiguraJugador1();
+    guardarFiguraJugador1(j1CartasMock);
+    borrarFiguraJugador1();
+    guardarJugador1(j1Mock);
+  
     // Simulamos un mensaje de tipo FiguraDescartar
     const cartas = [
-      { id: 1, figura: 1 },
-      { id: 2, figura: 2 }
+      {id: 45, figura: 20},
+      {id: 29, figura: 4},
+      {id: 43, figura: 18},
     ];
-
-    const data = {cartasFig: cartas};
-
+  
+    const data = { cartasFig: cartas };
+  
     const message = JSON.stringify({ type: 'FiguraDescartar', data: data });
   
     // Llamamos al evento onmessage
     act(() => {
-        socket.onmessage({ data: message });
+      socket.onmessage({ data: message });
     });
   
     // Verificamos si se actualiza la mano de figuras
     expect(setFiguraJug1).toHaveBeenCalledWith(cartas);
-
   });
 
 });

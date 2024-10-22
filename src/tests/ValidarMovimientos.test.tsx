@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import VerificarMovimiento from "../components/views/Public/Game/VerificarMovimiento";
-import { fichasMock, partidaMock, movimientosMock } from "../data/MockPartidaEnCurso";
+import { fichasMock, movimientosMock } from "../data/MockPartidaEnCurso";
 import { CartaMovimiento, movimiento } from "../types/partidaEnCurso";
 
 describe("VerificarMovimiento", () => {

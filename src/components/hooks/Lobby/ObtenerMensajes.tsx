@@ -25,7 +25,6 @@ const ObtenerMensajes = (
     else if (message.type === 'IniciarPartida') {
       setPartidaIniciada(true);
       handleIniciarPartida(message, idJugador, idPartida);
-      console.log(message);
       borrarJugadoresUnidos();
     }
     
