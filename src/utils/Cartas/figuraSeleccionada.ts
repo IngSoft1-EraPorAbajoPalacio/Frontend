@@ -14,7 +14,6 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     const { marcarFicha, limpiarFigMarcadas } = definirFigMarcadas(setMarcaFiguras);
     let figuraSeleccionadaLocal: number | null = null;
     let fichasDeSeleccionLocal: number[] = [];
-    let fichasParaJuan: Coord[] = [];
     let figuraGuardadaParaJuan: number = 0;
 
     for (let figura of figurasDetectadas) {
@@ -36,7 +35,6 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
             } else if (figuraSeleccionadaLocal !== null && fig.idFig === figuraSeleccionadaLocal) // Si selecciono una figura marco unicamente esa
             {
                 fichasDeSeleccionLocal.push(numFichaCajon); // Agrego la ficha de cajón pertenecientes a la figura
-                fichasParaJuan.push(coord);
                 marcarFicha(numFichaCajon);
                 limpiarFigMarcadas(fichasDeSeleccionLocal);
                 figuraGuardadaParaJuan = fig.tipoFig;
@@ -45,5 +43,5 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
-    DeclararFigura(idPartida ?? null, idJugador ?? null, fichasParaJuan, figuraGuardadaParaJuan, cartaFiguraDescarte);
+    DeclararFigura(idPartida ?? null, idJugador ?? null, figuraGuardadaParaJuan, cartaFiguraDescarte);
 };

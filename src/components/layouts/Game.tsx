@@ -4,7 +4,7 @@ import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
 import { CartaFigura, CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerFiguras } from "../context/GameContext";
+import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3 } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -36,7 +36,16 @@ function Juego () {
     const [figurasDetectadas, setFigurasDetectadas] = useState<Figura[]>([]);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<number | null>(null);
 
-    const [manoFigura, setManoFigura] = useState<CartaFigura[]>(obtenerFiguras());
+    const [figuraJug1, setFiguraJug1] = useState<CartaFigura[] >(obtenerFiguraJugador1());
+    const [figuraJug2, setFiguraJug2] = useState<CartaFigura[] >(obtenerFiguraJugador2());
+    const [figuraJug3, setFiguraJug3] = useState<CartaFigura[] >(obtenerFiguraJugador3());
+    const [figuraJug4, setFiguraJug4] = useState<CartaFigura[] >(obtenerFiguraJugador4());
+
+    const [jugador1,] = useState<JugadorEnCurso | null>(obtenerJugador1());
+    const [jugador2,] = useState<JugadorEnCurso | null>(obtenerJugador2());
+    const [jugador3,] = useState<JugadorEnCurso | null>(obtenerJugador3());
+    const [jugador4,] = useState<JugadorEnCurso | null>(obtenerJugador4());
+    
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
@@ -47,7 +56,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, turnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
@@ -56,7 +65,7 @@ function Juego () {
             }
 
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-        marcadasPorSelec, setMarcadasPorSelec, setManoFigura);
+        marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -86,52 +95,61 @@ function Juego () {
         setTimeout(() => setMovimientoDeshecho(false), 1500);
     }, [movimientoDeshecho]);
         
-    const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
-    const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
-    const jugador3 = (partida && partida.cantJugadores > 2) ? partida.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida.orden[2]) : null;
-    const jugador4 = (partida && partida.cantJugadores > 3) ? partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[3]) : null;
-
     return (
         <div id='Juego'>
             <div id="Centro">
                 <div className="ManosHorizontal">
                     {jugador1 ?
-                     <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} 
-                     cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
-                     manoFigura={manoFigura} />
-                     : <div className="ManoHorizontal"></div>}
+                     <MostrarFiguras
+                        jugador={jugador1}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug1}
+                    /> : <div className="ManoHorizontal"></div>}
+                    
                     {jugador4 ?
-                    <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte}
-                    manoFigura={manoFigura} />
-                     : <div className="ManoHorizontal"></div>}
+                    <MostrarFiguras
+                        jugador={jugador4}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte}
+                        manoFigura={figuraJug4}
+                    /> : <div className="ManoHorizontal"></div>}
                 </div>
 
                 <Tablero 
-                marcaFiguras={marcaFiguras} 
-                figurasDetectadas={figurasDetectadas} 
-                setFiguraSeleccionada={setFiguraSeleccionada}
-                setMarcaFiguras={setMarcaFiguras}
-                marcadasPorSelec={marcadasPorSelec}
-                setMarcadasPorSelec={setMarcadasPorSelec}
-                setMovimientosJugados={setMovimientosJugados}
-                setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
-                cartaMovimientoSeleccionado={cartaMovimientoSeleccionado}
-                turnoActual={turnoActual}
-                idPartida={idPartida}
-                idJugador={idJugador}
-                cartaFiguraDescarte={cartaFiguraDescarte}
+                    marcaFiguras={marcaFiguras} 
+                    figurasDetectadas={figurasDetectadas} 
+                    setFiguraSeleccionada={setFiguraSeleccionada}
+                    setMarcaFiguras={setMarcaFiguras}
+                    marcadasPorSelec={marcadasPorSelec}
+                    setMarcadasPorSelec={setMarcadasPorSelec}
+                    setMovimientosJugados={setMovimientosJugados}
+                    setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
+                    cartaMovimientoSeleccionado={cartaMovimientoSeleccionado}
+                    turnoActual={turnoActual}
+                    idPartida={idPartida}
+                    idJugador={idJugador}
+                    cartaFiguraDescarte={cartaFiguraDescarte}
                 />
                 <div className="ManosHorizontal">
                     {jugador2 ? 
-                    <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
-                    manoFigura={manoFigura} />
-                    : <div className="ManoHorizontal"></div>}
+                    <MostrarFiguras
+                        jugador={jugador2}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug2}
+                    /> : <div className="ManoHorizontal"></div>}
                     {jugador3 ? 
-                    <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} 
-                    cartaFiguraDescarte={cartaFiguraDescarte} setCartaFiguraDescarte={setCartaFiguraDescarte} 
-                    manoFigura={manoFigura} />
+                    <MostrarFiguras
+                        jugador={jugador3}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug3}
+                    />
                     : <div className="ManoHorizontal"></div>}
                 </div>
             </div>
