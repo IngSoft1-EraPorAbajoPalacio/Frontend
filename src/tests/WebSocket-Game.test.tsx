@@ -285,7 +285,7 @@ describe('ObtenerMensajes', () => {
       { id: 2, figura: 2 }
     ];
 
-    const data = {cartasFig: carta};
+    const data = {cartasFig: cartas};
 
     const message = JSON.stringify({ type: 'FiguraDescartar', data: data });
   
