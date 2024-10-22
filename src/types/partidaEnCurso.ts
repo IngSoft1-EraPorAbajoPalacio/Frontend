@@ -15,15 +15,16 @@ export class Ficha {
       this.y = y;
       this.color = color;
     }
+}
 
-    mover(x: posicion, y: posicion) {
-      this.x = x;
-      this.y = y;
-    }
+export class fichasMovimiento {
+  primerFicha: Ficha;
+  segundaFicha: Ficha;
 
-    getColor() {
-      return this.color;
-    }
+  constructor(primerFicha: Ficha, segundaFicha: Ficha) {
+    this.primerFicha = primerFicha;
+    this.segundaFicha = segundaFicha;
+  }
 }
 
 export class CartaFigura {
@@ -39,26 +40,24 @@ export class CartaFigura {
 export class CartaMovimiento {
   id: number;
   movimiento: movimiento;
+  seleccionada: boolean;
 
   constructor(id: number, movimiento: movimiento) {
     this.id = id;
     this.movimiento = movimiento;
+    this.seleccionada = false;
   }
 }
 
 export class JugadorEnCurso {
   id: number;
   nombre: string;
-  cartasFigura: CartaFigura[];
-  cartasMovimiento: CartaMovimiento[]; // Es vacío para el jugador que no guarda los datos
   enPartida: boolean; // Para ver si el jugador abandonó
   esGuardador: boolean; // Nueva propiedad para identificar al jugador que guarda los datos
 
-  constructor(id: number, nombre: string, cartasFigura: CartaFigura[], cartasMovimiento: CartaMovimiento[], enPartida: boolean, esGuardador: boolean) {
+  constructor(id: number, nombre: string, enPartida: boolean, esGuardador: boolean) {
     this.id = id;
     this.nombre = nombre;
-    this.cartasFigura = cartasFigura;
-    this.cartasMovimiento = cartasMovimiento;
     this.enPartida = enPartida;
     this.esGuardador = esGuardador;
   }
@@ -68,20 +67,24 @@ export class PartidaEnCurso {
   id: number;
   nombre: string;
   cantJugadores: cantidadJugadores;
-  jugadores: JugadorEnCurso[];
-  fichas: Ficha[];
   orden: number[];
-  turnoActual: number;
 
-  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, jugadores: JugadorEnCurso[], fichas: Ficha[], orden: number[]) {
+  constructor(id: number, nombre: string, cantJugadores: cantidadJugadores, orden: number[]) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadores = cantJugadores;
-    this.jugadores = jugadores;
-    this.fichas = fichas;
     this.orden = orden;
-    this.turnoActual = 1;
-  }
+  } 
+}
 
-  
+export class Movimiento{
+  carta: CartaMovimiento;
+  primerFicha: Ficha;
+  segundaFicha: Ficha;
+
+  constructor(carta: CartaMovimiento, primerFicha: Ficha, segundaFicha: Ficha) {
+    this.carta = carta;
+    this.primerFicha = primerFicha;
+    this.segundaFicha = segundaFicha;
+  }
 }

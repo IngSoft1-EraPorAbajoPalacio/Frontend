@@ -1,0 +1,257 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+
+#Juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-evenly;
+    height: 100vh;
+}
+
+.Tablero-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.Tablero-fila {
+    display: flex;
+    flex-direction: row;
+}
+
+.Tablero-casilla {
+    width: 85px;
+    height: 85px;
+    border-radius: 10px;
+    background-color: #3b302a;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Figura-formada{
+    opacity: .8;
+    animation: casilla-animada 2s ease-out infinite;
+}
+
+.Tablero-casilla button {
+    width: 85%;
+    height: 85%;
+}
+
+.Tablero-casilla button:hover {
+    background-color: #c9b791d8;
+    border-radius: 8px;
+}
+
+ /* Con selección */
+.Tablero-casilla .Amarillo-sin-seleccion {
+    background: yellow;
+    width: 90%;
+    height: 90%;
+    border: white 2px;
+}
+
+.Tablero-casilla .Rojo-sin-seleccion {
+    background: red;
+    width: 90%;
+    height: 90%;
+    border: white 2px;
+}
+
+.Tablero-casilla .Verde-sin-seleccion {
+    background: green;
+    width: 90%;
+    height: 90%;
+    border: white 2px;
+}
+
+.Tablero-casilla .Azul-sin-seleccion {
+    background: blue;
+    width: 90%;
+    height: 90%;
+    border: white 2px;
+}
+
+/* Sin selección */
+.Tablero-casilla .Amarillo-con-seleccion {
+    background: rgb(82, 82, 0);
+    width: 85%;
+    height: 85%;
+}
+
+.Tablero-casilla .Rojo-con-seleccion {
+    background: rgba(129, 0, 0, 0.6);
+    width: 85%;
+    height: 85%;
+}
+
+.Tablero-casilla .Verde-con-seleccion {
+    background: rgba(1, 94, 1, 0.6);
+    width: 85%;
+    height: 85%;
+}
+
+.Tablero-casilla .Azul-con-seleccion {
+    background: rgba(0, 0, 121, 0.6);
+    width: 85%;
+    height: 85%;
+}
+
+.Carta {
+    width: 120px;
+    height: auto;
+    cursor: pointer;
+}
+
+.JugadorEnTurno {  
+    font-size: 1.5em;
+    color: #8d681a;
+    font-style: italic;
+}
+
+.Carta:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+.Figura {
+    width: 110px;
+}
+
+.Figura:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+.FiguraSelec {
+    width: 110px;
+    transform: translateY(-14px);
+    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
+    transition: transform 0.5s ease;
+}
+
+#Centro {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+.ManosHorizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ManoHorizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15%;
+    margin-top: 15%;
+}
+
+#ManoJugador {
+    height: 140px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+}
+
+#ManoJugador button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3b302a;
+    border-radius: 10px;
+}
+
+#ManoJugador #PasarTurno, #AbandonarPartida {
+    width: 300px;
+    height: 90px;
+    margin: 2px;
+}
+
+.Movimiento-con-seleccion{
+    width: 110px;
+    border-radius: 8px;
+    transform: translateY(-14px);
+    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
+    transition: transform 0.5s ease;
+}
+
+#ManoJugador #DeshacerMovimiento {
+    width: 200px;
+    height: 40px;
+    margin: 10px;
+    font-size: 0.9em;
+}
+
+#ManoJugador img {
+    width: 90px;
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.Movimiento-con-seleccion{
+    width: 110px;
+    border-radius: 8px;
+    transform: translateY(-14px);
+    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
+    transition: transform 0.5s ease;
+}
+
+#ManoJugador img:hover {
+    background-color: #f1b73b31;
+    border-radius: 8px;
+}
+
+#ManoJugador button:hover {
+    background-color: #c9b791d8;
+    border-radius: 8px;
+
+}
+
+@keyframes casilla-animada {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    25% {
+        opacity: 0.7;
+        transform: scale(0.97) rotate(1.2deg);
+        background-color: #8d8a8a;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.02) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    75% {
+        opacity: 0.7;
+        transform: scale(0.97) rotate(-1.2deg);
+        background-color: #8d8a8a;
+        box-shadow: 0 0 20px rgba(232, 232, 232, 0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        background-color: #62534b;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+}
+

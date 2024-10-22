@@ -1,47 +1,74 @@
-import '../../styles/Home.css';
-import ListarPartidas from '../views/Public/ListarPartidas';
-import { useState } from 'react';
+import '../../styles/Home/Home.css';
+import ListarPartidas from '../views/Public/Home/ListarPartidas';
+import { useEffect, useState } from 'react';
+import FormularioUnirsePartida from '../views/Public/Home/FormularioUnirsePartida';
+import Overlay from '../../components/views/Public/Overlay';
+import FormCreateRoom from '../views/Public/Home/FormularioCrearPartida';
+import useRouteNavigation from '../routes/RouteNavigation';
+import ObtenerMensajes from '../hooks/Home/ObtenerMensajes';
+import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
-import { guardarPartida } from '../context/GameContext';
-import { FormJoinRoom } from '../forms/JoinRoom/FormJoinRoom';
-import { Overlay } from '../overlay/Overlay';
-import { FormCreateRoom } from '../forms/FormCreateRoom/FormCreateRoom';
+import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
+import BusquedaPartidas from '../hooks/Home/BusquedaPartidas';
 
 const Home = () => {
-	const [partidaElegida, setPartidaElegida] = useState<Partida | null>(null);
-	const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
+    const [idPatida, setIdPartida] = useState<number|null>(null);
+    const [idJugador, setIdJugador] = useState<number|null>(null);
+    const [partidaCreada, setPartidaCreada] = useState<boolean>(false);
+    const [tryJoinGame, setTryJoinGame] = useState(idPatida !== null);
+    const [partidas, setPartidas] = useState<Partida[]>([]);
+    const [newSocket, setSocket] = useState<WebSocket | null>(null);
+    const [desconexionesHome, setDesconexionesHome] = useState(0);
 
-	const [tryJoinGame, setTryJoinGame] = useState(partidaElegida !== null);
+    const [busqueda, setBusqueda] = useState<string>('');
 
-	const seleccionarPartida = (partida: Partida) => {
-		console.log('Partida seleccionada:', partida);
-		setPartidaElegida(partida);
-		guardarPartida(partida);
-	};
+    const [minPlayers, setMinPlayers] = useState<number>(2);
+    const [maxPlayers, setMaxPlayers] = useState<number>(4);
 
-	const seleccionarCrear = () => {
-		setPartidaCreada(true);
-	};
+    const { redirectToLobby } = useRouteNavigation();
+    const seleccionarCrear = () => setPartidaCreada(true);
 
-	return (
-		<>
+    useEffect(() => {
+        if (idJugador !== null && idPatida !== null){
+            if (newSocket) newSocket.close();
+            redirectToLobby(idPatida, idJugador);
+        }
+    }, [idJugador, idPatida]);
 
-			<div id='home'>
-				<div id='crear'>
-					<button onClick={() => seleccionarCrear()}>Crear partida</button>
-				</div>
-				<div id='unirse'>
-					<ListarPartidas seleccionarPartida={seleccionarPartida} setTryJoinGame={setTryJoinGame} />
-				</div>
-				<Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
-					<FormCreateRoom />
-				</Overlay>
-				<Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
-					<FormJoinRoom />
-				</Overlay>
-			</div>
-		</>
-	);
+    useEffect(() => {
+		obtenerPartidas(setPartidas);
+        const newSocket = createSocketHome(setDesconexionesHome);
+        setSocket(newSocket);
+        return ObtenerMensajes(setPartidas, newSocket);
+    }, [desconexionesHome]);
+
+    useEffect(() => {
+        setTryJoinGame(idPatida !== null);
+    }, [idPatida]);
+
+    const partidasFiltradas = partidas.filter(partida =>
+        partida.nombre.toLowerCase().includes(busqueda.toLowerCase()) && // no es caseSensitive
+        partida.cantJugadoresMin >= minPlayers &&
+        partida.cantJugadoresMax <= maxPlayers
+    );
+    
+    return (
+        <div id='home'>
+            <div id='crear'>
+                <button onClick={() => seleccionarCrear()}>Crear partida</button>
+            </div>            
+            <div id='unirse'>
+                <BusquedaPartidas busqueda={busqueda} setBusqueda={setBusqueda} minPlayers={minPlayers} maxPlayers={maxPlayers} setMinPlayers= {setMinPlayers} setMaxPlayers= {setMaxPlayers} />
+                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} />
+            </div>
+            <Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
+                <FormCreateRoom setIdPartida={setIdPartida} setIdJugador={setIdJugador} />
+            </Overlay>
+            <Overlay isOpen={tryJoinGame} onClose={() => { setTryJoinGame(!tryJoinGame) }}>
+                <FormularioUnirsePartida setIdJugador={setIdJugador} idPartida={idPatida} />
+            </Overlay>
+        </div>
+    );
 }
 
 export default Home;
