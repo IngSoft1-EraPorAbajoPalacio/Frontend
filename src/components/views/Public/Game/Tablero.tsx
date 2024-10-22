@@ -117,7 +117,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
                             className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
                             onClick={() => { handleClick([x, y], setSeleccionada); }}
                         ></button>
-                        : // Si no se quiere jugar una figura o no es el turno del jugador
+                        :
                         <button
                             className={color + '-sin-seleccion'}
                             disabled={true}

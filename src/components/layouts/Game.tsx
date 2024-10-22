@@ -41,10 +41,10 @@ function Juego () {
     const [figuraJug3, setFiguraJug3] = useState<CartaFigura[] >(obtenerFiguraJugador3());
     const [figuraJug4, setFiguraJug4] = useState<CartaFigura[] >(obtenerFiguraJugador4());
 
-    const [jugador1,] = useState<JugadorEnCurso | null>(obtenerJugador1());
-    const [jugador2,] = useState<JugadorEnCurso | null>(obtenerJugador2());
-    const [jugador3,] = useState<JugadorEnCurso | null>(obtenerJugador3());
-    const [jugador4,] = useState<JugadorEnCurso | null>(obtenerJugador4());
+    const [jugador1, setJugador1] = useState<JugadorEnCurso | null>(obtenerJugador1());
+    const [jugador2, setJugador2] = useState<JugadorEnCurso | null>(obtenerJugador2());
+    const [jugador3, setJugador3] = useState<JugadorEnCurso | null>(obtenerJugador3());
+    const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -56,7 +56,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, turnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
+        return ObtenerMensajes(setTurnoActual, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
             setFinalizado(finalizado);
             if (finalizado) {
                 newSocket.close();
@@ -64,8 +64,9 @@ function Juego () {
                 redirectToEnd(idPartida, idJugador);
             }
 
-        }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-        marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4);
+        }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
+        setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
+        setJugador1, setJugador2, setJugador3, setJugador4);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {

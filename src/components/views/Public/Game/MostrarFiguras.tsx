@@ -20,16 +20,12 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> =
 
         const { playerId } = useParams<{ playerId: string }>();
         const idJugador = Number(playerId);
-
-        //console.log(manoFigura);
         
         const cartasSrc: string[] = manoFigura?.map((carta: CartaFigura) => {
             if (carta.figura <= 9) {
-                //console.log(PATH + "0" + carta.figura + EXT)
                 return PATH + "0" + carta.figura + EXT;
             }
             else if (carta.figura <= 25){
-                //console.log(PATH + carta.figura + EXT);
                  return PATH + carta.figura + EXT;}
             else {
                 console.error("Error carta número");

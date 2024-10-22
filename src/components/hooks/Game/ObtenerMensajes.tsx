@@ -1,13 +1,12 @@
 import { Figura } from "../../../types/figura";
-import { CartaFigura, JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, borrarPartidaEnCurso, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarPartidaEnCurso, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerPartidaEnCurso } from "../../context/GameContext";
+import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
-	setPartida: React.Dispatch<React.SetStateAction<PartidaEnCurso | null>>,
 	setMovimiento: React.Dispatch<React.SetStateAction<Movimiento | null>>,
   	setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
   	setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
@@ -21,12 +20,15 @@ const ObtenerMensajes = (
 	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
 	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
 	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[]>>
+	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
+	setJugador1: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
+	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
+	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
+	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>
 	) => {
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
-		console.log(message);
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
@@ -38,11 +40,30 @@ const ObtenerMensajes = (
 
 		// Si el mensaje es de tipo AbandonarPartida, borra al jugador idJugador de la partida
 		else if (message.type === 'AbandonarPartida') {
-			const partida = obtenerPartidaEnCurso();
-			partida.jugadores = partida.jugadores.filter((jugador: JugadorEnCurso) => jugador.id !== message.data.idJugador);
-			borrarPartidaEnCurso();
-			guardarPartidaEnCurso(partida);
-			setPartida(partida);
+
+			// Obtener al Jugador que abandona la partida
+			const j1 = obtenerJugador1();
+			const j2 = obtenerJugador2();
+			const j3 = obtenerJugador3();
+			const j4 = obtenerJugador4();
+			
+			if (message.data.idJugador === j1.id){
+				borrarFiguraJugador1();
+				setFiguraJug1([]);
+				setJugador1(null);
+			} else if (message.data.idJugador === j2.id){
+				borrarFiguraJugador2();
+				setFiguraJug2([]);
+				setJugador2(null);
+			} else if (message.data.idJugador === j3.id){
+				borrarFiguraJugador3();
+				setFiguraJug3([]);
+				setJugador3(null);
+			} else if (message.data.idJugador === j4.id){
+				borrarFiguraJugador4();
+				setFiguraJug4([]);
+				setJugador4(null);
+			}
 		}
 
 		// Si el mensaje es de tipo MovimientoParcial setea la carta recibida
