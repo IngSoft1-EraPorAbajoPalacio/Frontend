@@ -2,30 +2,50 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
-import { CartaMovimiento, Ficha, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaFigura, CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos } from "../context/GameContext";
+import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3 } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
 import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
+
 import Overlay from '../../components/views/Public/Overlay';
-import '../../styles/Game/MovimientoHecho.css';
+import '../../styles/Game/Overlay.css';
+import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
+
+import { Figura } from "../../types/figura";
+
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
+    const [cartaFiguraDescarte, setCartaFiguraDescarte] = useState<string | null>(null);
+    const [marcaFiguras, setMarcaFiguras] = useState<number[]>([]);
     const [movimiento, setMovimiento] = useState<Movimiento | null>(null);
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
     const [movimientoDeshecho, setMovimientoDeshecho] = useState<boolean>(false);
-    const [, setFichasSeleccionadas] = useState<Ficha[]>([]);
+    const [cartaMovimientoSeleccionado, setCartaMovimientoSeleccionado] = useState<CartaMovimiento | null>(null);
     const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>(obtenerMovimientos());
     const [movimientosJugados, setMovimientosJugados] = useState(0);
+    const [figurasDetectadas, setFigurasDetectadas] = useState<Figura[]>([]);
+    const [figuraSeleccionada, setFiguraSeleccionada] = useState<number | null>(null);
 
+    const [figuraJug1, setFiguraJug1] = useState<CartaFigura[] >(obtenerFiguraJugador1());
+    const [figuraJug2, setFiguraJug2] = useState<CartaFigura[] >(obtenerFiguraJugador2());
+    const [figuraJug3, setFiguraJug3] = useState<CartaFigura[] >(obtenerFiguraJugador3());
+    const [figuraJug4, setFiguraJug4] = useState<CartaFigura[] >(obtenerFiguraJugador4());
+
+    const [jugador1, setJugador1] = useState<JugadorEnCurso | null>(obtenerJugador1());
+    const [jugador2, setJugador2] = useState<JugadorEnCurso | null>(obtenerJugador2());
+    const [jugador3, setJugador3] = useState<JugadorEnCurso | null>(obtenerJugador3());
+    const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
+    
+    const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
@@ -35,7 +55,7 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setPartida, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, (finalizado, idGanador?: number, nombreGanador?: string) => {
+        return ObtenerMensajes(setTurnoActual, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado, idGanador?: number, nombreGanador?: string) => {
             if (finalizado) {
                 newSocket.close();
                 borrarPartida();
@@ -43,14 +63,19 @@ function Juego () {
                     redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
                 }
                 else {
-                    redirectToEnd(idPartida, idJugador, idJugador, 'ganador')
+                    redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
                 }
             }
-        }, newSocket);
+        }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
+        setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
+        setJugador1, setJugador2, setJugador3, setJugador4);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
-        if (idJugador == turnoActual) await PasarTurno(idPartida, idJugador);
+        if (idJugador == turnoActual){
+            await DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+            await PasarTurno(idPartida, idJugador);
+        }
         AbandonarPartida(idPartida, idJugador);  
         if (newSocket) newSocket.close();
         borrarPartidaEnCurso();
@@ -58,7 +83,12 @@ function Juego () {
     };
 
     const handlePasarTurno = () => {
-        if (partida) PasarTurno(partida.id, idJugador);
+        setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
+            if (cartaSeleccionada !== null) cartaSeleccionada.seleccionada = false;
+            return null;
+        });
+        DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+        PasarTurno(idPartida, idJugador);
         const nuevaPartida = obtenerPartidaEnCurso();
         setPartida(nuevaPartida);
     }
@@ -72,22 +102,62 @@ function Juego () {
         setTimeout(() => setMovimientoDeshecho(false), 1500);
     }, [movimientoDeshecho]);
         
-    const jugador1 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[0]);
-    const jugador2 = partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[1]);
-    const jugador3 = (partida && partida.cantJugadores > 2) ? partida.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida.orden[2]) : null;
-    const jugador4 = (partida && partida.cantJugadores > 3) ? partida?.jugadores.find((jugador: JugadorEnCurso) => jugador.id === partida?.orden[3]) : null;
-
     return (
         <div id='Juego'>
             <div id="Centro">
                 <div className="ManosHorizontal">
-                    { jugador1 ? <MostrarFiguras jugador={jugador1} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
-                    { jugador4 ? <MostrarFiguras jugador={jugador4} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
+                    {jugador1 ?
+                     <MostrarFiguras
+                        jugador={jugador1}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug1}
+                    /> : <div className="ManoHorizontal"></div>}
+                    
+                    {jugador4 ?
+                    <MostrarFiguras
+                        jugador={jugador4}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte}
+                        manoFigura={figuraJug4}
+                    /> : <div className="ManoHorizontal"></div>}
                 </div>
-                <Tablero setFichasSeleccionadas={setFichasSeleccionadas} turnoActual={turnoActual} idJugador={idJugador} />
+
+                <Tablero 
+                    marcaFiguras={marcaFiguras} 
+                    figurasDetectadas={figurasDetectadas} 
+                    setFiguraSeleccionada={setFiguraSeleccionada}
+                    setMarcaFiguras={setMarcaFiguras}
+                    marcadasPorSelec={marcadasPorSelec}
+                    setMarcadasPorSelec={setMarcadasPorSelec}
+                    setMovimientosJugados={setMovimientosJugados}
+                    setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
+                    cartaMovimientoSeleccionado={cartaMovimientoSeleccionado}
+                    turnoActual={turnoActual}
+                    idPartida={idPartida}
+                    idJugador={idJugador}
+                    cartaFiguraDescarte={cartaFiguraDescarte}
+                />
                 <div className="ManosHorizontal">
-                    { jugador2 ? <MostrarFiguras jugador={jugador2} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
-                    { jugador3 ? <MostrarFiguras jugador={jugador3} turnoActual={turnoActual} /> : <div className="ManoHorizontal"></div> }
+                    {jugador2 ? 
+                    <MostrarFiguras
+                        jugador={jugador2}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug2}
+                    /> : <div className="ManoHorizontal"></div>}
+                    {jugador3 ? 
+                    <MostrarFiguras
+                        jugador={jugador3}
+                        turnoActual={turnoActual} 
+                        cartaFiguraDescarte={cartaFiguraDescarte}
+                        setCartaFiguraDescarte={setCartaFiguraDescarte} 
+                        manoFigura={figuraJug3}
+                    />
+                    : <div className="ManoHorizontal"></div>}
                 </div>
             </div>
             <div id='ManoJugador'>
@@ -99,7 +169,7 @@ function Juego () {
                 <MostrarMovimientos
                     partida={partida}
                     idJugador={idJugador}
-                    setFichasSeleccionadas={setFichasSeleccionadas}
+                    setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
                     turnoActual={turnoActual}
                     manoMovimiento={manoMovimiento}
                     setManoMovimiento={setManoMovimiento}

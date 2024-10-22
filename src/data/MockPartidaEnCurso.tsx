@@ -1,33 +1,38 @@
-import { Ficha, Movimiento, PartidaEnCurso } from "../types/partidaEnCurso";
+import { Ficha, PartidaEnCurso, JugadorEnCurso } from "../types/partidaEnCurso";
 
 export const partidaMock: PartidaEnCurso = {
     id: 34,
     nombre: "Partida 1",
     cantJugadores: 2,
-    jugadores:
-    [{
-        id: 5,
-        nombre: "Jugador 1", 
-        cartasFigura: [
-            {id: 45, figura: 20},
-            {id: 29, figura: 4},
-            {id: 43, figura: 18}
-        ],
-        enPartida: true,
-        esGuardador: true
-    },{
-        id: 6,
-        nombre: "Jugador 2",
-        cartasFigura: [
-            {id: 17, figura: 17},
-            {id: 49, figura: 24},
-            {id: 42, figura: 17}
-        ],
-        enPartida: true,
-        esGuardador: false
-    }],
     orden: [5, 6],
 }
+
+export const j1Mock: JugadorEnCurso = {
+    id: 5,
+    nombre: "Jugador 1",
+    enPartida: true,
+    esGuardador: true,
+}
+
+export const j1CartasMock = [
+    {id: 45, figura: 20},
+    {id: 29, figura: 4},
+    {id: 43, figura: 18}
+]
+
+export const j2Mock: JugadorEnCurso = {
+    id: 6,
+    nombre: "Jugador 2",
+    enPartida: true,
+    esGuardador: false,
+}
+
+export const j2CartasMock = [
+    {id: 17, figura: 17},
+    {id: 49, figura: 24},
+    {id: 42, figura: 17}
+]
+
 
 export const fichasMock: Ficha[] = [
     {x: 0, y: 0, color: 'Amarillo'},

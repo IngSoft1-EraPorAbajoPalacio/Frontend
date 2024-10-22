@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos } from '../../context/GameContext';
+import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos, guardarJugador1, guardarJugador2, guardarJugador3, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador4 } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
 import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
@@ -31,7 +31,7 @@ const ObtenerMensajes = (
     // Si el mensaje es de tipo AbandonarPartida, actualiza la lista de jugadores en el lobby
     else if (message.type === 'AbandonarPartida') {
       setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
-        const nuevosJugadores = antiguosJugadores.filter((player) => player.id !== message.data.idJugador);
+        const nuevosJugadores = antiguosJugadores.filter((player) => (Number(player.id) !== Number(message.data.idJugador)));
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
@@ -53,20 +53,31 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
 
   const cartasMovimiento = manoMovimiento.length > 0 ? manoMovimiento[0].cartas : [];
   guardarMovimientos(cartasMovimiento);
-  
-  // Crea una nueva instancia de cada jugador de la partida
-  const jugadores = mensaje.cartasFigura.map( ( mazo: {"idJugador": number, "nombreJugador": string, "cartas": [{"id": number, "figura": number}]} ) =>
-    (mazo.idJugador === idJugador) ?
-      new JugadorEnCurso(idJugador, mazo.nombreJugador, mazo.cartas, true, true) :
-      new JugadorEnCurso(mazo.idJugador, mazo.nombreJugador, mazo.cartas, true, false)
-  );
 
+  const cantJugadores = mensaje.orden.length;
+
+  // Guarda los jugadores en el contexto
+  guardarJugador1(new JugadorEnCurso(mensaje.cartasFigura[0].idJugador, mensaje.cartasFigura[0].nombreJugador, true, mensaje.cartasFigura[0].idJugador === idJugador));
+  guardarJugador2(new JugadorEnCurso(mensaje.cartasFigura[1].idJugador, mensaje.cartasFigura[1].nombreJugador,  true, mensaje.cartasFigura[1].idJugador === idJugador));
+  (cantJugadores > 2) ? guardarJugador3(new JugadorEnCurso(mensaje.cartasFigura[2].idJugador, mensaje.cartasFigura[2].nombreJugador, true, mensaje.cartasFigura[2].idJugador === idJugador)) : null;
+  (cantJugadores > 3) ? guardarJugador4(new JugadorEnCurso(mensaje.cartasFigura[3].idJugador, mensaje.cartasFigura[3].nombreJugador, true, mensaje.cartasFigura[3].idJugador === idJugador)) : null;
+
+  // Guardar las figuras en el contexto
+  const cartaJugador1 = mensaje.cartasFigura[0].cartas;
+  const cartaJugador2 = mensaje.cartasFigura[1].cartas;
+  const cartaJugador3 = (cantJugadores > 2) ? mensaje.cartasFigura[2].cartas : [];
+  const cartaJugador4 = (cantJugadores > 3) ? mensaje.cartasFigura[3].cartas : [];
+
+  guardarFiguraJugador1(cartaJugador1);
+  guardarFiguraJugador2(cartaJugador2);
+  guardarFiguraJugador3(cartaJugador3);
+  guardarFiguraJugador4(cartaJugador4);
+  
   // Crear una nueva instancia de PartidaEnCurso
   const partida = new PartidaEnCurso(
     idPartida, 
     obtenerPartida().nombre, 
     mensaje.orden.length, 
-    jugadores, 
     mensaje.orden
   );
 
