@@ -181,6 +181,36 @@ const ObtenerMensajes = (
 			setMovimientoDeshecho(true);
 			setMovimientosJugados(0);
 		}
+		else if (message.type === 'ReposicionFiguras') {
+			if (message.data.cartasFig != undefined) {
+				const j1 = obtenerJugador1();
+				const j2 = obtenerJugador2();
+				const j3 = obtenerJugador3();
+				const j4 = obtenerJugador4();
+				console.log(message);
+
+				setTurnoActual((turno: number | null) => {
+					if (j1.id === turno) {
+						borrarFiguraJugador1();
+						guardarFiguraJugador1(message.data.cartasFig);
+						setFiguraJug1(message.data.cartasFig);
+					} else if (j2.id === turno) {
+						borrarFiguraJugador2();
+						guardarFiguraJugador2(message.data.cartasFig);
+						setFiguraJug2(message.data.cartasFig);
+					} else if (j3.id === turno) {
+						borrarFiguraJugador3();
+						guardarFiguraJugador3(message.data.cartasFig);
+						setFiguraJug3(message.data.cartasFig);
+					} else if (j4.id === turno) {
+						borrarFiguraJugador4();
+						guardarFiguraJugador4(message.data.cartasFig);
+						setFiguraJug4(message.data.cartasFig);
+					}
+					return turno;
+				});
+			}
+		}	
 	}
 };
 
