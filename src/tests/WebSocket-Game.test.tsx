@@ -4,8 +4,8 @@ import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
 import { fichasMock, j1Mock, j2Mock, j1CartasMock } from '../data/MockPartidaEnCurso';
-import { borrarFiguraJugador1, borrarFiguraJugador2, borrarJugador1, borrarJugador2, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarJugador1, guardarJugador2 } from '../components/context/GameContext';
-import { Movimiento, CartaMovimiento, CartaFigura } from '../types/partidaEnCurso';
+import { borrarFiguraJugador1, borrarJugador1, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarJugador1, guardarJugador2 } from '../components/context/GameContext';
+import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
 import declararFiguras from '../components/views/Public/Game/DeclararFiguras';
 
 // Mockeamos el módulo de socket
@@ -14,7 +14,7 @@ vi.mock('../services/socketGame', () => ({
 }));
 
 // Mockeamos la función declararFiguras
-vi.mock('../utils/Cartas/DeclararFiguras', () => ({
+vi.mock('../components/views/Public/Game/DeclararFiguras', () => ({
   __esModule: true,
   default: vi.fn(),
 }));
@@ -271,22 +271,25 @@ describe('ObtenerMensajes', () => {
     setFiguraJug1(j1CartasMock);
     setJugador1(j1Mock);
   
+    // Borramos la mano de figuras del jugador 1
+    borrarFiguraJugador1();
+    borrarJugador1();
+
     // Guardamos las figuras y el jugador en el contexto
-    borrarFiguraJugador1();
     guardarFiguraJugador1(j1CartasMock);
-    borrarFiguraJugador1();
     guardarJugador1(j1Mock);
   
-    // Simulamos un mensaje de tipo FiguraDescartar
-    const cartas = [
-      {id: 45, figura: 20},
-      {id: 29, figura: 4},
-      {id: 43, figura: 18},
-    ];
-  
-    const data = { cartasFig: cartas };
-  
-    const message = JSON.stringify({ type: 'FiguraDescartar', data: data });
+    // Simulamos un mensaje de tipo FiguraDescartar  
+    const message = JSON.stringify({
+      type: 'FiguraDescartar',
+      data:
+      { cartasFig:
+        [
+          {id: 45, figura: 20},
+          {id: 29, figura: 4},
+        ]
+      } 
+    });
   
     // Llamamos al evento onmessage
     act(() => {
@@ -294,7 +297,8 @@ describe('ObtenerMensajes', () => {
     });
   
     // Verificamos si se actualiza la mano de figuras
-    expect(setFiguraJug1).toHaveBeenCalledWith(cartas);
+    expect(setTurnoActual).toHaveBeenCalledWith(j1Mock.id);
+    expect(setFiguraJug1).toHaveBeenCalledWith([{id: 45, figura: 20}, {id: 29, figura: 4}, {id: 43, figura: 18}]);
   });
 
 });
