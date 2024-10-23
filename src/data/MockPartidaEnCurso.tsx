@@ -33,6 +33,32 @@ export const j2CartasMock = [
     {id: 42, figura: 17}
 ]
 
+export const j3Mock: JugadorEnCurso = {
+    id: 7,
+    nombre: "Jugador 3",
+    enPartida: true,
+    esGuardador: false,
+}
+
+export const j3CartasMock = [
+    {id: 17, figura: 17},
+    {id: 49, figura: 24},
+    {id: 42, figura: 17}
+]
+
+export const j4Mock: JugadorEnCurso = {
+    id: 8,
+    nombre: "Jugador 4",
+    enPartida: true,
+    esGuardador: false,
+}
+
+export const j4CartasMock = [
+    {id: 17, figura: 17},
+    {id: 49, figura: 24},
+    {id: 42, figura: 17}
+]
+
 
 export const fichasMock: Ficha[] = [
     {x: 0, y: 0, color: 'Amarillo'},

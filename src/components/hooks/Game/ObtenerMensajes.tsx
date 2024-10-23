@@ -29,10 +29,14 @@ const ObtenerMensajes = (
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
+
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
-		} else if (message.type === 'PartidaEliminada') {
+		}
+		
+		// Si el mensaje es de tipo PartidaEliminada, borra la partida
+		else if (message.type === 'PartidaEliminada') {
 			borrarPartida();
 			setFinalizado(true);
 			return () => socket.close();
@@ -47,19 +51,22 @@ const ObtenerMensajes = (
 			const j3 = obtenerJugador3();
 			const j4 = obtenerJugador4();
 
-			if (message.data.idJugador === j1.id) {
+			if (j1 && (message.data.idJugador === j1.id)) {
 				borrarFiguraJugador1();
 				setFiguraJug1([]);
 				setJugador1(null);
-			} else if (message.data.idJugador === j2.id) {
+			}
+			if (j2 && (message.data.idJugador === j2.id)) {
 				borrarFiguraJugador2();
 				setFiguraJug2([]);
 				setJugador2(null);
-			} else if (message.data.idJugador === j3.id) {
+			}
+			if (j3 && (message.data.idJugador === j3.id)) {
 				borrarFiguraJugador3();
 				setFiguraJug3([]);
 				setJugador3(null);
-			} else if (message.data.idJugador === j4.id) {
+			}
+			if (j4 && (message.data.idJugador === j4.id)) {
 				borrarFiguraJugador4();
 				setFiguraJug4([]);
 				setJugador4(null);
@@ -112,13 +119,15 @@ const ObtenerMensajes = (
 
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
-
-
-		} else if (message.type === 'DeclararFigura') {
+		}
+		
+		// Si el mensaje es de tipo DeclararFigura
+		else if (message.type === 'DeclararFigura') {
 			declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
 				marcadasPorSelec, setMarcadasPorSelec
 			);
 		}
+
 		// Si el mensaje es de tipo DeshacerMovimientos
 		else if (message.type === 'DeshacerMovimientos') {
 
@@ -145,7 +154,10 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
 			setMovimientosJugados(0);
-		} else if (message.type === 'ReposicionFiguras' || message.type === 'FiguraDescartar') {
+		}
+		
+		// Si el mensaje es de tipo ReposicionFiguras o FiguraDescartar asigna las figuras a los jugadores
+		else if (message.type === 'ReposicionFiguras' || message.type === 'FiguraDescartar') {
 			if (message.data.cartasFig !== undefined) {
 				const j1 = obtenerJugador1();
 				const j2 = obtenerJugador2();

@@ -34,4 +34,19 @@ describe('DeshacerMovimiento', () => {
         axiosPatchSpy.mockRestore();
         consoleErrorSpy.mockRestore();
     });
+
+    it('Deberia devolver la carta correcta en caso de exito', async () => {
+        const idPartida = 1;
+        const idJugador = 2;
+        const mockCarta = { id: 1, nombre: 'As de Espadas' };
+
+        const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202, data: { carta: [mockCarta] } });
+
+        const result = await DeshacerMovimiento(idPartida, idJugador);
+
+        expect(result).toEqual(mockCarta);
+        expect(axiosPatchSpy).toHaveBeenCalledWith(`http://localhost:8000/partida/${idPartida}/jugador/${idJugador}/tablero/deshacer-movimiento`);
+
+        axiosPatchSpy.mockRestore();
+    });
 });

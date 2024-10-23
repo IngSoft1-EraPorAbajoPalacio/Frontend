@@ -36,6 +36,7 @@ const ObtenerMensajes = (
       });
       setContador((contador: number) => contador - 1);
     }
+    
     // Si el mensaje es de tipo PartidaEliminada, redirecciona al usuario al Home
     else if (message.type === 'PartidaEliminada') {
       borrarPartida();
