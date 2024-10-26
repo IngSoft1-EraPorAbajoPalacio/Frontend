@@ -3,10 +3,10 @@ import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
-import { fichasMock, j1Mock, j2Mock, j1CartasMock } from '../data/MockPartidaEnCurso';
-import { borrarFiguraJugador1, borrarFiguraJugador2, borrarJugador1, borrarJugador2, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarJugador1, guardarJugador2 } from '../components/context/GameContext';
-import { Movimiento, CartaMovimiento, CartaFigura } from '../types/partidaEnCurso';
-import declararFiguras from '../utils/Cartas/DeclararFiguras';
+import { fichasMock, j1Mock, j2Mock, j3Mock, j4Mock, j1CartasMock, j2CartasMock, j3CartasMock, j4CartasMock } from '../data/MockPartidaEnCurso';
+import { borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4 } from '../components/context/GameContext';
+import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
+import declararFiguras from '../components/views/Public/Game/DeclararFiguras';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/socketGame', () => ({
@@ -14,7 +14,7 @@ vi.mock('../services/socketGame', () => ({
 }));
 
 // Mockeamos la función declararFiguras
-vi.mock('../utils/Cartas/DeclararFiguras', () => ({
+vi.mock('../components/views/Public/Game/DeclararFiguras', () => ({
   __esModule: true,
   default: vi.fn(),
 }));
@@ -65,6 +65,10 @@ describe('ObtenerMensajes', () => {
 
   beforeAll(() => {
     socket = createSocketGame;
+  });
+
+  beforeEach(() => {
+    borrarPartida();
   });
 
   afterAll(() => {
@@ -122,20 +126,16 @@ describe('ObtenerMensajes', () => {
     expect(setFinalizado).toHaveBeenCalledWith(true);
   });
 
-  it('Debería eliminar un jugador si recibe un mensaje de tipo AbandonarPartida', () => {
+  it('Debería eliminar al jugador 1 si recibe un mensaje de tipo AbandonarPartida con id del jugador 1', () => {
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
 
-    // Simulamos que hay dos jugadores en la partida
+    // Simulamos que hay jugadores en la partida
     guardarJugador1(j1Mock);
-    guardarJugador2(j2Mock);
     setJugador1(j1Mock);
-    setJugador2(j2Mock);
     guardarFiguraJugador1(j1CartasMock);
-    guardarFiguraJugador2(j1CartasMock);
     setFiguraJug1(j1CartasMock);
-    setFiguraJug2(j1CartasMock);
 
     // Simulamos un mensaje de tipo AbandonarPartida
     const message = JSON.stringify({ type: 'AbandonarPartida', data: { idJugador: 5 } });
@@ -148,6 +148,78 @@ describe('ObtenerMensajes', () => {
     // Verificamos si se elimina el jugador
     expect(setFiguraJug1).toHaveBeenCalledWith([]);
     expect(setJugador1).toHaveBeenCalledWith(null);
+  });
+
+  it('Debería eliminar al jugador 2 si recibe un mensaje de tipo AbandonarPartida con id del jugador 2', () => {
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+
+    // Simulamos que hay jugadores en la partida
+    guardarJugador2(j2Mock);
+    setJugador2(j2Mock);
+    guardarFiguraJugador2(j2CartasMock);
+    setFiguraJug2(j2CartasMock);
+
+    // Simulamos un mensaje de tipo AbandonarPartida
+    const message = JSON.stringify({ type: 'AbandonarPartida', data: { idJugador: 6 } });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina el jugador
+    expect(setFiguraJug2).toHaveBeenCalledWith([]);
+    expect(setJugador2).toHaveBeenCalledWith(null);
+  });
+
+  it('Debería eliminar al jugador 3 si recibe un mensaje de tipo AbandonarPartida con id del jugador 3', () => {
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+
+    // Simulamos que hay jugadores en la partida
+    guardarJugador3(j3Mock);
+    setJugador3(j3Mock);
+    guardarFiguraJugador3(j3CartasMock);
+    setFiguraJug3(j3CartasMock);
+
+    // Simulamos un mensaje de tipo AbandonarPartida
+    const message = JSON.stringify({ type: 'AbandonarPartida', data: { idJugador: 7 } });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina el jugador
+    expect(setFiguraJug3).toHaveBeenCalledWith([]);
+    expect(setJugador3).toHaveBeenCalledWith(null);
+  });
+
+  it('Debería eliminar al jugador 4 si recibe un mensaje de tipo AbandonarPartida con id del jugador 4', () => {
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+
+    // Simulamos que hay jugadores en la partida
+    guardarJugador4(j4Mock);
+    setJugador4(j4Mock);
+    guardarFiguraJugador4(j4CartasMock);
+    setFiguraJug4(j4CartasMock);
+
+    // Simulamos un mensaje de tipo AbandonarPartida
+    const message = JSON.stringify({ type: 'AbandonarPartida', data: { idJugador: 8 } });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina el jugador
+    expect(setFiguraJug4).toHaveBeenCalledWith([]);
+    expect(setJugador4).toHaveBeenCalledWith(null);
   });
 
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
@@ -185,6 +257,8 @@ describe('ObtenerMensajes', () => {
 
   it('Debería marcar un movimiento como deshecho si recibe un mensaje de tipo DeshacerMovimiento', () => {
 
+    guardarFichasTablero(fichasMock);
+
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
 
@@ -201,6 +275,8 @@ describe('ObtenerMensajes', () => {
   });
 
   it('Debería marcar movimiento como deshecho y re-establecer la cantidad de movimientos si recibe un mensaje de tipo DeshacerMovimientos', () => {
+
+    guardarFichasTablero(fichasMock);
 
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
@@ -262,31 +338,38 @@ describe('ObtenerMensajes', () => {
 
   });
 
-  it('Debería actualizar la mano de figuras si recibe un mensaje de tipo FiguraDescartar', () => {
+  it('Debería actualizar la mano de figuras del jugador 1 si recibe un mensaje de tipo FiguraDescartar', () => {
+    // Mock de setTurnoActual para capturar el valor del turno
+    const mockSetTurnoActual = vi.fn();
+  
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
   
     // Simulamos que el turno actual es del jugador 1
-    setTurnoActual(j1Mock.id);
+    mockSetTurnoActual.mockImplementation((updateFn) => {
+      const turno = updateFn(j1Mock.id);
+      return turno;
+    });
+  
     setFiguraJug1(j1CartasMock);
     setJugador1(j1Mock);
   
     // Guardamos las figuras y el jugador en el contexto
-    borrarFiguraJugador1();
     guardarFiguraJugador1(j1CartasMock);
-    borrarFiguraJugador1();
     guardarJugador1(j1Mock);
   
-    // Simulamos un mensaje de tipo FiguraDescartar
-    const cartas = [
-      {id: 45, figura: 20},
-      {id: 29, figura: 4},
-      {id: 43, figura: 18},
-    ];
+    // Simulamos un mensaje de tipo FiguraDescartar  
+    const data = {
+      type: 'FiguraDescartar',
+      data: {
+        cartasFig: [
+          { id: 17, figura: 17 },
+          { id: 41, figura: 17 }
+        ]
+      }
+    };
   
-    const data = { cartasFig: cartas };
-  
-    const message = JSON.stringify({ type: 'FiguraDescartar', data: data });
+    const message = JSON.stringify(data);
   
     // Llamamos al evento onmessage
     act(() => {
@@ -294,7 +377,156 @@ describe('ObtenerMensajes', () => {
     });
   
     // Verificamos si se actualiza la mano de figuras
-    expect(setFiguraJug1).toHaveBeenCalledWith(cartas);
+    expect(mockSetTurnoActual).toHaveBeenCalled();
+    expect(setFiguraJug1).toHaveBeenCalledWith(data.data.cartasFig);
+  });
+
+  it('Debería actualizar la mano de figuras del jugador 2 si recibe un mensaje de tipo FiguraDescartar', () => {
+    // Mock de setTurnoActual para capturar el valor del turno
+    const mockSetTurnoActual = vi.fn();
+  
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+  
+    // Simulamos que el turno actual es del jugador 2
+    mockSetTurnoActual.mockImplementation((updateFn) => {
+      const turno = updateFn(j2Mock.id);
+      return turno;
+    });
+  
+    setFiguraJug2(j2CartasMock);
+    setJugador2(j2Mock);
+  
+    // Guardamos las figuras y el jugador en el contexto
+    guardarFiguraJugador2(j2CartasMock);
+    guardarJugador2(j2Mock);
+  
+    // Simulamos un mensaje de tipo FiguraDescartar  
+    const data = {
+      type: 'FiguraDescartar',
+      data: {
+        cartasFig: [
+          { id: 17, figura: 17 },
+          { id: 42, figura: 17 }
+        ]
+      }
+    };
+  
+    const message = JSON.stringify(data);
+  
+    // Llamamos al evento onmessage
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+  
+    // Verificamos si se actualiza la mano de figuras
+    expect(mockSetTurnoActual).toHaveBeenCalled();
+    expect(setFiguraJug2).toHaveBeenCalledWith(data.data.cartasFig);
+  });
+
+  it('Debería actualizar la mano de figuras del jugador 3 si recibe un mensaje de tipo FiguraDescartar', () => {
+    // Mock de setTurnoActual para capturar el valor del turno
+    const mockSetTurnoActual = vi.fn();
+  
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+  
+    // Simulamos que el turno actual es del jugador 3
+    mockSetTurnoActual.mockImplementation((updateFn) => {
+      const turno = updateFn(j3Mock.id);
+      return turno;
+    });
+  
+    setFiguraJug3(j3CartasMock);
+    setJugador3(j3Mock);
+  
+    // Guardamos las figuras y el jugador en el contexto
+    guardarFiguraJugador3(j3CartasMock);
+    guardarJugador3(j3Mock);
+  
+    // Simulamos un mensaje de tipo FiguraDescartar  
+    const data = {
+      type: 'FiguraDescartar',
+      data: {
+        cartasFig: [
+          { id: 17, figura: 17 },
+          { id: 42, figura: 17 }
+        ]
+      }
+    };
+  
+    const message = JSON.stringify(data);
+  
+    // Llamamos al evento onmessage
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+  
+    // Verificamos si se actualiza la mano de figuras
+    expect(mockSetTurnoActual).toHaveBeenCalled();
+    expect(setFiguraJug3).toHaveBeenCalledWith(data.data.cartasFig);
+  });
+
+  it('Debería actualizar la mano de figuras del jugador 4 si recibe un mensaje de tipo FiguraDescartar', () => {
+    // Mock de setTurnoActual para capturar el valor del turno
+    const mockSetTurnoActual = vi.fn();
+  
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+  
+    // Simulamos que el turno actual es del jugador 4
+    mockSetTurnoActual.mockImplementation((updateFn) => {
+      const turno = updateFn(j4Mock.id);
+      return turno;
+    });
+  
+    setFiguraJug4(j4CartasMock);
+    setJugador4(j4Mock);
+  
+    // Guardamos las figuras y el jugador en el contexto
+    guardarFiguraJugador4(j4CartasMock);
+    guardarJugador4(j4Mock);
+  
+    // Simulamos un mensaje de tipo FiguraDescartar  
+    const data = {
+      type: 'FiguraDescartar',
+      data: {
+        cartasFig: [
+          { id: 17, figura: 17 },
+          { id: 42, figura: 17 }
+        ]
+      }
+    };
+  
+    const message = JSON.stringify(data);
+  
+    // Llamamos al evento onmessage
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+  
+    // Verificamos si se actualiza la mano de figuras
+    expect(mockSetTurnoActual).toHaveBeenCalled();
+    expect(setFiguraJug4).toHaveBeenCalledWith(data.data.cartasFig);
+  });
+
+  it('No debería actualizar la mano de figuras si el mensaje no es de tipo FiguraDescartar', () => {
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+  
+    // Simulamos un mensaje de otro tipo
+    const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos que no se haya llamado setFiguraJug1 ni setFiguraJug2
+    expect(setFiguraJug1).not.toHaveBeenCalled();
+    expect(setFiguraJug2).not.toHaveBeenCalled();
+    expect(setFiguraJug3).not.toHaveBeenCalled();
+    expect(setFiguraJug4).not.toHaveBeenCalled();
   });
 
 });

@@ -1,6 +1,6 @@
-import { Coord, Figura } from "../../types/figura";
+import { Coord, Figura } from "../../../../types/figura";
 import definirFigMarcadas from "./DefinirFigMarcadas";
-import DeclararFigura from "../../components/hooks/Game/DeclararFigura";
+import DeclararFigura from "../../../hooks/Game/DeclararFigura";
 
 
 export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas: Figura[],

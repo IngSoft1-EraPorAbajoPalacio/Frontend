@@ -2,7 +2,7 @@ import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
 import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
-import declararFiguras from "../../../utils/Cartas/DeclararFiguras";
+import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
@@ -29,10 +29,14 @@ const ObtenerMensajes = (
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
+
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
-		} else if (message.type === 'PartidaEliminada') {
+		}
+		
+		// Si el mensaje es de tipo PartidaEliminada, borra la partida
+		else if (message.type === 'PartidaEliminada') {
 			borrarPartida();
 			setFinalizado(true);
 			return () => socket.close();
@@ -47,19 +51,22 @@ const ObtenerMensajes = (
 			const j3 = obtenerJugador3();
 			const j4 = obtenerJugador4();
 
-			if (message.data.idJugador === j1.id) {
+			if (j1 && (message.data.idJugador === j1.id)) {
 				borrarFiguraJugador1();
 				setFiguraJug1([]);
 				setJugador1(null);
-			} else if (message.data.idJugador === j2.id) {
+			}
+			if (j2 && (message.data.idJugador === j2.id)) {
 				borrarFiguraJugador2();
 				setFiguraJug2([]);
 				setJugador2(null);
-			} else if (message.data.idJugador === j3.id) {
+			}
+			if (j3 && (message.data.idJugador === j3.id)) {
 				borrarFiguraJugador3();
 				setFiguraJug3([]);
 				setJugador3(null);
-			} else if (message.data.idJugador === j4.id) {
+			}
+			if (j4 && (message.data.idJugador === j4.id)) {
 				borrarFiguraJugador4();
 				setFiguraJug4([]);
 				setJugador4(null);
@@ -112,40 +119,15 @@ const ObtenerMensajes = (
 
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
-
-
-		} else if (message.type === 'DeclararFigura') {
+		}
+		
+		// Si el mensaje es de tipo DeclararFigura
+		else if (message.type === 'DeclararFigura') {
 			declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
 				marcadasPorSelec, setMarcadasPorSelec
 			);
-		} else if (message.type === 'FiguraDescartar') { //Luego de descartar una carta de figura
-
-			const j1 = obtenerJugador1();
-			const j2 = obtenerJugador2();
-			const j3 = obtenerJugador3();
-			const j4 = obtenerJugador4();
-
-			setTurnoActual((turno: number | null) => {
-				if (j1 && (j1.id === turno)) {
-					borrarFiguraJugador1();
-					guardarFiguraJugador1(message.data.cartasFig);
-					setFiguraJug1(message.data.cartasFig);
-				} else if (j2 && (j2.id === turno)) {
-					borrarFiguraJugador2();
-					guardarFiguraJugador2(message.data.cartasFig);
-					setFiguraJug2(message.data.cartasFig);
-				} else if (j3 && (j3.id === turno)) {
-					borrarFiguraJugador3();
-					guardarFiguraJugador3(message.data.cartasFig);
-					setFiguraJug3(message.data.cartasFig);
-				} else if (j4 && (j4.id === turno)) {
-					borrarFiguraJugador4();
-					guardarFiguraJugador4(message.data.cartasFig);
-					setFiguraJug4(message.data.cartasFig);
-				}
-				return turno;
-			});
 		}
+
 		// Si el mensaje es de tipo DeshacerMovimientos
 		else if (message.type === 'DeshacerMovimientos') {
 
@@ -172,28 +154,30 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
 			setMovimientosJugados(0);
-		} else if (message.type === 'ReposicionFiguras') {
-			if (message.data.cartasFig != undefined) {
+		}
+		
+		// Si el mensaje es de tipo ReposicionFiguras o FiguraDescartar asigna las figuras a los jugadores
+		else if (message.type === 'ReposicionFiguras' || message.type === 'FiguraDescartar') {
+			if (message.data.cartasFig !== undefined) {
 				const j1 = obtenerJugador1();
 				const j2 = obtenerJugador2();
 				const j3 = obtenerJugador3();
 				const j4 = obtenerJugador4();
-				console.log(message);
 
 				setTurnoActual((turno: number | null) => {
-					if (j1.id === turno) {
+					if (j1 && j1.id === turno) {
 						borrarFiguraJugador1();
 						guardarFiguraJugador1(message.data.cartasFig);
 						setFiguraJug1(message.data.cartasFig);
-					} else if (j2.id === turno) {
+					} else if (j2 && j2.id === turno) {
 						borrarFiguraJugador2();
 						guardarFiguraJugador2(message.data.cartasFig);
 						setFiguraJug2(message.data.cartasFig);
-					} else if (j3.id === turno) {
+					} else if (j3 && j3.id === turno) {
 						borrarFiguraJugador3();
 						guardarFiguraJugador3(message.data.cartasFig);
 						setFiguraJug3(message.data.cartasFig);
-					} else if (j4.id === turno) {
+					} else if (j4 && j4.id === turno) {
 						borrarFiguraJugador4();
 						guardarFiguraJugador4(message.data.cartasFig);
 						setFiguraJug4(message.data.cartasFig);

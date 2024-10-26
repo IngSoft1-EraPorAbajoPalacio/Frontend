@@ -41,6 +41,31 @@ yarn dev
 
 El servidor estará disponible en `http://localhost:5173`.
 
+### Pruebas
+
+Este proyecto utiliza Vitest y React Testing Library para las pruebas. Para ejecutar las pruebas, usa:
+
+```bash
+npm test
+```
+o
+```bash
+yarn test
+```
+
+### Pruebas con Cobertura
+
+Para ejecutar las pruebas con cobertura, usa:
+
+```bash
+npm run coverage
+```
+o
+
+```bash
+yarn coverage
+```
+
 ### Construcción para Producción
 
 Para construir la aplicación para producción, ejecuta:
@@ -54,15 +79,3 @@ yarn build
 ```
 
 Los archivos generados estarán en la carpeta `dist`.
-
-### Pruebas
-
-Este proyecto utiliza Vitest y React Testing Library para las pruebas. Para ejecutar las pruebas, usa:
-
-```bash
-npm test
-```
-o
-```bash
-yarn test
-```

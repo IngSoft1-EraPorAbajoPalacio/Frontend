@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "../../../../styles/Game/Juego.css";
 import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
-import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "../../../../utils/Cartas/figuraUtils";
+import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "./figuraUtils";
 import { useParams } from "react-router-dom";
 
 const EXT = ".svg";
