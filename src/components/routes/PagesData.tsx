@@ -30,7 +30,7 @@ const pagesData: routerType[] = [
     {
         path: Paths.End,
         element: (
-            <ValidateParameters paramNames={['gameId', 'playerId']} >
+            <ValidateParameters paramNames={['gameId', 'playerId', 'winnerId', 'winnerName']} >
                 <End/>
             </ValidateParameters>
         ),

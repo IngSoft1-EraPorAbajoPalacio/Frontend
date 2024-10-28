@@ -3,7 +3,7 @@ enum Paths {
     Home = '/',
     Lobby = '/lobby/:gameId/player/:playerId',
     Game = '/game/:gameId/player/:playerId',
-    End = '/end/:gameId/player/:playerId',
+    End = '/end/:gameId/player/:playerId/winner/:winnerId/:winnerName',
     NotFound = '/*'
 }
 
