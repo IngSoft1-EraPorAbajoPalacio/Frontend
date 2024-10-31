@@ -4,22 +4,22 @@ import JugarMovimiento from '../components/hooks/Game/JugarMovimiento';
 import { CartaMovimiento, Ficha, Movimiento } from '../types/partidaEnCurso';
 
 describe('JugarMovimiento', () => {
+
+    const idJugador = 1;
+    const idPartida = 1;
+    const cartaMovimiento = new CartaMovimiento(1, 1);
+    const movimiento = new Movimiento(cartaMovimiento, new Ficha(1, 1, "Amarillo"), new Ficha(2, 2, "Verde"));
+    const data = {
+        idCarta: 1,
+        posiciones: [
+            {x: 1, y: 1},
+            {x: 2, y: 2}
+        ]
+    };
+
     it('Deberia llamar al metodo PATCH correctamente', async () => {
        
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202 });
-        const data = {
-            idCarta: 1,
-            posiciones: [
-                {x: 1, y: 1},
-                {x: 2, y: 2}
-            ]
-        };
-
-        const idPartida = 1;
-        const idJugador = 2;
-        const cartaMovimiento = new CartaMovimiento(1, 1);
-        const movimiento = new Movimiento(cartaMovimiento, new Ficha(1, 1, "Amarillo"), new Ficha(2, 2, "Verde"));
-
         await JugarMovimiento(idPartida, idJugador, movimiento);
 
         // Check that axios.patch was called with the correct URL and headers
@@ -29,18 +29,6 @@ describe('JugarMovimiento', () => {
     });
 
     it('En caso de error, deberia mostrarlo en consola', async () => {
-        const idPartida = 1;
-        const idJugador = 2;
-        const cartaMovimiento = new CartaMovimiento(1, 1);
-        const movimiento = new Movimiento(cartaMovimiento, new Ficha(1, 1, "Amarillo"), new Ficha(2, 2, "Verde"));
-        const data = {
-            idCarta: 1,
-            posiciones: [
-                {x: 1, y: 1},
-                {x: 2, y: 2}
-            ]
-        };
-
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockRejectedValueOnce(new Error('Mensaje de error simulado.'));
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
@@ -53,4 +41,16 @@ describe('JugarMovimiento', () => {
         axiosPatchSpy.mockRestore();
         consoleErrorSpy.mockRestore();
     });
+
+    it('Deberia lanzar un error si la respuesta no es 202', async () => {
+
+        const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 400 });
+
+        await JugarMovimiento(idPartida, idJugador, movimiento);
+
+        expect(axiosPatchSpy).toHaveBeenCalledWith(`http://localhost:8000/partida/${idPartida}/jugador/${idJugador}/tablero/jugar-movimiento`, data);
+
+        axiosPatchSpy.mockRestore();
+    });
+
 });
