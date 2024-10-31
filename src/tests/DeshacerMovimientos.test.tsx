@@ -21,11 +21,7 @@ describe('DeshacerMovimientos', () => {
             manoMovimiento = updateFn(manoMovimiento);
         });
 
-        const data = {
-            cartas: [
-                new CartaMovimiento(3, 3),
-            ]
-        };
+        const data = { cartas: [ new CartaMovimiento(3, 3) ] };
        
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202, data: data });
 
