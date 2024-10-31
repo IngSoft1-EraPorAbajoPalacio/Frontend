@@ -4,12 +4,14 @@ import DeshacerMovimiento from '../components/hooks/Game/DeshacerMovimiento';
 import { CartaMovimiento } from '../types/partidaEnCurso';
 
 describe('DeshacerMovimiento', () => {
+
+    const idPartida = 1;
+    const idJugador = 2;
+
     it('Deberia llamar al metodo PATCH y reasignar la carta correctamente', async () => {
        
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202 });
 
-        const idPartida = 1;
-        const idJugador = 2;
 
         await DeshacerMovimiento(idPartida, idJugador);
 
@@ -20,9 +22,6 @@ describe('DeshacerMovimiento', () => {
     });
 
     it('En caso de error, deberia mostrarlo en consola', async () => {
-        const idPartida = 1;
-        const idJugador = 2;
-
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockRejectedValueOnce(new Error('Mensaje de error simulado.'));
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
@@ -37,12 +36,8 @@ describe('DeshacerMovimiento', () => {
     });
 
     it('Deberia devolver null si el mensaje no contiene cartas', async () => {
-        
-        const idPartida = 1;
-        const idJugador = 2;
 
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202, data: { carta: [] } });
-
         const result = await DeshacerMovimiento(idPartida, idJugador);
 
         expect(result).toEqual(null);
@@ -74,8 +69,6 @@ describe('DeshacerMovimiento', () => {
     });
 
     it('Deberia devolver la carta correcta en caso de exito', async () => {
-        const idPartida = 1;
-        const idJugador = 2;
         const mockCarta = new CartaMovimiento(1, 1);
 
         const axiosPatchSpy = vi.spyOn(axios, 'patch').mockResolvedValueOnce({ status: 202, data: { carta: [mockCarta] } });
