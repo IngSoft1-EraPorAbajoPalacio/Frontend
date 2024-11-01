@@ -3,7 +3,7 @@
 }
 
 body::before {
-  background-image: url('../../../public/background.jpeg');
+  background-image: url('/background.jpeg');
 }
 
 #home {
