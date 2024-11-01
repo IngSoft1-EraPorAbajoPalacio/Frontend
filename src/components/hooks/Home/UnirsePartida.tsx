@@ -18,8 +18,10 @@ function UnirsePartida(
     };
     
     const asyncPost = async () => {
-        try {           
-            const response = await fetch('http://127.0.0.1:8000/partida/' + (partida ? partida : '') + '/jugador', options);
+        try {       
+            if(IdPartida === null) throw new Error('No se ha seleccionado una partida');
+            
+            const response = await fetch('http://127.0.0.1:8000/partida/' + partida + '/jugador', options);
             
             if (response.status === 201) {                
                 const mensaje = await response.json();
