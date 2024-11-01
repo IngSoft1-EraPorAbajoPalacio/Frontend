@@ -4,6 +4,9 @@ import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrar
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 
+interface manejarFinalizacionFunc {
+    (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
+}
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
@@ -11,7 +14,7 @@ const ObtenerMensajes = (
 	setMovimientoAgregado: React.Dispatch<React.SetStateAction<boolean>>,
 	setMovimientoDeshecho: React.Dispatch<React.SetStateAction<boolean>>,
 	setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
-	setFinalizado: React.Dispatch<React.SetStateAction<boolean>>,
+	manejarFinalizacion: manejarFinalizacionFunc,
 	socket: any,
 	setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
 	setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
@@ -38,7 +41,13 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida
 		else if (message.type === 'PartidaEliminada') {
 			borrarPartida();
-			setFinalizado(true);
+			manejarFinalizacion(true);
+			return () => socket.close();
+		}
+
+		else if (message.type === 'PartidaFinalizada') {
+			borrarPartida();
+			manejarFinalizacion(true, message.data.idGanador, message.data.nombreGanador);
 			return () => socket.close();
 		}
 

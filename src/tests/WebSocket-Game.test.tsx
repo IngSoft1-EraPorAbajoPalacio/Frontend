@@ -126,6 +126,30 @@ describe('ObtenerMensajes', () => {
     expect(setFinalizado).toHaveBeenCalledWith(true);
   });
 
+  it('Debería finalizar la partida y mostrar ganador si recibe un mensaje de tipo PartidaFinalizada', () => {
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+
+    // Simulamos un mensaje de tipo PartidaEliminada
+    const message = JSON.stringify({ 
+      type: 'PartidaFinalizada',
+      data: {
+        idGanador: 1,
+        nombreGanador: 'Ganador'
+      }
+     });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se finaliza la partida
+    expect(setFinalizado).toHaveBeenCalledWith(true, 1, 'Ganador');
+  });
+
+
   it('Debería eliminar al jugador 1 si recibe un mensaje de tipo AbandonarPartida con id del jugador 1', () => {
 
     // Llamamos a la función que escucha los mensajes
