@@ -23,7 +23,6 @@ function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(partida?.orden[0] ?? null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
-    const [, setFinalizado] = useState(false);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
     const [cartaFiguraDescarte, setCartaFiguraDescarte] = useState<string | null>(null);
     const [marcaFiguras, setMarcaFiguras] = useState<number[]>([]);
@@ -56,14 +55,17 @@ function Juego () {
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
-        return ObtenerMensajes(setTurnoActual, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado) => {
-            setFinalizado(finalizado);
+        return ObtenerMensajes(setTurnoActual, setMovimiento, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, (finalizado, idGanador?: number, nombreGanador?: string) => {
             if (finalizado) {
                 newSocket.close();
                 borrarPartida();
-                redirectToEnd(idPartida, idJugador);
+                if (idGanador && nombreGanador) {
+                    redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
+                }
+                else {
+                    redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
+                }
             }
-
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
         setJugador1, setJugador2, setJugador3, setJugador4);

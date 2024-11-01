@@ -5,14 +5,23 @@ interface ValidateParametersProps {
     children: React.ReactNode;
 }
 
-// Valida un parámetro de URL como un entero positivo
+
 const ValidateParameters: React.FC<ValidateParametersProps> = ({ paramNames, children }) => {
     const params = useParams();
 
     for (const paramName of paramNames) {
         const paramValue = params[paramName];
-        if (!paramValue || isNaN(Number(paramValue)) || Number(paramValue) <= 0)
-            return <Navigate to='/*' />;
+        if (paramName === 'winnerName') {
+            // Chequea que winnerName sea un string no vacio
+            if (!paramValue || typeof paramValue !== 'string' || paramValue.trim() === '') {
+                return <Navigate to='/*' />;
+            }
+        } else {
+            // Para los demas parametros chequea que sean enteros positivos
+            if (!paramValue || isNaN(Number(paramValue)) || Number(paramValue) <= 0) {
+                return <Navigate to='/*' />;
+            }
+        }
     }
 
     return <>{children}</>;
