@@ -46,7 +46,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
         let posicionFicha: number | null = (posicion[0] + posicion[1] * 6);
         if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
             handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-                , setMarcaFiguras, setMarcadasPorSelec, cartaFiguraDescarte, idPartida, idJugador);
+                , setMarcaFiguras, setMarcadasPorSelec, setMovimientosJugados, cartaFiguraDescarte, idPartida, idJugador);
         }
         
         // Si no hay carta seleccionada, no se hace nada

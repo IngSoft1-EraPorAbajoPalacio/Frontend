@@ -6,6 +6,7 @@ const DeclararFigura = async(
     idJugador: number | null,
     figuraGuardadaParaJuan: number,
     cartaFiguraDescarte: string | null,
+    setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>
 ) => {
     try {
         const url = `http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`;
@@ -15,6 +16,7 @@ const DeclararFigura = async(
         };
         const response = await axios.post(url, data);
         if ((response.status !== 202)) throw new Error("Hubo un problema tratando de jugando figura.");
+        setMovimientosJugados(0);
     } catch (error) {
         console.error(error);
     }

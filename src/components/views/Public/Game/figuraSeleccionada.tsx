@@ -7,6 +7,7 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>,
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
     setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
+    setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
     cartaFiguraDescarte: string | null,
     idPartida: number | undefined,
     idJugador: number | undefined
@@ -43,5 +44,5 @@ export const handleSeleccionFigura = (coordFichaSelec: Coord, figurasDetectadas:
     });
     setMarcadasPorSelec(fichasDeSeleccionLocal); // Marco las fichas cajon de la seleccionada
 
-    DeclararFigura(idPartida ?? null, idJugador ?? null, figuraGuardadaParaJuan, cartaFiguraDescarte);
+    DeclararFigura(idPartida ?? null, idJugador ?? null, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
 };
