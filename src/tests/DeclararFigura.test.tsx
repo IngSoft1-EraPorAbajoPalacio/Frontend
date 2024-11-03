@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
 import DeclararFigura from '../components/hooks/Game/DeclararFigura';
-import { toast } from 'react-toastify';
+import showToast from '../components/views/Public/Toast';
 
 let setMovimientosJugados: any;
 
@@ -10,19 +10,9 @@ const idJugador = 2;
 const figuraGuardadaParaJuan = 1;
 const cartaFiguraDescarte = "1";
 
-vi.mock('react-toastify', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-        ...(typeof actual === 'object' ? actual : {}),
-        toast: Object.assign(vi.fn(), {
-            success: vi.fn(),
-            error: vi.fn(),
-            info: vi.fn(),
-            warn: vi.fn(),
-            default: vi.fn(),
-        }),
-    };
-});
+vi.mock('../components/views/Public/Toast', () => ({
+    default: vi.fn(),
+}));
 
 const data = {
     idCarta: Number(cartaFiguraDescarte),
@@ -74,29 +64,14 @@ describe('DeclararFigura', () => {
     });
 
     it('Deberia mostrar un alert si la respuesta es 432 en el try', async () => {
-        const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce({
-            isAxiosError: false,
-            response: { status: 432 }
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({
+            status: 432
         });      
         
         await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
 
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
-        expect(toast.error).toHaveBeenCalledWith(
-            "Carta de figura inválida",
-            expect.objectContaining({
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                hideProgressBar: false,
-                newestOnTop: false,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                position: "bottom-right",
-                progress: undefined,
-                theme: "colored",
-            })
-        );
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Carta de figura inválida" });
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 
@@ -109,21 +84,7 @@ describe('DeclararFigura', () => {
         await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
     
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
-        expect(toast.error).toHaveBeenCalledWith(
-            "Carta de figura inválida",
-            expect.objectContaining({
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                hideProgressBar: false,
-                newestOnTop: false,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                position: "bottom-right",
-                progress: undefined,
-                theme: "colored",
-            })
-        );
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Carta de figura inválida" });
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 });
