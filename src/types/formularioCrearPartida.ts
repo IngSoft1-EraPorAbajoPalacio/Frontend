@@ -6,4 +6,5 @@ export interface FormInputs {
 	room: string,
 	minPlayers: number,
 	maxPlayers: number,
+	password: string,
 }

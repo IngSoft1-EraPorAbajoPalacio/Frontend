@@ -71,6 +71,9 @@ color: #ffffff;
   margin-right: 10px;
 }
 
+.input-invalid {
+  border-color: red !important;
+}
 
 #submit-button button {
   background-color: #ffaa64;

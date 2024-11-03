@@ -3,7 +3,7 @@ import "../../../../styles/Home/Formularios.css";
 import { FormInputs } from '../../../../types/formularioCrearPartida.ts';
 import CrearPartida from "../../../hooks/Home/CrearPartida.tsx";
 import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./ControlFormulario.tsx";
-import { handleRoomNameChange, handleInvalid, handlePlayerNameChange, handleValid } from './HandlersFormularios.tsx'
+import { handleRoomNameChange, handleInvalid, handlePlayerNameChange, handleValid, handlePasswordChange } from './HandlersFormularios.tsx'
 
 interface FormCreateRoomProps {
     setIdJugador: Dispatch<SetStateAction<number | null>>;
@@ -13,6 +13,7 @@ interface FormCreateRoomProps {
 const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPartida }) => {
     const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
     const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
+    const [dirtyPassword, setDirtyPassword] = useState<boolean>(false); // To check if the information of the input is missing
     const [password, setPassword] = useState<boolean>(false); // To show the password input
 
     const [form, setForm] = useState<FormInputs>({
@@ -22,6 +23,7 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
         room: '',
         minPlayers: 2,
         maxPlayers: 4,
+        password: '',
     });
 
     return (
@@ -31,9 +33,9 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
                 <input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}
                     type='text'
                     name='sala'
-                    placeholder="SalaDeTorval"
+                    placeholder="Sala de Torval"
                     value={form.room}
-                    onChange={(e) => { setDirtyRoom(true); handleRoomNameChange(e, setForm, form); handleValid(e); }}
+                    onChange={(e) => { setDirtyRoom(true); handleRoomNameChange(e, setForm, form); handleValid(e) }}
                     onInvalid={handleInvalid}
                     required
                 />
@@ -67,10 +69,15 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
                 <div className='password'>
                     <input id='enable-password'  type="checkbox" onClick={() => setPassword(!password)} />
                     <input
+                        className={'input' + ( password && form.password === '' && dirtyPassword ? ' input-invalid' : '')}
                         id='password'
                         type='password'
                         disabled={!password}
                         placeholder={password ? 'Ingrege su contraseña' : 'Sin contraseña'}
+                        value={form.password}
+                        onChange={(e) => { setDirtyPassword(true); handlePasswordChange(e, setForm, form, password); handleValid(e) }}
+                        onInvalid={handleInvalid}
+                        required={password}
                     />
                 </div>
                 <button id='submit-button' type='submit'>Crear Sala</button>
