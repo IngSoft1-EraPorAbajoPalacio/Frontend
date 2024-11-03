@@ -18,22 +18,30 @@ const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, 
     return (
         <div className="form-container">
             <form onSubmit={(e) => UnirsePartida(e, alias, setIdJugador, idPartida)}>
-                <div className="form-title">
-                    <h3><b>Unirse a Sala: </b></h3>
-                    <span>{roomName}</span>
-                </div>
-                <div className="alias-designation">
-                    <h4>Alias: </h4>
-                    <input
-                        className={'input' + (alias === '' && dirtyAlias ? ' input-invalid' : '')}
-                        type='text'
-                        placeholder="Player2"
-                        value={alias}
-                        onChange={(e) => { setDirtyAlias(true); handleAliasChange(e, setAlias); handleValid(e); }}
-                        onInvalid={handleInvalid}
-                        required
-                    />
-                </div>
+                <h2>Unirse a Sala</h2>
+                <span>{roomName}</span>
+                
+                <h3>Alias</h3>
+                <input
+                    className={'input' + (alias === '' && dirtyAlias ? ' input-invalid' : '')}
+                    type='text'
+                    placeholder="Ingrege su nombre"
+                    value={alias}
+                    onChange={(e) => { setDirtyAlias(true); handleAliasChange(e, setAlias); handleValid(e); }}
+                    onInvalid={handleInvalid}
+                    required
+                />
+                {room.password && (
+                    <>
+                        <h3>Contraseña</h3>
+                        <input
+                            className='input'
+                            type='password'
+                            placeholder='Ingrese la contraseña'
+                            required
+                        />
+                    </>
+                )}
                 <button className="submit-button" type="submit">Unirse</button>
             </form>
         </div>

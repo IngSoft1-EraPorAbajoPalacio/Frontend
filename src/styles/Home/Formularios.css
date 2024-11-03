@@ -34,22 +34,31 @@ input {
   border-radius: 5px; 
 }
 
+input:hover {
+  cursor: text;
+}
+
 .buttons-container {
-display: flex;
-flex-direction: row;
-align-items: baseline;
-justify-content: space-between;
-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .buttons-container button {
-background-color: #504f4f;
-padding: 10px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-width: 42%;
-color: #ffffff;
+  background-color: #504f4f;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 42%;
+  color: #ffffff;
+}
+
+.buttons-container button:hover {
+  background-color: #ffaa64;
+  cursor: pointer;
 }
 
 .buttons-container span{
@@ -97,5 +106,9 @@ cursor: pointer;
 }
 
 #enable-password:hover {
+  cursor: text;
+}
+
+#enable-password {
   cursor: pointer;
 }
