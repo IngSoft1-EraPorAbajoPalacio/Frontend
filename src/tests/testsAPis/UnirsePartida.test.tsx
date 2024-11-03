@@ -3,19 +3,39 @@ import UnirsePartida from '../../components/hooks/Home/UnirsePartida';
 import { act } from 'react';
 import { beforeEach } from 'vitest';
 import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
+import { toast } from 'react-toastify';
+
+// Mock arguments
+let mockSetIdJugador: any;
+let mockEvent: any;
+const alias = 'Pepe';
+const IdPartida = 1; 
+
+// Mock react-toastify
+vi.mock('react-toastify', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...(typeof actual === 'object' ? actual : {}),
+        toast: Object.assign(vi.fn(), {
+            success: vi.fn(),
+            error: vi.fn(),
+            info: vi.fn(),
+            warn: vi.fn(),
+            default: vi.fn(),
+        }),
+    };
+});
 
 describe('UnirsePartida', () => {
 
-    // Mock arguments
-    let mockSetIdJugador: any;
-    let mockEvent: any;
-    const alias = 'Pepe';
-    const IdPartida = 1; 
-
     beforeEach(() => {
-        vi.clearAllMocks();
         mockSetIdJugador = vi.fn();
         mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+        vi.clearAllMocks();
     });
 
     vi.mock(import("../../components/context/GameContext"), async (importOriginal) => {
@@ -65,14 +85,25 @@ describe('UnirsePartida', () => {
         });
         global.fetch = mockFetch;
 
-        // Mock window alert
-        const mockAlert = vi.spyOn(window, 'alert');
-
         await act(async () => {
             UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
         });
 
-        expect(mockAlert).toHaveBeenCalledWith("Arctic Monkeys 404 => Partida Llena");
+        expect(toast.error).toHaveBeenCalledWith(
+            "Arctic Monkeys 404 => Partida Llena",
+            expect.objectContaining({
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                hideProgressBar: false,
+                newestOnTop: false,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                position: "bottom-right",
+                progress: undefined,
+                theme: "colored",
+            })
+        );
     });
 
     it('Si no se pasa una partida, deberia lanzar un error', async () => {
