@@ -18,7 +18,8 @@ const DeclararFigura = async(
         if ((response.status !== 202)) throw new Error("Hubo un problema tratando de jugando figura.");
         setMovimientosJugados(0);
     } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error) && error.response && error.response.status === 432) window.alert("Carta de figura inválida");
+        else console.error(error);
     }
 };
 
