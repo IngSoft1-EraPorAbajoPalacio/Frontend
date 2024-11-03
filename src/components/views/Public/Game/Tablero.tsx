@@ -19,7 +19,7 @@ interface TableroProps {
     turnoActual: number | null;
     figurasDetectadas: Figura[];
     cartaFiguraDescarte: string | null;
-
+    setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
     setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>;
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>;
 
@@ -32,8 +32,7 @@ interface TableroProps {
 
 
 const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, figurasDetectadas,
-    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, idPartida, idJugador }) => {
-
+    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, idPartida, idJugador }) => {
 
     const fichas = obtenerFichasTablero();
     let fichaSeleccionada: number = obtenerFichaSeleccionada();
@@ -45,8 +44,11 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
         let posicionFicha: number | null = (posicion[0] + posicion[1] * 6);
         if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
-            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada
-                , setMarcaFiguras, setMarcadasPorSelec, setMovimientosJugados, cartaFiguraDescarte, idPartida, idJugador);
+            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada,
+                setMarcaFiguras, setMarcadasPorSelec, setMovimientosJugados, cartaFiguraDescarte, idPartida, idJugador);
+            
+            // Luego, deselecciona la carta de figura descartada
+            setCartaFiguraDescarte(null);
         }
         
         // Si no hay carta seleccionada, no se hace nada
@@ -113,26 +115,19 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
         const [seleccionada, setSeleccionada] = React.useState<boolean>(posicion === fichaSeleccionada);
         return (
-
-
-            <>
-                <div key={posicion} className={actualizarFigDeclarada(posicion)}>
-                { ((turnoActual === idJugador && (cartaMovimientoSeleccionado) || cartaFiguraDescarte !== null)) ? // Si se quiere jugar un movimiento o descartar una figura
-                        <button
-                            className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
-                            onClick={() => { handleClick([x, y], setSeleccionada); }}
-                        ></button>
-                        :
-                        <button
-                            className={color + '-sin-seleccion'}
-                            disabled={true}
-                        ></button>
-                    }
-                </div>
-
-            </>
-
-
+            <div key={posicion} className={actualizarFigDeclarada(posicion)}>
+                { ((turnoActual === idJugador && (cartaMovimientoSeleccionado || cartaFiguraDescarte ))) ? // Si se quiere jugar un movimiento o descartar una figura
+                    <button
+                        className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
+                        onClick={() => { handleClick([x, y], setSeleccionada); }}
+                    ></button>
+                    :
+                    <button
+                        className={color + '-sin-seleccion'}
+                        disabled={true}
+                    ></button>
+                }
+            </div>
         )
     }
 

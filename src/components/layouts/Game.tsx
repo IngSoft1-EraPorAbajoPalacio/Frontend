@@ -135,6 +135,7 @@ function Juego () {
                     idPartida={idPartida}
                     idJugador={idJugador}
                     cartaFiguraDescarte={cartaFiguraDescarte}
+                    setCartaFiguraDescarte={setCartaFiguraDescarte}
                 />
                 <div className="ManosHorizontal">
                     {jugador2 ? 
