@@ -1,24 +1,44 @@
 import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
 import DeclararFigura from '../components/hooks/Game/DeclararFigura';
+import { toast } from 'react-toastify';
+
+let setMovimientosJugados: any;
+
+const idPartida = 1;
+const idJugador = 2;
+const figuraGuardadaParaJuan = 1;
+const cartaFiguraDescarte = "1";
+
+vi.mock('react-toastify', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...(typeof actual === 'object' ? actual : {}),
+        toast: Object.assign(vi.fn(), {
+            success: vi.fn(),
+            error: vi.fn(),
+            info: vi.fn(),
+            warn: vi.fn(),
+            default: vi.fn(),
+        }),
+    };
+});
+
+const data = {
+    idCarta: Number(cartaFiguraDescarte),
+    tipo_figura: figuraGuardadaParaJuan
+};
 
 describe('DeclararFigura', () => {
-
-    let setMovimientosJugados: any;
-
-    const idPartida = 1;
-    const idJugador = 2;
-    const figuraGuardadaParaJuan = 1;
-    const cartaFiguraDescarte = "1";
-
-    const data = {
-        idCarta: Number(cartaFiguraDescarte),
-        tipo_figura: figuraGuardadaParaJuan
-    };
 
     beforeEach(() => {
         setMovimientosJugados = vi.fn();
     });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+    
 
     it('Deberia llamar al metodo POST correctamente', async () => {
        
@@ -29,17 +49,9 @@ describe('DeclararFigura', () => {
         // Check that axios.post was called with the correct URL and headers
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(setMovimientosJugados).toHaveBeenCalledWith(0);
-
-        axiosPostSpy.mockRestore();
     });
 
     it('En caso de error, deberia mostrarlo en consola', async () => {
-
-        const data = {
-            idCarta: Number(cartaFiguraDescarte),
-            tipo_figura: figuraGuardadaParaJuan
-        };
-
         const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce(new Error('Mensaje de error simulado.'));
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
@@ -48,17 +60,9 @@ describe('DeclararFigura', () => {
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error)); 
         expect(setMovimientosJugados).not.toHaveBeenCalled();
-
-        axiosPostSpy.mockRestore();
-        consoleErrorSpy.mockRestore();
     });
 
-    it('Deberia lanzar un error si la respuesta no es 202', async () => {
-        const data = {
-            idCarta: Number(cartaFiguraDescarte),
-            tipo_figura: figuraGuardadaParaJuan
-        };
-
+    it('Deberia lanzar un error si la respuesta no es 202 ni 432', async () => {
         const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({ status: 400 });
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
@@ -67,8 +71,59 @@ describe('DeclararFigura', () => {
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(consoleErrorSpy).toHaveBeenCalledWith(new Error("Hubo un problema tratando de jugando figura."));
         expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
 
-        axiosPostSpy.mockRestore();
-        consoleErrorSpy.mockRestore();
+    it('Deberia mostrar un alert si la respuesta es 432 en el try', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce({
+            isAxiosError: false,
+            response: { status: 432 }
+        });      
+        
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(toast.error).toHaveBeenCalledWith(
+            "Carta de figura inválida",
+            expect.objectContaining({
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                hideProgressBar: false,
+                newestOnTop: false,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                position: "bottom-right",
+                progress: undefined,
+                theme: "colored",
+            })
+        );
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
+
+    it('Deberia mostrar un alert si la respuesta es 432 en el catch', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce({
+            isAxiosError: true,
+            response: { status: 432 }
+        });
+    
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+    
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(toast.error).toHaveBeenCalledWith(
+            "Carta de figura inválida",
+            expect.objectContaining({
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                hideProgressBar: false,
+                newestOnTop: false,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                position: "bottom-right",
+                progress: undefined,
+                theme: "colored",
+            })
+        );
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 });
