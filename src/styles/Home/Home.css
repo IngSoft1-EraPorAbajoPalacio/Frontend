@@ -111,7 +111,7 @@ body::before {
   gap: 5px;
 }
 
-.filtroJugItem button {
+.controlFiltro button {
   width: 25px;
   height: 25px;
   color: white;
@@ -119,6 +119,9 @@ body::before {
   background-color: #ffaa64;
   border: none;
   outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .controlFiltro span {
