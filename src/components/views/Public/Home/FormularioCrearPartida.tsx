@@ -13,6 +13,7 @@ interface FormCreateRoomProps {
 const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPartida }) => {
     const [dirtyRoom, setDirtyRoom] = useState<boolean>(false); // To check if the information of the input is missing
     const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
+    const [password, setPassword] = useState<boolean>(false); // To show the password input
 
     const [form, setForm] = useState<FormInputs>({
         idPlayer: '',
@@ -26,52 +27,50 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
     return (
         <div className='form-container'>
             <form onSubmit={(e) => CrearPartida(e, setForm, form, setIdJugador, setIdPartida)}>
-                <div className='room-name'>
-                    <h3>Nombre de partida:</h3>
+                <h3>Nombre de partida</h3> 
+                <input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}
+                    type='text'
+                    name='sala'
+                    placeholder="SalaDeTorval"
+                    value={form.room}
+                    onChange={(e) => { setDirtyRoom(true); handleRoomNameChange(e, setForm, form); handleValid(e); }}
+                    onInvalid={handleInvalid}
+                    required
+                />
+
+                <h3>Mínimo de Jugadores</h3>
+                <div className='buttons-container'>
+                    <button type="button" onClick={() => decrementMinPlayersAllowed(setForm, form)}> <b>-</b> </button>
+                    <span>{form.minPlayers}</span>
+                    <button type="button" onClick={() => incrementMinPlayersAllowed(setForm, form)}> <b>+</b> </button>
                 </div>
-                <div className='room-name'>
-                    <input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}
-                        type='text'
-                        name='sala'
-                        placeholder="SalaDeTorval"
-                        value={form.room}
-                        onChange={(e) => { setDirtyRoom(true); handleRoomNameChange(e, setForm, form); handleValid(e); }}
-                        onInvalid={handleInvalid}
-                        required
-                    />
+
+                <h3>Máximo de Jugadores</h3>
+                <div className='buttons-container'>
+                    <button type="button" onClick={() => decrementMaxPlayersAllowed(setForm, form)}> <b>-</b> </button>
+                    <b><span>{form.maxPlayers}</span></b>
+                    <button type="button" onClick={() => incrementMaxPlayersAllowed(setForm, form)}> <b>+</b> </button>
                 </div>
-                <div className='max-min-container'>
-                    <div className='p-container'><p>Mínimo de Jugadores</p></div>
-                    <div className='buttons-container'>
-                        <button type="button" onClick={() => decrementMinPlayersAllowed(setForm, form)}>
-                            <b>-</b>
-                        </button>
-                        <b><span>{form.minPlayers}</span></b>
-                        <button type="button" onClick={() => incrementMinPlayersAllowed(setForm, form)}>
-                            <b>+</b>
-                        </button>
-                    </div>
-                    <div className='p-container'><p>Máximo de Jugadores</p></div>
-                    <div className='buttons-container'>
-                        <button type="button" onClick={() => decrementMaxPlayersAllowed(setForm, form)}>
-                            <b>-</b>
-                        </button>
-                        <b><span>{form.maxPlayers}</span></b>
-                        <button type="button" onClick={() => incrementMaxPlayersAllowed(setForm, form)}>
-                            <b>+</b>
-                        </button>
-                    </div>
-                </div>
-                <div id="create-player">
-                    <h4>Alias: </h4>
+
+                <h3>Alias</h3>
+                <input
+                    className={'input' + (form.playerName === '' && dirtyAlias ? ' input-invalid' : '')}
+                    type='text'
+                    placeholder='Ingrege su nombre'
+                    value={form.playerName}
+                    onChange={(e) => { setDirtyAlias(true); handlePlayerNameChange(e, setForm, form); handleValid(e) }}
+                    onInvalid={handleInvalid}
+                    required
+                />
+
+                <h3>Contraseña</h3>
+                <div className='password'>
+                    <input id='enable-password'  type="checkbox" onClick={() => setPassword(!password)} />
                     <input
-                        className={'input' + (form.playerName === '' && dirtyAlias ? ' input-invalid' : '')}
-                        type='text'
-                        placeholder='Player1'
-                        value={form.playerName}
-                        onChange={(e) => { setDirtyAlias(true); handlePlayerNameChange(e, setForm, form); handleValid(e) }}
-                        onInvalid={handleInvalid}
-                        required
+                        id='password'
+                        type='password'
+                        disabled={!password}
+                        placeholder={password ? 'Ingrege su contraseña' : 'Sin contraseña'}
                     />
                 </div>
                 <button id='submit-button' type='submit'>Crear Sala</button>
