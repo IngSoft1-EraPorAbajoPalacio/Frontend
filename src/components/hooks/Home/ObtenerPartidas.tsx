@@ -13,7 +13,8 @@ const obtenerPartidas = async (setLista: React.Dispatch<React.SetStateAction<Par
                     partida.id_partida,
                     partida.nombre_partida,
                     partida.cant_min_jugadores,
-                    partida.cant_max_jugadores
+                    partida.cant_max_jugadores,
+                    partida.privada === undefined ? false : partida.privada
                 )
             );
             setLista(dataPartidas);

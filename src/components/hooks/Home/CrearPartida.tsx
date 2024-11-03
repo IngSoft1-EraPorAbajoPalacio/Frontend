@@ -28,12 +28,7 @@ function CrearPartida (
 
     const asyncPost = async () => {
         try {
-            console.log('Creando partida...');
-            console.log(data);
-
             const response = await fetch('http://127.0.0.1:8000/partida', options);
-
-            console.log(response);
             
             if (!response.ok) throw new Error('Hubo un problema tratando de crear la partida.');
             
