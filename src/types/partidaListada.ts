@@ -5,12 +5,14 @@ export class Partida {
   nombre: string;
   cantJugadoresMin: cantidadJugadores;
   cantJugadoresMax: cantidadJugadores;
+  bloqueada?: boolean;
   
-  constructor(id: number, nombre: string, cantJugadoresMin: cantidadJugadores, cantJugadoresMax: cantidadJugadores) {
+  constructor(id: number, nombre: string, cantJugadoresMin: cantidadJugadores, cantJugadoresMax: cantidadJugadores, bloqueada?: boolean) {
     this.id = id;
     this.nombre = nombre;
     this.cantJugadoresMin = cantJugadoresMin;
     this.cantJugadoresMax = cantJugadoresMax;
+    this.bloqueada = bloqueada? bloqueada : false;
   }
 }
 
