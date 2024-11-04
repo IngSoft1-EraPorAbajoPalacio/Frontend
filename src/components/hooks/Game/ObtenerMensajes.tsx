@@ -4,6 +4,7 @@ import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrar
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
+import showToast from "../../views/Public/Toast";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -38,6 +39,7 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
+			if (message.timeout) showToast({ type: 'info', message: 'El tiempo se ha acabado' });
 		}
 		
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida

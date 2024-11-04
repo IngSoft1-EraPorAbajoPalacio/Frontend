@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
 import ColorProhibido from "../views/Public/Game/ColorProhibido";
+import Temporizador from "../views/Public/Game/Temporizador";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
@@ -45,7 +46,8 @@ function Juego () {
     const [jugador3, setJugador3] = useState<JugadorEnCurso | null>(obtenerJugador3());
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
-    const [colorProhibido, setColorProhibido] = useState<color | null>(null);
+    const [colorProhibido, setColorProhibido] = useState<color | null>("Amarillo");
+    const [temporizador, setTemporizador] = useState<number>(200);
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -102,9 +104,10 @@ function Juego () {
 
     return (
         <div id='Juego'>
-            <ColorProhibido
-                colorProhibido={colorProhibido}
-            />
+            <div id="Superior">
+                <ColorProhibido colorProhibido={colorProhibido}/>
+                <Temporizador temporizador={temporizador}/>
+            </div>
             <div id="Centro">
                 <div className="ManosHorizontal">
                     {jugador1 ?
