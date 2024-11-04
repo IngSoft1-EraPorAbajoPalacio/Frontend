@@ -3,6 +3,7 @@ import UnirsePartida from '../../components/hooks/Home/UnirsePartida';
 import { act } from 'react';
 import { beforeEach } from 'vitest';
 import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
+import showToast from '../../components/views/Public/Toast';
 
 describe('UnirsePartida', () => {
 
@@ -26,6 +27,10 @@ describe('UnirsePartida', () => {
           guardarJugadoresUnidos: vi.fn(),
         }
     });
+
+    vi.mock('../../components/views/Public/Toast', () => ({
+        default: vi.fn(),
+    }));
 
     it('Deberia mandar correctamente al metodo POST', async () => {
         // Mock response
@@ -65,14 +70,11 @@ describe('UnirsePartida', () => {
         });
         global.fetch = mockFetch;
 
-        // Mock window alert
-        const mockAlert = vi.spyOn(window, 'alert');
-
         await act(async () => {
             UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
         });
 
-        expect(mockAlert).toHaveBeenCalledWith("Arctic Monkeys 404 => Partida Llena");
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Arctic Monkeys 404 => Partida Llena" });
     });
 
     it('Si no se pasa una partida, deberia lanzar un error', async () => {
