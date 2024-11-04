@@ -63,7 +63,7 @@ describe('UnirsePartida', () => {
        
     });
 
-    it('Deberia mostrar un window alert si la partida esta llena', async () => {
+    it('Deberia mostrar un toast si la partida esta llena', async () => {
         // Mock fetch
         const mockFetch = vi.fn().mockResolvedValue({
             status: 404,

@@ -71,7 +71,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
                     borrarFichaSeleccionada();
                     fichaSeleccionada = -1;
 
-                    // Si el movimiento no es válido, se muestra una alerta
+                    // Si el movimiento no es válido, se muestra una notificación
                     if (!esValido) showToast({type: "error", message: "Movimiento inválido"})
 
                     // Si el movimiento es válido, se juega el movimiento

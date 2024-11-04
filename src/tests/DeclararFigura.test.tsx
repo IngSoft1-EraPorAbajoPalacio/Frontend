@@ -63,7 +63,7 @@ describe('DeclararFigura', () => {
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 
-    it('Deberia mostrar un alert si la respuesta es 432 en el try', async () => {
+    it('Deberia mostrar un toast si la respuesta es 432 en el try', async () => {
         const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({
             status: 432
         });      

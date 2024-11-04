@@ -29,7 +29,6 @@ vi.mock(import("../components/context/GameContext"), async (importOriginal) => {
     }
 });
 
-
 describe('ObtenerMensajes', () => {
     let socket: any;
     let setJugadores: any;
