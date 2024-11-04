@@ -4,27 +4,13 @@ import { act } from 'react';
 import { beforeEach } from 'vitest';
 import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
 import { toast } from 'react-toastify';
+import showToast from '../../components/views/Public/Toast';
 
 // Mock arguments
 let mockSetIdJugador: any;
 let mockEvent: any;
 const alias = 'Pepe';
 const IdPartida = 1; 
-
-// Mock react-toastify
-vi.mock('react-toastify', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-        ...(typeof actual === 'object' ? actual : {}),
-        toast: Object.assign(vi.fn(), {
-            success: vi.fn(),
-            error: vi.fn(),
-            info: vi.fn(),
-            warn: vi.fn(),
-            default: vi.fn(),
-        }),
-    };
-});
 
 describe('UnirsePartida', () => {
 
@@ -46,6 +32,10 @@ describe('UnirsePartida', () => {
           guardarJugadoresUnidos: vi.fn(),
         }
     });
+
+    vi.mock('../../components/views/Public/Toast', () => ({
+        default: vi.fn(),
+    }));
 
     it('Deberia mandar correctamente al metodo POST', async () => {
         // Mock response
@@ -78,7 +68,7 @@ describe('UnirsePartida', () => {
        
     });
 
-    it('Deberia mostrar un window alert si la partida esta llena', async () => {
+    it('Deberia mostrar un toast si la partida esta llena', async () => {
         // Mock fetch
         const mockFetch = vi.fn().mockResolvedValue({
             status: 404,
@@ -89,21 +79,7 @@ describe('UnirsePartida', () => {
             UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
         });
 
-        expect(toast.error).toHaveBeenCalledWith(
-            "Arctic Monkeys 404 => Partida Llena",
-            expect.objectContaining({
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                hideProgressBar: false,
-                newestOnTop: false,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                position: "bottom-right",
-                progress: undefined,
-                theme: "colored",
-            })
-        );
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Arctic Monkeys 404 => Partida Llena" });
     });
 
     it('Si no se pasa una partida, deberia lanzar un error', async () => {
