@@ -34,10 +34,6 @@ input {
   border-radius: 5px; 
 }
 
-input:hover {
-  cursor: text;
-}
-
 .buttons-container {
   display: flex;
   flex-direction: row;
@@ -51,14 +47,12 @@ input:hover {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   width: 42%;
   color: #ffffff;
 }
 
 .buttons-container button:hover {
   background-color: #ffaa64;
-  cursor: pointer;
 }
 
 .buttons-container span{
@@ -89,7 +83,6 @@ input:hover {
   padding: 7%;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   width: 100%;
   color: #ffffff;
 }
@@ -102,13 +95,16 @@ border: none;
 border-radius: 5px;
 background-color: #ffaa64;
 color: white;
-cursor: pointer;
 }
 
 #enable-password:hover {
-  cursor: text;
+  cursor: pointer;
 }
 
-#enable-password {
+button:hover {
   cursor: pointer;
+}
+
+input:hover {
+  cursor: text;
 }
