@@ -3,7 +3,6 @@ import UnirsePartida from '../../components/hooks/Home/UnirsePartida';
 import { act } from 'react';
 import { beforeEach } from 'vitest';
 import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
-import { toast } from 'react-toastify';
 import showToast from '../../components/views/Public/Toast';
 
 // Mock arguments

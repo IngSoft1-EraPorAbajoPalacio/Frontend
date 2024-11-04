@@ -58,7 +58,7 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
                 <input
                     className={'input' + (form.playerName === '' && dirtyAlias ? ' input-invalid' : '')}
                     type='text'
-                    placeholder='Ingrege su nombre'
+                    placeholder='Ingrese su nombre'
                     value={form.playerName}
                     onChange={(e) => { setDirtyAlias(true); handlePlayerNameChange(e, setForm, form); handleValid(e) }}
                     onInvalid={handleInvalid}
@@ -73,7 +73,7 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
                         id='password'
                         type='password'
                         disabled={!password}
-                        placeholder={password ? 'Ingrege su contraseña' : 'Sin contraseña'}
+                        placeholder={password ? 'Ingrese su contraseña' : 'Sin contraseña'}
                         value={form.password}
                         onChange={(e) => { setDirtyPassword(true); handlePasswordChange(e, setForm, form, password); handleValid(e) }}
                         onInvalid={handleInvalid}
