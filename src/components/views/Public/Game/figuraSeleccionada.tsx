@@ -1,10 +1,12 @@
 import { Coord, Figura } from "../../../../types/figura";
 import definirFigMarcadas from "./DefinirFigMarcadas";
 import DeclararFigura from "../../../hooks/Game/DeclararFigura";
+import { color } from "../../../../types/partidaEnCurso";
 
 
 export const handleSeleccionFigura = (
     coordFichaSelec: Coord,
+    colorFichaSelec: color,
     figurasDetectadas: Figura[],
     setFiguraSeleccionada: React.Dispatch<React.SetStateAction<number | null>>,
     setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
@@ -56,5 +58,5 @@ export const handleSeleccionFigura = (
     setMarcadasPorSelec(fichasDeSeleccionLocal);
 
     // Si hay una carta de figura descarte seleccionada, se juega la figura
-    DeclararFigura(idPartida ?? null, idJugador ?? null, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+    DeclararFigura(idPartida ?? null, idJugador ?? null, figuraGuardadaParaJuan, cartaFiguraDescarte, colorFichaSelec, setMovimientosJugados);
 };
