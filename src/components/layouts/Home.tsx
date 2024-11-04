@@ -9,7 +9,7 @@ import ObtenerMensajes from '../hooks/Home/ObtenerMensajes';
 import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
 import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
-import BusquedaPartidas from '../hooks/Home/BusquedaPartidas';
+import BusquedaPartidas from '../views/Public/Home/BusquedaPartidas';
 
 const Home = () => {
     const [idPatida, setIdPartida] = useState<number|null>(null);

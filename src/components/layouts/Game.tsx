@@ -59,12 +59,8 @@ function Juego () {
             if (finalizado) {
                 newSocket.close();
                 borrarPartida();
-                if (idGanador && nombreGanador) {
-                    redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
-                }
-                else {
-                    redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
-                }
+                if (idGanador && nombreGanador) redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
+                else redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
@@ -139,6 +135,7 @@ function Juego () {
                     idPartida={idPartida}
                     idJugador={idJugador}
                     cartaFiguraDescarte={cartaFiguraDescarte}
+                    setCartaFiguraDescarte={setCartaFiguraDescarte}
                 />
                 <div className="ManosHorizontal">
                     {jugador2 ? 

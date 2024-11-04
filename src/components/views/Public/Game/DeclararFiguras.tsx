@@ -22,8 +22,7 @@ const declararFiguras = (
             if (figuraSeleccionada === null) { // No hay ninguna ficha perteneciente a una figura seleccionada
                 setMarcadasPorSelec([]);
                 marcarFicha(numFichaCajon);
-            } else if (figuraSeleccionada !== null && fig.tipoFig === figuraSeleccionada) // Si selecciono una figura marco unicamente esa
-            {
+            } else if (figuraSeleccionada !== null && fig.tipoFig === figuraSeleccionada) { // Si selecciono una figura marco unicamente esa
                 setMarcadasPorSelec(prevFichasMarcadas => [...prevFichasMarcadas, numFichaCajon]); // Marco la ficha cajon de la seleccionada
                 marcarFicha(numFichaCajon);
             } else if (figuraSeleccionada !== null) {

@@ -19,6 +19,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-scroll": "^1.9.0",
+    "react-toastify": "^10.0.6",
     "react-use-websocket": "^4.8.1",
     "reduce": "^1.0.3",
     "reducer": "^0.19.2",

@@ -37,14 +37,15 @@ const ObtenerMensajes = (
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
 		}
-		
+
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida
 		else if (message.type === 'PartidaEliminada') {
 			borrarPartida();
 			manejarFinalizacion(true);
 			return () => socket.close();
 		}
-
+		
+		// Si el mensaje es de tipo PartidaEliminada, borra la partida
 		else if (message.type === 'PartidaFinalizada') {
 			borrarPartida();
 			manejarFinalizacion(true, message.data.idGanador, message.data.nombreGanador);

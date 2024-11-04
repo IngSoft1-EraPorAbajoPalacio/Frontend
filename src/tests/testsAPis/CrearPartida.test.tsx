@@ -3,25 +3,37 @@ import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react';
 
 describe('CrearPartida', () => {
-    it('Deberia llamar correctamente al metodo POST', async () => {
-        // Mock response
-        const mockResponse = {
-            id_partida: 1, 
-            id_jugador: 1,  
-        };
 
+    // Mock response
+    const mockResponse = {
+        id_partida: 1, 
+        id_jugador: 1,  
+    };
+
+    // Constatnts
+    const id_partida = 1;
+    const id_jugador = 1;
+
+    // Mock arguments
+    let mockSetForm: any;
+    let mockSetIdJugador: any;
+    let mockSetIdPartida: any;
+    let mockEvent: any;
+
+    beforeEach(() => {
+        mockSetForm = vi.fn();
+        mockSetIdJugador = vi.fn();
+        mockSetIdPartida = vi.fn();
+        mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
+    });
+
+    it('Deberia llamar correctamente al metodo POST', async () => {
         // Mock fetch
-        const mockFetch = vi.fn().mockResolvedValue({
+        const mockFetchSpy = vi.fn().mockResolvedValue({
             ok: true,
             json: vi.fn().mockResolvedValue(mockResponse), // Use the mock response directly
         });
-        global.fetch = mockFetch;
-
-        // Mock arguments
-        const mockSetForm = vi.fn();
-        const mockSetIdJugador = vi.fn();
-        const mockSetIdPartida = vi.fn();
-        const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
+        global.fetch = mockFetchSpy;
 
         const formInputs = {
             idPlayer: '',
@@ -33,14 +45,11 @@ describe('CrearPartida', () => {
         };
 
         await act(async () => {
-            await CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
+            CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
         });
 
-        
-        const { id_partida, id_jugador } = mockResponse;        
-
         // Check that fetch was called with the correct URL and options
-        expect(mockFetch).toHaveBeenCalledWith('http://127.0.0.1:8000/partida', {
+        expect(mockFetchSpy).toHaveBeenCalledWith('http://127.0.0.1:8000/partida', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -51,55 +60,53 @@ describe('CrearPartida', () => {
             }),
         });
         
-
-        console.log('mockSetForm calls:', mockSetForm.mock.calls);
-        
         expect(mockSetForm).toHaveBeenCalledWith({
             ...formInputs,
             idRoom: id_partida, 
             idPlayer: id_jugador,
         });
+
+        mockFetchSpy.mockRestore();
     });
 
-    it('No deberia llamar a ninguna funcion que setee estados si la cantidad de jugadores no es valida', async () => {
-    // Mock response
-    const mockResponse = {
-        id_partida: 1,
-        id_jugador: 1,
-    };
+    it('En caso de error, deberia mostrarlo en consola', async () => {
+        // Mock fetch
+        const mockFetchSpy = vi.fn().mockResolvedValue({
+            ok: false,
+            json: vi.fn().mockResolvedValue(mockResponse), // Use the mock response directly
+        });
+        global.fetch = mockFetchSpy;
 
-    // Mock fetch
-    const mockFetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: vi.fn().mockResolvedValue(mockResponse),
+        const consoleErrorSpy = vi.spyOn(console, 'error');
+
+        const formInputs = {
+            idPlayer: '',
+            idRoom: '',
+            playerName: 'Pepe',
+            room: 'mockPart',
+            minPlayers: 2,
+            maxPlayers: 4,
+        };
+
+        await act(async () => {
+            CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
+        });
+
+        // Check that fetch was called with the correct URL and options
+        expect(mockFetchSpy).toHaveBeenCalledWith('http://127.0.0.1:8000/partida', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nombre_host: formInputs.playerName,
+                nombre_partida: formInputs.room,
+                cant_min_jugadores: formInputs.minPlayers,
+                cant_max_jugadores: formInputs.maxPlayers,
+            }),
+        });
+        expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error));
+
+        mockFetchSpy.mockRestore();
+        consoleErrorSpy.mockRestore();
     });
-    global.fetch = mockFetch;
-
-    const mockSetForm = vi.fn();
-    const mockSetIdJugador = vi.fn();
-    const mockSetIdPartida = vi.fn();
-    const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
-
-    // Invalid player counts
-    const formInputs = {
-        idPlayer: '',
-        idRoom: '',
-        playerName: 'Pepe',
-        room: 'mockPart',
-        minPlayers: 1, // Invalid
-        maxPlayers: 4,
-    };
-
-
-    await CrearPartida(mockEvent, mockSetForm, formInputs, mockSetIdJugador, mockSetIdPartida);
-
-    // Ensure setForm, setIdJugador, and setIdPartida were not called
-    expect(mockSetForm).not.toHaveBeenCalled();
-    expect(mockSetIdJugador).not.toHaveBeenCalled();
-    expect(mockSetIdPartida).not.toHaveBeenCalled();
 });
-
-});
-
-
 
