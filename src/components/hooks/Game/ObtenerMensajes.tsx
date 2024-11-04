@@ -30,7 +30,8 @@ const ObtenerMensajes = (
 	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
-	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>
+	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
+	setTemporizador: React.Dispatch<React.SetStateAction<number>>
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -195,6 +196,11 @@ const ObtenerMensajes = (
 				if(message.type === 'FiguraDescartar') setColorProhibido(message.data.colorProhibido);
 			
 			}
+		}
+
+		// Si el mensaje es de tipo Temporizador setea el tiempo
+		else if (message.type === 'Temporizador') {
+			setTemporizador(message.tiempoRestante);
 		}
 	}
 };
