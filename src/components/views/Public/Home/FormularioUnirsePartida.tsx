@@ -2,7 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import '../../../../styles/Home/Formularios.css';
 import { obtenerPartida } from "../../../context/GameContext";
 import UnirsePartida from "../../../hooks/Home/UnirsePartida";
-import { handleAliasChange, handleInvalid, handleValid } from './HandlersFormularios';
+import { handleUnitedPlayerNameChange, handleUnitedPasswordChange, handleInvalid, handleValid } from './HandlersFormularios';
 
 interface FormCreateRoomProps {
     setIdJugador: Dispatch<SetStateAction<number | null>>;
@@ -12,12 +12,14 @@ interface FormCreateRoomProps {
 const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, idPartida }) => {
     const [alias, setAlias] = useState('');
     const [dirtyAlias, setDirtyAlias] = useState(false);
+    const [password, setPassword] = useState('');
+    const [dirtyPassword, setDirtyPassword] = useState<boolean>(false);
     const room = obtenerPartida();
     const roomName = room ? room.nombre : '';
 
     return (
         <div className="form-container">
-            <form onSubmit={(e) => UnirsePartida(e, alias, setIdJugador, idPartida)}>
+            <form onSubmit={(e) => UnirsePartida(e, alias, password, setIdJugador, idPartida)}>
                 <h2>Unirse a Sala</h2>
                 <span>{roomName}</span>
                 
@@ -27,17 +29,20 @@ const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, 
                     type='text'
                     placeholder="Ingrege su nombre"
                     value={alias}
-                    onChange={(e) => { setDirtyAlias(true); handleAliasChange(e, setAlias); handleValid(e); }}
+                    onChange={(e) => { setDirtyAlias(true); handleUnitedPlayerNameChange(e, setAlias); handleValid(e); }}
                     onInvalid={handleInvalid}
                     required
                 />
-                {room.password && (
+                {room.bloqueada && (
                     <>
                         <h3>Contraseña</h3>
                         <input
-                            className='input'
+                            className={'input' + (alias === '' && dirtyPassword ? ' input-invalid' : '')}
                             type='password'
                             placeholder='Ingrese la contraseña'
+                            value={password}
+                            onChange={(e) => { setDirtyPassword(true); handleUnitedPasswordChange(e, setPassword); handleValid(e); }}
+                            onInvalid={handleInvalid}
                             required
                         />
                     </>
