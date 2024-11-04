@@ -17,6 +17,7 @@ function CrearPartida (
         nombre_partida: form.room,
         cant_min_jugadores: form.minPlayers,
         cant_max_jugadores: form.maxPlayers,
+        contrasena: form.password, // Envía una cadena vacía si es una partida pública
     };
 
     const options = {

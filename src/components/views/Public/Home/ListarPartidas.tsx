@@ -9,14 +9,14 @@ interface ListarPartidasProps {
 function ListarPartidas({setIdPartida, partidas}: ListarPartidasProps) {
   return (
     <>
-      {partidas.map((partida) => (
+      {partidas.map((partida: Partida) => (
         <button
           key={partida.id}
           className='partida-listada'
           onClick={() => {setIdPartida(partida.id); guardarPartida(partida);}}
         >
           <div>
-            <h3>{partida.nombre}</h3>
+            <h3>{ partida.nombre + " " + (partida.bloqueada? "🔐" : "🔓") }</h3>
             <p>Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax}</p>
           </div>
         </button>

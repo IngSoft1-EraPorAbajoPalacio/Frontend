@@ -5,18 +5,22 @@ import { beforeEach } from 'vitest';
 import { guardarJugador, guardarJugadoresUnidos } from '../../components/context/GameContext';
 import showToast from '../../components/views/Public/Toast';
 
+// Mock arguments
+let mockSetIdJugador: any;
+let mockEvent: any;
+const alias = 'Pepe';
+const IdPartida = 1; 
+
 describe('UnirsePartida', () => {
 
-    // Mock arguments
-    let mockSetIdJugador: any;
-    let mockEvent: any;
-    const alias = 'Pepe';
-    const IdPartida = 1; 
-
     beforeEach(() => {
-        vi.clearAllMocks();
         mockSetIdJugador = vi.fn();
         mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent<HTMLFormElement>;
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+        vi.clearAllMocks();
     });
 
     vi.mock(import("../../components/context/GameContext"), async (importOriginal) => {

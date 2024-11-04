@@ -53,11 +53,22 @@ body::before {
 #unirse p {
   margin: 0%;
   padding: 0%;
+  width: 100%;
 }
 
 #unirse h3 {
-  margin-bottom: 1%;
+  text-align: left;  
   margin-top: 0%;
+}
+
+#unirse p {
+  text-align: left;  
+  margin-left: 3%;
+}
+
+#unirse button:hover {
+  background-color: #ffaa64;
+  color: white;
 }
 
 .filtrarPartidas {
@@ -100,13 +111,17 @@ body::before {
   gap: 5px;
 }
 
-.filtroJugItem button {
-  font-size: 18px;
+.controlFiltro button {
+  width: 25px;
+  height: 25px;
   color: white;
   cursor: pointer;
   background-color: #ffaa64;
   border: none;
   outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .controlFiltro span {
