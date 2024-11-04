@@ -9,6 +9,7 @@ import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
 import VerificarMovimiento from "./VerificarMovimiento";
 
 import { handleSeleccionFigura } from "./figuraSeleccionada";
+import showToast from "../Toast";
 
 interface TableroProps {
     marcaFiguras: number[];
@@ -71,7 +72,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
                     fichaSeleccionada = -1;
 
                     // Si el movimiento no es válido, se muestra una alerta
-                    if (!esValido) window.alert("Movimiento inválido");
+                    if (!esValido) showToast({type: "error", message: "Movimiento inválido"})
 
                     // Si el movimiento es válido, se juega el movimiento
                     else {
