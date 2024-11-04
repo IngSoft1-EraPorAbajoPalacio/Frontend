@@ -2,7 +2,7 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
-import { CartaFigura, CartaMovimiento, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
 import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3 } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
@@ -11,7 +11,7 @@ import useRouteNavigation from "../routes/RouteNavigation";
 import { useParams } from 'react-router-dom';
 import AbandonarPartida from "../hooks/AbandonarPartida";
 import PasarTurno from "../hooks/Game/PasarTurno";
-
+import ColorProhibido from "../views/Public/Game/ColorProhibido";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
@@ -44,6 +44,8 @@ function Juego () {
     const [jugador2, setJugador2] = useState<JugadorEnCurso | null>(obtenerJugador2());
     const [jugador3, setJugador3] = useState<JugadorEnCurso | null>(obtenerJugador3());
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
+
+    const [colorProhibido, setColorProhibido] = useState<color | null>(null);
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -97,9 +99,12 @@ function Juego () {
     useEffect(() => {
         setTimeout(() => setMovimientoDeshecho(false), 1500);
     }, [movimientoDeshecho]);
-        
+
     return (
         <div id='Juego'>
+            <ColorProhibido
+                colorProhibido={colorProhibido}
+            />
             <div id="Centro">
                 <div className="ManosHorizontal">
                     {jugador1 ?
