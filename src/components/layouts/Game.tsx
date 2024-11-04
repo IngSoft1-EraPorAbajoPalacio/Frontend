@@ -66,7 +66,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
-        setJugador1, setJugador2, setJugador3, setJugador4);
+        setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
