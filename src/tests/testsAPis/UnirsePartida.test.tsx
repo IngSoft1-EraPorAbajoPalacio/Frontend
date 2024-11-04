@@ -10,6 +10,7 @@ let mockSetIdJugador: any;
 let mockEvent: any;
 const alias = 'Pepe';
 const IdPartida = 1; 
+const password = '1234';
 
 describe('UnirsePartida', () => {
 
@@ -48,14 +49,14 @@ describe('UnirsePartida', () => {
         global.fetch = mockFetch;
 
         await act(async () => {
-            UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
+            UnirsePartida(mockEvent, alias, password, mockSetIdJugador, IdPartida);
         });
         
         // Check that fetch was called with the correct URL and options
         expect(mockFetch).toHaveBeenCalledWith('http://127.0.0.1:8000/partida/1/jugador', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombreJugador: alias }),
+            body: JSON.stringify({ nombreJugador: alias, contrasena: password }),
         });
 
         // check the call to other functions were made with the correct parameters
@@ -75,10 +76,24 @@ describe('UnirsePartida', () => {
         global.fetch = mockFetch;
 
         await act(async () => {
-            UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
+            UnirsePartida(mockEvent, alias, password, mockSetIdJugador, IdPartida);
         });
 
         expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Arctic Monkeys 404 => Partida Llena" });
+    });
+
+    it('Deberia mostrar un toast si se pasa una contraseña', async () => {
+        // Mock fetch
+        const mockFetch = vi.fn().mockResolvedValue({
+            status: 401,
+        });
+        global.fetch = mockFetch;
+
+        await act(async () => {
+            UnirsePartida(mockEvent, alias, password, mockSetIdJugador, IdPartida);
+        });
+
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Contraseña incorrecta" });
     });
 
     it('Si no se pasa una partida, deberia lanzar un error', async () => {
@@ -92,7 +107,7 @@ describe('UnirsePartida', () => {
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
         await act(async () => {
-            UnirsePartida(mockEvent, alias, mockSetIdJugador, null);
+            UnirsePartida(mockEvent, alias, password, mockSetIdJugador, null);
         });
 
         // Check that fetch was not called and an error was thrown
@@ -100,24 +115,24 @@ describe('UnirsePartida', () => {
         expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('En caso de error distinto a 404, deberia mostrarlo en consola', async () => {
+    it('En caso de error distinto a 404 y 401, deberia mostrarlo en consola', async () => {
         // Mock fetch
         const mockFetch = vi.fn().mockResolvedValue({
-            status: 401,
+            status: 402,
         });
         global.fetch = mockFetch;
 
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
         await act(async () => {
-            UnirsePartida(mockEvent, alias, mockSetIdJugador, IdPartida);
+            UnirsePartida(mockEvent, alias, password, mockSetIdJugador, IdPartida);
         });
 
         // Check that fetch was called with the correct URL and options
         expect(mockFetch).toHaveBeenCalledWith('http://127.0.0.1:8000/partida/1/jugador', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombreJugador: alias }),
+            body: JSON.stringify({ nombreJugador: alias, contrasena: password }),
         });
         
         expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error));

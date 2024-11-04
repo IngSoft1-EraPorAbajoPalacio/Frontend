@@ -35,21 +35,24 @@ input {
 }
 
 .buttons-container {
-display: flex;
-flex-direction: row;
-align-items: baseline;
-justify-content: space-between;
-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .buttons-container button {
-background-color: #504f4f;
-padding: 10px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-width: 42%;
-color: #ffffff;
+  background-color: #504f4f;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 42%;
+  color: #ffffff;
+}
+
+.buttons-container button:hover {
+  background-color: #ffaa64;
 }
 
 .buttons-container span{
@@ -80,7 +83,6 @@ color: #ffffff;
   padding: 7%;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   width: 100%;
   color: #ffffff;
 }
@@ -93,9 +95,16 @@ border: none;
 border-radius: 5px;
 background-color: #ffaa64;
 color: white;
-cursor: pointer;
 }
 
 #enable-password:hover {
   cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input:hover {
+  cursor: text;
 }

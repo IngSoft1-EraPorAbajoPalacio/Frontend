@@ -5,12 +5,13 @@ import showToast from "../../views/Public/Toast";
 function UnirsePartida(
     e: React.FormEvent<HTMLFormElement>, 
     alias: string,
+    password: string,
     setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
     IdPartida: number|null
 ) {
     e.preventDefault();
     const partida = IdPartida;
-    const data = { nombreJugador: alias }; // Crea un objeto con la propiedad esperada
+    const data = { nombreJugador: alias, contrasena: password }; // Crea un objeto con la propiedad esperada
 
     const options = {
         method: 'POST',
@@ -34,6 +35,9 @@ function UnirsePartida(
             
             // Si la respuesta es 404, la partida está llena
             else if(response.status === 404) showToast({ type: 'error', message: "Arctic Monkeys 404 => Partida Llena" });
+
+            // Si la respuesta es 401, la contraseña es incorrecta
+            else if(response.status === 401) showToast({ type: 'error', message: "Contraseña incorrecta" });
 
             // Si la respuesta es otra, hubo un problema
             else throw new Error('Hubo un problema tratando de unirse a la partida.');

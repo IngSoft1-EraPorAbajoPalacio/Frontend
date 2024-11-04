@@ -29,6 +29,8 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
     return (
         <div className='form-container'>
             <form onSubmit={(e) => CrearPartida(e, setForm, form, setIdJugador, setIdPartida)}>
+                <h2>Crear Sala</h2>
+
                 <h3>Nombre de partida</h3> 
                 <input className={'input' + (form.room === '' && dirtyRoom ? ' input-invalid' : '')}
                     type='text'
