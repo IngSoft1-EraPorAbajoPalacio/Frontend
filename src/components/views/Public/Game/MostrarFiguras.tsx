@@ -5,6 +5,7 @@ import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "./
 import { useParams } from "react-router-dom";
 
 const EXT = ".svg";
+const PATH = "/figuras/fig";
 
 interface MostrarFigurasProps {
     jugador: JugadorEnCurso;
@@ -14,40 +15,38 @@ interface MostrarFigurasProps {
     manoFigura: CartaFigura[];
 }
 
-export const MostrarFiguras: React.FC<MostrarFigurasProps> =
-    ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
-        const PATH = "/figuras/fig";
+export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
 
-        const { playerId } = useParams<{ playerId: string }>();
-        const idJugador = Number(playerId);
-        
-        const cartasSrc: string[] = manoFigura?.map((carta: CartaFigura) => {
-            if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
-            else if (carta.figura <= 25) return PATH + carta.figura + EXT;
+    const { playerId } = useParams<{ playerId: string }>();
+    const idJugador = Number(playerId);
+
+    const obtenerSrc = (figura: number) => {
+        if (figura <= 9) return PATH + "0" + figura + EXT;
+        else if (figura <= 25) return PATH + figura + EXT;
+
+        return "";
+    }
     
-            console.error("Error carta número");
-            return "";
-        });
-        
-        useEffect(() => {
-            if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
-        }, [turnoActual]);
+    useEffect(() => {
+        if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
+    }, [turnoActual]);
 
     return (
-<div className="ManoHorizontal">
-    <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
-    <div>
-        {cartasSrc?.map((src: string, index: number) =>
-            <img 
-                key={index}
-                className={actualizarCartaFigDescarte(manoFigura[index].id.toString(), cartaFiguraDescarte)}
-                onClick={() => {if (jugador.id === turnoActual)
-                    handleActualizarCartaFigDescarte(manoFigura[index].id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
-                src={src} 
-            />)
-        }
-    </div>
-</div>
+        <div className="ManoHorizontal">
+            <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
+            <div>
+                {manoFigura?.map((carta: CartaFigura) => carta.bloqueada ?
+                    <img key={carta.id} className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)} src="/figuras/back-fig.svg" /> :            
+                    <img 
+                        key={carta.id}
+                        className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)}
+                        onClick={() => {if (jugador.id === turnoActual)
+                            handleActualizarCartaFigDescarte(carta.id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
+                        src={obtenerSrc(carta.figura)} 
+                    />
+                )}
+            </div>
+        </div>
     )
 }
 

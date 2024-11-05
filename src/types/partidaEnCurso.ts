@@ -30,10 +30,12 @@ export class fichasMovimiento {
 export class CartaFigura {
   id: number;
   figura: number;
+  bloqueada?: boolean;
 
-  constructor(id: number, figura: number) {
+  constructor(id: number, figura: number, bloqueada?:boolean) {
     this.id = id;
     this.figura = figura;
+    this.bloqueada = bloqueada ? bloqueada : false; // Por defecto una carta no está bloqueada
   }
 }
 
