@@ -31,7 +31,7 @@ const ObtenerMensajes = (
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
-	setTemporizador: React.Dispatch<React.SetStateAction<number>>
+	setTemporizador: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
 
 	socket.onmessage = (event: any) => {

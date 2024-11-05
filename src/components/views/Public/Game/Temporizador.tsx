@@ -1,12 +1,12 @@
 interface TemporizadorProps {
-    temporizador: number;
+    temporizador: string | null;
 }
 
 const Temporizador: React.FC<TemporizadorProps> = ({ temporizador }) => {
-    const tiempo = temporizador.toString();
+    if(temporizador === null) return null;
     return (
         <div className="Temporizador">
-            <h3>{"⏳" + tiempo[0] + ":" + tiempo[1] + tiempo[2] }</h3>
+            <h3>{"⏳" + temporizador[0] + ":" + temporizador[1] + temporizador[2] }</h3>
         </div>
     );
 }

@@ -16,9 +16,7 @@ import Temporizador from "../views/Public/Game/Temporizador";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
-
 import { Figura } from "../../types/figura";
-
 
 function Juego () {
     const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
@@ -47,7 +45,8 @@ function Juego () {
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
     const [colorProhibido, setColorProhibido] = useState<color | null>(obtenerColorProhibido());
-    
+    const [temporizador, setTemporizador] = useState<string | null>(null);
+
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
