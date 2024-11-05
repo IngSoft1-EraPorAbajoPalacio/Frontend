@@ -45,7 +45,7 @@ function Juego () {
     const [jugador3, setJugador3] = useState<JugadorEnCurso | null>(obtenerJugador3());
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
-    const [colorProhibido, setColorProhibido] = useState<color | null>(null);
+    const [colorProhibido, setColorProhibido] = useState<color | null>('Amarillo');
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -127,6 +127,7 @@ function Juego () {
                 </div>
 
                 <Tablero 
+                    colorProhibido={colorProhibido}
                     marcaFiguras={marcaFiguras} 
                     figurasDetectadas={figurasDetectadas} 
                     setFiguraSeleccionada={setFiguraSeleccionada}
