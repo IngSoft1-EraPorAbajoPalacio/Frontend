@@ -1,6 +1,6 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
@@ -197,7 +197,10 @@ const ObtenerMensajes = (
 					return turno;
 				});
 
-				if(message.type === 'FiguraDescartar') setColorProhibido(message.data.colorProhibido);
+				if(message.type === 'FiguraDescartar') {
+					setColorProhibido(message.data.colorProhibido);
+					guardarColorProhibido(message.data.colorProhibido);
+				}
 			
 			}
 		}
