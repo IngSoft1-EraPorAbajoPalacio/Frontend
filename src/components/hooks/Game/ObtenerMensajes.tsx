@@ -27,7 +27,8 @@ const ObtenerMensajes = (
 	setJugador1: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
-	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>
+	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
+	setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>,
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -195,6 +196,10 @@ const ObtenerMensajes = (
 					return turno;
 				});
 			}
+		}
+
+		else if (message.type === 'Mensaje') {
+			setListaMensajes(prevMensajes => [...prevMensajes, message.mensaje])
 		}
 	}
 };
