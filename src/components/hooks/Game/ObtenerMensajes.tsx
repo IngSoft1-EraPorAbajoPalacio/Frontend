@@ -82,6 +82,8 @@ const ObtenerMensajes = (
 				setFiguraJug4([]);
 				setJugador4(null);
 			}
+
+			avisoAccionChat(message.data.idJugador, "Abandono", setListaMensajes);			
 		}
 
 		// Si el mensaje es de tipo MovimientoParcial setea la carta recibida
@@ -108,7 +110,9 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimiento(newMovimiento);
 			setMovimientoAgregado(true);
-
+		  
+			avisoAccionChat(message.data.idJugador, "Movimiento", setListaMensajes);
+			
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimiento 
@@ -130,6 +134,8 @@ const ObtenerMensajes = (
 
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
+
+			avisoAccionChat(message.idJugador, "Deshacer1Mov", setListaMensajes);
 		}
 		
 		// Si el mensaje es de tipo DeclararFigura
@@ -165,10 +171,15 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
 			setMovimientosJugados(0);
+
+			avisoAccionChat(message.idJugador, "DeshacerTodos", setListaMensajes);
 		}
 		
 		// Si el mensaje es de tipo ReposicionFiguras o FiguraDescartar asigna las figuras a los jugadores
 		else if (message.type === 'ReposicionFiguras' || message.type === 'FiguraDescartar') {
+			if (message.type === 'FiguraDescartar') {
+				avisoAccionChat(message.data.idJugador, "Figura", setListaMensajes);
+			}
 			if (message.data.cartasFig !== undefined) {
 				const j1 = obtenerJugador1();
 				const j2 = obtenerJugador2();
@@ -203,5 +214,43 @@ const ObtenerMensajes = (
 		}
 	}
 };
+
+const avisoAccionChat = (
+	idJug: number, 
+	tipoAccion: string, 
+    setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+	var nombreJugador;
+	var avisoChat: string;
+	const j1 = obtenerJugador1();
+	const j2 = obtenerJugador2();
+	const j3 = obtenerJugador3();
+	const j4 = obtenerJugador4();
+
+	if (j1 && j1.id === idJug) {
+		nombreJugador = j1.nombre;
+	} else if (j2 && j2.id === idJug) {
+		nombreJugador = j2.nombre;
+	} else if (j3 && j3.id === idJug) {
+		nombreJugador = j3.nombre;
+	} else if (j4 && j4.id === idJug) {
+		nombreJugador = j4.nombre;
+	}
+	
+	if (tipoAccion === "Abandono") {
+		avisoChat = `'${nombreJugador}' ha abandonado la partida.`;
+	} else if (tipoAccion === "Movimiento") {
+		avisoChat = `'${nombreJugador}' ha intercambiado fichas.`;
+	} else if (tipoAccion === "Deshacer1Mov") {
+		avisoChat = `'${nombreJugador}' ha deshecho su movimiento.`;
+	} else if (tipoAccion === "DeshacerTodos") {
+		avisoChat = `Los movimientos de '${nombreJugador}' han sido deshechos.`;
+	} else if (tipoAccion === "Figura") {
+		avisoChat = `'${nombreJugador}' ha utilizado una carta figura.`;
+	}
+	
+	setListaMensajes(prevMensajes => [...prevMensajes, avisoChat]);
+
+}
 
 export default ObtenerMensajes;
