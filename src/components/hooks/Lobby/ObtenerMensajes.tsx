@@ -1,6 +1,6 @@
 import { borrarJugadoresUnidos, guardarFichasTablero, borrarPartida, guardarMovimientos, guardarJugador1, guardarJugador2, guardarJugador3, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador4 } from '../../context/GameContext';
 import { guardarPartidaEnCurso, obtenerPartida } from '../../context/GameContext';
-import { CartaFigura, JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
+import { JugadorEnCurso, PartidaEnCurso } from '../../../types/partidaEnCurso';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
@@ -64,15 +64,15 @@ const handleIniciarPartida = (mensaje: any, idJugador: number, idPartida: number
   (cantJugadores > 3) ? guardarJugador4(new JugadorEnCurso(mensaje.cartasFigura[3].idJugador, mensaje.cartasFigura[3].nombreJugador, true, mensaje.cartasFigura[3].idJugador === idJugador)) : null;
 
   // Guardar las figuras en el contexto
-  const cartaJugador1 = mensaje.cartasFigura[0].cartas.map((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura));
-  const cartaJugador2 = mensaje.cartasFigura[1].cartas.map((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura));
-  const cartaJugador3 = (cantJugadores > 2) ? mensaje.cartasFigura[2].cartas.smap((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura)) : [];
-  const cartaJugador4 = (cantJugadores > 3) ? mensaje.cartasFigura[3].cartas.map((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura)) : [];
+  const cartaJugador1 = mensaje.cartasFigura[0].cartas
+  const cartaJugador2 = mensaje.cartasFigura[1].cartas
+  const cartaJugador3 = (cantJugadores > 2) ? mensaje.cartasFigura[2].cartas : null;
+  const cartaJugador4 = (cantJugadores > 3) ? mensaje.cartasFigura[3].cartas : null;
 
   guardarFiguraJugador1(cartaJugador1);
   guardarFiguraJugador2(cartaJugador2);
-  guardarFiguraJugador3(cartaJugador3);
-  guardarFiguraJugador4(cartaJugador4);
+  if (cantJugadores > 2) guardarFiguraJugador3(cartaJugador3);
+  if (cantJugadores > 3) guardarFiguraJugador4(cartaJugador4);
   
   // Crear una nueva instancia de PartidaEnCurso
   const partida = new PartidaEnCurso(

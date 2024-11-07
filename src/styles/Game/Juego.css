@@ -121,12 +121,13 @@
     border-radius: 8px;
 }
 
-.Figura {
+.Figura, .FiguraBloqueada {
     width: 110px;
 }
 
 .Figura:hover {
     border-radius: 8px;
+    cursor: pointer;
 }
 
 #Centro {

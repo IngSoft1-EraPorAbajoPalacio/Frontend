@@ -173,22 +173,23 @@ const ObtenerMensajes = (
 				const j4 = obtenerJugador4();
 
 				setTurnoActual((turno: number | null) => {
+					const manoFigura = message.data.cartasFig.map((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura));
 					if (j1 && j1.id === turno) {
 						borrarFiguraJugador1();
-						guardarFiguraJugador1(message.data.cartasFig);
-						setFiguraJug1(message.data.cartasFig);
+						guardarFiguraJugador1(manoFigura);
+						setFiguraJug1(manoFigura);
 					} else if (j2 && j2.id === turno) {
 						borrarFiguraJugador2();
-						guardarFiguraJugador2(message.data.cartasFig);
-						setFiguraJug2(message.data.cartasFig);
+						guardarFiguraJugador2(manoFigura);
+						setFiguraJug2(manoFigura);
 					} else if (j3 && j3.id === turno) {
 						borrarFiguraJugador3();
-						guardarFiguraJugador3(message.data.cartasFig);
-						setFiguraJug3(message.data.cartasFig);
+						guardarFiguraJugador3(manoFigura);
+						setFiguraJug3(manoFigura);
 					} else if (j4 && j4.id === turno) {
 						borrarFiguraJugador4();
-						guardarFiguraJugador4(message.data.cartasFig);
-						setFiguraJug4(message.data.cartasFig);
+						guardarFiguraJugador4(manoFigura);
+						setFiguraJug4(manoFigura);
 					}
 					return turno;
 				});

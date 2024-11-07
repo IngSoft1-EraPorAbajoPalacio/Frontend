@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import "../../../../styles/Game/Juego.css";
 import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
-import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "./figuraUtils";
+import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte, obtenerSrc } from "./figuraUtils";
 import { useParams } from "react-router-dom";
-
-const EXT = ".svg";
-const PATH = "/figuras/fig";
+import { esCartaBloqueada } from "./CartasBloqueadas";
 
 interface MostrarFigurasProps {
     jugador: JugadorEnCurso;
@@ -19,13 +17,6 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoAc
 
     const { playerId } = useParams<{ playerId: string }>();
     const idJugador = Number(playerId);
-
-    const obtenerSrc = (figura: number) => {
-        if (figura <= 9) return PATH + "0" + figura + EXT;
-        else if (figura <= 25) return PATH + figura + EXT;
-
-        return "";
-    }
     
     useEffect(() => {
         if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
@@ -35,8 +26,8 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoAc
         <div className="ManoHorizontal">
             <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
             <div>
-                {manoFigura?.map((carta: CartaFigura) => carta.bloqueada ?
-                    <img key={carta.id} className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)} src="/figuras/back-fig.svg" /> :            
+                {manoFigura?.map((carta: CartaFigura) => esCartaBloqueada(carta) ?
+                    <img key={carta.id} className="FiguraBloqueada" src="/figuras/back-fig.svg" /> :            
                     <img 
                         key={carta.id}
                         className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)}
