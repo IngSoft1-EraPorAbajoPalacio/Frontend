@@ -8,6 +8,7 @@ import { borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFigu
 import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
 import declararFiguras from '../components/views/Public/Game/DeclararFiguras';
 import showToast from '../components/views/Public/Toast';
+import { bloquearCarta, desbloquearCarta } from '../components/utils/Game/CartasBloqueadas';
 
 // Mockeamos el módulo de socket
 vi.mock('../services/socketGame', () => ({
@@ -23,6 +24,12 @@ vi.mock('../components/views/Public/Game/DeclararFiguras', () => ({
 // Mockeamos el componente Toast
 vi.mock('../components/views/Public/Toast', () => ({
   default: vi.fn(),
+}));
+
+// Mockeamos la el módulo de bloqueo
+vi.mock('../components/utils/Game/CartasBloqueadas', () => ({
+  bloquearCarta: vi.fn(),
+  desbloquearCarta: vi.fn(),
 }));
 
 describe('ObtenerMensajes', () => {
@@ -579,4 +586,37 @@ describe('ObtenerMensajes', () => {
     // Verificamos si se actualiza el temporizador
     expect(setTemporizador).toHaveBeenCalledWith(130);
   });
+
+  it('Debería bloquear una carta si el mensaje es de tipo FiguraBloqueada', () => {    
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador);
+
+    // Simulamos un mensaje de otro tipo
+    const message = JSON.stringify({ type: 'FiguraBloqueada', idCarta: 1, idJugador: 1 });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos que se haya llamado a la función FiguraBloqueada
+    expect(bloquearCarta).toHaveBeenCalledWith(1);
+});
+
+it('Debería desbloquear una carta si el mensaje es de tipo FiguraDesbloqueada', () => {
+        
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador);
+
+    // Simulamos un mensaje de otro tipo
+    const message = JSON.stringify({ type: 'FiguraDesbloqueada', idCarta: 1, idJugador: 1 });
+
+    // Llamamos al evento onmessage
+    act(() => {
+        socket.onmessage({ data: message });
+    });
+
+    // Verificamos que se haya llamado a la función FiguraDesbloqueada
+    expect(desbloquearCarta).toHaveBeenCalledWith(1);
+});
 });
