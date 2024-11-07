@@ -26,13 +26,12 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoAc
         <div className="ManoHorizontal">
             <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
             <div>
-                {manoFigura?.map((carta: CartaFigura) => esCartaBloqueada(carta) ?
+                {manoFigura?.map((carta: CartaFigura) => esCartaBloqueada(carta.id) ?
                     <img key={carta.id} className="FiguraBloqueada" src="/figuras/back-fig.svg" /> :            
                     <img 
                         key={carta.id}
                         className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)}
-                        onClick={() => {if (jugador.id === turnoActual)
-                            handleActualizarCartaFigDescarte(carta.id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
+                        onClick={() => {handleActualizarCartaFigDescarte(carta.id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
                         src={obtenerSrc(carta.figura)} 
                     />
                 )}

@@ -5,6 +5,7 @@ import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
+import { bloquearCarta, desbloquearCarta } from "../../utils/Game/CartasBloqueadas";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -202,6 +203,16 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo Temporizador setea el tiempo
 		else if (message.type === 'Temporizador') {
 			setTemporizador(message.tiempoRestante);
+		}
+
+		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
+		else if (message.type === 'FiguraBloqueada') {
+			bloquearCarta(message.idCarta);
+		}
+
+		// Si el mensaje es de tipo FiguraDesbloqueada desbloquea la carta
+		else if (message.type === 'FiguraDesbloqueada') {
+			desbloquearCarta(message.idCarta);
 		}
 	}
 };
