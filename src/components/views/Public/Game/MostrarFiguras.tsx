@@ -3,7 +3,7 @@ import "../../../../styles/Game/Juego.css";
 import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
 import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte, obtenerSrc } from "./figuraUtils";
 import { useParams } from "react-router-dom";
-import { esCartaBloqueada } from "./CartasBloqueadas";
+import { esCartaBloqueada } from "../../../utils/Game/CartasBloqueadas";
 
 interface MostrarFigurasProps {
     jugador: JugadorEnCurso;

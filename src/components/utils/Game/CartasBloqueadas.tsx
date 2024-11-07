@@ -1,4 +1,4 @@
-import { CartaFigura } from './../../../../types/partidaEnCurso';
+import { CartaFigura } from '../../../types/partidaEnCurso';
 
 const cartasBloqueadas: number[] = []; // IDs de las cartas bloqueadas
 
