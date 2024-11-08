@@ -1,11 +1,11 @@
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
+import { CartaMovimiento } from "../../../../types/partidaEnCurso";
 import DeshacerMovimiento from "../../../hooks/Game/DeshacerMovimiento";
 
 const EXT = ".svg";
 
 interface MostrarMovimientosProps {
-    partida: PartidaEnCurso | null;
+    idPartida: number;
     idJugador: number;
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>;
     turnoActual: number | null;
@@ -15,7 +15,7 @@ interface MostrarMovimientosProps {
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
+function MostrarMovimientos({ idPartida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
     : MostrarMovimientosProps) {
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
@@ -38,7 +38,7 @@ function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado
     }
 
     const handleDeshacerMovimiento = async () => {
-        const carta: CartaMovimiento | undefined = await DeshacerMovimiento(partida?.id ?? null, idJugador);
+        const carta: CartaMovimiento | undefined = await DeshacerMovimiento(idPartida, idJugador);
         if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[] | null) => {
             if (!manoMovimiento) return [];
             return [...manoMovimiento, carta]

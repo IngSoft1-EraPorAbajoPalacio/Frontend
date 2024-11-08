@@ -2,9 +2,9 @@ import Tablero from "../views/Public/Game/Tablero";
 import "../../styles/Game/Juego.css";
 import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
-import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento, PartidaEnCurso } from "../../types/partidaEnCurso";
+import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
+import { borrarPartida, borrarPartidaEnCurso, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -15,12 +15,9 @@ import ColorProhibido from "../views/Public/Game/ColorProhibido";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
-
 import { Figura } from "../../types/figura";
 
-
 function Juego () {
-    const [partida, setPartida] = useState<PartidaEnCurso | null>(obtenerPartidaEnCurso())
     const [turnoActual, setTurnoActual] = useState<number | null>(null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
@@ -87,8 +84,6 @@ function Juego () {
         });
         DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
         PasarTurno(idPartida, idJugador);
-        const nuevaPartida = obtenerPartidaEnCurso();
-        setPartida(nuevaPartida);
     }
 
     useEffect(() => {
@@ -172,7 +167,7 @@ function Juego () {
                     <button id="PasarTurno" disabled>Pasar Turno</button>
                 }
                 <MostrarMovimientos
-                    partida={partida}
+                    idPartida={idPartida}
                     idJugador={idJugador}
                     setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
                     turnoActual={turnoActual}
