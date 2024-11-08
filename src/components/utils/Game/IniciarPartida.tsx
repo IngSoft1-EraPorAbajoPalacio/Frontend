@@ -17,7 +17,6 @@ const handleIniciarPartida = (
 
 	guardarFichasTablero(mensaje.fichas);
 	//guardarTurnoActual(mensaje.turno);
-	console.log("colorProhibido:", mensaje.colorProhibido);
 	guardarColorProhibido(mensaje.colorProhibido);
 	guardarMovimientos(mensaje.cartasMovimiento);
   

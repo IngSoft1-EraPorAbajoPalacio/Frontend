@@ -39,7 +39,6 @@ const ObtenerMensajes = (
 
 		// Si el mensaje es de tipo IniciarPartida, connfigura los datos de la partida
 		if (message.type === 'InicioConexion') {
-			console.log("Mensaje:", message.data);
 			handleIniciarPartida(message.data, message.data.idJugador, message.data.idPartida, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
 			setTurnoActual(message.data.turnoActual);
 			setColorProhibido(message.data.colorProhibido);
