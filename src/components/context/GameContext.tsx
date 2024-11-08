@@ -84,7 +84,7 @@ export const guardarMovimientos = (movimientos: CartaMovimiento[]) => {
 
 export const obtenerMovimientos = () => {
     const movimientos = sessionStorage.getItem('movimientos');
-    return movimientos ? JSON.parse(movimientos) : 0;
+    return movimientos ? JSON.parse(movimientos) : null;
 }
 
 export const borrarMovimientos = () => {
@@ -158,7 +158,7 @@ export const guardarFiguraJugador1 = (figura1: CartaFigura[]) => {
 
 export const obtenerFiguraJugador1 = () => {
     const figura1 = sessionStorage.getItem('figuraJugador1');
-    return figura1 ? JSON.parse(figura1) : [];
+    return figura1 ? JSON.parse(figura1) : null;
 }
 
 export const borrarFiguraJugador1 = () => {
@@ -172,7 +172,7 @@ export const guardarFiguraJugador2 = (figura2: CartaFigura[]) => {
 
 export const obtenerFiguraJugador2 = () => {
     const figura2 = sessionStorage.getItem('figuraJugador2');
-    return figura2 ? JSON.parse(figura2) : [];
+    return figura2 ? JSON.parse(figura2) : null;
 }
 
 export const borrarFiguraJugador2 = () => {
@@ -186,7 +186,7 @@ export const guardarFiguraJugador3 = (figura3: CartaFigura[]) => {
 
 export const obtenerFiguraJugador3 = () => {
     const figura3 = sessionStorage.getItem('figuraJugador3');
-    return figura3 ? JSON.parse(figura3) : [];
+    return figura3 ? JSON.parse(figura3) : null;
 }
 
 export const borrarFiguraJugador3 = () => {
@@ -200,7 +200,7 @@ export const guardarFiguraJugador4 = (figura4: CartaFigura[]) => {
 
 export const obtenerFiguraJugador4 = () => {
     const figura4 = sessionStorage.getItem('figuraJugador4');
-    return figura4 ? JSON.parse(figura4) : [];
+    return figura4 ? JSON.parse(figura4) : null;
 }
 
 export const borrarFiguraJugador4 = () => {

@@ -11,7 +11,7 @@ interface MostrarFigurasProps {
     turnoActual: number | null;
     cartaFiguraDescarte: string | null;
     setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
-    manoFigura: CartaFigura[];
+    manoFigura: CartaFigura[] | null;
 }
 
 export const MostrarFiguras: React.FC<MostrarFigurasProps> =
@@ -21,13 +21,13 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> =
         const { playerId } = useParams<{ playerId: string }>();
         const idJugador = Number(playerId);
         
-        const cartasSrc: string[] = manoFigura?.map((carta: CartaFigura) => {
+        const cartasSrc: string[] = manoFigura ? manoFigura.map((carta: CartaFigura) => {
             if (carta.figura <= 9) return PATH + "0" + carta.figura + EXT;
             else if (carta.figura <= 25) return PATH + carta.figura + EXT;
     
             console.error("Error carta número");
             return "";
-        });
+        }) : [];
         
         useEffect(() => {
             if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
@@ -40,8 +40,8 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> =
         {cartasSrc?.map((src: string, index: number) =>
             <img 
                 key={index}
-                className={actualizarCartaFigDescarte(manoFigura[index].id.toString(), cartaFiguraDescarte)}
-                onClick={() => {if (jugador.id === turnoActual)
+                className={manoFigura ? actualizarCartaFigDescarte(manoFigura[index].id.toString(), cartaFiguraDescarte) : ""}
+                onClick={() => {if (manoFigura && jugador.id === turnoActual)
                     handleActualizarCartaFigDescarte(manoFigura[index].id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
                 src={src} 
             />)
