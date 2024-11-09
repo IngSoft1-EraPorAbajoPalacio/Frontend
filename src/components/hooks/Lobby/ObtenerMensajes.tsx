@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, borrarPartida } from '../../context/GameContext';
+import { borrarJugadoresUnidos, borrarPartida, guardarJugador, guardarJugadoresUnidos } from '../../context/GameContext';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
@@ -16,6 +16,7 @@ const ObtenerMensajes = (
     if (message.type === 'JugadorUnido') {
       setJugadores(message.ListaJugadores);
       setContador(message.ListaJugadores.length);
+      guardarJugadoresUnidos(message.ListaJugadores);
     }
 
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
