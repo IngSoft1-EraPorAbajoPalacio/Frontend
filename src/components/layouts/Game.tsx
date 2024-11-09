@@ -4,7 +4,7 @@ import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
 import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
+import { borrarPartida, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerMovimientos } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -17,6 +17,7 @@ import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 import { Figura } from "../../types/figura";
+import { useCartas } from "../utils/Game/CartasBloqueadas";
 
 function Juego () {
     const [turnoActual, setTurnoActual] = useState<number | null>(null);
@@ -49,6 +50,7 @@ function Juego () {
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const { bloquearCarta, desbloquearCarta } = useCartas();
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
@@ -64,8 +66,8 @@ function Juego () {
                 else redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
-        setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
-        setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento);
+        setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
+        setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -80,7 +82,6 @@ function Juego () {
     };
 
     const handlePasarTurno = async () => {
-        console.log("Mano Figura1: ", figuraJug2);
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
             if (cartaSeleccionada !== null) cartaSeleccionada.seleccionada = false;
             return null;
@@ -141,8 +142,6 @@ function Juego () {
                     setCartaMovimientoSeleccionado={setCartaMovimientoSeleccionado}
                     cartaMovimientoSeleccionado={cartaMovimientoSeleccionado}
                     turnoActual={turnoActual}
-                    idPartida={idPartida}
-                    idJugador={idJugador}
                     cartaFiguraDescarte={cartaFiguraDescarte}
                     setCartaFiguraDescarte={setCartaFiguraDescarte}
                 />

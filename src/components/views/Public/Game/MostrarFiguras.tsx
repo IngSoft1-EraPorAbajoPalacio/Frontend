@@ -3,7 +3,7 @@ import "../../../../styles/Game/Juego.css";
 import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
 import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte, obtenerSrc } from "./figuraUtils";
 import { useParams } from "react-router-dom";
-import { esCartaBloqueada } from "../../../utils/Game/CartasBloqueadas";
+import { useCartas } from "../../../utils/Game/CartasBloqueadas";
 
 interface MostrarFigurasProps {
     jugador: JugadorEnCurso;
@@ -15,6 +15,7 @@ interface MostrarFigurasProps {
 
 export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
 
+    const { esCartaBloqueada } = useCartas();
     const { playerId } = useParams<{ playerId: string }>();
     const idJugador = Number(playerId);
     

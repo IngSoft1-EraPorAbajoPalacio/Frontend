@@ -28,6 +28,9 @@ const DeclararFigura = async(
         // Si la respuesta es 432, la carta de figura es inválida
         else if (response.status === 432) showToast({ type: 'error', message: "Carta de figura inválida" });
 
+        // Si la respuesta es 436, el jugador ya tiene una carta de figura bloqueada
+        else if (response.status === 436) showToast({ type: 'error', message: "Ya tienes una carta de figura bloqueada" });
+
         // Si la respuesta es otra, hubo un problema
         else throw new Error("Hubo un problema tratando de jugando figura.");
 

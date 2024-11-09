@@ -1,16 +1,42 @@
-const cartasBloqueadas: number[] = []; // IDs de las cartas bloqueadas
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-export const bloquearCarta = (carta: number): void => {
-    cartasBloqueadas.push(carta);
+interface CartasContextProps {
+    bloquearCarta: (carta: number) => void;
+    desbloquearCarta: (carta: number) => void;
+    esCartaBloqueada: (carta: number) => boolean;
+}
+
+const CartasContext = createContext<CartasContextProps | undefined>(undefined);
+
+export const CartasProvider = ({ children }: { children: ReactNode }) => {
+    const [cartasBloqueadas, setCartasBloqueadas] = useState<number[]>([]);
+
+    console.log('CartasBloqueadas');
+    console.log(cartasBloqueadas);
+
+    const bloquearCarta = (carta: number) => {
+        setCartasBloqueadas(prev => [...prev, carta]);
+    };
+
+    const desbloquearCarta = (carta: number) => {
+        setCartasBloqueadas(prev => prev.filter(id => id !== carta));
+    };
+
+    const esCartaBloqueada = (carta: number) => {
+        return cartasBloqueadas.includes(carta);
+    };
+
+    return (
+        <CartasContext.Provider value={{ bloquearCarta, desbloquearCarta, esCartaBloqueada }}>
+            {children}
+        </CartasContext.Provider>
+    );
 };
 
-export const desbloquearCarta = (carta: number): void => {
-    const index = cartasBloqueadas.indexOf(carta);
-    if (index > -1) {
-        cartasBloqueadas.splice(index, 1);
+export const useCartas = () => {
+    const context = useContext(CartasContext);
+    if (!context) {
+        throw new Error('useCartas debe ser usado dentro de un CartasProvider');
     }
-};
-
-export const esCartaBloqueada = (carta: number): boolean => {
-    return cartasBloqueadas.includes(carta);
+    return context;
 };

@@ -5,7 +5,6 @@ import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
-import { bloquearCarta, desbloquearCarta } from "../../utils/Game/CartasBloqueadas";
 import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 
 interface manejarFinalizacionFunc {
@@ -35,6 +34,8 @@ const ObtenerMensajes = (
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
 	setTemporizador: React.Dispatch<React.SetStateAction<number>>,
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
+	bloquearCarta: (carta: number) => void,
+    desbloquearCarta: (carta: number) => void,
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -228,12 +229,12 @@ const ObtenerMensajes = (
 
 		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
 		else if (message.type === 'FiguraBloqueada') {
-			bloquearCarta(message.idCarta);
+			bloquearCarta(message.data.idCarta);
 		}
 
 		// Si el mensaje es de tipo FiguraDesbloqueada desbloquea la carta
 		else if (message.type === 'FiguraDesbloqueada') {
-			desbloquearCarta(message.idCarta);
+			desbloquearCarta(message.data.idCarta);
 		}
 	}
 };
