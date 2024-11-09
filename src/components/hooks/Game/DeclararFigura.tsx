@@ -1,5 +1,6 @@
 import axios from "axios"
 import showToast from "../../views/Public/Toast";
+import { color } from "../../../types/partidaEnCurso";
 
 // Llama a la API para pasar declarar figura
 const DeclararFigura = async(
@@ -7,13 +8,15 @@ const DeclararFigura = async(
     idJugador: number | null,
     figuraGuardadaParaJuan: number,
     cartaFiguraDescarte: string | null,
+    color: color,
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>
 ) => {
     try {
         const url = `http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`;
         const data = {
             idCarta: Number(cartaFiguraDescarte),
-            tipo_figura: figuraGuardadaParaJuan
+            tipo_figura: figuraGuardadaParaJuan,
+            color: color
         };
         const response = await axios.post(url, data);
 

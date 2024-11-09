@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 interface MostrarMovimientosProps {
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>;
     turnoActual: number | null;
-    manoMovimiento: CartaMovimiento[];
-    setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[]>>;
+    manoMovimiento: CartaMovimiento[] | null;
+    setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>;
     movimientosJugados: number;
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -41,7 +41,10 @@ function MostrarMovimientos({ setCartaMovimientoSeleccionado, turnoActual, manoM
 
     const handleDeshacerMovimiento = async () => {
         const carta: CartaMovimiento | undefined = await DeshacerMovimiento(idPartida, idJugador);
-        if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[]) => [...manoMovimiento, carta]);
+        if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[] | null) => {
+            if (!manoMovimiento) return [];
+            return [...manoMovimiento, carta]
+        });
         setMovimientosJugados(movimientosJugados - 1);
     }
 
@@ -54,7 +57,7 @@ function MostrarMovimientos({ setCartaMovimientoSeleccionado, turnoActual, manoM
                 > Deshacer Movimiento </button> :
                 <div></div> }
             <div className="Cartas"> 
-                {manoMovimiento.map((carta: CartaMovimiento) => (
+                {manoMovimiento ? manoMovimiento.map((carta: CartaMovimiento) => (
                     <img
                         key={carta.id}
                         className={"Movimiento"+`${carta.seleccionada ? '-con-seleccion' : '' }`}
@@ -62,7 +65,7 @@ function MostrarMovimientos({ setCartaMovimientoSeleccionado, turnoActual, manoM
                         alt="Movimiento"
                         onClick={() => {if (turnoActual === idJugador) handleHacerMovimiento(carta)}}
                     />
-                ))} 
+                )):<div></div>} 
             </div>
         </div>
     );

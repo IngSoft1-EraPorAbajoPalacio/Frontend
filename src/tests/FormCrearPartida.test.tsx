@@ -31,14 +31,14 @@ describe('Unitest', () => {
 
     test('interactuar con input de alias jugador', () => {
         render(<MockCreateRoomForm />);
-        const alias = screen.getByPlaceholderText("Ingrege su nombre") as HTMLInputElement;
+        const alias = screen.getByPlaceholderText("Ingrese su nombre") as HTMLInputElement;
         fireEvent.change(alias, { target: { value: "Torval" } });
         expect(alias.value).toBe("Torval");
     });
 
     test('limite de cantidad de letras alias jugador', () => {
         render(<MockCreateRoomForm />);
-        const alias = screen.getByPlaceholderText("Ingrege su nombre") as HTMLInputElement;
+        const alias = screen.getByPlaceholderText("Ingrese su nombre") as HTMLInputElement;
         fireEvent.change(alias, { target: { value: "abdulajrabinachbinbar" } }); //21 caracteres
         expect(alias.value.length).not.toBeGreaterThan(mockMaxLonNombres);
     });
@@ -53,7 +53,7 @@ describe('Unitest', () => {
     test('no submit sin nombre de Partida, ni alias', () => {
         render(<MockCreateRoomForm />);
         const nombrePartida = screen.getByPlaceholderText("Sala de Torval");
-        const alias = screen.getByPlaceholderText("Ingrege su nombre") as HTMLInputElement;
+        const alias = screen.getByPlaceholderText("Ingrese su nombre") as HTMLInputElement;
         expect(alias).toBeRequired();
         expect(nombrePartida).toBeRequired();
     });

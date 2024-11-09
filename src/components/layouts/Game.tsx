@@ -4,7 +4,7 @@ import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
 import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, obtenerPartidaEnCurso, borrarPartidaEnCurso, obtenerMovimientos, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3 } from "../context/GameContext";
+import { borrarPartida, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -16,12 +16,10 @@ import Temporizador from "../views/Public/Game/Temporizador";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
-
 import { Figura } from "../../types/figura";
 
-
 function Juego () {
-    const [turnoActual, setTurnoActual] = useState<number | null>(obtenerPartidaEnCurso()?.orden[0] ?? null);
+    const [turnoActual, setTurnoActual] = useState<number | null>(null);
     const [newSocket, setSocket] = useState<WebSocket | null>(null);
     const [desconexionesGame, setDesconexionesGame] = useState(0);
     const [cartaFiguraDescarte, setCartaFiguraDescarte] = useState<string | null>(null);
@@ -30,15 +28,15 @@ function Juego () {
     const [movimientoAgregado, setMovimientoAgregado] = useState<boolean>(false);
     const [movimientoDeshecho, setMovimientoDeshecho] = useState<boolean>(false);
     const [cartaMovimientoSeleccionado, setCartaMovimientoSeleccionado] = useState<CartaMovimiento | null>(null);
-    const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[]>(obtenerMovimientos());
+    const [manoMovimiento, setManoMovimiento] = useState<CartaMovimiento[] | null>(obtenerMovimientos());
     const [movimientosJugados, setMovimientosJugados] = useState(0);
     const [figurasDetectadas, setFigurasDetectadas] = useState<Figura[]>([]);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<number | null>(null);
 
-    const [figuraJug1, setFiguraJug1] = useState<CartaFigura[] >(obtenerFiguraJugador1());
-    const [figuraJug2, setFiguraJug2] = useState<CartaFigura[] >(obtenerFiguraJugador2());
-    const [figuraJug3, setFiguraJug3] = useState<CartaFigura[] >(obtenerFiguraJugador3());
-    const [figuraJug4, setFiguraJug4] = useState<CartaFigura[] >(obtenerFiguraJugador4());
+    const [figuraJug1, setFiguraJug1] = useState<CartaFigura[] | null>(obtenerFiguraJugador1());
+    const [figuraJug2, setFiguraJug2] = useState<CartaFigura[] | null>(obtenerFiguraJugador2());
+    const [figuraJug3, setFiguraJug3] = useState<CartaFigura[] | null>(obtenerFiguraJugador3());
+    const [figuraJug4, setFiguraJug4] = useState<CartaFigura[] | null>(obtenerFiguraJugador4());
 
     const [jugador1, setJugador1] = useState<JugadorEnCurso | null>(obtenerJugador1());
     const [jugador2, setJugador2] = useState<JugadorEnCurso | null>(obtenerJugador2());
@@ -67,7 +65,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
-        setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador);
+        setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -77,7 +75,7 @@ function Juego () {
         }
         AbandonarPartida(idPartida, idJugador);  
         if (newSocket) newSocket.close();
-        borrarPartidaEnCurso();
+        borrarPartida();
         redirectToHome();
     };
 
@@ -87,14 +85,14 @@ function Juego () {
             if (cartaSeleccionada !== null) cartaSeleccionada.seleccionada = false;
             return null;
         });
-        await DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
-        await PasarTurno(idPartida, idJugador);
-        console.log("Mano Figura1: ", figuraJug2);
-    
+        DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+        PasarTurno(idPartida, idJugador);
     }
 
     useEffect(() => {
-        if(turnoActual === idJugador) setManoMovimiento((cartas: CartaMovimiento[]) => cartas.filter(carta => carta.id !== movimiento?.carta.id));
+        if(turnoActual === idJugador) setManoMovimiento((cartas: CartaMovimiento[] | null) =>{
+            if (!cartas) return [];
+            return cartas.filter(carta => carta.id !== movimiento?.carta.id)});
         setTimeout(() => setMovimientoAgregado(false), 1500);
     }, [movimientoAgregado]);
 
@@ -132,6 +130,7 @@ function Juego () {
                 </div>
 
                 <Tablero 
+                    colorProhibido={colorProhibido}
                     marcaFiguras={marcaFiguras} 
                     figurasDetectadas={figurasDetectadas} 
                     setFiguraSeleccionada={setFiguraSeleccionada}

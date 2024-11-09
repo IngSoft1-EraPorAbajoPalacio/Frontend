@@ -10,7 +10,7 @@ interface MostrarFigurasProps {
     turnoActual: number | null;
     cartaFiguraDescarte: string | null;
     setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
-    manoFigura: CartaFigura[];
+    manoFigura: CartaFigura[] | null;
 }
 
 export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
@@ -21,6 +21,7 @@ export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoAc
     useEffect(() => {
         if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
     }, [turnoActual]);
+
 
     return (
         <div className="ManoHorizontal">

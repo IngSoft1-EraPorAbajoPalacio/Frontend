@@ -1,11 +1,12 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
 import { bloquearCarta, desbloquearCarta } from "../../utils/Game/CartasBloqueadas";
+import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -23,25 +24,42 @@ const ObtenerMensajes = (
 	setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
 	figuraSeleccionada: number | null,
 	marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
-	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
+	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setJugador1: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
-	setTemporizador: React.Dispatch<React.SetStateAction<number>>
+	setTemporizador: React.Dispatch<React.SetStateAction<number>>,
+	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 ) => {
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
 
+		// Si el mensaje es de tipo IniciarPartida, connfigura los datos de la partida
+		if (message.type === 'InicioConexion') {
+			handleIniciarPartida(message.data, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+			setTurnoActual(message.data.turnoActual);
+			setColorProhibido(message.data.colorProhibido);
+			setManoMovimiento(message.data.cartasMovimiento);
+			setMovimientosJugados(message.data.cantMovimientosParciales);
+		}
+
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
 			if (message.timeout) showToast({ type: 'info', message: 'El tiempo se ha acabado' });
+		}
+
+		// Si el mensaje es de tipo PartidaEliminada, borra la partida
+		else if (message.type === 'PartidaEliminada') {
+			borrarPartida();
+			manejarFinalizacion(true);
+			return () => socket.close();
 		}
 		
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida
@@ -195,7 +213,10 @@ const ObtenerMensajes = (
 					return turno;
 				});
 
-				if(message.type === 'FiguraDescartar') setColorProhibido(message.data.colorProhibido);
+				if(message.type === 'FiguraDescartar') {
+					setColorProhibido(message.data.colorProhibido);
+					guardarColorProhibido(message.data.colorProhibido);
+				}
 			
 			}
 		}
