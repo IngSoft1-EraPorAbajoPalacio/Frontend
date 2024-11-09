@@ -98,7 +98,7 @@ describe('DeclararFigura', () => {
         await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
 
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
-        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "No se puede bloquear 2 cartas de un mismo jugador" });
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 
@@ -111,7 +111,32 @@ describe('DeclararFigura', () => {
         await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
     
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
-        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "No se puede bloquear 2 cartas de un mismo jugador" });
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
+
+    it('Deberia mostrar un toast si la respuesta es 435 en el try', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({
+            status: 435
+        });      
+        
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
+
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "No se puede bloquear un jugador con una sola carta de figura" });
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
+
+    it('Deberia mostrar un toast si la respuesta es 435 en el catch', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce({
+            isAxiosError: true,
+            response: { status: 435 }
+        });
+    
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
+    
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "No se puede bloquear un jugador con una sola carta de figura" });
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 });

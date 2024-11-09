@@ -28,15 +28,19 @@ const DeclararFigura = async(
         // Si la respuesta es 432, la carta de figura es inválida
         else if (response.status === 432) showToast({ type: 'error', message: "Carta de figura inválida" });
 
-        // Si la respuesta es 436, el jugador ya tiene una carta de figura bloqueada
-        else if (response.status === 436) showToast({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
+        // Si la respuesta es 435, el jugador de la carta a bloquear solo tiene una carta
+        else if (response.status === 435) showToast({ type: 'error', message: "No se puede bloquear un jugador con una sola carta de figura" });
+
+        // Si la respuesta es 436, el jugador de la carta a bloquear ya tiene una carta de figura bloqueada
+        else if (response.status === 436) showToast({ type: 'error', message: "No se puede bloquear 2 cartas de un mismo jugador" });
 
         // Si la respuesta es otra, hubo un problema
         else throw new Error("Hubo un problema tratando de jugando figura.");
 
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 432) showToast({ type: 'error', message: "Carta de figura inválida" });
-        else if (axios.isAxiosError(error) && error.response?.status === 436) showToast({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
+        else if (axios.isAxiosError(error) && error.response?.status === 435) showToast({ type: 'error', message: "No se puede bloquear un jugador con una sola carta de figura" });
+        else if (axios.isAxiosError(error) && error.response?.status === 436) showToast({ type: 'error', message: "No se puede bloquear 2 cartas de un mismo jugador" });
         else console.error(error);
     }
 };
