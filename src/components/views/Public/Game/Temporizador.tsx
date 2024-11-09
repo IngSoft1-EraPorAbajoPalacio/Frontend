@@ -1,20 +1,36 @@
+import { useState, useEffect } from 'react';
+
 interface TemporizadorProps {
-    temporizador: number | null;
+    temporizador: number;
 }
 
-const Temporizador: React.FC<TemporizadorProps> = ({ temporizador }) => {
+const Temporizador = ({ temporizador }: TemporizadorProps) => {
+  const tiempoInicial = temporizador;
+  const [timeRemaining, setTimeRemaining] = useState(tiempoInicial);
 
-    if(temporizador === null) return null;  // Si el temporizador es null, no se muestra nada
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimeRemaining((prevTime: any) => {
+        if (prevTime === 0) {
+          clearInterval(timerInterval);
+          return 0;
+        } else {
+          return prevTime - 1;
+        }
+      });
+    }, 1000);
 
-    const minutos = Math.floor(temporizador / 60);
-    const segundos = temporizador % 60;
+    return () => clearInterval(timerInterval);
+  }, []);
 
-    if(temporizador === null) return null;
-    return (
-        <div className="Temporizador">
-            <h3>{ "⏳" + minutos.toString() + ":" + segundos.toString() }</h3>
-        </div>
-    );
-}
+  const minutos = Math.floor((timeRemaining % 3600) / 60);
+  const segundos = timeRemaining % 60;
+
+  return (
+    <div>
+        <h3>{ "⏳" + minutos.toString() + ":" + segundos.toString() }</h3>
+    </div>
+  );
+};
 
 export default Temporizador;

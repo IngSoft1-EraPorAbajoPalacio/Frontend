@@ -105,7 +105,7 @@ function Juego () {
         <div id='Juego'>
             <div id="Superior">
                 <ColorProhibido colorProhibido={colorProhibido}/>
-                <Temporizador temporizador={temporizador}/>
+                {temporizador?<Temporizador temporizador={temporizador}/>:<div></div>}
             </div>
             <div id="Centro">
                 <div className="ManosHorizontal">

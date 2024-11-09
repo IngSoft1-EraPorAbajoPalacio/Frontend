@@ -48,6 +48,7 @@ const ObtenerMensajes = (
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
+			setTemporizador(message.data.tiempo)
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
