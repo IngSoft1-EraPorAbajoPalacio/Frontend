@@ -1,5 +1,3 @@
-import { cantidadJugadores } from "./partidaListada";
-
 export type movimiento = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type figura = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25;
 export type color = "Rojo" | "Azul" | "Verde" | "Amarillo";
@@ -52,27 +50,11 @@ export class CartaMovimiento {
 export class JugadorEnCurso {
   id: number;
   nombre: string;
-  enPartida: boolean; // Para ver si el jugador abandonó
-  esGuardador: boolean; // Nueva propiedad para identificar al jugador que guarda los datos
 
-  constructor(id: number, nombre: string, enPartida: boolean, esGuardador: boolean) {
+  constructor(id: number, nombre: string) {
     this.id = id;
     this.nombre = nombre;
-    this.enPartida = enPartida;
-    this.esGuardador = esGuardador;
   }
-}
-
-export class PartidaEnCurso {
-  id: number;
-  cantJugadores: cantidadJugadores;
-  orden: number[];
-
-  constructor(id: number, cantJugadores: cantidadJugadores, orden: number[]) {
-    this.id = id;
-    this.cantJugadores = cantJugadores;
-    this.orden = orden;
-  } 
 }
 
 export class Movimiento{

@@ -1,5 +1,5 @@
 import { Jugador, Partida, JugadoresUnidos } from "../../types/partidaListada";
-import { PartidaEnCurso, Ficha, CartaMovimiento, CartaFigura, JugadorEnCurso } from "../../types/partidaEnCurso";
+import { Ficha, CartaMovimiento, CartaFigura, JugadorEnCurso } from "../../types/partidaEnCurso";
 
 // Jugador
 export const guardarJugador = (jugador: Jugador) => {
@@ -19,20 +19,6 @@ export const guardarPartida = (partida: Partida) => {
 export const obtenerPartida = () => {
     const partida = sessionStorage.getItem('partida');
     return partida ? JSON.parse(partida) : {};
-}
-
-// Partida en curso
-export const guardarPartidaEnCurso = (partida: PartidaEnCurso) => {
-    sessionStorage.setItem('partidaEnCurso', JSON.stringify(partida));
-}
-
-export const obtenerPartidaEnCurso = () => {
-    const partida = sessionStorage.getItem('partidaEnCurso');
-    return partida ? JSON.parse(partida) : {};
-}
-
-export const borrarPartidaEnCurso = () => {
-    sessionStorage.removeItem('partidaEnCurso');
 }
 
 // Ficha seleccionada

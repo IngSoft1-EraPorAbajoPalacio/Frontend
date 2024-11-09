@@ -4,7 +4,7 @@ import MostrarMovimientos from "../views/Public/Game/MostrarMovimientos";
 import MostrarFiguras from "../views/Public/Game/MostrarFiguras";
 import { CartaFigura, CartaMovimiento, color, JugadorEnCurso, Movimiento } from "../../types/partidaEnCurso";
 import { useEffect, useState } from "react";
-import { borrarPartida, borrarPartidaEnCurso, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
+import { borrarPartida, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador4, obtenerFiguraJugador3, obtenerColorProhibido, obtenerMovimientos } from "../context/GameContext";
 import ObtenerMensajes from "../hooks/Game/ObtenerMensajes";
 import createSocketGame from "../../services/socketGame";
 import useRouteNavigation from "../routes/RouteNavigation";
@@ -73,7 +73,7 @@ function Juego () {
         }
         AbandonarPartida(idPartida, idJugador);  
         if (newSocket) newSocket.close();
-        borrarPartidaEnCurso();
+        borrarPartida();
         redirectToHome();
     };
 
