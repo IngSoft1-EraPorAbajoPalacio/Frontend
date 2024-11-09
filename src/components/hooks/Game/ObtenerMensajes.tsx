@@ -1,8 +1,9 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
+import { color } from "../../../types/partidaEnCurso";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -29,6 +30,7 @@ const ObtenerMensajes = (
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>,
+	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -206,6 +208,11 @@ const ObtenerMensajes = (
 					}
 					return turno;
 				});
+
+				if(message.type === 'FiguraDescartar') {
+					setColorProhibido(message.data.colorProhibido);
+					guardarColorProhibido(message.data.colorProhibido);
+				}
 			}
 		}
 
@@ -215,26 +222,22 @@ const ObtenerMensajes = (
 	}
 };
 
-const avisoAccionChat = (
+export const avisoAccionChat = (
 	idJug: number, 
 	tipoAccion: string, 
     setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>
 ) => {
 	var nombreJugador;
 	var avisoChat: string;
-	const j1 = obtenerJugador1();
-	const j2 = obtenerJugador2();
-	const j3 = obtenerJugador3();
-	const j4 = obtenerJugador4();
 
-	if (j1 && j1.id === idJug) {
-		nombreJugador = j1.nombre;
-	} else if (j2 && j2.id === idJug) {
-		nombreJugador = j2.nombre;
-	} else if (j3 && j3.id === idJug) {
-		nombreJugador = j3.nombre;
-	} else if (j4 && j4.id === idJug) {
-		nombreJugador = j4.nombre;
+	if (obtenerJugador1() && obtenerJugador1().id === idJug) {
+		nombreJugador = obtenerJugador1().nombre;
+	} else if (obtenerJugador2() && obtenerJugador2().id === idJug) {
+		nombreJugador = obtenerJugador2().nombre;
+	} else if (obtenerJugador3() && obtenerJugador3().id === idJug) {
+		nombreJugador = obtenerJugador3().nombre;
+	} else if (obtenerJugador4() && obtenerJugador4().id === idJug) {
+		nombreJugador = obtenerJugador4().nombre;
 	}
 	
 	if (tipoAccion === "Abandono") {
@@ -246,7 +249,11 @@ const avisoAccionChat = (
 	} else if (tipoAccion === "DeshacerTodos") {
 		avisoChat = `Los movimientos de '${nombreJugador}' han sido deshechos.`;
 	} else if (tipoAccion === "Figura") {
-		avisoChat = `'${nombreJugador}' ha utilizado una carta figura.`;
+		avisoChat = `'${nombreJugador}' ha utilizado una de sus cartas figura.`;
+	} else if (tipoAccion === 'Bloquear') {
+		avisoChat = `'${nombreJugador}' ha bloqueado una carta figura ajena.`;
+	} else if (tipoAccion === 'Desbloquear') {
+		avisoChat = `'${nombreJugador}' ha desbloqueado su carta figura.`;
 	}
 	
 	setListaMensajes(prevMensajes => [...prevMensajes, avisoChat]);

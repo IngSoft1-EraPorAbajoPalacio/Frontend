@@ -207,6 +207,21 @@ export const borrarFiguraJugador4 = () => {
     sessionStorage.removeItem('figuraJugador4');
 }
 
+// Color prohibido
+export const guardarColorProhibido = (color: string) => {
+    sessionStorage.setItem('colorProhibido', JSON.stringify(color));
+}
+
+export const obtenerColorProhibido = () => {
+    const color = sessionStorage.getItem('colorProhibido');
+    return color ? JSON.parse(color) : null;
+}
+
+export const borrarColorProhibido = () => {
+    sessionStorage.removeItem('colorProhibido');
+}
+
+
 // Borra el session storege completo
 export const borrarPartida = () => {
     sessionStorage.clear();

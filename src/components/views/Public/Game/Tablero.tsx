@@ -1,7 +1,7 @@
 import "../../../../styles/Game/Juego.css";
 import { Coord, Figura } from "../../../../types/figura";
 
-import { Movimiento, posicion } from '../../../../types/partidaEnCurso';
+import { color, Movimiento, posicion } from '../../../../types/partidaEnCurso';
 import { obtenerFichasTablero, obtenerFichaSeleccionada, borrarFichaSeleccionada, guardarFichaSeleccionada } from '../../../context/GameContext';
 import { CartaMovimiento } from "../../../../types/partidaEnCurso";
 import React from "react";
@@ -12,8 +12,8 @@ import { handleSeleccionFigura } from "./figuraSeleccionada";
 import showToast from "../Toast";
 
 interface TableroProps {
+    colorProhibido: color | null;
     marcaFiguras: number[];
-
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>,
     cartaMovimientoSeleccionado: CartaMovimiento | null,
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>,
@@ -32,7 +32,7 @@ interface TableroProps {
 }
 
 
-const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, figurasDetectadas,
+const Tablero: React.FC<TableroProps> = ({ colorProhibido, marcaFiguras, setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, figurasDetectadas,
     setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, idPartida, idJugador }) => {
 
     const fichas = obtenerFichasTablero();
@@ -40,12 +40,18 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
 
     const handleClick = (
         posicion: Coord,
+        color: color,
         setSeleccionada: React.Dispatch<React.SetStateAction<boolean>>
     ) => {
 
         let posicionFicha: number | null = (posicion[0] + posicion[1] * 6);
         if (cartaFiguraDescarte != null) { // Selección carta de figura previo a seleccionar la figura
-            handleSeleccionFigura(posicion, figurasDetectadas, setFiguraSeleccionada,
+            if(colorProhibido && colorProhibido === color) {
+                showToast({type: "error", message: "No puedes seleccionar una figura de color prohibido"});
+                return;
+            } 
+
+            handleSeleccionFigura(posicion, color, figurasDetectadas, setFiguraSeleccionada,
                 setMarcaFiguras, setMarcadasPorSelec, setMovimientosJugados, cartaFiguraDescarte, idPartida, idJugador);
             
             // Luego, deselecciona la carta de figura descartada
@@ -120,7 +126,7 @@ const Tablero: React.FC<TableroProps> = ({ marcaFiguras, setCartaMovimientoSelec
                 { ((turnoActual === idJugador && (cartaMovimientoSeleccionado || cartaFiguraDescarte ))) ? // Si se quiere jugar un movimiento o descartar una figura
                     <button
                         className={color + `${seleccionada ? '-con-seleccion' : '-sin-seleccion'}`}
-                        onClick={() => { handleClick([x, y], setSeleccionada); }}
+                        onClick={() => { handleClick([x, y], color, setSeleccionada); }}
                     ></button>
                     :
                     <button

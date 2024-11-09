@@ -9,6 +9,7 @@ const idPartida = 1;
 const idJugador = 2;
 const figuraGuardadaParaJuan = 1;
 const cartaFiguraDescarte = "1";
+const color = "Amarillo";
 
 vi.mock('../components/views/Public/Toast', () => ({
     default: vi.fn(),
@@ -16,7 +17,8 @@ vi.mock('../components/views/Public/Toast', () => ({
 
 const data = {
     idCarta: Number(cartaFiguraDescarte),
-    tipo_figura: figuraGuardadaParaJuan
+    tipo_figura: figuraGuardadaParaJuan,
+    color: color
 };
 
 describe('DeclararFigura', () => {
@@ -34,7 +36,7 @@ describe('DeclararFigura', () => {
        
         const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({ status: 202 });
 
-        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
 
         // Check that axios.post was called with the correct URL and headers
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
@@ -45,7 +47,7 @@ describe('DeclararFigura', () => {
         const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce(new Error('Mensaje de error simulado.'));
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
-        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
 
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error)); 
@@ -56,7 +58,7 @@ describe('DeclararFigura', () => {
         const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({ status: 400 });
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
-        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
 
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(consoleErrorSpy).toHaveBeenCalledWith(new Error("Hubo un problema tratando de jugando figura."));
@@ -68,7 +70,7 @@ describe('DeclararFigura', () => {
             status: 432
         });      
         
-        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
 
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Carta de figura inválida" });
@@ -81,7 +83,7 @@ describe('DeclararFigura', () => {
             response: { status: 432 }
         });
     
-        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, setMovimientosJugados);
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
     
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Carta de figura inválida" });
