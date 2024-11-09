@@ -11,16 +11,17 @@ const CartasContext = createContext<CartasContextProps | undefined>(undefined);
 export const CartasProvider = ({ children }: { children: ReactNode }) => {
     const [cartasBloqueadas, setCartasBloqueadas] = useState<number[]>([]);
 
-    const bloquearCarta = (carta: number) => {
-        setCartasBloqueadas(prev => [...prev, carta]);
+    const bloquearCarta = (cartaId: number) => {
+        setCartasBloqueadas(prev => [...prev, cartaId]);
     };
 
-    const desbloquearCarta = (carta: number) => {
-        setCartasBloqueadas(prev => prev.filter(id => id !== carta));
+    const desbloquearCarta = (cartaId: number) => {
+        const nuevasCartasBloqueadas = cartasBloqueadas.filter(id => id !== cartaId);
+        setCartasBloqueadas(nuevasCartasBloqueadas);
     };
 
-    const esCartaBloqueada = (carta: number) => {
-        return cartasBloqueadas.includes(carta);
+    const esCartaBloqueada = (cartaId: number) => {
+        return cartasBloqueadas.includes(cartaId);
     };
 
     return (
