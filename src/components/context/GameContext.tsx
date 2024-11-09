@@ -208,7 +208,7 @@ export const borrarColorProhibido = () => {
 }
 
 
-// Borra el session storege completo
+// Borra el session storage completo
 export const borrarPartida = () => {
     sessionStorage.clear();
 }
