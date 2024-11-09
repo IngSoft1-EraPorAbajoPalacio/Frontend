@@ -2,7 +2,6 @@ import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Lobby/ObtenerMensajes';
 import createSocketLobby from '../services/socketLobby';
-import { MockIniciarPartida2Jugadores } from '../data/MockMensajeLobby';
 import { Jugador } from '../types/partidaListada';
 
 // Mockeamos el módulo de socket
@@ -80,9 +79,7 @@ describe('ObtenerMensajes', () => {
         ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
 
         // Simulamos un mensaje de tipo PartidaEliminada
-        const message = JSON.stringify({
-            type: 'PartidaEliminada',
-        });
+        const message = JSON.stringify({ type: 'PartidaEliminada' });
 
         // Simulamos recibir el mensaje desde el servidor
         act(() => {
@@ -99,7 +96,7 @@ describe('ObtenerMensajes', () => {
         ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
 
         // Simulamos un mensaje de tipo IniciarPartida
-        const message = JSON.stringify(MockIniciarPartida2Jugadores);
+        const message = JSON.stringify({ type: 'IniciarPartida' });
 
         // Simulamos recibir el mensaje desde el servidor
         act(() => {

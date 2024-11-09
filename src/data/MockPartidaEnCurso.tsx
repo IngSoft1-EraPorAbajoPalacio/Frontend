@@ -2,7 +2,6 @@ import { Ficha, PartidaEnCurso, JugadorEnCurso } from "../types/partidaEnCurso";
 
 export const partidaMock: PartidaEnCurso = {
     id: 34,
-    nombre: "Partida 1",
     cantJugadores: 2,
     orden: [5, 6],
 }

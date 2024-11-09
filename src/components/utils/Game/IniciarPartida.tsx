@@ -1,10 +1,10 @@
 import { CartaFigura, JugadorEnCurso, PartidaEnCurso } from "../../../types/partidaEnCurso";
 import { guardarPartidaEnCurso, guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarMovimientos } from "../../context/GameContext";
+import useRouteNavigation from "../../routes/RouteNavigation";
+import { useParams } from "react-router-dom";
 
 const handleIniciarPartida = (
-	mensaje: any, 
-	idJugador: number, 
-	idPartida: number,
+	mensaje: any,
 	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
@@ -14,6 +14,12 @@ const handleIniciarPartida = (
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 ) => {
+
+	const { redirectToNotFound } = useRouteNavigation();
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
+    if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
 	guardarFichasTablero(mensaje.fichas);
 	//guardarTurnoActual(mensaje.turno);
