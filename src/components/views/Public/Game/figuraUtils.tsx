@@ -18,3 +18,13 @@ export const handleActualizarCartaFigDescarte = (
         else setCartaFiguraDescarte(clave); //No estaba seleccionada, la seleccionamos
     }
 }
+
+export const obtenerSrc = (figura: number) => {
+    const EXT = ".svg";
+    const PATH = "/figuras/fig";
+
+    if (figura <= 9) return PATH + "0" + figura + EXT;
+    else if (figura <= 25) return PATH + figura + EXT;
+
+    return "";
+}

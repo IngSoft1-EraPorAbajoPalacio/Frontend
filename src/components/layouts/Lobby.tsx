@@ -39,13 +39,13 @@ function Lobby() {
     const newSocket = createSocketLobby(setDesconexionesLobby);
     setSocket(newSocket);
 
-    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, idJugador, idPartida,
+    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso,
       (cancelada) => {
         setCancelada(cancelada);
         if (cancelada) {
-            redirectToHome();
-            newSocket.close();
-            borrarPartida(); 
+          redirectToHome();
+          newSocket.close();
+          borrarPartida(); 
         }
     }, newSocket);
   }, [desconexionesLobby]);

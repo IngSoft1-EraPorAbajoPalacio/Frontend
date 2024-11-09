@@ -7,7 +7,7 @@ import { CartaMovimiento } from "../../../../types/partidaEnCurso";
 import React from "react";
 import JugarMovimiento from "../../../hooks/Game/JugarMovimiento";
 import VerificarMovimiento from "./VerificarMovimiento";
-
+import { useParams } from "react-router-dom";
 import { handleSeleccionFigura } from "./figuraSeleccionada";
 import showToast from "../Toast";
 
@@ -26,14 +26,15 @@ interface TableroProps {
 
     marcadasPorSelec: number[];
     setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>;
-
-    idPartida: number | undefined;
-    idJugador: number | undefined;
 }
 
 
 const Tablero: React.FC<TableroProps> = ({ colorProhibido, marcaFiguras, setCartaMovimientoSeleccionado, cartaMovimientoSeleccionado, setMovimientosJugados, figurasDetectadas,
-    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, idPartida, idJugador }) => {
+    setFiguraSeleccionada, setMarcaFiguras, setMarcadasPorSelec, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, }) => {
+
+    const { playerId, gameId } = useParams<{ playerId: string, gameId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
 
     const fichas = obtenerFichasTablero();
     let fichaSeleccionada: number = obtenerFichaSeleccionada();
@@ -118,7 +119,7 @@ const Tablero: React.FC<TableroProps> = ({ colorProhibido, marcaFiguras, setCart
 
         const posicion = x + y * 6;
 
-        const color = fichas[posicion].color;
+        const color = fichas[posicion]?.color ?? '';
 
         const [seleccionada, setSeleccionada] = React.useState<boolean>(posicion === fichaSeleccionada);
         return (

@@ -1,22 +1,24 @@
 import "../../../../styles/Game/Juego.css";
-import { PartidaEnCurso, CartaMovimiento } from "../../../../types/partidaEnCurso";
+import { CartaMovimiento } from "../../../../types/partidaEnCurso";
 import DeshacerMovimiento from "../../../hooks/Game/DeshacerMovimiento";
-
-const EXT = ".svg";
+import { useParams } from "react-router-dom";
 
 interface MostrarMovimientosProps {
-    partida: PartidaEnCurso | null;
-    idJugador: number;
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>;
     turnoActual: number | null;
-    manoMovimiento: CartaMovimiento[];
-    setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[]>>;
+    manoMovimiento: CartaMovimiento[] | null;
+    setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>;
     movimientosJugados: number;
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
+function MostrarMovimientos({ setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
     : MostrarMovimientosProps) {
+
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
+
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
 
@@ -38,8 +40,11 @@ function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado
     }
 
     const handleDeshacerMovimiento = async () => {
-        const carta: CartaMovimiento | undefined = await DeshacerMovimiento(partida?.id ?? null, idJugador);
-        if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[]) => [...manoMovimiento, carta]);
+        const carta: CartaMovimiento | undefined = await DeshacerMovimiento(idPartida, idJugador);
+        if (carta !== undefined) setManoMovimiento((manoMovimiento: CartaMovimiento[] | null) => {
+            if (!manoMovimiento) return [];
+            return [...manoMovimiento, carta]
+        });
         setMovimientosJugados(movimientosJugados - 1);
     }
 
@@ -52,15 +57,15 @@ function MostrarMovimientos({ partida, idJugador, setCartaMovimientoSeleccionado
                 > Deshacer Movimiento </button> :
                 <div></div> }
             <div className="Cartas"> 
-                {manoMovimiento.map((carta: CartaMovimiento) => (
+                {manoMovimiento ? manoMovimiento.map((carta: CartaMovimiento) => (
                     <img
                         key={carta.id}
                         className={"Movimiento"+`${carta.seleccionada ? '-con-seleccion' : '' }`}
-                        src={"/movimientos/mov" + carta.movimiento + EXT}
+                        src={"/movimientos/mov" + carta.movimiento + ".svg"}
                         alt="Movimiento"
                         onClick={() => {if (turnoActual === idJugador) handleHacerMovimiento(carta)}}
                     />
-                ))} 
+                )):<div></div>} 
             </div>
         </div>
     );
