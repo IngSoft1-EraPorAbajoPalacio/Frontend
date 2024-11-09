@@ -54,7 +54,7 @@ describe('DeclararFigura', () => {
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 
-    it('Deberia lanzar un error si la respuesta no es 202 ni 432', async () => {
+    it('Deberia lanzar un error si la respuesta no es 202 ni un error no controlado', async () => {
         const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({ status: 400 });
         const consoleErrorSpy = vi.spyOn(console, 'error');
 
@@ -87,6 +87,31 @@ describe('DeclararFigura', () => {
     
         expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
         expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "Carta de figura inválida" });
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
+
+    it('Deberia mostrar un toast si la respuesta es 436 en el try', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValueOnce({
+            status: 436
+        });      
+        
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
+
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
+        expect(setMovimientosJugados).not.toHaveBeenCalled();
+    });
+
+    it('Deberia mostrar un toast si la respuesta es 436 en el catch', async () => {
+        const axiosPostSpy = vi.spyOn(axios, 'post').mockRejectedValueOnce({
+            isAxiosError: true,
+            response: { status: 436 }
+        });
+    
+        await DeclararFigura(idPartida, idJugador, figuraGuardadaParaJuan, cartaFiguraDescarte, color, setMovimientosJugados);
+    
+        expect(axiosPostSpy).toHaveBeenCalledWith(`http://127.0.0.1:8000/partida/${idPartida}/jugador/${idJugador}/tablero/declarar-figura`, data);
+        expect(showToast).toHaveBeenCalledWith({ type: 'error', message: "El jugador ya tiene una carta de figura bloqueada" });
         expect(setMovimientosJugados).not.toHaveBeenCalled();
     });
 });

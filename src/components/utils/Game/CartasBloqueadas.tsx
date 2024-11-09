@@ -11,9 +11,6 @@ const CartasContext = createContext<CartasContextProps | undefined>(undefined);
 export const CartasProvider = ({ children }: { children: ReactNode }) => {
     const [cartasBloqueadas, setCartasBloqueadas] = useState<number[]>([]);
 
-    console.log('CartasBloqueadas');
-    console.log(cartasBloqueadas);
-
     const bloquearCarta = (carta: number) => {
         setCartasBloqueadas(prev => [...prev, carta]);
     };
