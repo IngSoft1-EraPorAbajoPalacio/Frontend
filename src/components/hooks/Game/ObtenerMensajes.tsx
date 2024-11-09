@@ -4,6 +4,7 @@ import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrar
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
+import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -21,19 +22,30 @@ const ObtenerMensajes = (
 	setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
 	figuraSeleccionada: number | null,
 	marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
-	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
-	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[]>>,
+	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
+	setFiguraJug4: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setJugador1: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
-	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>
+	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
+	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 ) => {
 
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
+
+		// Si el mensaje es de tipo IniciarPartida, connfigura los datos de la partida
+		if (message.type === 'InicioConexion') {
+			handleIniciarPartida(message.data, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
+			setTurnoActual(message.data.turnoActual);
+			setColorProhibido(message.data.colorProhibido);
+			setManoMovimiento(message.data.cartasMovimiento);
+			setMovimientosJugados(message.data.cantMovimientosParciales);
+			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {

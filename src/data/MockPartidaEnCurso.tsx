@@ -1,17 +1,8 @@
-import { Ficha, PartidaEnCurso, JugadorEnCurso } from "../types/partidaEnCurso";
-
-export const partidaMock: PartidaEnCurso = {
-    id: 34,
-    nombre: "Partida 1",
-    cantJugadores: 2,
-    orden: [5, 6],
-}
+import { Ficha, JugadorEnCurso } from "../types/partidaEnCurso";
 
 export const j1Mock: JugadorEnCurso = {
     id: 5,
     nombre: "Jugador 1",
-    enPartida: true,
-    esGuardador: true,
 }
 
 export const j1CartasMock = [
@@ -23,8 +14,6 @@ export const j1CartasMock = [
 export const j2Mock: JugadorEnCurso = {
     id: 6,
     nombre: "Jugador 2",
-    enPartida: true,
-    esGuardador: false,
 }
 
 export const j2CartasMock = [
@@ -36,8 +25,6 @@ export const j2CartasMock = [
 export const j3Mock: JugadorEnCurso = {
     id: 7,
     nombre: "Jugador 3",
-    enPartida: true,
-    esGuardador: false,
 }
 
 export const j3CartasMock = [
@@ -49,8 +36,6 @@ export const j3CartasMock = [
 export const j4Mock: JugadorEnCurso = {
     id: 8,
     nombre: "Jugador 4",
-    enPartida: true,
-    esGuardador: false,
 }
 
 export const j4CartasMock = [
