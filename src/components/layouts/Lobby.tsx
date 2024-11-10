@@ -61,7 +61,6 @@ function Lobby() {
     if (newSocket) newSocket.close();
     redirectToHome();
   };
-  console.log(jugador?.isHost);
   return (
     <>
         <div className='lobby-container'>

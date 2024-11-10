@@ -15,6 +15,8 @@ import ColorProhibido from "../views/Public/Game/ColorProhibido";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
+import Chat from "../views/Public/Game/Chat";
+
 import { Figura } from "../../types/figura";
 
 function Juego () {
@@ -43,6 +45,8 @@ function Juego () {
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
     const [colorProhibido, setColorProhibido] = useState<color | null>(obtenerColorProhibido());
+
+    const [listaMensajes, setListaMensajes] = useState<string[]>([]);
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -63,7 +67,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4,
-        setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setManoMovimiento);
+        setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setManoMovimiento);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -122,7 +126,7 @@ function Juego () {
                         manoFigura={figuraJug4}
                     /> : <div className="ManoHorizontal"></div>}
                 </div>
-
+                
                 <Tablero 
                     colorProhibido={colorProhibido}
                     marcaFiguras={marcaFiguras} 
@@ -161,6 +165,7 @@ function Juego () {
                 </div>
             </div>
             <div id='ManoJugador'>
+                <Chat listaMensajes={listaMensajes}/>        
                 <button id="AbandonarPartida" onClick={handleAbandonarPartida}>Abandonar Partida</button>
                 {idJugador === turnoActual ?
                     <button id="PasarTurno" onClick={handlePasarTurno}>Pasar Turno</button> :
