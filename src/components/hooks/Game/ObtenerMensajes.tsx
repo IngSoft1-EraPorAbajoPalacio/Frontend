@@ -151,9 +151,7 @@ const ObtenerMensajes = (
 		
 		// Si el mensaje es de tipo DeclararFigura
 		else if (message.type === 'DeclararFigura') {
-			declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-				marcadasPorSelec, setMarcadasPorSelec
-			);
+			declararFiguras(message.figuras.figura, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimientos
