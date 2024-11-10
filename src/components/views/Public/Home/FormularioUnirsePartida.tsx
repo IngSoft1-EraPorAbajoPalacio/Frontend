@@ -27,7 +27,7 @@ const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, 
                 <input
                     className={'input' + (alias === '' && dirtyAlias ? ' input-invalid' : '')}
                     type='text'
-                    placeholder="Ingrege su nombre"
+                    placeholder="Ingrese su nombre"
                     value={alias}
                     onChange={(e) => { setDirtyAlias(true); handleUnitedPlayerNameChange(e, setAlias); handleValid(e); }}
                     onInvalid={handleInvalid}
