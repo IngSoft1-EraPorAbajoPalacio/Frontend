@@ -633,6 +633,3 @@ describe('ObtenerMensajes', () => {
     expect(listaActualizada).toEqual(['Que tal?', 'Hola']);
   });
 });
-
-
-
