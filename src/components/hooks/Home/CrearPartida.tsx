@@ -1,5 +1,5 @@
 import { cantidadJugadores } from "../../../types/partidaListada";
-import { guardarJugador, guardarPartida, guardarJugadoresUnidos, guardarEsHost } from "../../context/GameContext";
+import { guardarJugador, guardarPartida, guardarJugadoresUnidos } from "../../context/GameContext";
 import { FormInputs } from "../../../types/formularioCrearPartida";
 
 // Llamada a la API para crear una partida
@@ -44,7 +44,6 @@ function CrearPartida (
             guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
             setIdJugador(id_jugador);
             setIdPartida(id_partida);
-            guardarEsHost(true);
         } catch (error) {
             console.error(error);
         }

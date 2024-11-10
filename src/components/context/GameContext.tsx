@@ -213,17 +213,6 @@ export const borrarPartida = () => {
     sessionStorage.clear();
 }
 
-// Guarda en el SessionStorage si el jugador es Host o no
-export const guardarEsHost = (esHost: boolean) => {
-    sessionStorage.setItem('esHost', JSON.stringify(esHost));
-}
-
-//Obtener si el jugador es host
-export const obtenerEsHost = () => {
-   const esHost = sessionStorage.getItem('esHost');
-   return esHost ? JSON.parse(esHost) :false;
-}
-
 // Guardo la cantidad de jugadores en la partida
 export const guardarCantJugadoresPartida = (contadorJ: number)=>{
     sessionStorage.setItem('cantJugadoresPartida', JSON.stringify(contadorJ));

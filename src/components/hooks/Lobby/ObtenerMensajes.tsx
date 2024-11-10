@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, borrarPartida, guardarCantJugadoresPartida, guardarJugador, guardarJugadoresUnidos } from '../../context/GameContext';
+import { borrarJugadoresUnidos, borrarPartida, guardarCantJugadoresPartida, guardarJugadoresUnidos } from '../../context/GameContext';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (

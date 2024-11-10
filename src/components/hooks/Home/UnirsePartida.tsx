@@ -1,4 +1,4 @@
-import { guardarEsHost, guardarJugador, guardarJugadoresUnidos } from "../../context/GameContext";
+import { guardarJugador, guardarJugadoresUnidos } from "../../context/GameContext";
 import showToast from "../../views/Public/Toast";
 
 // Llamada a la API para unirse a una partida
@@ -31,7 +31,6 @@ function UnirsePartida(
                 guardarJugador({ id: mensaje.idJugador, nombre: data.nombreJugador, isHost: false });
                 guardarJugadoresUnidos(mensaje.unidos);
                 setIdJugador(mensaje.idJugador);
-                guardarEsHost(false);
             }
             
             // Si la respuesta es 404, la partida está llena
