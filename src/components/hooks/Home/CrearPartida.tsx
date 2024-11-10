@@ -44,7 +44,6 @@ function CrearPartida (
             guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
             setIdJugador(id_jugador);
             setIdPartida(id_partida);
-        
         } catch (error) {
             console.error(error);
         }

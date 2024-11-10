@@ -1,10 +1,11 @@
-import { borrarJugadoresUnidos, borrarPartida } from '../../context/GameContext';
+import { borrarJugadoresUnidos, borrarPartida, guardarCantJugadoresPartida, guardarJugadoresUnidos } from '../../context/GameContext';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
   setJugadores: React.Dispatch<React.SetStateAction<{id: number, nombre: string}[]>>,
   setContador: React.Dispatch<React.SetStateAction<number>>,
   setPartidaIniciada: React.Dispatch<React.SetStateAction<boolean>>,
+  CantidadJugadores:number,
   setCancelada: React.Dispatch<React.SetStateAction<boolean>>,
   socket : any
 ) => {
@@ -16,6 +17,8 @@ const ObtenerMensajes = (
     if (message.type === 'JugadorUnido') {
       setJugadores(message.ListaJugadores);
       setContador(message.ListaJugadores.length);
+      guardarJugadoresUnidos(message.ListaJugadores);
+      guardarCantJugadoresPartida(message.ListaJugadores.length)
     }
 
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
@@ -31,6 +34,7 @@ const ObtenerMensajes = (
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
+      guardarCantJugadoresPartida(CantidadJugadores-1);
     }
     
     // Si el mensaje es de tipo PartidaEliminada, redirecciona al usuario al Home

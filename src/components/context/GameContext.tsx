@@ -208,7 +208,17 @@ export const borrarColorProhibido = () => {
 }
 
 
-// Borra el session storege completo
+// Borra el session storage completo
 export const borrarPartida = () => {
     sessionStorage.clear();
+}
+
+// Guardo la cantidad de jugadores en la partida
+export const guardarCantJugadoresPartida = (contadorJ: number)=>{
+    sessionStorage.setItem('cantJugadoresPartida', JSON.stringify(contadorJ));
+}
+
+export const obtenerCantJugadoresPartida = ()=>{
+    const contadorJ = sessionStorage.getItem('cantJugadoresPartida');
+    return contadorJ ? JSON.parse(contadorJ) : 1;
 }
