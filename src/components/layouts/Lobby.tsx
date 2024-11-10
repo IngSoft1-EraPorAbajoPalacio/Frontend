@@ -1,6 +1,6 @@
 import iniciarPartida from '../hooks/Lobby/IniciarPartida';
 import ObtenerMensajes from '../hooks/Lobby/ObtenerMensajes';
-import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos, borrarPartida } from '../context/GameContext';
+import { obtenerJugador, obtenerPartida, obtenerJugadoresUnidos, borrarPartida, obtenerCantJugadoresPartida } from '../context/GameContext';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Jugador , Partida } from '../../types/partidaListada';
@@ -39,7 +39,7 @@ function Lobby() {
     const newSocket = createSocketLobby(setDesconexionesLobby);
     setSocket(newSocket);
 
-    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso,
+    return ObtenerMensajes(setJugadores, setCantidadJugadores, setPartidaEnCurso, CantidadJugadores,
       (cancelada) => {
         setCancelada(cancelada);
         if (cancelada) {
@@ -61,7 +61,7 @@ function Lobby() {
     if (newSocket) newSocket.close();
     redirectToHome();
   };
-
+  console.log(jugador?.isHost);
   return (
     <>
         <div className='lobby-container'>
@@ -76,7 +76,7 @@ function Lobby() {
           {partida && jugador && jugador.isHost && (
             <button className='lobby-button' onClick={handleAbandonarPartida}>Cancelar</button>
           )}
-          {partida && jugador && jugador.isHost && CantidadJugadores >= partida.cantJugadoresMin && (
+          {partida && jugador && jugador.isHost && obtenerCantJugadoresPartida() >= partida.cantJugadoresMin && (
             <button className='lobby-button-iniciar' onClick={handleIniciarPartida}>Iniciar Partida</button>
           )}
           </div>
