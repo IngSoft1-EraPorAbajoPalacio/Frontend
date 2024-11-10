@@ -124,9 +124,8 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimiento(newMovimiento);
 			setMovimientoAgregado(true);
-		  
+
 			avisoAccionChat(message.data.idJugador, "Movimiento", setListaMensajes);
-			
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimiento 
