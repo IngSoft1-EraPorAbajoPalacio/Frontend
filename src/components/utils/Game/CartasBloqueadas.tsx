@@ -16,8 +16,7 @@ export const CartasProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const desbloquearCarta = (cartaId: number) => {
-        const nuevasCartasBloqueadas = cartasBloqueadas.filter(id => id !== cartaId);
-        setCartasBloqueadas(nuevasCartasBloqueadas);
+        setCartasBloqueadas(prev => prev.filter(id => id !== cartaId));
     };
 
     const esCartaBloqueada = (cartaId: number) => {
