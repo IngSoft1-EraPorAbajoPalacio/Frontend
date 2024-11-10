@@ -2,7 +2,6 @@
 import { act } from 'react';
 import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
-import { avisoAccionChat } from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
 import { fichasMock, j1Mock, j2Mock, j3Mock, j4Mock, j1CartasMock, j2CartasMock, j3CartasMock, j4CartasMock } from '../data/MockPartidaEnCurso';
 import { borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, obtenerJugador1 } from '../components/context/GameContext';
@@ -95,7 +94,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería configurar los datos de la partida si recibe un mensaje de tipo InicioConexion', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setManoMovimiento);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setManoMovimiento);
   
     // Simulamos un mensaje de tipo InicioConexion
     const message = JSON.stringify({
@@ -172,7 +171,7 @@ describe('ObtenerMensajes', () => {
   it('Debería finalizar la partida si recibe un mensaje de tipo PartidaEliminada', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setColorProhibido, setManoMovimiento);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados,  setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setManoMovimiento);
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ type: 'PartidaEliminada' });
 
@@ -615,7 +614,7 @@ describe('ObtenerMensajes', () => {
  
   it('Deberia actualizar la lista de mensajes en el chat si el mensaje es de tipo Mensaje', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setManoMovimiento);
   
     const message = JSON.stringify({
       type: 'Mensaje',
