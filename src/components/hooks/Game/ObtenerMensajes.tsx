@@ -10,6 +10,13 @@ import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
 }
+
+const bloquearCartasFig = ((carta: number[], bloquearCarta: (carta: number) => void) =>{
+	carta.forEach((carta: number) => {
+		bloquearCarta(carta);
+	});
+})
+
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
@@ -48,9 +55,7 @@ const ObtenerMensajes = (
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
-			message.data.cartasBloqueadas.forEach((carta: number) => {
-				bloquearCarta(carta);
-			});
+			bloquearCartasFig(message.data.cartasBloqueadas, bloquearCarta);
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
