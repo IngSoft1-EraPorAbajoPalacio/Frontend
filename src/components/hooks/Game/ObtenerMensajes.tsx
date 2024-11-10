@@ -49,6 +49,9 @@ const ObtenerMensajes = (
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
 			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+			message.data.cartasBloqueadas.forEach((carta: number) => {
+				bloquearCarta(carta);
+			});
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
