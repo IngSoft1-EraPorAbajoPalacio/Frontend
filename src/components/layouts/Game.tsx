@@ -15,7 +15,7 @@ import ColorProhibido from "../views/Public/Game/ColorProhibido";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
-import Chat from "../hooks/Game/Chat";
+import Chat from "../views/Public/Game/Chat";
 
 import { Figura } from "../../types/figura";
 

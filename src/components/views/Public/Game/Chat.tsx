@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import '../../../styles/Game/Chat.css'
-import { obtenerJugador, obtenerPartida } from '../../context/GameContext';
-import EnviarMensaje from './EnviarMensaje';
+import '../../../../styles/Game/Chat.css';
+import { obtenerJugador, obtenerPartida } from '../../../context/GameContext';
+import EnviarMensaje from '../../../hooks/Game/EnviarMensaje';
 import { useEffect, useRef } from 'react';
 
 interface ChatProps {
@@ -24,7 +24,6 @@ const Chat: React.FC<ChatProps> = ({ listaMensajes }) => {
     };
 
     const handleSend = () => {
-        console.log("Message sent:", mensaje);
         setMensaje('');
         EnviarMensaje(idPartida, nombreJugador, mensaje);
     };
@@ -62,7 +61,7 @@ const Chat: React.FC<ChatProps> = ({ listaMensajes }) => {
                     value={mensaje}
                     onChange={handleInputChange}
                     className="chatInput"
-                    placeholder="Envía un mensaje..."
+                    placeholder="Envia un mensaje..."
                 />
                 <button onClick={handleSend} className="chatEnviar">
                     Enviar

@@ -4,17 +4,21 @@
   left: 0;
   width: 20%;
   border-radius: 0px;
-  background-color: #ffffff; 
 }
 
 .chatCajaInput{
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 95%; 
   padding: 5px;
   background-color: #919090; 
-  border-radius: 0px;
+  border-radius: 10px;
   width: 100%;
+  margin-left: 10px;
+  margin-bottom: 10px;
+
+
 }
 
 .chatInput {
@@ -22,7 +26,9 @@
   padding: 8px;
   margin-right: 5px;
   border-radius: 0px;
-  background-color: #ececec;
+  background-color: rgb(238, 227, 225);
+  border-radius: 10px;
+  outline: none;
 }
 
 .chatEnviar {
@@ -34,8 +40,7 @@
   color: #a36e52 !important;
   border: none;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 4px;
 }
 
 .chatToggle:hover {
@@ -44,14 +49,17 @@
 
 .chatListaMensajes {
   position: absolute; 
-  bottom: 50px; 
+  bottom: 60px; 
+  margin-left: 11px;
   left: 0;
-  width: 97%; 
+  width: 95%; 
   height: 250%; 
-  overflow-y: auto; 
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
   background-color: #919090; 
   padding: 10px;
-  border-radius: 0px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
