@@ -431,7 +431,7 @@ describe('ObtenerMensajes', () => {
 
     const data = {
       type: 'DeclararFigura',
-      figuras: JSON.stringify(figuras)
+      figuras: figuras
     };
   
     const message = JSON.stringify(data);
@@ -442,7 +442,7 @@ describe('ObtenerMensajes', () => {
     });
   
     // Verificamos si se declaran las figuras
-    expect(declararFiguras).toHaveBeenCalledWith(JSON.stringify(figuras), setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    expect(declararFiguras).toHaveBeenCalledWith(figuras.figura, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 
     // Verificamos que la función solo sea llamada una vez
     expect(declararFiguras).toHaveBeenCalledTimes(1);
