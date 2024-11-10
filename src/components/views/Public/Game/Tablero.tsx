@@ -118,7 +118,7 @@ const Tablero: React.FC<TableroProps> = ({ colorProhibido, marcaFiguras, setCart
 
         const posicion = x + y * 6;
 
-        const color = fichas[posicion].color;
+        const color = fichas[posicion]?.color ?? '';
 
         const [seleccionada, setSeleccionada] = React.useState<boolean>(posicion === fichaSeleccionada);
         return (
