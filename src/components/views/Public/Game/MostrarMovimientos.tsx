@@ -1,12 +1,9 @@
 import "../../../../styles/Game/Juego.css";
 import { CartaMovimiento } from "../../../../types/partidaEnCurso";
 import DeshacerMovimiento from "../../../hooks/Game/DeshacerMovimiento";
-
-const EXT = ".svg";
+import { useParams } from "react-router-dom";
 
 interface MostrarMovimientosProps {
-    idPartida: number;
-    idJugador: number;
     setCartaMovimientoSeleccionado: React.Dispatch<React.SetStateAction<CartaMovimiento | null>>;
     turnoActual: number | null;
     manoMovimiento: CartaMovimiento[] | null;
@@ -15,8 +12,13 @@ interface MostrarMovimientosProps {
     setMovimientosJugados: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function MostrarMovimientos({ idPartida, idJugador, setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
+function MostrarMovimientos({ setCartaMovimientoSeleccionado, turnoActual, manoMovimiento, setManoMovimiento, movimientosJugados, setMovimientosJugados }
     : MostrarMovimientosProps) {
+
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const idJugador = Number(playerId);
+    const idPartida = Number(gameId);
+
     const handleHacerMovimiento = (carta: CartaMovimiento) => {
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
 
@@ -59,7 +61,7 @@ function MostrarMovimientos({ idPartida, idJugador, setCartaMovimientoSelecciona
                     <img
                         key={carta.id}
                         className={"Movimiento"+`${carta.seleccionada ? '-con-seleccion' : '' }`}
-                        src={"/movimientos/mov" + carta.movimiento + EXT}
+                        src={"/movimientos/mov" + carta.movimiento + ".svg"}
                         alt="Movimiento"
                         onClick={() => {if (turnoActual === idJugador) handleHacerMovimiento(carta)}}
                     />

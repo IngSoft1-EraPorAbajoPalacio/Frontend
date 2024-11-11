@@ -1,14 +1,22 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarJugador1, borrarJugador2, borrarJugador3, borrarJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
+import showToast from "../../views/Public/Toast";
 import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
 }
+
+const bloquearCartasFig = ((carta: number[], bloquearCarta: (carta: number) => void) =>{
+	carta.forEach((carta: number) => {
+		bloquearCarta(carta);
+	});
+})
+
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
@@ -32,7 +40,10 @@ const ObtenerMensajes = (
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>,
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
+	setTemporizador: React.Dispatch<React.SetStateAction<number>>,
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
+	bloquearCarta: (carta: number) => void,
+    desbloquearCarta: (carta: number) => void,
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -45,12 +56,13 @@ const ObtenerMensajes = (
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
-			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+			bloquearCartasFig(message.data.cartasBloqueadas, bloquearCarta);
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
+			if (message.timeout) showToast({ type: 'info', message: 'El tiempo se ha acabado' });
 		}
 
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida
@@ -78,23 +90,28 @@ const ObtenerMensajes = (
 
 			if (j1 && (message.data.idJugador === j1.id)) {
 				borrarFiguraJugador1();
+				borrarJugador1();
 				setFiguraJug1([]);
 				setJugador1(null);
 			}
 			if (j2 && (message.data.idJugador === j2.id)) {
 				borrarFiguraJugador2();
+				borrarJugador2();
 				setFiguraJug2([]);
 				setJugador2(null);
 			}
 			if (j3 && (message.data.idJugador === j3.id)) {
 				borrarFiguraJugador3();
+				borrarJugador3();
 				setFiguraJug3([]);
 				setJugador3(null);
 			}
 			if (j4 && (message.data.idJugador === j4.id)) {
 				borrarFiguraJugador4();
+				borrarJugador4();
 				setFiguraJug4([]);
 				setJugador4(null);
+				
 			}
 
 			avisoAccionChat(message.data.idJugador, "Abandono", setListaMensajes);			
@@ -153,9 +170,7 @@ const ObtenerMensajes = (
 		
 		// Si el mensaje es de tipo DeclararFigura
 		else if (message.type === 'DeclararFigura') {
-			declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-				marcadasPorSelec, setMarcadasPorSelec
-			);
+			declararFiguras(message.figuras.figura, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimientos
@@ -200,22 +215,23 @@ const ObtenerMensajes = (
 				const j4 = obtenerJugador4();
 
 				setTurnoActual((turno: number | null) => {
+					const manoFigura = message.data.cartasFig.map((carta: {"id": number, "figura": number}) => new CartaFigura(carta.id, carta.figura));
 					if (j1 && j1.id === turno) {
 						borrarFiguraJugador1();
-						guardarFiguraJugador1(message.data.cartasFig);
-						setFiguraJug1(message.data.cartasFig);
+						guardarFiguraJugador1(manoFigura);
+						setFiguraJug1(manoFigura);
 					} else if (j2 && j2.id === turno) {
 						borrarFiguraJugador2();
-						guardarFiguraJugador2(message.data.cartasFig);
-						setFiguraJug2(message.data.cartasFig);
+						guardarFiguraJugador2(manoFigura);
+						setFiguraJug2(manoFigura);
 					} else if (j3 && j3.id === turno) {
 						borrarFiguraJugador3();
-						guardarFiguraJugador3(message.data.cartasFig);
-						setFiguraJug3(message.data.cartasFig);
+						guardarFiguraJugador3(manoFigura);
+						setFiguraJug3(manoFigura);
 					} else if (j4 && j4.id === turno) {
 						borrarFiguraJugador4();
-						guardarFiguraJugador4(message.data.cartasFig);
-						setFiguraJug4(message.data.cartasFig);
+						guardarFiguraJugador4(manoFigura);
+						setFiguraJug4(manoFigura);
 					}
 					return turno;
 				});
@@ -224,9 +240,29 @@ const ObtenerMensajes = (
 					setColorProhibido(message.data.colorProhibido);
 					guardarColorProhibido(message.data.colorProhibido);
 				}
+			
 			}
 		}
 
+		// Si el mensaje es de tipo Temporizador setea el tiempo
+		else if (message.type === 'Temporizador') {
+			setTemporizador(message.tiempoRestante);
+		}
+
+		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
+		else if (message.type === 'FiguraBloqueada') {
+			bloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
+		}
+
+		// Si el mensaje es de tipo FiguraDesbloqueada desbloquea la carta
+		else if (message.type === 'FiguraDesbloqueada') {
+			desbloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
+		}
+	
 		else if (message.type === 'Mensaje') {
 			setListaMensajes(prevMensajes => [...prevMensajes, message.mensaje])
 		}

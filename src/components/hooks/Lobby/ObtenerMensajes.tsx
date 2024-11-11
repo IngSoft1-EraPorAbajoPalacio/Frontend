@@ -43,7 +43,7 @@ const ObtenerMensajes = (
       setCancelada(true);
       return () => socket.close();
     }
-  }
+  };
 };
 
 export default ObtenerMensajes;

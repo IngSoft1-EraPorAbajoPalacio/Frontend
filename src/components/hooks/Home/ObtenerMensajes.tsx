@@ -12,6 +12,7 @@ const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partid
         message.data.nombrePartida,
         message.data.cantJugadoresMin,
         message.data.cantJugadoresMax,
+        message.data.privada
       );
       setPartidas((partidas) => {
         if (!partidas.some(p => p.id === partida.id)) {

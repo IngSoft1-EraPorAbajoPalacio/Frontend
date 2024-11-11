@@ -80,7 +80,7 @@ export const borrarMovimientos = () => {
 // Guarda los jugadores
 
 // Jugador 1
-export const guardarJugador1 = (jugador1: JugadorEnCurso) => {
+export const guardarJugador1 = (jugador1: JugadorEnCurso | null) => {
     sessionStorage.setItem('jugador1', JSON.stringify(jugador1));
 }
 
@@ -94,7 +94,7 @@ export const borrarJugador1 = () => {
 }
 
 // Jugador 2
-export const guardarJugador2 = (jugador2: JugadorEnCurso) => {
+export const guardarJugador2 = (jugador2: JugadorEnCurso | null) => {
     sessionStorage.setItem('jugador2', JSON.stringify(jugador2));
 }
 
@@ -108,7 +108,7 @@ export const borrarJugador2 = () => {
 }
 
 // Jugador 3
-export const guardarJugador3 = (jugador3: JugadorEnCurso) => {
+export const guardarJugador3 = (jugador3: JugadorEnCurso | null) => {
     sessionStorage.setItem('jugador3', JSON.stringify(jugador3));
 }
 
@@ -122,7 +122,7 @@ export const borrarJugador3 = () => {
 }
 
 // Jugador 4
-export const guardarJugador4 = (jugador4: JugadorEnCurso) => {
+export const guardarJugador4 = (jugador4: JugadorEnCurso | null) => {
     sessionStorage.setItem('jugador4', JSON.stringify(jugador4));
 }
 

@@ -19,20 +19,20 @@ test('render formulario de unirse', () => {
 
 test('interactuar con input de alias jugador', () => {
     render(<MockJoinRoom/>);
-    const alias = screen.getByPlaceholderText("Ingrege su nombre") as HTMLInputElement;
+    const alias = screen.getByPlaceholderText("Ingrese su nombre") as HTMLInputElement;
     fireEvent.change(alias, { target: { value: "Torval" } });
     expect(alias.value).toBe("Torval");
 });
 
 test('limite de cantidad de letras alias jugador', () => {
     render(<MockJoinRoom/>);
-    const alias = screen.getByPlaceholderText("Ingrege su nombre") as HTMLInputElement;
+    const alias = screen.getByPlaceholderText("Ingrese su nombre") as HTMLInputElement;
     fireEvent.change(alias, { target: { value: "abdulajrabinachbinbar" } }); //21 caracteres
     expect(alias.value.length).not.toBeGreaterThan(mockMaxLonNombres);
 });
 
 test('no submit sin alias', () => {
     render(<MockJoinRoom/>);
-    const alias = screen.getByPlaceholderText("Ingrege su nombre");
+    const alias = screen.getByPlaceholderText("Ingrese su nombre");
     expect(alias).toBeRequired();
 });
