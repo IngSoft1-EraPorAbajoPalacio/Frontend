@@ -241,11 +241,15 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
 		else if (message.type === 'FiguraBloqueada') {
 			bloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
 		}
 
 		// Si el mensaje es de tipo FiguraDesbloqueada desbloquea la carta
 		else if (message.type === 'FiguraDesbloqueada') {
 			desbloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
 		}
 	}
 };
