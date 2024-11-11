@@ -162,4 +162,25 @@ describe('ObtenerMensajes', () => {
     expect(partidas).toEqual([]);
   });
 
+  it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
+
+    const setPartidas = vi.fn();
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setPartidas, socket);
+
+    // Simulamos un mensaje de tipo PartidaFinalizada
+    const message = JSON.stringify({
+      type: 'OtroTipo',
+    });
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina la partida correctamente
+    expect(setPartidas).not.toHaveBeenCalled();
+  });
+
 });

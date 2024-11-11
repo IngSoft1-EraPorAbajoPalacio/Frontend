@@ -1,14 +1,20 @@
-interface TemporizadorProps {
-    temporizador: number;
-}
+import { useTemporizador } from '../../../utils/Game/Temporizador';
 
-const Temporizador: React.FC<TemporizadorProps> = ({ temporizador }) => {
-    const tiempo = temporizador.toString();
-    return (
-        <div className="Temporizador">
-            <h3>{"⏳" + tiempo[0] + ":" + tiempo[1] + tiempo[2] }</h3>
-        </div>
-    );
-}
+interface TemporizadorProps { }
+
+export const Temporizador: React.FC<TemporizadorProps> = () => {
+
+  const { obtenerTemporizador } = useTemporizador();
+
+  const tiempo = obtenerTemporizador();
+  const minutos = Math.floor(tiempo / 60);
+  const segundos = tiempo % 60;
+
+  return (
+    <div>
+      <h3> { "⏳" + String(minutos).padStart(2, '0') + ":" + String(segundos).padStart(2, '0') } </h3>
+    </div>
+  );
+};
 
 export default Temporizador;

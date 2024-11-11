@@ -20,6 +20,7 @@ import Chat from "../views/Public/Game/Chat";
 
 import { Figura } from "../../types/figura";
 import { useCartas } from "../utils/Game/CartasBloqueadas";
+import { useTemporizador } from "../utils/Game/Temporizador";
 
 function Juego () {
     const [turnoActual, setTurnoActual] = useState<number | null>(null);
@@ -47,14 +48,14 @@ function Juego () {
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
     const [colorProhibido, setColorProhibido] = useState<color | null>(null);
-    const [temporizador, setTemporizador] = useState<number>(200);
-
-    const [listaMensajes, setListaMensajes] = useState<string[]>([]);
-    
+    const [listaMensajes, setListaMensajes] = useState<string[]>([]);    
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
+    
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
+    const { actualizarTemporizador } = useTemporizador();
+    const { bloquearCarta, bloquearCartas, desbloquearCarta } = useCartas();
+
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
-    const { bloquearCarta, desbloquearCarta } = useCartas();
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
@@ -71,7 +72,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
-        setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+        setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -109,7 +110,7 @@ function Juego () {
         <div id='Juego'>
             <div id="Superior">
                 <ColorProhibido colorProhibido={colorProhibido}/>
-                <Temporizador temporizador={temporizador}/>
+                <Temporizador/>
             </div>
             <div id="Centro">
                 <div className="ManosHorizontal">

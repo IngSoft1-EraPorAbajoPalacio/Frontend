@@ -57,24 +57,6 @@ describe('ObtenerMensajes', () => {
         expect(setContador).toHaveBeenCalledWith(3);
     });
 
-    it('No debería actualizar la lista de jugadores si el mensaje no es de tipo JugadorUnido', () => {
-
-        // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
-
-        // Simulamos un mensaje de otro tipo
-        const message = JSON.stringify({ type: 'OtroTipo', ListaJugadores: ['Jugador1', 'Jugador2', 'Jugador3'] });
-
-        // Llamamos al evento onmessage
-        act(() => {
-            socket.onmessage({ data: message });
-        });
-
-        // Verificamos que no se haya llamado setJugadores
-        expect(setJugadores).not.toHaveBeenCalled();
-        expect(setContador).not.toHaveBeenCalled();
-    });
-
     it('Deberia avisar cuando la partida haya sido cancelada por el host para que el usuario sea redireccionado al Home', () => {
 
         // Llamamos a la función que escucha los mensajes
@@ -182,13 +164,13 @@ describe('ObtenerMensajes', () => {
         expect(contadorActualizado).toEqual(1);
     });
 
-    it('No debería actualizar la lista de jugadores si el mensaje no es de tipo AbandonarPartida', () => {
+    it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
 
         // Llamamos a la función que escucha los mensajes
         ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de otro tipo
-        const message = JSON.stringify({ type: 'OtroTipo', data: { idJugador: 1 } });
+        const message = JSON.stringify({ type: 'OtroTipo' });
 
         // Llamamos al evento onmessage
         act(() => {
@@ -198,6 +180,8 @@ describe('ObtenerMensajes', () => {
         // Verificamos que no se haya llamado setJugadores
         expect(setJugadores).not.toHaveBeenCalled();
         expect(setContador).not.toHaveBeenCalled();
+        expect(setPartidaIniciada).not.toHaveBeenCalled();
+        expect(setCancelada).not.toHaveBeenCalled();
     });
 
 });
