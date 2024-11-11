@@ -1,6 +1,6 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarJugador1, borrarJugador2, borrarJugador3, borrarJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
@@ -89,23 +89,28 @@ const ObtenerMensajes = (
 
 			if (j1 && (message.data.idJugador === j1.id)) {
 				borrarFiguraJugador1();
+				borrarJugador1();
 				setFiguraJug1([]);
 				setJugador1(null);
 			}
 			if (j2 && (message.data.idJugador === j2.id)) {
 				borrarFiguraJugador2();
+				borrarJugador2();
 				setFiguraJug2([]);
 				setJugador2(null);
 			}
 			if (j3 && (message.data.idJugador === j3.id)) {
 				borrarFiguraJugador3();
+				borrarJugador3();
 				setFiguraJug3([]);
 				setJugador3(null);
 			}
 			if (j4 && (message.data.idJugador === j4.id)) {
 				borrarFiguraJugador4();
+				borrarJugador4();
 				setFiguraJug4([]);
 				setJugador4(null);
+				
 			}
 		}
 

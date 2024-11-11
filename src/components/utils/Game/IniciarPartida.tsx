@@ -1,5 +1,5 @@
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarMovimientos } from "../../context/GameContext";
+import { guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarMovimientos, obtenerFiguraJugador1, obtenerFiguraJugador2, obtenerFiguraJugador3, obtenerFiguraJugador4, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 
 const handleIniciarPartida = (
 	mensaje: any,
@@ -21,11 +21,13 @@ const handleIniciarPartida = (
 	const cantJugadores = mensaje.orden.length;
 
 	// Crea una nueva instancia de JugadorEnCurso
+	if(!obtenerJugador1() && !obtenerJugador2() && !obtenerJugador3() && !obtenerJugador4()){
+		// Si tiene Jugadores guardados significa que ya estaba en la partida
 	const jugador1 = new JugadorEnCurso(mensaje.cartasFigura[0].idJugador, mensaje.cartasFigura[0].nombreJugador);
 	const jugador2 = new JugadorEnCurso(mensaje.cartasFigura[1].idJugador, mensaje.cartasFigura[1].nombreJugador);
 	const jugador3 = (cantJugadores > 2) ? new JugadorEnCurso(mensaje.cartasFigura[2].idJugador, mensaje.cartasFigura[2].nombreJugador) : null;
 	const jugador4 = (cantJugadores > 3) ? new JugadorEnCurso(mensaje.cartasFigura[3].idJugador, mensaje.cartasFigura[3].nombreJugador) : null;
-  
+	
 	// Guarda los jugadores en el contexto
 	guardarJugador1(jugador1);
 	guardarJugador2(jugador2);
@@ -37,7 +39,9 @@ const handleIniciarPartida = (
 	setJugador2(jugador2);
 	if (jugador3) setJugador3(jugador3);
 	if (jugador4) setJugador4(jugador4);
-  
+	}
+	if(!obtenerFiguraJugador1() && !obtenerFiguraJugador2() && !obtenerFiguraJugador3() && !obtenerFiguraJugador4()){
+		// Si tiene cartas figura de Jugadores guardados significa que ya estaba en la partida
 	// Crea una nueva instancia de PartidaEnCurso
 	const cartaJugador1 = mensaje.cartasFigura[0].cartas;
 	const cartaJugador2 = mensaje.cartasFigura[1].cartas;
@@ -58,6 +62,7 @@ const handleIniciarPartida = (
 	  
 	// Guarda las fichas en el contexto
 	guardarFichasTablero(mensaje.fichas);
+	}
   
 };
 
