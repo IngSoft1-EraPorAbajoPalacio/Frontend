@@ -20,6 +20,7 @@ import Chat from "../views/Public/Game/Chat";
 import { Figura } from "../../types/figura";
 import { useCartas } from "../utils/Game/CartasBloqueadas";
 import { useTemporizador } from "../utils/Game/Temporizador";
+import { usePartidaActiva } from "../utils/PartidaActiva"
 
 function Juego () {
     const [turnoActual, setTurnoActual] = useState<number | null>(null);
@@ -59,6 +60,8 @@ function Juego () {
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
+    const { borrarPartidaActiva, terminarPartidaActiva } = usePartidaActiva();
+
     useEffect(() => {
         const newSocket = createSocketGame(setDesconexionesGame);
         setSocket(newSocket);
@@ -66,6 +69,8 @@ function Juego () {
             if (finalizado) {
                 newSocket.close();
                 borrarPartida();
+                borrarPartidaActiva();
+                terminarPartidaActiva();
                 if (idGanador && nombreGanador) redirectToEnd(idPartida, idJugador, idGanador, nombreGanador);
                 else redirectToEnd(idPartida, idJugador, idJugador, 'ganador');
             }
@@ -85,6 +90,8 @@ function Juego () {
             await PasarTurno(idPartida, idJugador);
         }
         AbandonarPartida(idPartida, idJugador);  
+        borrarPartidaActiva();
+        terminarPartidaActiva();
         borrarPartida();
         handleVolver();
     };

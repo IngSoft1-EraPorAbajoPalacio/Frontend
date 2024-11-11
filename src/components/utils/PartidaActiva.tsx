@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useContext } from 'react';
-import { Partida } from '../../../types/partidaListada';
+import { Partida } from '../../types/partidaListada';
 
 interface PartidaActivaProps {
   actualizarPartidaActiva: (PartidaActiva: Partida) => void;

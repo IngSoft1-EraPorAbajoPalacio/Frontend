@@ -4,7 +4,7 @@ import { FormInputs } from '../../../../types/formularioCrearPartida.ts';
 import CrearPartida from "../../../hooks/Home/CrearPartida.tsx";
 import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./ControlFormulario.tsx";
 import { handleRoomNameChange, handleInvalid, handlePlayerNameChange, handleValid, handlePasswordChange } from './HandlersFormularios.tsx'
-import { usePartidaActiva } from '../../../utils/Home/PartidaActiva.tsx';
+import { usePartidaActiva } from '../../../utils/PartidaActiva.tsx';
 
 interface FormCreateRoomProps {
     setIdJugador: Dispatch<SetStateAction<number | null>>;

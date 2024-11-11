@@ -1,5 +1,5 @@
 import { Partida } from '../../../../types/partidaListada';
-import { usePartidaActiva } from '../../../utils/Home/PartidaActiva';
+import { usePartidaActiva } from '../../../utils/PartidaActiva';
 import PartidaListada from './PartidaListada';
 
 interface ListarPartidasProps {
@@ -19,7 +19,7 @@ function ListarPartidas({setIdPartida, partidas, newSocket}: ListarPartidasProps
       { partidaActiva && (
         <div>
           <h2>Partida Activa</h2>
-          <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} newSocket={newSocket} ></PartidaListada>
+          <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} newSocket={newSocket}></PartidaListada>
         </div>
       )}
 
@@ -29,7 +29,7 @@ function ListarPartidas({setIdPartida, partidas, newSocket}: ListarPartidasProps
           <div className='lista'>
             {partidas.map((partida: Partida) => (
               (!partidaActiva || ( partidaActiva && partidaActiva.id !== partida.id ) ) &&
-              <PartidaListada key={partida.id} partida={partida} setIdPartida={setIdPartida} newSocket={newSocket} ></PartidaListada>
+              <PartidaListada key={partida.id} partida={partida} setIdPartida={setIdPartida} newSocket={newSocket}></PartidaListada>
             ))}
           </div>
         </div>

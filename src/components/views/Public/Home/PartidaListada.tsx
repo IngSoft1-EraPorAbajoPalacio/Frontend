@@ -1,6 +1,6 @@
 import { Partida } from '../../../../types/partidaListada';
 import { guardarPartida, obtenerJugador } from '../../../context/GameContext';
-import { usePartidaActiva } from '../../../utils/Home/PartidaActiva';
+import { usePartidaActiva } from '../../../utils/PartidaActiva';
 import AbandonarPartida from '../../../hooks/AbandonarPartida';
 import showToast from '../../Public/Toast';
 import useRouteNavigation from '../../../routes/RouteNavigation';
@@ -20,14 +20,16 @@ function PartidaListada({partida, setIdPartida, newSocket}: PartidaListadaProps)
 
         const partidaActiva = obtenerPartidaActiva();
 
+        // La partida seleccionada es una partida activa
         if (partidaActiva && partidaActiva.id === partida.id) {
             if (enJuego()) redirectToGame(partida.id, obtenerJugador().id);
             else redirectToLobby(partida.id, obtenerJugador().id);
             if (newSocket) newSocket.close();
             return;
         }
-        
-        if (partidaActiva) {
+
+        // Hay una partida activa y se seleccionó una partida diferente
+        else if (partidaActiva) {
             AbandonarPartida(partidaActiva.id, obtenerJugador().id);
             borrarPartidaActiva();
             terminarPartidaActiva();

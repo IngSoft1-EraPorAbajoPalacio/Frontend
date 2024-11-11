@@ -8,7 +8,7 @@ import '../../styles/Lobby/Lobby.css';
 import useRouteNavigation from '../routes/RouteNavigation';
 import createSocketLobby from '../../services/socketLobby';
 import AbandonarPartida from '../hooks/AbandonarPartida';
-import { usePartidaActiva } from '../utils/Home/PartidaActiva';
+import { usePartidaActiva } from '../utils/PartidaActiva';
 
 function Lobby() {
   const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(obtenerJugadoresUnidos());
@@ -26,7 +26,7 @@ function Lobby() {
   const idPartida = Number(gameId);
   if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
 
-  const { iniciarPartidaActiva } = usePartidaActiva();
+  const { iniciarPartidaActiva, borrarPartidaActiva, terminarPartidaActiva } = usePartidaActiva();
 
   const handleVolver = async () => {
     if (newSocket) newSocket.close();
@@ -36,6 +36,7 @@ function Lobby() {
   useEffect(() => {
     if (partidaEnCurso){
       if (newSocket) newSocket.close();
+
       redirectToGame(idPartida, idJugador);
     }
   }, [partidaEnCurso]);
@@ -51,8 +52,10 @@ function Lobby() {
       (cancelada) => {
         setCancelada(cancelada);
         if (cancelada) {
+          borrarPartida();
+          borrarPartidaActiva();
+          terminarPartidaActiva(); 
           handleVolver();
-          borrarPartida(); 
         }
     }, newSocket);
   }, [desconexionesLobby]);
@@ -65,7 +68,9 @@ function Lobby() {
 
   const handleAbandonarPartida = async () => {
     await AbandonarPartida(idPartida, idJugador); 
-    borrarPartida(); 
+    borrarPartida();
+    borrarPartidaActiva();
+    terminarPartidaActiva();
     handleVolver();
   };
 

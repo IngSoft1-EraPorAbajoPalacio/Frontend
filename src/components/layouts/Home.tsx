@@ -10,7 +10,7 @@ import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
 import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
 import BusquedaPartidas from '../views/Public/Home/BusquedaPartidas';
-import { usePartidaActiva } from '../utils/Home/PartidaActiva';
+import { usePartidaActiva } from '../utils/PartidaActiva';
 import AbandonarPartida from '../hooks/AbandonarPartida';
 import { obtenerJugador } from '../context/GameContext';
 import showToast from '../views/Public/Toast';
@@ -37,8 +37,10 @@ const Home = () => {
 
         const partidaActiva = obtenerPartidaActiva();
         if (partidaActiva !== null) {
-            AbandonarPartida(partidaActiva.id, obtenerJugador().id);
+            const jugador = obtenerJugador();
+            AbandonarPartida(partidaActiva.id, jugador.id);
             showToast({ message: 'Partida abandonada', type: 'success' });
+            if(jugador.isHost) setPartidas([]);
             borrarPartidaActiva();
             terminarPartidaActiva();
         }
@@ -52,9 +54,9 @@ const Home = () => {
     }, [idJugador, idPatida]);
 
     useEffect(() => {
-		obtenerPartidas(setPartidas);
         const newSocket = createSocketHome(setDesconexionesHome);
         setSocket(newSocket);
+        obtenerPartidas(setPartidas);
         return ObtenerMensajes(setPartidas, newSocket);
     }, [desconexionesHome]);
 
