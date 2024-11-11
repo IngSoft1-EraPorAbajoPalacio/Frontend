@@ -24,7 +24,15 @@ body::before {
 #unirse {
   width: 100%;
   max-height: 700px;
+}
+
+.listado {
+  margin-top: 20px;
+}
+
+.lista {
   overflow-y: scroll;
+  max-height: 390px;
 }
 
 .partida-listada {

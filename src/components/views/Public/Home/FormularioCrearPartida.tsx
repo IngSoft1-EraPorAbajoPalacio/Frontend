@@ -4,6 +4,7 @@ import { FormInputs } from '../../../../types/formularioCrearPartida.ts';
 import CrearPartida from "../../../hooks/Home/CrearPartida.tsx";
 import { incrementMaxPlayersAllowed, decrementMaxPlayersAllowed, incrementMinPlayersAllowed, decrementMinPlayersAllowed } from "./ControlFormulario.tsx";
 import { handleRoomNameChange, handleInvalid, handlePlayerNameChange, handleValid, handlePasswordChange } from './HandlersFormularios.tsx'
+import { usePartidaActiva } from '../../../utils/PartidaActiva.tsx';
 
 interface FormCreateRoomProps {
     setIdJugador: Dispatch<SetStateAction<number | null>>;
@@ -15,6 +16,8 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
     const [dirtyAlias, setDirtyAlias] = useState<boolean>(false); // To check if the information of the input is missing
     const [dirtyPassword, setDirtyPassword] = useState<boolean>(false); // To check if the information of the input is missing
     const [password, setPassword] = useState<boolean>(false); // To show the password input
+
+    const { actualizarPartidaActiva } = usePartidaActiva();
 
     const [form, setForm] = useState<FormInputs>({
         idPlayer: '',
@@ -28,7 +31,7 @@ const FormCreateRoom: React.FC<FormCreateRoomProps> = ({ setIdJugador, setIdPart
 
     return (
         <div className='form-container'>
-            <form onSubmit={(e) => CrearPartida(e, setForm, form, setIdJugador, setIdPartida)}>
+            <form onSubmit={(e) => CrearPartida(e, setForm, form, setIdJugador, setIdPartida, actualizarPartidaActiva)}>
                 <h2>Crear Sala</h2>
 
                 <h3>Nombre de partida</h3> 

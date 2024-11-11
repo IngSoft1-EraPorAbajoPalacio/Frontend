@@ -10,6 +10,10 @@ import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
 import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
 import BusquedaPartidas from '../views/Public/Home/BusquedaPartidas';
+import { usePartidaActiva } from '../utils/PartidaActiva';
+import AbandonarPartida from '../hooks/AbandonarPartida';
+import { obtenerJugador } from '../context/GameContext';
+import showToast from '../views/Public/Toast';
 
 const Home = () => {
     const [idPatida, setIdPartida] = useState<number|null>(null);
@@ -26,7 +30,21 @@ const Home = () => {
     const [maxPlayers, setMaxPlayers] = useState<number>(4);
 
     const { redirectToLobby } = useRouteNavigation();
-    const seleccionarCrear = () => setPartidaCreada(true);
+    const { obtenerPartidaActiva, borrarPartidaActiva, terminarPartidaActiva } = usePartidaActiva();
+
+    const seleccionarCrear = () => {
+        setPartidaCreada(true);
+
+        const partidaActiva = obtenerPartidaActiva();
+        if (partidaActiva !== null) {
+            const jugador = obtenerJugador();
+            AbandonarPartida(partidaActiva.id, jugador.id);
+            showToast({ message: 'Partida abandonada', type: 'success' });
+            if(jugador.isHost) setPartidas([]);
+            borrarPartidaActiva();
+            terminarPartidaActiva();
+        }
+    }
 
     useEffect(() => {
         if (idJugador !== null && idPatida !== null){
@@ -36,9 +54,9 @@ const Home = () => {
     }, [idJugador, idPatida]);
 
     useEffect(() => {
-		obtenerPartidas(setPartidas);
         const newSocket = createSocketHome(setDesconexionesHome);
         setSocket(newSocket);
+        obtenerPartidas(setPartidas);
         return ObtenerMensajes(setPartidas, newSocket);
     }, [desconexionesHome]);
 
@@ -59,7 +77,7 @@ const Home = () => {
             </div>            
             <div id='unirse'>
                 <BusquedaPartidas busqueda={busqueda} setBusqueda={setBusqueda} minPlayers={minPlayers} maxPlayers={maxPlayers} setMinPlayers= {setMinPlayers} setMaxPlayers= {setMaxPlayers} />
-                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} />
+                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} newSocket={newSocket}/>
             </div>
             <Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
                 <FormCreateRoom setIdPartida={setIdPartida} setIdJugador={setIdJugador} />

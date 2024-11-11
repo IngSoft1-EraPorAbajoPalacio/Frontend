@@ -1,4 +1,4 @@
-import { cantidadJugadores } from "../../../types/partidaListada";
+import { cantidadJugadores, Partida } from "../../../types/partidaListada";
 import { guardarJugador, guardarPartida, guardarJugadoresUnidos } from "../../context/GameContext";
 import { FormInputs } from "../../../types/formularioCrearPartida";
 
@@ -8,7 +8,8 @@ function CrearPartida (
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs,
     setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
-    setIdPartida: React.Dispatch<React.SetStateAction<number|null>>
+    setIdPartida: React.Dispatch<React.SetStateAction<number|null>>,
+    actualizarPartidaActiva: (PartidaActiva: Partida) => void,
 ) {
     e.preventDefault();
 
@@ -42,8 +43,10 @@ function CrearPartida (
             guardarJugador({ id: id_jugador, nombre: data.nombre_host, isHost: true });
             guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
             guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
+            actualizarPartidaActiva({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
             setIdJugador(id_jugador);
             setIdPartida(id_partida);
+
         } catch (error) {
             console.error(error);
         }
