@@ -4,11 +4,14 @@ import App from "./src/components/layouts/App"
 import "./src/styles/index.css"
 import { CartasProvider } from "./src/components/utils/Game/CartasBloqueadas"
 import { Temporizador } from "./src/components/utils/Game/Temporizador"
+import { PartidaActiva } from "./src/components/utils/Home/PartidaActiva"
 
 createRoot(document.getElementById("root")!).render(
     <Temporizador>
         <CartasProvider>
-            <App />
+            <PartidaActiva>
+                <App />
+            </PartidaActiva>
         </CartasProvider>
     </Temporizador>
 )

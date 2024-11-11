@@ -10,6 +10,7 @@ import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
 import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
 import BusquedaPartidas from '../views/Public/Home/BusquedaPartidas';
+import { usePartidaActiva } from '../utils/Home/PartidaActiva';
 
 const Home = () => {
     const [idPatida, setIdPartida] = useState<number|null>(null);
@@ -26,6 +27,8 @@ const Home = () => {
     const [maxPlayers, setMaxPlayers] = useState<number>(4);
 
     const { redirectToLobby } = useRouteNavigation();
+    const { actualizarPartidaActiva } = usePartidaActiva();
+
     const seleccionarCrear = () => setPartidaCreada(true);
 
     useEffect(() => {
@@ -39,7 +42,7 @@ const Home = () => {
 		obtenerPartidas(setPartidas);
         const newSocket = createSocketHome(setDesconexionesHome);
         setSocket(newSocket);
-        return ObtenerMensajes(setPartidas, newSocket);
+        return ObtenerMensajes(setPartidas, newSocket, actualizarPartidaActiva);
     }, [desconexionesHome]);
 
     useEffect(() => {
