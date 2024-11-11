@@ -6,16 +6,11 @@ import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
 import handleIniciarPartida from "../../utils/Game/IniciarPartida";
+import { avisoAccionChat } from "../../utils/Game/avisoAccionChat";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
 }
-
-const bloquearCartasFig = ((carta: number[], bloquearCarta: (carta: number) => void) =>{
-	carta.forEach((carta: number) => {
-		bloquearCarta(carta);
-	});
-})
 
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
@@ -43,6 +38,7 @@ const ObtenerMensajes = (
 	actualizarTemporizador: (temporizador: number) => void, 
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 	bloquearCarta: (carta: number) => void,
+	bloquearCartas: (carta: number[]) => void,
   desbloquearCarta: (carta: number) => void,
 ) => {
 
@@ -58,7 +54,7 @@ const ObtenerMensajes = (
 			setMovimientosJugados(message.data.cantMovimientosParciales);
 			actualizarTemporizador(message.data.tiempo);
 			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
-			bloquearCartasFig(message.data.cartasBloqueadas, bloquearCarta);
+			bloquearCartas(message.data.cartasBloqueadas);
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
@@ -266,43 +262,5 @@ const ObtenerMensajes = (
 		}
 	}
 };
-
-export const avisoAccionChat = (
-	idJug: number, 
-	tipoAccion: string, 
-    setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>
-) => {
-	var nombreJugador;
-	var avisoChat: string;
-
-	if (obtenerJugador1() && obtenerJugador1().id === idJug) {
-		nombreJugador = obtenerJugador1().nombre;
-	} else if (obtenerJugador2() && obtenerJugador2().id === idJug) {
-		nombreJugador = obtenerJugador2().nombre;
-	} else if (obtenerJugador3() && obtenerJugador3().id === idJug) {
-		nombreJugador = obtenerJugador3().nombre;
-	} else if (obtenerJugador4() && obtenerJugador4().id === idJug) {
-		nombreJugador = obtenerJugador4().nombre;
-	}
-	
-	if (tipoAccion === "Abandono") {
-		avisoChat = `'${nombreJugador}' ha abandonado la partida.`;
-	} else if (tipoAccion === "Movimiento") {
-		avisoChat = `'${nombreJugador}' ha intercambiado fichas.`;
-	} else if (tipoAccion === "Deshacer1Mov") {
-		avisoChat = `'${nombreJugador}' ha deshecho su movimiento.`;
-	} else if (tipoAccion === "DeshacerTodos") {
-		avisoChat = `Los movimientos de '${nombreJugador}' han sido deshechos.`;
-	} else if (tipoAccion === "Figura") {
-		avisoChat = `'${nombreJugador}' ha utilizado una de sus cartas figura.`;
-	} else if (tipoAccion === 'Bloquear') {
-		avisoChat = `'${nombreJugador}' ha bloqueado una carta figura ajena.`;
-	} else if (tipoAccion === 'Desbloquear') {
-		avisoChat = `'${nombreJugador}' ha desbloqueado su carta figura.`;
-	}
-	
-	setListaMensajes(prevMensajes => [...prevMensajes, avisoChat]);
-
-}
 
 export default ObtenerMensajes;

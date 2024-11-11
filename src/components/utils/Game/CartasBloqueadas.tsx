@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface CartasContextProps {
     bloquearCarta: (carta: number) => void;
+    bloquearCartas: (cartas: number[]) => void;
     desbloquearCarta: (carta: number) => void;
     esCartaBloqueada: (carta: number) => boolean;
 }
@@ -15,6 +16,10 @@ export const CartasProvider = ({ children }: { children: ReactNode }) => {
         setCartasBloqueadas(prev => [...prev, cartaId]);
     };
 
+    const bloquearCartas = (cartasIds: number[]) => {
+        setCartasBloqueadas(prev => [...prev, ...cartasIds]);
+    };
+
     const desbloquearCarta = (cartaId: number) => {
         setCartasBloqueadas(prev => prev.filter(id => id !== cartaId));
     };
@@ -24,7 +29,7 @@ export const CartasProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <CartasContext.Provider value={{ bloquearCarta, desbloquearCarta, esCartaBloqueada }}>
+        <CartasContext.Provider value={{ bloquearCarta, bloquearCartas, desbloquearCarta, esCartaBloqueada }}>
             {children}
         </CartasContext.Provider>
     );

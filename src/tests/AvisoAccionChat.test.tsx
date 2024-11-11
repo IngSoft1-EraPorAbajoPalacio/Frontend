@@ -1,7 +1,7 @@
 
 
 import { vi, describe, it, expect } from 'vitest';
-import { avisoAccionChat } from '../components/hooks/Game/ObtenerMensajes';
+import { avisoAccionChat } from '../components/utils/Game/avisoAccionChat';
 import * as modulo from '../components/context/GameContext';
 
 describe('avisoAccionChat', () => {
