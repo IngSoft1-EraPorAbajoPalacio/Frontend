@@ -8,6 +8,7 @@ import '../../styles/Lobby/Lobby.css';
 import useRouteNavigation from '../routes/RouteNavigation';
 import createSocketLobby from '../../services/socketLobby';
 import AbandonarPartida from '../hooks/AbandonarPartida';
+import { usePartidaActiva } from '../utils/Home/PartidaActiva';
 
 function Lobby() {
   const [jugadores, setJugadores] = useState<{ id: number, nombre: string }[]>(obtenerJugadoresUnidos());
@@ -24,6 +25,9 @@ function Lobby() {
   const idJugador = Number(playerId);
   const idPartida = Number(gameId);
   if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
+
+  const { iniciarPartidaActiva } = usePartidaActiva();
+
 
   useEffect(() => {
     if (partidaEnCurso){
@@ -52,6 +56,7 @@ function Lobby() {
 
 
   const handleIniciarPartida = () => {
+    iniciarPartidaActiva();
     if (partida && jugador) iniciarPartida(partida.id, jugador.id);
   };
 

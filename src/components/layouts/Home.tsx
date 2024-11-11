@@ -30,7 +30,7 @@ const Home = () => {
     const [maxPlayers, setMaxPlayers] = useState<number>(4);
 
     const { redirectToLobby } = useRouteNavigation();
-    const { obtenerPartidaActiva, borrarPartidaActiva, terminarPartida } = usePartidaActiva();
+    const { obtenerPartidaActiva, borrarPartidaActiva, terminarPartidaActiva } = usePartidaActiva();
 
     const seleccionarCrear = () => {
         setPartidaCreada(true);
@@ -40,7 +40,7 @@ const Home = () => {
             AbandonarPartida(partidaActiva.id, obtenerJugador().id);
             showToast({ message: 'Partida abandonada', type: 'success' });
             borrarPartidaActiva();
-            terminarPartida();
+            terminarPartidaActiva();
         }
     }
 

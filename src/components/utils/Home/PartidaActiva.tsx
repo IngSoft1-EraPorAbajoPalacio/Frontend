@@ -6,8 +6,8 @@ interface PartidaActivaProps {
   obtenerPartidaActiva: () => Partida | null;
   borrarPartidaActiva: () => void;
   enJuego: () => boolean;
-  iniciarPartida: () => void;
-  terminarPartida: () => void;
+  iniciarPartidaActiva: () => void;
+  terminarPartidaActiva: () => void;
 }
 
 const PartidaActivaContext = createContext<PartidaActivaProps | undefined>(undefined);
@@ -21,12 +21,12 @@ export const PartidaActiva = ({ children }: { children: ReactNode }) => {
   const obtenerPartidaActiva = () => partidaActiva;
   const borrarPartidaActiva = () => setPartidaActiva(null);
   const enJuego = () => partidaIniciada;
-  const iniciarPartida = () => setPartidaIniciada(true);
-  const terminarPartida = () => setPartidaIniciada(false);
+  const iniciarPartidaActiva = () => setPartidaIniciada(true);
+  const terminarPartidaActiva = () => setPartidaIniciada(false);
 
 
   return (
-    <PartidaActivaContext.Provider value={{ actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, enJuego, iniciarPartida, terminarPartida }}>
+    <PartidaActivaContext.Provider value={{ actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, enJuego, iniciarPartidaActiva, terminarPartidaActiva }}>
         {children}
     </PartidaActivaContext.Provider>
   );

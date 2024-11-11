@@ -3,6 +3,7 @@ import { guardarPartida, obtenerJugador } from '../../../context/GameContext';
 import { usePartidaActiva } from '../../../utils/Home/PartidaActiva';
 import AbandonarPartida from '../../../hooks/AbandonarPartida';
 import showToast from '../../Public/Toast';
+import useRouteNavigation from '../../../routes/RouteNavigation';
 
 interface PartidaListadaProps {
   partida: Partida;
@@ -11,17 +12,24 @@ interface PartidaListadaProps {
 
 function PartidaListada({partida, setIdPartida}: PartidaListadaProps) {
 
-    const { actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, terminarPartida } = usePartidaActiva();
+    const { actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, terminarPartidaActiva, enJuego } = usePartidaActiva();
+    const { redirectToLobby, redirectToGame } = useRouteNavigation();
 
     const seleccionarUnirse = () => {
-        
+
         const partidaActiva = obtenerPartidaActiva();
+
+        if (partidaActiva && partidaActiva.id === partida.id) {
+            if (enJuego()) redirectToGame(partida.id, obtenerJugador().id);
+            else redirectToLobby(partida.id, obtenerJugador().id);
+            return;
+        }
         
-        if (partidaActiva !== null) {
+        if (partidaActiva) {
             AbandonarPartida(partidaActiva.id, obtenerJugador().id);
             showToast({ message: 'Partida abandonada', type: 'success' });
             borrarPartidaActiva();
-            terminarPartida();
+            terminarPartidaActiva();
         }
 
         setIdPartida(partida.id);
