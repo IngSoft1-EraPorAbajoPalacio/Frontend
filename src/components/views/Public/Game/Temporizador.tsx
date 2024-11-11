@@ -1,35 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useTemporizador } from '../../../utils/Game/Temporizador';
 
-interface TemporizadorProps {
-    temporizador: number;
-}
+interface TemporizadorProps { }
 
-const Temporizador = ({ temporizador }: TemporizadorProps) => {
-  const tiempoInicial = temporizador;
-  const [timeRemaining, setTimeRemaining] = useState(tiempoInicial);
+export const Temporizador: React.FC<TemporizadorProps> = () => {
 
-  useEffect(() => {
-    const timerInterval = setInterval(() => {
-      setTimeRemaining((prevTime: any) => {
-        if (prevTime === 0) {
-          clearInterval(timerInterval);
-          return 0;
-        } else {
-          return prevTime - 1;
-        }
-      });
-    }, 1000);
+  const { obtenerTemporizador } = useTemporizador();
 
-    return () => clearInterval(timerInterval);
-  }, []);
-
-  const minutos = Math.floor((timeRemaining % 3600) / 60);
-  const segundos = timeRemaining % 60;
+  const tiempo = Math.ceil(obtenerTemporizador());
+  const minutos = Math.floor(tiempo / 60);
+  const segundos = tiempo % 60;
 
   return (
-    <div>
-        <h3>{ "⏳" + minutos.toString() + ":" + segundos.toString() }</h3>
-    </div>
+    <h3>
+      { "⏳" + String(minutos).padStart(2, '0') + ":" + String(segundos).padStart(2, '0') }
+    </h3>
   );
 };
 

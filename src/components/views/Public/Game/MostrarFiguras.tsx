@@ -16,6 +16,7 @@ interface MostrarFigurasProps {
 export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
 
     const { esCartaBloqueada } = useCartas();
+    
     const { playerId } = useParams<{ playerId: string }>();
     const idJugador = Number(playerId);
     

@@ -18,6 +18,7 @@ import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 import { Figura } from "../../types/figura";
 import { useCartas } from "../utils/Game/CartasBloqueadas";
+import { useTemporizador } from "../utils/Game/Temporizador";
 
 function Juego () {
     const [turnoActual, setTurnoActual] = useState<number | null>(null);
@@ -45,12 +46,13 @@ function Juego () {
     const [jugador4, setJugador4] = useState<JugadorEnCurso | null>(obtenerJugador4());
 
     const [colorProhibido, setColorProhibido] = useState<color | null>(null);
-    const [temporizador, setTemporizador] = useState<number | null>(null);
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
-    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
+    const { actualizarTemporizador } = useTemporizador();
     const { bloquearCarta, desbloquearCarta } = useCartas();
+
+    const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
     const idPartida = Number(gameId);
     if (isNaN(idJugador) || isNaN(idPartida)) redirectToNotFound();
@@ -67,7 +69,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
-        setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+        setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -105,7 +107,7 @@ function Juego () {
         <div id='Juego'>
             <div id="Superior">
                 <ColorProhibido colorProhibido={colorProhibido}/>
-                {temporizador?<Temporizador temporizador={temporizador}/>:<div></div>}
+                <Temporizador/>
             </div>
             <div id="Centro">
                 <div className="ManosHorizontal">

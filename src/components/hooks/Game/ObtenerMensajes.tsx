@@ -32,7 +32,7 @@ const ObtenerMensajes = (
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
-	setTemporizador: React.Dispatch<React.SetStateAction<number | null>>,
+	actualizarTemporizador: (temporizador: number) => void, 
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 	bloquearCarta: (carta: number) => void,
     desbloquearCarta: (carta: number) => void,
@@ -48,7 +48,7 @@ const ObtenerMensajes = (
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
-			setTemporizador(message.data.tiempo)
+			actualizarTemporizador(message.data.tiempo)
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
@@ -225,7 +225,7 @@ const ObtenerMensajes = (
 
 		// Si el mensaje es de tipo Temporizador setea el tiempo
 		else if (message.type === 'Temporizador') {
-			setTemporizador(message.tiempoRestante);
+			actualizarTemporizador(message.tiempoRestante);
 		}
 
 		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
