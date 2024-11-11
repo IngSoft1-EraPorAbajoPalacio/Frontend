@@ -17,7 +17,6 @@ import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
 import Chat from "../views/Public/Game/Chat";
-
 import { Figura } from "../../types/figura";
 import { useCartas } from "../utils/Game/CartasBloqueadas";
 import { useTemporizador } from "../utils/Game/Temporizador";
@@ -108,7 +107,8 @@ function Juego () {
 
     return (
         <div id='Juego'>
-            <div id="Superior">
+        <button className='volver' onClick={redirectToHome}> <img src="/left-arrow.svg"></img> </button>
+        <div id="Superior">
                 <ColorProhibido colorProhibido={colorProhibido}/>
                 <Temporizador/>
             </div>
