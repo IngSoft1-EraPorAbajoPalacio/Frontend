@@ -16,6 +16,8 @@ import Temporizador from "../views/Public/Game/Temporizador";
 import Overlay from '../../components/views/Public/Overlay';
 import '../../styles/Game/Overlay.css';
 import DeshacerMovimientos from "../hooks/Game/DeshacerMovimientos";
+import Chat from "../views/Public/Game/Chat";
+
 import { Figura } from "../../types/figura";
 import { useCartas } from "../utils/Game/CartasBloqueadas";
 
@@ -46,6 +48,8 @@ function Juego () {
 
     const [colorProhibido, setColorProhibido] = useState<color | null>(null);
     const [temporizador, setTemporizador] = useState<number>(200);
+
+    const [listaMensajes, setListaMensajes] = useState<string[]>([]);
     
     const [marcadasPorSelec, setMarcadasPorSelec] = useState<number[]>([]);
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
@@ -67,7 +71,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
-        setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+        setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {
@@ -129,7 +133,7 @@ function Juego () {
                         /> : <div className="ManoHorizontal"></div>
                     }
                 </div>
-
+                
                 <Tablero 
                     colorProhibido={colorProhibido}
                     marcaFiguras={marcaFiguras} 
@@ -168,6 +172,7 @@ function Juego () {
                 </div>
             </div>
             <div id='ManoJugador'>
+                <Chat listaMensajes={listaMensajes}/>        
                 <button id="AbandonarPartida" onClick={handleAbandonarPartida}>Abandonar Partida</button>
                 {idJugador === turnoActual ?
                     <button id="PasarTurno" onClick={handlePasarTurno}>Pasar Turno</button> :
