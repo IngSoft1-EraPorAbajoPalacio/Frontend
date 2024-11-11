@@ -5,14 +5,18 @@ import { vi } from 'vitest';
 import Home from "../components/layouts/Home";
 import { BrowserRouter } from "react-router-dom";
 
+import { PartidaActiva } from "../components/utils/PartidaActiva";
+
+const MockCreateRoomForm = () => {
+    return (
+        <PartidaActiva>
+            <FormCreateRoom setIdPartida={mockedSets} setIdJugador={mockedSets} />
+        </PartidaActiva>
+    );
+};
 
 const mockedSets = vi.fn();
 const mockMaxLonNombres = 20;
-
-const MockCreateRoomForm = () => {
-    return <FormCreateRoom setIdPartida={mockedSets} setIdJugador={mockedSets} />;
-};
-
 
 describe('Unitest', () => {
 
@@ -64,7 +68,13 @@ describe('Unitest', () => {
 describe('Integration Test', () => {
 
     const MockHome = () => {
-        return <BrowserRouter><Home /></BrowserRouter>;
+        return (
+            <BrowserRouter>
+                <PartidaActiva>
+                    <Home />
+                </PartidaActiva>
+            </BrowserRouter>
+        );
     };
 
     test('click abrir form de crear partida', () => {
