@@ -140,7 +140,11 @@ describe('ObtenerMensajes', () => {
 
     // Verificamos si se actualiza el turno correctamente
     expect(showToast).toHaveBeenCalledWith({ type: 'info', message: 'El tiempo se ha acabado' });
+    expect(showToast).toHaveBeenCalledTimes(1);
+    expect(setTemporizador).toHaveBeenCalledWith(120);
+    expect(setTemporizador).toHaveBeenCalledTimes(1);
     expect(setTurnoActual).toHaveBeenCalledWith(2);
+    expect(setTurnoActual).toHaveBeenCalledTimes(1);
   });
 
   it('Debería actualizar el turno actual y notificar cuando recibe un mensaje de tipo PasarTurno por timeout', () => {
@@ -159,6 +163,9 @@ describe('ObtenerMensajes', () => {
     // Verificamos si se actualiza el turno correctamente
     expect(setTurnoActual).toHaveBeenCalledWith(2);
     expect(setTurnoActual).toHaveBeenCalledTimes(1);
+    expect(setTemporizador).toHaveBeenCalledWith(120);
+    expect(setTemporizador).toHaveBeenCalledTimes(1);
+    expect(showToast).not.toHaveBeenCalled();
   });
 
   it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
@@ -194,6 +201,10 @@ describe('ObtenerMensajes', () => {
     expect(setJugador4).not.toHaveBeenCalled();
     expect(setColorProhibido).not.toHaveBeenCalled();
     expect(setManoMovimiento).not.toHaveBeenCalled();
+    expect(setTemporizador).not.toHaveBeenCalled();
+    expect(bloquearCarta).not.toHaveBeenCalled();
+    expect(desbloquearCarta).not.toHaveBeenCalled();
+    expect(showToast).not.toHaveBeenCalled();
   });
 
   it('Debería finalizar la partida si recibe un mensaje de tipo PartidaEliminada', () => {
@@ -638,22 +649,6 @@ describe('ObtenerMensajes', () => {
     expect(setFiguraJug2).not.toHaveBeenCalled();
     expect(setFiguraJug3).not.toHaveBeenCalled();
     expect(setFiguraJug4).not.toHaveBeenCalled();
-  });
-
-  it('Debería actualizar el temporizador si recibe un mensaje de tipo Temporizador', () => {
-    // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
-  
-    // Simulamos un mensaje de tipo Temporizador
-    const message = JSON.stringify({ type: 'Temporizador', tiempoRestante: 130 });
-
-    // Llamamos al evento onmessage
-    act(() => {
-        socket.onmessage({ data: message });
-    });
-
-    // Verificamos si se actualiza el temporizador
-    expect(setTemporizador).toHaveBeenCalledWith(130);
   });
 
   it('Debería bloquear una carta si el mensaje es de tipo FiguraBloqueada', () => {    

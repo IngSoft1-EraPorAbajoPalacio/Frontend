@@ -48,7 +48,7 @@ const ObtenerMensajes = (
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
-			actualizarTemporizador(message.data.tiempo)
+			actualizarTemporizador(message.data.tiempo);
 			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 		}
 
@@ -56,6 +56,7 @@ const ObtenerMensajes = (
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
 			if (message.timeout) showToast({ type: 'info', message: 'El tiempo se ha acabado' });
+			actualizarTemporizador(120);
 		}
 
 		// Si el mensaje es de tipo PartidaEliminada, borra la partida
@@ -222,11 +223,6 @@ const ObtenerMensajes = (
 				}
 			
 			}
-		}
-
-		// Si el mensaje es de tipo Temporizador setea el tiempo
-		else if (message.type === 'Temporizador') {
-			actualizarTemporizador(message.tiempoRestante);
 		}
 
 		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta

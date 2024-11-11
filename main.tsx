@@ -7,8 +7,8 @@ import { Temporizador } from "./src/components/utils/Game/Temporizador"
 
 createRoot(document.getElementById("root")!).render(
     <Temporizador>
-    <CartasProvider>
-        <App />
-    </CartasProvider>
+        <CartasProvider>
+            <App />
+        </CartasProvider>
     </Temporizador>
 )

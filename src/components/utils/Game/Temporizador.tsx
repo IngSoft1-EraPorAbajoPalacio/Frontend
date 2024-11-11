@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 interface TemporizadorProps {
     actualizarTemporizador: (temporizador: number) => void;
@@ -9,7 +9,21 @@ const TemporizadorContext = createContext<TemporizadorProps | undefined>(undefin
 
 export const Temporizador = ({ children }: { children: ReactNode }) => {
 
-  const [segundosRestantes, setSegundosRestantes] = useState(120);
+  const [segundosRestantes, setSegundosRestantes] = useState<number>(0);
+
+  useEffect(() => {
+    let timer = setInterval(() => {
+      setSegundosRestantes((temporizador: number) => {
+        if (temporizador === 0) {
+          clearInterval(timer);
+          return 0;
+        } else return temporizador - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  
+  }, [setSegundosRestantes]);
 
   const actualizarTemporizador = (temporizador: number) => {
     setSegundosRestantes(temporizador);
@@ -20,11 +34,9 @@ export const Temporizador = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    segundosRestantes ? 
     <TemporizadorContext.Provider value={{ actualizarTemporizador, obtenerTemporizador }}>
         {children}
-    </TemporizadorContext.Provider> :
-    <div></div>
+    </TemporizadorContext.Provider>
   );
 }
 
