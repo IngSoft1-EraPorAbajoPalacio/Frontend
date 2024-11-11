@@ -68,24 +68,25 @@ function Lobby() {
   };
   return (
     <>
-        <div className='lobby-container'>
-          {partida && <h1 className='lobby-title'>{partida.nombre}</h1>}
-          <p className='lobby-subtitle'>Esperando a jugadores...</p>
-          <ul className='lobby-list'>
-            {jugadores.map((jugadorListado) => (
-              <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
-            ))}
-          </ul>
-          <div className='lobby-buttons'>
-          {partida && jugador && jugador.isHost && (
-            <button className='lobby-button' onClick={handleAbandonarPartida}>Cancelar</button>
-          )}
-          {partida && jugador && jugador.isHost && obtenerCantJugadoresPartida() >= partida.cantJugadoresMin && (
-            <button className='lobby-button-iniciar' onClick={handleIniciarPartida}>Iniciar Partida</button>
-          )}
-          </div>
-          {jugador && !jugador.isHost && (<button className='lobby-button' onClick={handleAbandonarPartida}>Abandonar</button>)}
+      <button className='volver' onClick={redirectToHome}> <img src="/left-arrow.svg"></img> </button>
+      <div className='lobby-container'>
+        {partida && <h1 className='lobby-title'>{partida.nombre}</h1>}
+        <p className='lobby-subtitle'>Esperando a jugadores...</p>
+        <ul className='lobby-list'>
+          {jugadores.map((jugadorListado) => (
+            <li key={jugadorListado.id} className='lobby-list-item'> <p>{jugadorListado.nombre}</p> </li>
+          ))}
+        </ul>
+        <div className='lobby-buttons'>
+        {partida && jugador && jugador.isHost && (
+          <button className='lobby-button' onClick={handleAbandonarPartida}>Cancelar</button>
+        )}
+        {partida && jugador && jugador.isHost && obtenerCantJugadoresPartida() >= partida.cantJugadoresMin && (
+          <button className='lobby-button-iniciar' onClick={handleIniciarPartida}>Iniciar Partida</button>
+        )}
         </div>
+        {jugador && !jugador.isHost && (<button className='lobby-button' onClick={handleAbandonarPartida}>Abandonar</button>)}
+      </div>
       
     </>
   );

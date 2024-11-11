@@ -27,9 +27,9 @@ function PartidaListada({partida, setIdPartida}: PartidaListadaProps) {
         
         if (partidaActiva) {
             AbandonarPartida(partidaActiva.id, obtenerJugador().id);
-            showToast({ message: 'Partida abandonada', type: 'success' });
             borrarPartidaActiva();
             terminarPartidaActiva();
+            showToast({ message: 'Partida abandonada', type: 'success' });
         }
 
         setIdPartida(partida.id);
