@@ -4,7 +4,7 @@ import { describe, vi, it, expect } from 'vitest';
 import ObtenerMensajes from '../components/hooks/Game/ObtenerMensajes';
 import createSocketGame from '../services/socketGame';
 import { fichasMock, j1Mock, j2Mock, j3Mock, j4Mock, j1CartasMock, j2CartasMock, j3CartasMock, j4CartasMock } from '../data/MockPartidaEnCurso';
-import { borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4 } from '../components/context/GameContext';
+import { borrarPartida, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, obtenerJugador1 } from '../components/context/GameContext';
 import { Movimiento, CartaMovimiento } from '../types/partidaEnCurso';
 import declararFiguras from '../components/views/Public/Game/DeclararFiguras';
 import showToast from '../components/views/Public/Toast';
@@ -53,6 +53,7 @@ describe('ObtenerMensajes', () => {
   let setJugador2: any;
   let setJugador3: any;
   let setJugador4: any;
+  let setListaMensajes: any;
   let setColorProhibido: any;
   let setTemporizador: any;
   let setManoMovimiento: any;
@@ -79,6 +80,7 @@ describe('ObtenerMensajes', () => {
     setJugador2 = vi.fn();
     setJugador3 = vi.fn();
     setJugador4 = vi.fn();
+    setListaMensajes = vi.fn();
     setColorProhibido = vi.fn();
     setTemporizador = vi.fn();
     setManoMovimiento = vi.fn();
@@ -104,7 +106,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería configurar los datos de la partida si recibe un mensaje de tipo InicioConexion', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
   
     // Simulamos un mensaje de tipo InicioConexion
     const message = JSON.stringify({
@@ -127,7 +129,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería actualizar el turno actual cuando recibe un mensaje de tipo PasarTurno', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2, timeout: true });
@@ -149,7 +151,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería actualizar el turno actual y notificar cuando recibe un mensaje de tipo PasarTurno por timeout', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de tipo PasarTurno
     const message = JSON.stringify({ type: 'PasarTurno', turno: 2, timeout: false });
@@ -171,7 +173,7 @@ describe('ObtenerMensajes', () => {
   it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
@@ -210,8 +212,7 @@ describe('ObtenerMensajes', () => {
   it('Debería finalizar la partida si recibe un mensaje de tipo PartidaEliminada', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
-
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ type: 'PartidaEliminada' });
 
@@ -227,7 +228,7 @@ describe('ObtenerMensajes', () => {
   it('Debería finalizar la partida y mostrar ganador si recibe un mensaje de tipo PartidaFinalizada', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de tipo PartidaEliminada
     const message = JSON.stringify({ 
@@ -251,7 +252,7 @@ describe('ObtenerMensajes', () => {
   it('Debería eliminar al jugador 1 si recibe un mensaje de tipo AbandonarPartida con id del jugador 1', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que hay jugadores en la partida
     guardarJugador1(j1Mock);
@@ -275,7 +276,7 @@ describe('ObtenerMensajes', () => {
   it('Debería eliminar al jugador 2 si recibe un mensaje de tipo AbandonarPartida con id del jugador 2', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que hay jugadores en la partida
     guardarJugador2(j2Mock);
@@ -299,7 +300,7 @@ describe('ObtenerMensajes', () => {
   it('Debería eliminar al jugador 3 si recibe un mensaje de tipo AbandonarPartida con id del jugador 3', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que hay jugadores en la partida
     guardarJugador3(j3Mock);
@@ -323,7 +324,7 @@ describe('ObtenerMensajes', () => {
   it('Debería eliminar al jugador 4 si recibe un mensaje de tipo AbandonarPartida con id del jugador 4', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que hay jugadores en la partida
     guardarJugador4(j4Mock);
@@ -347,7 +348,7 @@ describe('ObtenerMensajes', () => {
   it('Debería agregar un movimiento si recibe un mensaje de tipo MovimientoParcial', () => {
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de tipo MovimientoParcial
     guardarFichasTablero(fichasMock);
@@ -356,7 +357,8 @@ describe('ObtenerMensajes', () => {
       fichas: [
         { x: 0, y: 0, color: 'Azul' },
         { x: 0, y: 1, color: 'Azul' }
-      ]
+      ],
+      idJugador: 1
     };
 
     const message = JSON.stringify({ type: 'MovimientoParcial', data: movimientoParcial });
@@ -382,7 +384,7 @@ describe('ObtenerMensajes', () => {
     guardarFichasTablero(fichasMock);
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de tipo DeshacerMovimiento
     const message = JSON.stringify({ type: 'DeshacerMovimiento', posiciones: [{ x: 0, y: 0 }, { x: 0, y: 1 }] });
@@ -401,7 +403,7 @@ describe('ObtenerMensajes', () => {
     guardarFichasTablero(fichasMock);
 
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Inicializamos la cantidad de movimientos jugados
     setMovimientosJugados(2);
@@ -431,7 +433,7 @@ describe('ObtenerMensajes', () => {
   it('Debería declarar figuras si recibe un mensaje de tipo DeclararFigura', () => {
     
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
   
     // Simulamos un mensaje de tipo DeclararFigura
 
@@ -442,7 +444,7 @@ describe('ObtenerMensajes', () => {
 
     const data = {
       type: 'DeclararFigura',
-      figuras: JSON.stringify(figuras)
+      figuras: figuras
     };
   
     const message = JSON.stringify(data);
@@ -453,7 +455,7 @@ describe('ObtenerMensajes', () => {
     });
   
     // Verificamos si se declaran las figuras
-    expect(declararFiguras).toHaveBeenCalledWith(JSON.stringify(figuras), setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+    expect(declararFiguras).toHaveBeenCalledWith(figuras.figura, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 
     // Verificamos que la función solo sea llamada una vez
     expect(declararFiguras).toHaveBeenCalledTimes(1);
@@ -465,7 +467,7 @@ describe('ObtenerMensajes', () => {
     const mockSetTurnoActual = vi.fn();
   
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que el turno actual es del jugador 1
     mockSetTurnoActual.mockImplementation((updateFn) => {
@@ -508,7 +510,7 @@ describe('ObtenerMensajes', () => {
     const mockSetTurnoActual = vi.fn();
   
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que el turno actual es del jugador 2
     mockSetTurnoActual.mockImplementation((updateFn) => {
@@ -551,7 +553,7 @@ describe('ObtenerMensajes', () => {
     const mockSetTurnoActual = vi.fn();
   
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que el turno actual es del jugador 3
     mockSetTurnoActual.mockImplementation((updateFn) => {
@@ -594,7 +596,7 @@ describe('ObtenerMensajes', () => {
     const mockSetTurnoActual = vi.fn();
   
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(mockSetTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos que el turno actual es del jugador 4
     mockSetTurnoActual.mockImplementation((updateFn) => {
@@ -634,7 +636,7 @@ describe('ObtenerMensajes', () => {
 
   it('No debería actualizar la mano de figuras si el mensaje no es de tipo FiguraDescartar', () => {
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ type: 'OtroTipo', turno: 2 });
@@ -653,7 +655,7 @@ describe('ObtenerMensajes', () => {
 
   it('Debería bloquear una carta si el mensaje es de tipo FiguraBloqueada', () => {    
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ 
@@ -676,7 +678,7 @@ describe('ObtenerMensajes', () => {
 it('Debería desbloquear una carta si el mensaje es de tipo FiguraDesbloqueada', () => {
         
     // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
 
     // Simulamos un mensaje de otro tipo
     const message = JSON.stringify({ 
@@ -694,4 +696,24 @@ it('Debería desbloquear una carta si el mensaje es de tipo FiguraDesbloqueada',
     // Verificamos que se haya llamado a la función FiguraDesbloqueada
     expect(desbloquearCarta).toHaveBeenCalledWith(1);
 });
+  it('Deberia actualizar la lista de mensajes en el chat si el mensaje es de tipo Mensaje', () => {
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta);
+  
+    const message = JSON.stringify({
+      type: 'Mensaje',
+      mensaje: 'Hola',
+    });
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    // Verificamos que se agregue correctamente el mensaje a la lista de mensajes 
+    expect(setListaMensajes).toHaveBeenCalledWith(expect.any(Function));
+    const updateFunction = setListaMensajes.mock.calls[0][0];
+    const listaActualizada = updateFunction(['Que tal?']);
+    expect(listaActualizada).toEqual(['Que tal?', 'Hola']);
+  });
 });

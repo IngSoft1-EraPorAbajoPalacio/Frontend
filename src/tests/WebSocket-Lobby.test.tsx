@@ -15,6 +15,7 @@ describe('ObtenerMensajes', () => {
     let setContador: any;
     let setPartidaIniciada: any;
     let setCancelada: any;
+    let CantidadJugadores: any;
 
     beforeAll(() => {
         socket = createSocketLobby;
@@ -23,6 +24,7 @@ describe('ObtenerMensajes', () => {
     beforeEach(() => {
         setJugadores = vi.fn();
         setContador = vi.fn();
+        CantidadJugadores = vi.fn();
         setPartidaIniciada = vi.fn();
         setCancelada = vi.fn();
     });
@@ -37,7 +39,7 @@ describe('ObtenerMensajes', () => {
     it('Debería actualizar la lista de jugadores cuando recibe un mensaje de tipo JugadorUnido', () => {
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de tipo JugadorUnido
         const message = JSON.stringify({
@@ -58,7 +60,7 @@ describe('ObtenerMensajes', () => {
     it('Deberia avisar cuando la partida haya sido cancelada por el host para que el usuario sea redireccionado al Home', () => {
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de tipo PartidaEliminada
         const message = JSON.stringify({ type: 'PartidaEliminada' });
@@ -75,7 +77,7 @@ describe('ObtenerMensajes', () => {
     it('Debería setear la partida como iniciada cuando recibe un mensaje de tipo IniciarPartida', () => {
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de tipo IniciarPartida
         const message = JSON.stringify({ type: 'IniciarPartida' });
@@ -92,7 +94,7 @@ describe('ObtenerMensajes', () => {
     it('No debería actualizar los datos de la partida si el mensaje no es de tipo IniciarPartida', () => {
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de otro tipo
         const message = JSON.stringify({ type: 'OtroTipo', ListaJugadores: ['Jugador1', 'Jugador2', 'Jugador3'] });
@@ -128,7 +130,7 @@ describe('ObtenerMensajes', () => {
         });
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(mockSetJugadores, mockSetContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(mockSetJugadores, mockSetContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
     
         // Simulamos un mensaje de tipo AbandonarPartida
         const message = JSON.stringify({ type: 'AbandonarPartida', data: { idJugador: 1 } });
@@ -165,7 +167,7 @@ describe('ObtenerMensajes', () => {
     it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
 
         // Llamamos a la función que escucha los mensajes
-        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, setCancelada, socket);
+        ObtenerMensajes(setJugadores, setContador, setPartidaIniciada, CantidadJugadores ,setCancelada, socket);
 
         // Simulamos un mensaje de otro tipo
         const message = JSON.stringify({ type: 'OtroTipo' });

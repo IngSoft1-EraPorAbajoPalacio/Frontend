@@ -1,6 +1,6 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarJugador1, borrarJugador2, borrarJugador3, borrarJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
@@ -10,6 +10,13 @@ import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
 }
+
+const bloquearCartasFig = ((carta: number[], bloquearCarta: (carta: number) => void) =>{
+	carta.forEach((carta: number) => {
+		bloquearCarta(carta);
+	});
+})
+
 // Escucha los mensajes del servidor para pasar el turno
 const ObtenerMensajes = (
 	setTurnoActual: React.Dispatch<React.SetStateAction<number | null>>,
@@ -31,11 +38,12 @@ const ObtenerMensajes = (
 	setJugador2: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador3: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
 	setJugador4: React.Dispatch<React.SetStateAction<JugadorEnCurso | null>>,
+	setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>,
 	setColorProhibido: React.Dispatch<React.SetStateAction<color | null>>,
 	actualizarTemporizador: (temporizador: number) => void, 
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 	bloquearCarta: (carta: number) => void,
-    desbloquearCarta: (carta: number) => void,
+  desbloquearCarta: (carta: number) => void,
 ) => {
 
 	socket.onmessage = (event: any) => {
@@ -50,6 +58,7 @@ const ObtenerMensajes = (
 			setMovimientosJugados(message.data.cantMovimientosParciales);
 			actualizarTemporizador(message.data.tiempo);
 			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
+			bloquearCartasFig(message.data.cartasBloqueadas, bloquearCarta);
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
@@ -84,24 +93,31 @@ const ObtenerMensajes = (
 
 			if (j1 && (message.data.idJugador === j1.id)) {
 				borrarFiguraJugador1();
+				borrarJugador1();
 				setFiguraJug1([]);
 				setJugador1(null);
 			}
 			if (j2 && (message.data.idJugador === j2.id)) {
 				borrarFiguraJugador2();
+				borrarJugador2();
 				setFiguraJug2([]);
 				setJugador2(null);
 			}
 			if (j3 && (message.data.idJugador === j3.id)) {
 				borrarFiguraJugador3();
+				borrarJugador3();
 				setFiguraJug3([]);
 				setJugador3(null);
 			}
 			if (j4 && (message.data.idJugador === j4.id)) {
 				borrarFiguraJugador4();
+				borrarJugador4();
 				setFiguraJug4([]);
 				setJugador4(null);
+				
 			}
+
+			avisoAccionChat(message.data.idJugador, "Abandono", setListaMensajes);			
 		}
 
 		// Si el mensaje es de tipo MovimientoParcial setea la carta recibida
@@ -129,6 +145,7 @@ const ObtenerMensajes = (
 			setMovimiento(newMovimiento);
 			setMovimientoAgregado(true);
 
+			avisoAccionChat(message.data.idJugador, "Movimiento", setListaMensajes);
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimiento 
@@ -150,13 +167,13 @@ const ObtenerMensajes = (
 
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
+
+			avisoAccionChat(message.idJugador, "Deshacer1Mov", setListaMensajes);
 		}
 		
 		// Si el mensaje es de tipo DeclararFigura
 		else if (message.type === 'DeclararFigura') {
-			declararFiguras(message.figuras, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada,
-				marcadasPorSelec, setMarcadasPorSelec
-			);
+			declararFiguras(message.figuras.figura, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 		}
 
 		// Si el mensaje es de tipo DeshacerMovimientos
@@ -185,10 +202,15 @@ const ObtenerMensajes = (
 			// Setea el movimiento
 			setMovimientoDeshecho(true);
 			setMovimientosJugados(0);
+
+			avisoAccionChat(message.idJugador, "DeshacerTodos", setListaMensajes);
 		}
 		
 		// Si el mensaje es de tipo ReposicionFiguras o FiguraDescartar asigna las figuras a los jugadores
 		else if (message.type === 'ReposicionFiguras' || message.type === 'FiguraDescartar') {
+			if (message.type === 'FiguraDescartar') {
+				avisoAccionChat(message.data.idJugador, "Figura", setListaMensajes);
+			}
 			if (message.data.cartasFig !== undefined) {
 				const j1 = obtenerJugador1();
 				const j2 = obtenerJugador2();
@@ -228,13 +250,59 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo FiguraBloqueada bloquea la carta
 		else if (message.type === 'FiguraBloqueada') {
 			bloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
 		}
 
 		// Si el mensaje es de tipo FiguraDesbloqueada desbloquea la carta
 		else if (message.type === 'FiguraDesbloqueada') {
 			desbloquearCarta(message.data.idCarta);
+			setColorProhibido(message.data.colorProhibido);
+			guardarColorProhibido(message.data.colorProhibido);
+		}
+	
+		else if (message.type === 'Mensaje') {
+			setListaMensajes(prevMensajes => [...prevMensajes, message.mensaje])
 		}
 	}
 };
+
+export const avisoAccionChat = (
+	idJug: number, 
+	tipoAccion: string, 
+    setListaMensajes: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+	var nombreJugador;
+	var avisoChat: string;
+
+	if (obtenerJugador1() && obtenerJugador1().id === idJug) {
+		nombreJugador = obtenerJugador1().nombre;
+	} else if (obtenerJugador2() && obtenerJugador2().id === idJug) {
+		nombreJugador = obtenerJugador2().nombre;
+	} else if (obtenerJugador3() && obtenerJugador3().id === idJug) {
+		nombreJugador = obtenerJugador3().nombre;
+	} else if (obtenerJugador4() && obtenerJugador4().id === idJug) {
+		nombreJugador = obtenerJugador4().nombre;
+	}
+	
+	if (tipoAccion === "Abandono") {
+		avisoChat = `'${nombreJugador}' ha abandonado la partida.`;
+	} else if (tipoAccion === "Movimiento") {
+		avisoChat = `'${nombreJugador}' ha intercambiado fichas.`;
+	} else if (tipoAccion === "Deshacer1Mov") {
+		avisoChat = `'${nombreJugador}' ha deshecho su movimiento.`;
+	} else if (tipoAccion === "DeshacerTodos") {
+		avisoChat = `Los movimientos de '${nombreJugador}' han sido deshechos.`;
+	} else if (tipoAccion === "Figura") {
+		avisoChat = `'${nombreJugador}' ha utilizado una de sus cartas figura.`;
+	} else if (tipoAccion === 'Bloquear') {
+		avisoChat = `'${nombreJugador}' ha bloqueado una carta figura ajena.`;
+	} else if (tipoAccion === 'Desbloquear') {
+		avisoChat = `'${nombreJugador}' ha desbloqueado su carta figura.`;
+	}
+	
+	setListaMensajes(prevMensajes => [...prevMensajes, avisoChat]);
+
+}
 
 export default ObtenerMensajes;
