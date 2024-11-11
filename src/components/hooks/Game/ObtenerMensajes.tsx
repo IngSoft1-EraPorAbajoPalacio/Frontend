@@ -49,6 +49,7 @@ const ObtenerMensajes = (
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);
 			actualizarTemporizador(message.data.tiempo)
+			declararFiguras(message.data.figurasResaltadas, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec);
 		}
 
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
