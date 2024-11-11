@@ -18,52 +18,75 @@ const handleIniciarPartida = (
 	guardarColorProhibido(mensaje.colorProhibido);
 	guardarMovimientos(mensaje.cartasMovimiento);
 
-	const cantJugadores = mensaje.orden.length;
 
-	if (!obtenerJugador1() && !obtenerJugador2() && !obtenerJugador3() && !obtenerJugador4()) {
-		// Si tiene Jugadores guardados significa que ya estaba en la partida
-		// Crea una nueva instancia de JugadorEnCurso
-		const jugador1 = new JugadorEnCurso(mensaje.cartasFigura[0].idJugador, mensaje.cartasFigura[0].nombreJugador);
-		const jugador2 = new JugadorEnCurso(mensaje.cartasFigura[1].idJugador, mensaje.cartasFigura[1].nombreJugador);
-		const jugador3 = (cantJugadores > 2) ? new JugadorEnCurso(mensaje.cartasFigura[2].idJugador, mensaje.cartasFigura[2].nombreJugador) : null;
-		const jugador4 = (cantJugadores > 3) ? new JugadorEnCurso(mensaje.cartasFigura[3].idJugador, mensaje.cartasFigura[3].nombreJugador) : null;
+	let jugador1: JugadorEnCurso | null = null;
+    let jugador2: JugadorEnCurso | null = null;
+    let jugador3: JugadorEnCurso | null = null;
+    let jugador4: JugadorEnCurso | null = null;
 
-		// Guarda los jugadores en el contexto
-		guardarJugador1(jugador1);
-		guardarJugador2(jugador2);
-		if (jugador3) guardarJugador3(jugador3);
-		if (jugador4) guardarJugador4(jugador4);
+    // Asigna los jugadores segun id en el orden 1, 2, 3, 4
+    mensaje.cartasFigura.forEach((jugador: any, index: number) => {
+        if (jugador.idJugador !== null) {
+            const jugadorActual = new JugadorEnCurso(jugador.idJugador, jugador.nombreJugador);
+            if (index === 0) {
+                jugador1 = jugadorActual;
+            } else if (index === 1) {
+                jugador2 = jugadorActual;
+            } else if (index === 2) {
+                jugador3 = jugadorActual;
+            } else if (index === 3) {
+                jugador4 = jugadorActual;
+            }
+        }
+    });
 
-		// Settea los jugadores
-		setJugador1(jugador1);
-		setJugador2(jugador2);
-		if (jugador3) setJugador3(jugador3);
-		if (jugador4) setJugador4(jugador4);
-	}
-	if (!obtenerFiguraJugador1() && !obtenerFiguraJugador2() && !obtenerFiguraJugador3() && !obtenerFiguraJugador4()) {
-		// Si tiene cartas figura de Jugadores guardados significa que ya estaba en la partida
-		// Crea una nueva instancia de PartidaEnCurso
-		const cartaJugador1 = mensaje.cartasFigura[0].cartas;
-		const cartaJugador2 = mensaje.cartasFigura[1].cartas;
-		const cartaJugador3 = (cantJugadores > 2) ? mensaje.cartasFigura[2].cartas : null;
-		const cartaJugador4 = (cantJugadores > 3) ? mensaje.cartasFigura[3].cartas : null;
+	// Guarda los jugadores en el contexto
+	guardarJugador1(jugador1);
+	guardarJugador2(jugador2);
+	guardarJugador3(jugador3);
+	guardarJugador4(jugador4);
 
-		// Guarda las cartas de las figuras en el contexto
-		guardarFiguraJugador1(cartaJugador1);
-		guardarFiguraJugador2(cartaJugador2);
-		if (cartaJugador3) guardarFiguraJugador3(cartaJugador3);
-		if (cartaJugador4) guardarFiguraJugador4(cartaJugador4);
+	// Settea los jugadores
+	setJugador1(jugador1);
+	setJugador2(jugador2);
+	setJugador3(jugador3);
+	setJugador4(jugador4);
 
-		// Settea las cartas de las figuras
-		setFiguraJug1(cartaJugador1);
-		setFiguraJug2(cartaJugador2);
-		if (cartaJugador3) setFiguraJug3(cartaJugador3);
-		if (cartaJugador4) setFiguraJug4(cartaJugador4);
+	let cartasJugador1: any = null;
+    let cartasJugador2: any = null;
+    let cartasJugador3: any = null;
+    let cartasJugador4: any = null;
 
-		// Guarda las fichas en el contexto
-		guardarFichasTablero(mensaje.fichas);
-	}
+	// Asigna las cartas de los jugadores en el orden 1, 2, 3, 4
+    mensaje.cartasFigura.forEach((jugador: any, index: number) => {
+        if (jugador.cartas !== null) {
+            if (index === 0) {
+                cartasJugador1 = jugador.cartas;
+            } else if (index === 1) {
+                cartasJugador2 = jugador.cartas;
+            } else if (index === 2) {
+                cartasJugador3 = jugador.cartas;
+            } else if (index === 3) {
+                cartasJugador4 = jugador.cartas;
+            }
+        }
+    });
 
+
+	// Guarda las cartas de las figuras en el contexto
+	guardarFiguraJugador1(cartasJugador1);
+	guardarFiguraJugador2(cartasJugador2);
+	guardarFiguraJugador3(cartasJugador3);
+	guardarFiguraJugador4(cartasJugador4);
+
+	// Settea las cartas de las figuras
+	setFiguraJug1(cartasJugador1);
+	setFiguraJug2(cartasJugador2);
+	setFiguraJug3(cartasJugador3);
+	setFiguraJug4(cartasJugador4);
+
+	// Guarda las fichas en el contexto
+	guardarFichasTablero(mensaje.fichas);
 };
 
 export default handleIniciarPartida;
