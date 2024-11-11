@@ -53,7 +53,7 @@ function Juego () {
     
     const { redirectToNotFound, redirectToHome, redirectToEnd } = useRouteNavigation();
     const { actualizarTemporizador } = useTemporizador();
-    const { bloquearCarta, desbloquearCarta } = useCartas();
+    const { bloquearCarta, bloquearCartas, desbloquearCarta } = useCartas();
 
     const { gameId, playerId } = useParams<{ gameId: string; playerId: string }>();
     const idJugador = Number(playerId);
@@ -72,7 +72,7 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
-        setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, desbloquearCarta
+        setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
     }, [desconexionesGame]);
 
     const handleAbandonarPartida = async () => {

@@ -24,7 +24,8 @@ const ObtenerMensajes = (
 	setMarcaFiguras: React.Dispatch<React.SetStateAction<number[]>>,
 	setFigurasDetectadas: React.Dispatch<React.SetStateAction<Figura[]>>,
 	figuraSeleccionada: number | null,
-	marcadasPorSelec: number[], setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
+	marcadasPorSelec: number[],
+	setMarcadasPorSelec: React.Dispatch<React.SetStateAction<number[]>>,
 	setFiguraJug1: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setFiguraJug2: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
 	setFiguraJug3: React.Dispatch<React.SetStateAction<CartaFigura[] | null>>,
@@ -39,7 +40,7 @@ const ObtenerMensajes = (
 	setManoMovimiento: React.Dispatch<React.SetStateAction<CartaMovimiento[] | null>>,
 	bloquearCarta: (carta: number) => void,
 	bloquearCartas: (carta: number[]) => void,
-  desbloquearCarta: (carta: number) => void,
+    desbloquearCarta: (carta: number) => void,
 ) => {
 
 	socket.onmessage = (event: any) => {

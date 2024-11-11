@@ -23,7 +23,7 @@ export const Temporizador = ({ children }: { children: ReactNode }) => {
 
     return () => clearInterval(timer);
   
-  }, [setSegundosRestantes]);
+  }, [setSegundosRestantes, segundosRestantes]);
 
   const actualizarTemporizador = (temporizador: number) => {
     setSegundosRestantes(temporizador);
