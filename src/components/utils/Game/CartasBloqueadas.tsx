@@ -12,18 +12,22 @@ const CartasContext = createContext<CartasContextProps | undefined>(undefined);
 export const CartasProvider = ({ children }: { children: ReactNode }) => {
     const [cartasBloqueadas, setCartasBloqueadas] = useState<number[]>([]);
 
+    // Agrega una carta a la lista de cartas bloqueadas
     const bloquearCarta = (cartaId: number) => {
         setCartasBloqueadas(prev => [...prev, cartaId]);
     };
 
+    // Resetea la lista de cartas bloqueadas
     const bloquearCartas = (cartasIds: number[]) => {
-        setCartasBloqueadas(prev => [...prev, ...cartasIds]);
+        setCartasBloqueadas(cartasIds);
     };
 
+    // Elimina una carta de la lista de cartas bloqueadas
     const desbloquearCarta = (cartaId: number) => {
         setCartasBloqueadas(prev => prev.filter(id => id !== cartaId));
     };
 
+    // Verifica si una carta está bloqueada
     const esCartaBloqueada = (cartaId: number) => {
         return cartasBloqueadas.includes(cartaId);
     };
