@@ -2,8 +2,12 @@ import { createContext, useState, ReactNode, useContext } from 'react';
 import { Partida } from '../../../types/partidaListada';
 
 interface PartidaActivaProps {
-    actualizarPartidaActiva: (PartidaActiva: Partida) => void;
-    obtenerPartidaActiva: () => Partida | null;
+  actualizarPartidaActiva: (PartidaActiva: Partida) => void;
+  obtenerPartidaActiva: () => Partida | null;
+  borrarPartidaActiva: () => void;
+  enJuego: () => boolean;
+  iniciarPartida: () => void;
+  terminarPartida: () => void;
 }
 
 const PartidaActivaContext = createContext<PartidaActivaProps | undefined>(undefined);
@@ -11,12 +15,18 @@ const PartidaActivaContext = createContext<PartidaActivaProps | undefined>(undef
 export const PartidaActiva = ({ children }: { children: ReactNode }) => {
 
   const [partidaActiva, setPartidaActiva] = useState<Partida | null>(null);
+  const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
 
   const actualizarPartidaActiva = (PartidaActiva: Partida) => setPartidaActiva(PartidaActiva);
   const obtenerPartidaActiva = () => partidaActiva;
+  const borrarPartidaActiva = () => setPartidaActiva(null);
+  const enJuego = () => partidaIniciada;
+  const iniciarPartida = () => setPartidaIniciada(true);
+  const terminarPartida = () => setPartidaIniciada(false);
+
 
   return (
-    <PartidaActivaContext.Provider value={{ actualizarPartidaActiva, obtenerPartidaActiva }}>
+    <PartidaActivaContext.Provider value={{ actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, enJuego, iniciarPartida, terminarPartida }}>
         {children}
     </PartidaActivaContext.Provider>
   );
