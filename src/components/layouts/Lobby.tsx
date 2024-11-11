@@ -28,6 +28,10 @@ function Lobby() {
 
   const { iniciarPartidaActiva } = usePartidaActiva();
 
+  const handleVolver = async () => {
+    if (newSocket) newSocket.close();
+    redirectToHome();
+  };
 
   useEffect(() => {
     if (partidaEnCurso){
@@ -47,8 +51,7 @@ function Lobby() {
       (cancelada) => {
         setCancelada(cancelada);
         if (cancelada) {
-          redirectToHome();
-          newSocket.close();
+          handleVolver();
           borrarPartida(); 
         }
     }, newSocket);
@@ -63,12 +66,12 @@ function Lobby() {
   const handleAbandonarPartida = async () => {
     await AbandonarPartida(idPartida, idJugador); 
     borrarPartida(); 
-    if (newSocket) newSocket.close();
-    redirectToHome();
+    handleVolver();
   };
+
   return (
     <>
-      <button className='volver' onClick={redirectToHome}> <img src="/left-arrow.svg"></img> </button>
+      <button className='volver' onClick={handleVolver}> <img src="/left-arrow.svg"></img> </button>
       <div className='lobby-container'>
         {partida && <h1 className='lobby-title'>{partida.nombre}</h1>}
         <p className='lobby-subtitle'>Esperando a jugadores...</p>

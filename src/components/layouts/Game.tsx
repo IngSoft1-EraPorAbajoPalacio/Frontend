@@ -74,15 +74,19 @@ function Juego () {
         setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
     }, [desconexionesGame]);
 
+    const handleVolver = async () => {
+        if (newSocket) newSocket.close();
+        redirectToHome();
+    };
+
     const handleAbandonarPartida = async () => {
         if (idJugador == turnoActual){
             await DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
             await PasarTurno(idPartida, idJugador);
         }
         AbandonarPartida(idPartida, idJugador);  
-        if (newSocket) newSocket.close();
         borrarPartida();
-        redirectToHome();
+        handleVolver();
     };
 
     const handlePasarTurno = async () => {
@@ -107,7 +111,7 @@ function Juego () {
 
     return (
         <div id='Juego'>
-        <button className='volver' onClick={redirectToHome}> <img src="/left-arrow.svg"></img> </button>
+        <button className='volver' onClick={handleVolver}> <img src="/left-arrow.svg"></img> </button>
         <div id="Superior">
                 <ColorProhibido colorProhibido={colorProhibido}/>
                 <Temporizador/>

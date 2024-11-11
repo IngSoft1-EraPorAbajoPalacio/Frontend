@@ -5,9 +5,10 @@ import PartidaListada from './PartidaListada';
 interface ListarPartidasProps {
   setIdPartida: React.Dispatch<React.SetStateAction<number|null>>;
   partidas: Partida[];
+  newSocket: any
 }
 
-function ListarPartidas({setIdPartida, partidas}: ListarPartidasProps) {
+function ListarPartidas({setIdPartida, partidas, newSocket}: ListarPartidasProps) {
 
   const { obtenerPartidaActiva } = usePartidaActiva();
 
@@ -18,7 +19,7 @@ function ListarPartidas({setIdPartida, partidas}: ListarPartidasProps) {
       { partidaActiva && (
         <div>
           <h2>Partida Activa</h2>
-          <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} ></PartidaListada>
+          <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} newSocket={newSocket} ></PartidaListada>
         </div>
       )}
 
@@ -28,7 +29,7 @@ function ListarPartidas({setIdPartida, partidas}: ListarPartidasProps) {
           <div className='lista'>
             {partidas.map((partida: Partida) => (
               (!partidaActiva || ( partidaActiva && partidaActiva.id !== partida.id ) ) &&
-              <PartidaListada key={partida.id} partida={partida} setIdPartida={setIdPartida} ></PartidaListada>
+              <PartidaListada key={partida.id} partida={partida} setIdPartida={setIdPartida} newSocket={newSocket} ></PartidaListada>
             ))}
           </div>
         </div>

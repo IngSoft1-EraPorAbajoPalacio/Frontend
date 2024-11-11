@@ -75,7 +75,7 @@ const Home = () => {
             </div>            
             <div id='unirse'>
                 <BusquedaPartidas busqueda={busqueda} setBusqueda={setBusqueda} minPlayers={minPlayers} maxPlayers={maxPlayers} setMinPlayers= {setMinPlayers} setMaxPlayers= {setMaxPlayers} />
-                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} />
+                <ListarPartidas setIdPartida={setIdPartida} partidas={partidasFiltradas} newSocket={newSocket}/>
             </div>
             <Overlay isOpen={partidaCreada} onClose={() => { setPartidaCreada(!partidaCreada) }}>
                 <FormCreateRoom setIdPartida={setIdPartida} setIdJugador={setIdJugador} />

@@ -8,9 +8,10 @@ import useRouteNavigation from '../../../routes/RouteNavigation';
 interface PartidaListadaProps {
   partida: Partida;
   setIdPartida: React.Dispatch<React.SetStateAction<number|null>>;
+  newSocket: any;
 }
 
-function PartidaListada({partida, setIdPartida}: PartidaListadaProps) {
+function PartidaListada({partida, setIdPartida, newSocket}: PartidaListadaProps) {
 
     const { actualizarPartidaActiva, obtenerPartidaActiva, borrarPartidaActiva, terminarPartidaActiva, enJuego } = usePartidaActiva();
     const { redirectToLobby, redirectToGame } = useRouteNavigation();
@@ -22,6 +23,7 @@ function PartidaListada({partida, setIdPartida}: PartidaListadaProps) {
         if (partidaActiva && partidaActiva.id === partida.id) {
             if (enJuego()) redirectToGame(partida.id, obtenerJugador().id);
             else redirectToLobby(partida.id, obtenerJugador().id);
+            if (newSocket) newSocket.close();
             return;
         }
         
