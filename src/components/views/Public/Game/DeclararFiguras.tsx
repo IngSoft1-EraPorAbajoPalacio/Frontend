@@ -14,7 +14,7 @@ const declararFiguras = (
     const figuras: Figura[] = typeof figurasJson === 'string' ? JSON.parse(figurasJson) : figurasJson;
 
     setFigurasDetectadas([]); //Lo vacío para agregar las nuevas figuras detectadas
-    figuras.forEach((fig: Figura) => {
+    if(figuras) figuras.forEach((fig: Figura) => {
         setFigurasDetectadas(prevFiguras => [...prevFiguras, fig]); //Agrego las nuevas figuras detectadas
         fig.coordenadas.forEach((coord: Coord) => {
 
