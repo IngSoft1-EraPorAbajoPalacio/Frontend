@@ -7,7 +7,7 @@ function UnirsePartida(
     alias: string,
     password: string,
     setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
-    IdPartida: number|null
+    IdPartida: number
 ) {
     e.preventDefault();
     const partida = IdPartida;

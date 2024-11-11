@@ -19,7 +19,7 @@ const FormularioUnirsePartida: React.FC<FormCreateRoomProps> = ({ setIdJugador, 
 
     return (
         <div className="form-container">
-            <form onSubmit={(e) => UnirsePartida(e, alias, password, setIdJugador, idPartida)}>
+            <form onSubmit={(e) => { if(idPartida) UnirsePartida(e, alias, password, setIdJugador, idPartida) } }>
                 <h2>Unirse a Sala</h2>
                 <span>{roomName}</span>
                 

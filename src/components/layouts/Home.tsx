@@ -10,6 +10,10 @@ import createSocketHome from '../../services/socketHome';
 import { Partida } from '../../types/partidaListada';
 import obtenerPartidas from '../hooks/Home/ObtenerPartidas';
 import BusquedaPartidas from '../views/Public/Home/BusquedaPartidas';
+import { usePartidaActiva } from '../utils/Home/PartidaActiva';
+import AbandonarPartida from '../hooks/AbandonarPartida';
+import { obtenerJugador } from '../context/GameContext';
+import showToast from '../views/Public/Toast';
 
 const Home = () => {
     const [idPatida, setIdPartida] = useState<number|null>(null);
@@ -26,8 +30,19 @@ const Home = () => {
     const [maxPlayers, setMaxPlayers] = useState<number>(4);
 
     const { redirectToLobby } = useRouteNavigation();
+    const { obtenerPartidaActiva, borrarPartidaActiva, terminarPartida } = usePartidaActiva();
 
-    const seleccionarCrear = () => setPartidaCreada(true);
+    const seleccionarCrear = () => {
+        setPartidaCreada(true);
+
+        const partidaActiva = obtenerPartidaActiva();
+        if (partidaActiva !== null) {
+            AbandonarPartida(partidaActiva.id, obtenerJugador().id);
+            showToast({ message: 'Partida abandonada', type: 'success' });
+            borrarPartidaActiva();
+            terminarPartida();
+        }
+    }
 
     useEffect(() => {
         if (idJugador !== null && idPatida !== null){
