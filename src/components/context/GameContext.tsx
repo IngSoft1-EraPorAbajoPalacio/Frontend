@@ -21,6 +21,16 @@ export const obtenerPartida = () => {
     return partida ? JSON.parse(partida) : {};
 }
 
+// Guardo la cantidad de jugadores en la partida
+export const guardarCantJugadoresPartida = (contadorJ: number)=>{
+    sessionStorage.setItem('cantJugadoresPartida', JSON.stringify(contadorJ));
+}
+
+export const obtenerCantJugadoresPartida = ()=>{
+    const contadorJ = sessionStorage.getItem('cantJugadoresPartida');
+    return contadorJ ? JSON.parse(contadorJ) : 1;
+}
+
 // Ficha seleccionada
 export const guardarFichaSeleccionada = (ficha: number) => {
     sessionStorage.setItem('fichaSeleccionada', JSON.stringify(ficha));
@@ -207,18 +217,7 @@ export const borrarColorProhibido = () => {
     sessionStorage.removeItem('colorProhibido');
 }
 
-
 // Borra el session storage completo
 export const borrarPartida = () => {
     sessionStorage.clear();
-}
-
-// Guardo la cantidad de jugadores en la partida
-export const guardarCantJugadoresPartida = (contadorJ: number)=>{
-    sessionStorage.setItem('cantJugadoresPartida', JSON.stringify(contadorJ));
-}
-
-export const obtenerCantJugadoresPartida = ()=>{
-    const contadorJ = sessionStorage.getItem('cantJugadoresPartida');
-    return contadorJ ? JSON.parse(contadorJ) : 1;
 }
