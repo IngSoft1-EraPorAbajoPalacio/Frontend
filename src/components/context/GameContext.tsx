@@ -221,3 +221,21 @@ export const borrarColorProhibido = () => {
 export const borrarPartida = () => {
     sessionStorage.clear();
 }
+
+export const guardarPartidaActivaContext = (activa: boolean) => {
+    sessionStorage.setItem('partidaActiva', JSON.stringify(activa));
+}
+
+export const obtenerPartidaActivaContext = () => {
+    const activa = sessionStorage.getItem('partidaActiva');
+    return activa ? JSON.parse(activa) : false;
+}
+
+export const guardarTurnoActual = (turnoActual: number) => {
+    sessionStorage.setItem('turnoActual', JSON.stringify(turnoActual));
+}
+
+export const obtenerTurnoActual = () => {
+    const turno = sessionStorage.getItem('turnoActual');
+    return turno ? JSON.parse(turno) : '';
+}

@@ -1,4 +1,5 @@
 import { Partida } from '../../../../types/partidaListada';
+import { obtenerPartidaActivaContext } from '../../../context/GameContext';
 import { usePartidaActiva } from '../../../utils/PartidaActiva';
 import PartidaListada from './PartidaListada';
 
@@ -16,7 +17,7 @@ function ListarPartidas({setIdPartida, partidas, newSocket}: ListarPartidasProps
 
   return (
     <div className='listado'>
-      { partidaActiva && (
+      { partidaActiva && obtenerPartidaActivaContext() &&(
         <div>
           <h2>Partida Activa</h2>
           <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} newSocket={newSocket}></PartidaListada>

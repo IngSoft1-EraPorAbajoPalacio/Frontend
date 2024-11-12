@@ -1,4 +1,4 @@
-import { borrarJugadoresUnidos, borrarPartida, guardarCantJugadoresPartida, guardarJugadoresUnidos } from '../../context/GameContext';
+import { borrarJugadoresUnidos, borrarPartida, guardarCantJugadoresPartida, guardarJugadoresUnidos, guardarPartidaActivaContext } from '../../context/GameContext';
 
 // Escucha los mensajes del servidor en el lobby
 const ObtenerMensajes = (
@@ -24,6 +24,7 @@ const ObtenerMensajes = (
     // Si el mensaje es de tipo IniciarPartida, llama a la API para inicia la partida
     else if (message.type === 'IniciarPartida') {
       setPartidaIniciada(true);
+      guardarPartidaActivaContext(true);
       borrarJugadoresUnidos();
     }
     
@@ -31,16 +32,20 @@ const ObtenerMensajes = (
     else if (message.type === 'AbandonarPartida') {
       setJugadores((antiguosJugadores: {id: number, nombre: string}[]) => {
         const nuevosJugadores = antiguosJugadores.filter((player) => (Number(player.id) !== Number(message.data.idJugador)));
+        guardarJugadoresUnidos(nuevosJugadores);
+        guardarCantJugadoresPartida(nuevosJugadores.length);
         return nuevosJugadores;
       });
       setContador((contador: number) => contador - 1);
       guardarCantJugadoresPartida(CantidadJugadores-1);
+      guardarPartidaActivaContext(false);
     }
     
     // Si el mensaje es de tipo PartidaEliminada, redirecciona al usuario al Home
     else if (message.type === 'PartidaEliminada') {
       borrarPartida();
       setCancelada(true);
+      guardarPartidaActivaContext(false);
       return () => socket.close();
     }
   };

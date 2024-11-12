@@ -1,12 +1,14 @@
 import { Figura } from "../../../types/figura";
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarJugador1, borrarJugador2, borrarJugador3, borrarJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { borrarFichasTablero, borrarFiguraJugador1, borrarFiguraJugador2, borrarFiguraJugador3, borrarFiguraJugador4, borrarJugador1, borrarJugador2, borrarJugador3, borrarJugador4, borrarPartida, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarTurnoActual, obtenerFichasTablero, obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
 import { CartaMovimiento, Movimiento } from "../../../types/partidaEnCurso";
 import declararFiguras from "../../views/Public/Game/DeclararFiguras";
 import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
 import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 import { avisoAccionChat } from "../../utils/Game/avisoAccionChat";
+import { useParams } from "react-router-dom";
+import DeshacerMovimientos from "./DeshacerMovimientos";
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
@@ -42,7 +44,7 @@ const ObtenerMensajes = (
 	bloquearCartas: (carta: number[]) => void,
     desbloquearCarta: (carta: number) => void,
 ) => {
-
+	
 	socket.onmessage = (event: any) => {
 		const message = JSON.parse(event.data);
 
@@ -60,7 +62,10 @@ const ObtenerMensajes = (
 		// Si el mensaje es de tipo PasarTurno, setea el turno actual
 		if (message.type === 'PasarTurno') {
 			setTurnoActual(message.turno);
-			if (message.timeout) showToast({ type: 'info', message: 'El tiempo se ha acabado' });
+			if (message.timeout) {
+				showToast({ type: 'info', message: 'El tiempo se ha acabado' });
+			};
+			guardarTurnoActual(message.turno);
 			actualizarTemporizador(120);
 		}
 

@@ -1,4 +1,4 @@
-import { obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4 } from "../../context/GameContext";
+import { obtenerJugador1, obtenerJugador2, obtenerJugador3, obtenerJugador4, obtenerTurnoActual } from "../../context/GameContext";
 
 export const avisoAccionChat = (
 	idJug: number, 
@@ -8,13 +8,15 @@ export const avisoAccionChat = (
 	var nombreJugador;
 	var avisoChat: string;
 
-	if (obtenerJugador1() && obtenerJugador1().id === idJug) {
+	var idJugadorTurnoActual:number = -1; 
+	if(tipoAccion !== "Abandono") idJugadorTurnoActual = obtenerTurnoActual();
+	if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador1().nombre;
-	} else if (obtenerJugador2() && obtenerJugador2().id === idJug) {
+	} else if (obtenerJugador2() && obtenerJugador2().id === idJug || obtenerJugador2().id === idJugadorTurnoActual) {
 		nombreJugador = obtenerJugador2().nombre;
-	} else if (obtenerJugador3() && obtenerJugador3().id === idJug) {
+	} else if (obtenerJugador3() && obtenerJugador3().id === idJug || obtenerJugador3().id === idJugadorTurnoActual) {
 		nombreJugador = obtenerJugador3().nombre;
-	} else if (obtenerJugador4() && obtenerJugador4().id === idJug) {
+	} else if (obtenerJugador4() && obtenerJugador4().id === idJug || obtenerJugador4().id === idJugadorTurnoActual) {
 		nombreJugador = obtenerJugador4().nombre;
 	}
 	

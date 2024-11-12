@@ -1,5 +1,5 @@
 import { CartaFigura, JugadorEnCurso } from "../../../types/partidaEnCurso";
-import { guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarMovimientos} from "../../context/GameContext";
+import { guardarJugador1, guardarJugador2, guardarJugador3, guardarJugador4, guardarColorProhibido, guardarFichasTablero, guardarFiguraJugador1, guardarFiguraJugador2, guardarFiguraJugador3, guardarFiguraJugador4, guardarMovimientos, guardarTurnoActual} from "../../context/GameContext";
 
 const handleIniciarPartida = (
 	mensaje: any,
@@ -14,7 +14,7 @@ const handleIniciarPartida = (
 ) => {
 
 	guardarFichasTablero(mensaje.fichas);
-	//guardarTurnoActual(mensaje.turno);
+	guardarTurnoActual(mensaje.turno);
 	guardarColorProhibido(mensaje.colorProhibido);
 	guardarMovimientos(mensaje.cartasMovimiento);
 
