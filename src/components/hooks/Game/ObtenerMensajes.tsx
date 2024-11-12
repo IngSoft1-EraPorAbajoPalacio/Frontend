@@ -7,8 +7,7 @@ import { color } from "../../../types/partidaEnCurso";
 import showToast from "../../views/Public/Toast";
 import handleIniciarPartida from "../../utils/Game/IniciarPartida";
 import { avisoAccionChat } from "../../utils/Game/avisoAccionChat";
-import { useParams } from "react-router-dom";
-import DeshacerMovimientos from "./DeshacerMovimientos";
+
 
 interface manejarFinalizacionFunc {
     (finalizado: boolean, idGanador?: number, nombreGanador?: string): void;
