@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect, useRef } from 'react';
 
 interface TemporizadorProps {
     actualizarTemporizador: (temporizador: number) => void;
@@ -10,28 +10,41 @@ const TemporizadorContext = createContext<TemporizadorProps | undefined>(undefin
 export const Temporizador = ({ children }: { children: ReactNode }) => {
 
   const [segundosRestantes, setSegundosRestantes] = useState<number>(0);
-
-  useEffect(() => {
-    let timer = setInterval(() => {
-      setSegundosRestantes((temporizador: number) => {
-        if (temporizador === 0) {
-          clearInterval(timer);
-          return 0;
-        } else return temporizador - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  
-  }, [setSegundosRestantes, segundosRestantes]);
+  const requestRef = useRef<number | null>(null);
+  const tiempoEstablecidoRef = useRef<number>(0);
 
   const actualizarTemporizador = (temporizador: number) => {
     setSegundosRestantes(temporizador);
+    tiempoEstablecidoRef.current = Date.now() / 1000 + temporizador;
   };
 
   const obtenerTemporizador = () => {
     return segundosRestantes;
   };
+
+  const tick = () => {
+    const tiempoRestante = Math.ceil(tiempoEstablecidoRef.current - Date.now() / 1000);
+    if (tiempoRestante <= 0) {
+      setSegundosRestantes(0);
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    } else {
+      setSegundosRestantes(tiempoRestante);
+      requestRef.current = requestAnimationFrame(tick);
+    }
+  };
+
+  useEffect(() => {
+    if (segundosRestantes > 0) {
+      requestRef.current = requestAnimationFrame(tick);
+    }
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
+  }, [segundosRestantes]);
 
   return (
     <TemporizadorContext.Provider value={{ actualizarTemporizador, obtenerTemporizador }}>
