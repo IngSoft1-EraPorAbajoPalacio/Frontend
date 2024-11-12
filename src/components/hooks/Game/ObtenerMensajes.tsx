@@ -52,6 +52,7 @@ const ObtenerMensajes = (
 		if (message.type === 'InicioConexion') {
 			handleIniciarPartida(message.data, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4);
 			setTurnoActual(message.data.turnoActual);
+			guardarTurnoActual(message.data.turnoActual);
 			setColorProhibido(message.data.colorProhibido);
 			setManoMovimiento(message.data.cartasMovimiento);
 			setMovimientosJugados(message.data.cantMovimientosParciales);

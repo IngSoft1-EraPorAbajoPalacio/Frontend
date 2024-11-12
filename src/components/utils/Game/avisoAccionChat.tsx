@@ -8,8 +8,8 @@ export const avisoAccionChat = (
 	var nombreJugador;
 	var avisoChat: string;
 
-	var idJugadorTurnoActual:number = -1; 
-	if(tipoAccion !== "Abandono") idJugadorTurnoActual = obtenerTurnoActual();
+	var idJugadorTurnoActual:number | undefined; 
+	if(tipoAccion !== "Abandono") idJugadorTurnoActual = obtenerTurnoActual() ?? -1;
 	if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador1().nombre;
 	} else if (obtenerJugador2() && obtenerJugador2().id === idJug || obtenerJugador2().id === idJugadorTurnoActual) {
