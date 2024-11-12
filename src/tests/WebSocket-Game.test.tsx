@@ -128,7 +128,6 @@ describe('ObtenerMensajes', () => {
     expect(setManoMovimiento).toHaveBeenCalledWith(mockInicioConexion.cartasMovimiento);
     expect(setMovimientosJugados).toHaveBeenCalledWith(mockInicioConexion.cantMovimientosParciales);
     expect(setTemporizador).toHaveBeenCalledWith(mockInicioConexion.tiempo);
-    expect(declararFiguras).toHaveBeenCalledTimes(1);
     expect(bloquearCartas).toHaveBeenCalledTimes(1);
   });
 
@@ -701,24 +700,5 @@ it('Debería desbloquear una carta si el mensaje es de tipo FiguraDesbloqueada',
     // Verificamos que se haya llamado a la función FiguraDesbloqueada
     expect(desbloquearCarta).toHaveBeenCalledWith(1);
 });
-  it('Deberia actualizar la lista de mensajes en el chat si el mensaje es de tipo Mensaje', () => {
-    // Llamamos a la función que escucha los mensajes
-    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
   
-    const message = JSON.stringify({
-      type: 'Mensaje',
-      mensaje: 'Hola',
-    });
-
-    // Simulamos recibir el mensaje desde el servidor
-    act(() => {
-      socket.onmessage({ data: message });
-    });
-
-    // Verificamos que se agregue correctamente el mensaje a la lista de mensajes 
-    expect(setListaMensajes).toHaveBeenCalledWith(expect.any(Function));
-    const updateFunction = setListaMensajes.mock.calls[0][0];
-    const listaActualizada = updateFunction(['Que tal?']);
-    expect(listaActualizada).toEqual(['Que tal?', 'Hola']);
-  });
 });

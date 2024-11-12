@@ -96,7 +96,7 @@ export const guardarJugador1 = (jugador1: JugadorEnCurso | null) => {
 
 export const obtenerJugador1 = () => {
     const jugador1 = sessionStorage.getItem('jugador1');
-    return jugador1 ? JSON.parse(jugador1) : null;
+    return jugador1 ? JSON.parse(jugador1) : "";
 }
 
 export const borrarJugador1 = () => {
@@ -110,7 +110,7 @@ export const guardarJugador2 = (jugador2: JugadorEnCurso | null) => {
 
 export const obtenerJugador2 = () => {
     const jugador2 = sessionStorage.getItem('jugador2');
-    return jugador2 ? JSON.parse(jugador2) : null;
+    return jugador2 ? JSON.parse(jugador2) : "";
 }
 
 export const borrarJugador2 = () => {
@@ -124,7 +124,7 @@ export const guardarJugador3 = (jugador3: JugadorEnCurso | null) => {
 
 export const obtenerJugador3 = () => {
     const jugador3 = sessionStorage.getItem('jugador3');
-    return jugador3 ? JSON.parse(jugador3) : null;
+    return jugador3 ? JSON.parse(jugador3) : "";
 }
 
 export const borrarJugador3 = () => {
@@ -138,7 +138,7 @@ export const guardarJugador4 = (jugador4: JugadorEnCurso | null) => {
 
 export const obtenerJugador4 = () => {
     const jugador4 = sessionStorage.getItem('jugador4');
-    return jugador4 ? JSON.parse(jugador4) : null;
+    return jugador4 ? JSON.parse(jugador4) : "";
 }
 
 export const borrarJugador4 = () => {
