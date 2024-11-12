@@ -22,7 +22,7 @@ function PartidaListada({partida, setIdPartida, newSocket}: PartidaListadaProps)
 
         // La partida seleccionada es una partida activa
         if (partidaActiva && partidaActiva.id === partida.id) {
-            if (enJuego() || obtenerPartidaActivaContext()) redirectToGame(partida.id, obtenerJugador().id);
+            if (enJuego()) redirectToGame(partida.id, obtenerJugador().id);
             else redirectToLobby(partida.id, obtenerJugador().id);
             if (newSocket) newSocket.close();
             return;

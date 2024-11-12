@@ -20,7 +20,7 @@ describe('avisoAccionChat', () => {
     expect(setListaMensajes).toHaveBeenCalledWith(expect.any(Function));
     const updateFunction = setListaMensajes.mock.calls[0][0];
     const listaActualizada = updateFunction(['Que tal?']);
-    expect(listaActualizada).toEqual(['Que tal?', "'Jugador1' ha abandonado la partida."]);
+    expect(listaActualizada).toEqual(['Que tal?', "Un jugador ha abandonado la partida."]);
   });
 
   it('should add the correct message when a different type of action is passed', () => {

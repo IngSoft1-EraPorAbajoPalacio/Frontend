@@ -9,8 +9,9 @@ export const avisoAccionChat = (
 	var avisoChat: string;
 
 	var idJugadorTurnoActual:number | undefined; 
-	if(tipoAccion !== "Abandono") idJugadorTurnoActual = obtenerTurnoActual() ?? -1;
-	if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
+	if (tipoAccion === "Abandono") {
+		avisoChat = `Un jugador ha abandonado la partida.`;
+	}else if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador1().nombre;
 	} else if (obtenerJugador2() && obtenerJugador2().id === idJug || obtenerJugador2().id === idJugadorTurnoActual) {
 		nombreJugador = obtenerJugador2().nombre;
@@ -19,10 +20,8 @@ export const avisoAccionChat = (
 	} else if (obtenerJugador4() && obtenerJugador4().id === idJug || obtenerJugador4().id === idJugadorTurnoActual) {
 		nombreJugador = obtenerJugador4().nombre;
 	}
-	
-	if (tipoAccion === "Abandono") {
-		avisoChat = `'${nombreJugador}' ha abandonado la partida.`;
-	} else if (tipoAccion === "Movimiento") {
+
+	if (tipoAccion === "Movimiento") {
 		avisoChat = `'${nombreJugador}' ha intercambiado fichas.`;
 	} else if (tipoAccion === "Deshacer1Mov") {
 		avisoChat = `'${nombreJugador}' ha deshecho su movimiento.`;
