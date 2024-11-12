@@ -28,8 +28,30 @@ export const handlePlayerNameChange = (
     }
 };
 
-export function handleAliasChange(e: React.ChangeEvent<HTMLInputElement>, setAlias: React.Dispatch<React.SetStateAction<string>>) {
+export const handlePasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
+    form: FormInputs,
+    password: boolean,
+) => {
+    if (password) {
+        if (validateNames(e.target.value)) {
+            setForm({
+                ...form,
+                password: e.target.value,
+            });
+        } else {
+            e.target.setCustomValidity('Por favor, ingrese una contraseña.');
+        }
+    }
+};
+
+export function handleUnitedPlayerNameChange(e: React.ChangeEvent<HTMLInputElement>, setAlias: React.Dispatch<React.SetStateAction<string>>) {
     if (validateNames(e.target.value)) setAlias(e.target.value);
+}
+
+export function handleUnitedPasswordChange(e: React.ChangeEvent<HTMLInputElement>, setPassword: React.Dispatch<React.SetStateAction<string>>) {
+    if (validateNames(e.target.value)) setPassword(e.target.value);
 }
 
 export const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {

@@ -1,59 +1,45 @@
 import { useEffect } from "react";
 import "../../../../styles/Game/Juego.css";
 import { CartaFigura, JugadorEnCurso } from "../../../../types/partidaEnCurso";
-import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte } from "../../../../utils/Cartas/figuraUtils";
+import { actualizarCartaFigDescarte, handleActualizarCartaFigDescarte, obtenerSrc } from "./figuraUtils";
 import { useParams } from "react-router-dom";
-
-const EXT = ".svg";
+import { useCartas } from "../../../utils/Game/CartasBloqueadas";
 
 interface MostrarFigurasProps {
     jugador: JugadorEnCurso;
     turnoActual: number | null;
     cartaFiguraDescarte: string | null;
     setCartaFiguraDescarte: React.Dispatch<React.SetStateAction<string | null>>;
-    manoFigura: CartaFigura[];
+    manoFigura: CartaFigura[] | null;
 }
 
-export const MostrarFiguras: React.FC<MostrarFigurasProps> =
-    ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
-        const PATH = "/figuras/fig";
+export const MostrarFiguras: React.FC<MostrarFigurasProps> = ({ jugador, turnoActual, cartaFiguraDescarte, setCartaFiguraDescarte, manoFigura }) => {
 
-        const { playerId } = useParams<{ playerId: string }>();
-        const idJugador = Number(playerId);
-        
-        const cartasSrc: string[] = manoFigura?.map((carta: CartaFigura) => {
-            if (carta.figura <= 9) {
-                return PATH + "0" + carta.figura + EXT;
-            }
-            else if (carta.figura <= 25){
-                 return PATH + carta.figura + EXT;}
-            else {
-                console.error("Error carta número");
-                return "";
-            }
-        });
-        
-        useEffect(() => {
-            if (turnoActual !== idJugador) {
-                setCartaFiguraDescarte(null);
-            }
-        }, [turnoActual]);
+    const { esCartaBloqueada } = useCartas();
+    
+    const { playerId } = useParams<{ playerId: string }>();
+    const idJugador = Number(playerId);
+    
+    useEffect(() => {
+        if (turnoActual !== idJugador) setCartaFiguraDescarte(null);
+    }, [turnoActual]);
+
 
     return (
-<div className="ManoHorizontal">
-                <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
-                <div>
-                    {cartasSrc?.map((src: string, index: number) =>
-                        <img 
-                            key={index}
-                            className={actualizarCartaFigDescarte(manoFigura[index].id.toString(), cartaFiguraDescarte)}
-                            onClick={() => {if (jugador.id === turnoActual)
-                                handleActualizarCartaFigDescarte(manoFigura[index].id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
-                            src={src} 
-                        />)
-                    }
-                </div>
+        <div className="ManoHorizontal">
+            <h2 className={`${turnoActual !== null && jugador.id === turnoActual ? "JugadorEnTurno" : "NoTurno"}`}> {jugador.nombre} </h2>
+            <div>
+                {manoFigura?.map((carta: CartaFigura) => esCartaBloqueada(carta.id) ?
+                    <img key={carta.id} className="FiguraBloqueada" src="/figuras/back-fig.svg" /> :            
+                    <img 
+                        key={carta.id}
+                        className={actualizarCartaFigDescarte(carta.id.toString(), cartaFiguraDescarte)}
+                        onClick={() => {handleActualizarCartaFigDescarte(carta.id.toString(), idJugador, cartaFiguraDescarte, setCartaFiguraDescarte, turnoActual)}}
+                        src={obtenerSrc(carta.figura)} 
+                    />
+                )}
             </div>
+        </div>
     )
 }
 

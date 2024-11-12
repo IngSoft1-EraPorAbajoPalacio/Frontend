@@ -136,4 +136,51 @@ describe('ObtenerMensajes', () => {
     expect(partidas).toEqual([]);
   });
 
+  it('Debería eliminar una partida de la lista de partidas cuando recibe un mensaje de tipo PartidaFinalizada', () => {
+    const setPartidas = vi.fn();
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setPartidas, socket);
+
+    // Simulamos un mensaje de tipo PartidaFinalizada
+    const message = JSON.stringify({
+      type: 'PartidaFinalizada',
+      data: { idPartida: 5 },
+    });
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina la partida correctamente
+    expect(setPartidas).toHaveBeenCalledWith(expect.any(Function));
+    const updateFunction = setPartidas.mock.calls[0][0];
+    const partidas = updateFunction([
+      new Partida(5, 'Partida Nueva', 3, 4),
+    ]);
+    expect(partidas).toEqual([]);
+  });
+
+  it('No se deberían actualizar los datos si recibe un mensaje de otro tipo', () => {
+
+    const setPartidas = vi.fn();
+
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setPartidas, socket);
+
+    // Simulamos un mensaje de tipo PartidaFinalizada
+    const message = JSON.stringify({
+      type: 'OtroTipo',
+    });
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    // Verificamos si se elimina la partida correctamente
+    expect(setPartidas).not.toHaveBeenCalled();
+  });
+
 });

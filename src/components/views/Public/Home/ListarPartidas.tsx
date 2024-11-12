@@ -1,27 +1,41 @@
 import { Partida } from '../../../../types/partidaListada';
-import { guardarPartida } from '../../../context/GameContext';
+import { obtenerPartidaActivaContext } from '../../../context/GameContext';
+import { usePartidaActiva } from '../../../utils/PartidaActiva';
+import PartidaListada from './PartidaListada';
 
 interface ListarPartidasProps {
   setIdPartida: React.Dispatch<React.SetStateAction<number|null>>;
   partidas: Partida[];
+  newSocket: any
 }
 
-function ListarPartidas({setIdPartida, partidas}: ListarPartidasProps) {
+function ListarPartidas({setIdPartida, partidas, newSocket}: ListarPartidasProps) {
+
+  const { obtenerPartidaActiva } = usePartidaActiva();
+
+  const partidaActiva = obtenerPartidaActiva();
+
   return (
-    <>
-      {partidas.map((partida) => (
-        <button
-          key={partida.id}
-          className='partida-listada'
-          onClick={() => {setIdPartida(partida.id); guardarPartida(partida);}}
-        >
-          <div>
-            <h3>{partida.nombre}</h3>
-            <p>Cantidad de jugadores: {partida.cantJugadoresMin} - {partida.cantJugadoresMax}</p>
+    <div className='listado'>
+      { partidaActiva && obtenerPartidaActivaContext() &&(
+        <div>
+          <h2>Partida Activa</h2>
+          <PartidaListada partida={partidaActiva} setIdPartida={setIdPartida} newSocket={newSocket}></PartidaListada>
+        </div>
+      )}
+
+      { partidas.length !== 0 && (
+        <div>
+          <h2>Otras Partidas</h2>
+          <div className='lista'>
+            {partidas.map((partida: Partida) => (
+              (!partidaActiva || ( partidaActiva && partidaActiva.id !== partida.id ) ) &&
+              <PartidaListada key={partida.id} partida={partida} setIdPartida={setIdPartida} newSocket={newSocket}></PartidaListada>
+            ))}
           </div>
-        </button>
-      ))}
-    </>
+        </div>
+      )}
+    </div>
   );
 }
 

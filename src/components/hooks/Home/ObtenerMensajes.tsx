@@ -1,28 +1,27 @@
 import { Partida } from "../../../types/partidaListada";
+import { guardarPartida } from "../../utils/Home/GuardarPartida";
 
 // Escucha los mensajes del servidor para agregar o eliminar una partida
-const ObtenerMensajes = (setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>, socket: any) => {
+const ObtenerMensajes = (
+  setPartidas: React.Dispatch<React.SetStateAction<Partida[]>>,
+  socket: any
+) => {
   socket.onmessage = (event: any) => {
-    const message = JSON.parse(event.data);
+    const message = JSON.parse(event.data);  
 
     // Si el mensaje es de tipo AgregarPartida, guarda la partida en la lista de partidas
     if (message.type === 'AgregarPartida') {
-      const partida = new Partida(
-        message.data.idPartida,
-        message.data.nombrePartida,
-        message.data.cantJugadoresMin,
-        message.data.cantJugadoresMax,
-      );
-      setPartidas((partidas) => {
-        if (!partidas.some(p => p.id === partida.id)) {
-          return [...partidas, partida];
+      const nuevaPartida: Partida = guardarPartida(message);
+      setPartidas((partidas: Partida[]) => {
+        if (!partidas.some(p => p.id === nuevaPartida.id)) {
+          return [...partidas, nuevaPartida];
         }
         return partidas;
       });
     }
     
     // Si el mensaje es de tipo PartidaEliminada, borra la partida de la lista de partidas
-    else if (message.type === 'PartidaEliminada') {
+    if (message.type === 'PartidaEliminada' || message.type === "PartidaFinalizada") {
       setPartidas((partidas) => partidas.filter(p => p.id !== message.data.idPartida));
     }
   };

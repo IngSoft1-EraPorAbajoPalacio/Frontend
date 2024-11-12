@@ -153,4 +153,26 @@ describe("VerificarMovimiento", () => {
 
         expect(VerificarMovimiento(movimiento, 5, 5)).toBe(false);
     }); 
+
+    it("mov1 (dos pasos en diagonal): No debería ser válido jugar una carta de movimiento sin estar en turno", async () => {
+
+        const movimiento = {
+            carta: new CartaMovimiento(movimientosMock[0].id, movimientosMock[0].movimiento as movimiento),
+            primerFicha: fichasMock[2],
+            segundaFicha: fichasMock[12]
+        };
+
+        expect(VerificarMovimiento(movimiento, 5, 6)).toBe(false);
+    });
+
+    it("mov1 (dos pasos en diagonal): No debería ser válido jugar una carta de movimiento, estando en turno, con una carta no válida", async () => {
+
+        const movimiento = {
+            carta: new CartaMovimiento(movimientosMock[0].id, movimientosMock[0].movimiento as movimiento),
+            primerFicha: fichasMock[2],
+            segundaFicha: fichasMock[32]
+        };
+
+        expect(VerificarMovimiento(movimiento, 5, 5)).toBe(false);
+    });
 });

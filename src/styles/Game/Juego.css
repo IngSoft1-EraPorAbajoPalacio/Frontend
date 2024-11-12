@@ -9,6 +9,15 @@
     align-items: center;
     justify-content:space-evenly;
     height: 100vh;
+    margin-top: 60px;
+}
+
+#Superior {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .Tablero-columna {
@@ -25,7 +34,7 @@
     width: 85px;
     height: 85px;
     border-radius: 10px;
-    background-color: #3b302a;
+    background-color: #a36e52;
     margin: 2px;
     display: flex;
     justify-content: center;
@@ -38,68 +47,62 @@
     animation: casilla-animada 2s ease-out infinite;
 }
 
-.Tablero-casilla button {
-    width: 85%;
-    height: 85%;
-}
-
 .Tablero-casilla button:hover {
-    background-color: #c9b791d8;
     border-radius: 8px;
 }
 
  /* Con selección */
-.Tablero-casilla .Amarillo-sin-seleccion {
-    background: yellow;
+.Tablero-casilla .Amarillo-sin-seleccion,
+.Tablero-casilla .Rojo-sin-seleccion,
+.Tablero-casilla .Verde-sin-seleccion,
+.Tablero-casilla .Azul-sin-seleccion {
     width: 90%;
     height: 90%;
     border: white 2px;
+    outline: none;
+}
+
+.Tablero-casilla .Amarillo-sin-seleccion {
+    background: yellow;
 }
 
 .Tablero-casilla .Rojo-sin-seleccion {
     background: red;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
 .Tablero-casilla .Verde-sin-seleccion {
     background: green;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
 .Tablero-casilla .Azul-sin-seleccion {
     background: blue;
-    width: 90%;
-    height: 90%;
-    border: white 2px;
 }
 
 /* Sin selección */
-.Tablero-casilla .Amarillo-con-seleccion {
-    background: rgb(82, 82, 0);
+.Tablero-casilla .Amarillo-con-seleccion,
+.Tablero-casilla .Rojo-con-seleccion,
+.Tablero-casilla .Verde-con-seleccion,
+.Tablero-casilla .Azul-con-seleccion {
     width: 85%;
     height: 85%;
+    border: none;
+    outline: none;
+}
+
+.Tablero-casilla .Amarillo-con-seleccion {
+    background: rgb(82, 82, 0);
 }
 
 .Tablero-casilla .Rojo-con-seleccion {
     background: rgba(129, 0, 0, 0.6);
-    width: 85%;
-    height: 85%;
 }
 
 .Tablero-casilla .Verde-con-seleccion {
     background: rgba(1, 94, 1, 0.6);
-    width: 85%;
-    height: 85%;
 }
 
 .Tablero-casilla .Azul-con-seleccion {
     background: rgba(0, 0, 121, 0.6);
-    width: 85%;
-    height: 85%;
 }
 
 .Carta {
@@ -115,24 +118,16 @@
 }
 
 .Carta:hover {
-    background-color: #f1b73b31;
     border-radius: 8px;
 }
 
-.Figura {
+.Figura, .FiguraBloqueada {
     width: 110px;
 }
 
 .Figura:hover {
-    background-color: #f1b73b31;
     border-radius: 8px;
-}
-
-.FiguraSelec {
-    width: 110px;
-    transform: translateY(-14px);
-    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
-    transition: transform 0.5s ease;
+    cursor: pointer;
 }
 
 #Centro {
@@ -159,33 +154,36 @@
 
 #ManoJugador {
     height: 140px;
-    width: 100%;
+    width: 75%;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
     align-items: center;
+    padding-left: 250px;
 }
 
 #ManoJugador button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #3b302a;
-    border-radius: 10px;
+    background-color: #a36e52;
+    color: white;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+}
+
+#ManoJugador button:disabled {
+    cursor: not-allowed;
+    border: none;
+    outline: none;
+    opacity: 0.6;
 }
 
 #ManoJugador #PasarTurno, #AbandonarPartida {
     width: 300px;
     height: 90px;
     margin: 2px;
-}
-
-.Movimiento-con-seleccion{
-    width: 110px;
-    border-radius: 8px;
-    transform: translateY(-14px);
-    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
-    transition: transform 0.5s ease;
 }
 
 #ManoJugador #DeshacerMovimiento {
@@ -207,19 +205,26 @@
     width: 110px;
     border-radius: 8px;
     transform: translateY(-14px);
-    box-shadow: 2px 4px 2px rgb(225, 225, 225);;
+    box-shadow: 2px 6px 2px rgba(0, 0, 0, 0);
     transition: transform 0.5s ease;
 }
 
 #ManoJugador img:hover {
-    background-color: #f1b73b31;
+    background-color: #a36e52;
     border-radius: 8px;
 }
 
 #ManoJugador button:hover {
     background-color: #c9b791d8;
     border-radius: 8px;
+}
 
+.FiguraSelec{
+    width: 110px;
+    border-radius: 8px;
+    transform: translateY(-14px);
+    box-shadow: 2px 6px 2px rgba(0, 0, 0, 0);
+    transition: transform 0.5s ease;
 }
 
 @keyframes casilla-animada {
@@ -254,4 +259,3 @@
         box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     }
 }
-

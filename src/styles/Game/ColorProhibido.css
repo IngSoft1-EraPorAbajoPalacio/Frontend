@@ -1,0 +1,36 @@
+.colorProhibido{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-evenly;
+    align-items: center;
+}
+
+.colorProhibido button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 3px solid #a36e52;
+    outline: none;
+}
+
+.colorProhibido button:hover {
+    cursor:default;
+}
+
+.colorProhibido .Amarillo {
+    background: yellow;
+}
+
+.colorProhibido .Rojo {
+    background: red;
+}
+
+.colorProhibido .Verde {
+    background: green;
+}
+
+.colorProhibido .Azul {
+    background: blue;
+}
+

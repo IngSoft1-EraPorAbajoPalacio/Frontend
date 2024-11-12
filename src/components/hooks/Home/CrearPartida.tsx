@@ -1,4 +1,4 @@
-import { cantidadJugadores } from "../../../types/partidaListada";
+import { cantidadJugadores, Partida } from "../../../types/partidaListada";
 import { guardarJugador, guardarPartida, guardarJugadoresUnidos } from "../../context/GameContext";
 import { FormInputs } from "../../../types/formularioCrearPartida";
 
@@ -8,7 +8,8 @@ function CrearPartida (
     setForm: React.Dispatch<React.SetStateAction<FormInputs>>,
     form: FormInputs,
     setIdJugador: React.Dispatch<React.SetStateAction<number|null>>,
-    setIdPartida: React.Dispatch<React.SetStateAction<number|null>>
+    setIdPartida: React.Dispatch<React.SetStateAction<number|null>>,
+    actualizarPartidaActiva: (PartidaActiva: Partida) => void,
 ) {
     e.preventDefault();
 
@@ -17,6 +18,7 @@ function CrearPartida (
         nombre_partida: form.room,
         cant_min_jugadores: form.minPlayers,
         cant_max_jugadores: form.maxPlayers,
+        contrasena: form.password, // Envía una cadena vacía si es una partida pública
     };
 
     const options = {
@@ -28,26 +30,23 @@ function CrearPartida (
     const asyncPost = async () => {
         try {
             const response = await fetch('http://127.0.0.1:8000/partida', options);
-            if (response.ok) {
-                const ids = await response.json();
-                const { id_partida, id_jugador } = await ids;
-                setForm({
-                    ...form,
-                    idRoom: id_partida,
-                    idPlayer: id_jugador,
-                });
-                if (form.maxPlayers < 2 || form.maxPlayers > 4 || form.minPlayers < 2 || form.minPlayers > 4) {
-                    console.error('Número inválido de jugadores.');
-                } else {
-                    guardarJugador({ id: id_jugador, nombre: data.nombre_host, isHost: true });
-                    guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
-                    guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
-                    setIdJugador(id_jugador);
-                    setIdPartida(id_partida);
-                }
-            } else {
-                throw new Error('Hubo un problema tratando de crear la partida.');
-            }
+            
+            if (!response.ok) throw new Error('Hubo un problema tratando de crear la partida.');
+            
+            const ids = await response.json();
+            const { id_partida, id_jugador } = await ids;
+            setForm({
+                ...form,
+                idRoom: id_partida,
+                idPlayer: id_jugador,
+            });
+            guardarJugador({ id: id_jugador, nombre: data.nombre_host, isHost: true });
+            guardarPartida({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
+            guardarJugadoresUnidos([{ id: id_jugador, nombre: data.nombre_host }]);
+            actualizarPartidaActiva({ id: id_partida, nombre: data.nombre_partida, cantJugadoresMin: form.minPlayers as cantidadJugadores, cantJugadoresMax: form.maxPlayers as cantidadJugadores });
+            setIdJugador(id_jugador);
+            setIdPartida(id_partida);
+
         } catch (error) {
             console.error(error);
         }

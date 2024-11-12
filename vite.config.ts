@@ -10,5 +10,19 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './setupTests.js',
     silent: true, // Disable console.log output
+    coverage: {
+      reporter: ['text', 'json', 'html', 'text-summary'],
+      include: ['src/components/hooks/*/*.{js,jsx,tsx}'], 
+      exclude: [
+        'node_modules',
+        'src/components/context/**',
+        'src/components/layout/**',
+        'src/components/routes/**',
+        'src/components/views/Public/Game',
+        'src/components/services/**',
+        'src/components/styles/**',
+        'src/components/types/**',
+      ],
+    },
   },
 })
