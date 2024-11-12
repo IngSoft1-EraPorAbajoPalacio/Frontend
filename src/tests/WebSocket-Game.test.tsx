@@ -153,6 +153,22 @@ describe('ObtenerMensajes', () => {
     expect(setTurnoActual).toHaveBeenCalledTimes(1);
   });
 
+  it('Debería actualizar la lista de mensajes cuando recibe un Mensaje de tipo Mensaje', () => {
+    // Llamamos a la función que escucha los mensajes
+    ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
+
+    // Simulamos un mensaje de tipo Mensasje
+    const message = JSON.stringify({ type: 'Mensaje', mensaje: "Hola" });
+
+
+    // Simulamos recibir el mensaje desde el servidor
+    act(() => {
+      socket.onmessage({ data: message });
+    });
+
+    expect(setListaMensajes).toHaveBeenCalledTimes(1);
+  });
+
   it('Debería actualizar el turno actual y notificar cuando recibe un mensaje de tipo PasarTurno por timeout', () => {
     // Llamamos a la función que escucha los mensajes
     ObtenerMensajes(setTurnoActual, setMovimientos, setMovimientoAgregado, setMovimientoDeshecho, setMovimientosJugados, setFinalizado, socket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec, setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4, setListaMensajes, setColorProhibido, setTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
