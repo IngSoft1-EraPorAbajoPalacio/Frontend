@@ -7,17 +7,16 @@ export const avisoAccionChat = (
 ) => {
 	var nombreJugador;
 	var avisoChat: string;
-
-	var idJugadorTurnoActual:number | undefined; 
+	var idJugadorTurnoActual:number | undefined;
 	if (tipoAccion === "Abandono") {
 		avisoChat = `Un jugador ha abandonado la partida.`;
 	}else if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador1().nombre;
-	} else if (obtenerJugador2() && obtenerJugador2().id === idJug || obtenerJugador2().id === idJugadorTurnoActual) {
+	} else if (obtenerJugador2() && (obtenerJugador2().id === idJug || obtenerJugador2().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador2().nombre;
-	} else if (obtenerJugador3() && obtenerJugador3().id === idJug || obtenerJugador3().id === idJugadorTurnoActual) {
+	} else if (obtenerJugador3() && (obtenerJugador3().id === idJug || obtenerJugador3().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador3().nombre;
-	} else if (obtenerJugador4() && obtenerJugador4().id === idJug || obtenerJugador4().id === idJugadorTurnoActual) {
+	} else if (obtenerJugador4() && (obtenerJugador4().id === idJug || obtenerJugador4().id === idJugadorTurnoActual)) {
 		nombreJugador = obtenerJugador4().nombre;
 	}
 
