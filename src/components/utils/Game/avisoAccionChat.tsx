@@ -8,6 +8,8 @@ export const avisoAccionChat = (
 	var nombreJugador;
 	var avisoChat: string;
 	var idJugadorTurnoActual:number | undefined;
+	idJugadorTurnoActual = obtenerTurnoActual(); 
+
 	if (tipoAccion === "Abandono") {
 		avisoChat = `Un jugador ha abandonado la partida.`;
 	}else if (obtenerJugador1() && (obtenerJugador1().id === idJug || obtenerJugador1().id === idJugadorTurnoActual)) {
