@@ -42,6 +42,7 @@ const ObtenerMensajes = (
 	bloquearCarta: (carta: number) => void,
 	bloquearCartas: (carta: number[]) => void,
     desbloquearCarta: (carta: number) => void,
+	handlePasarTurno: (timeout: boolean) => Promise<void>
 ) => {
 	
 	socket.onmessage = (event: any) => {
@@ -64,6 +65,7 @@ const ObtenerMensajes = (
 			setTurnoActual(message.turno);
 			if (message.timeout) {
 				showToast({ type: 'info', message: 'El tiempo se ha acabado' });
+				handlePasarTurno(true);
 			};
 			guardarTurnoActual(message.turno);
 			actualizarTemporizador(120);

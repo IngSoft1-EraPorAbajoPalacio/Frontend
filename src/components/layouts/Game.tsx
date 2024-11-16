@@ -76,7 +76,8 @@ function Juego () {
             }
         }, newSocket, setMarcaFiguras, setFigurasDetectadas, figuraSeleccionada, marcadasPorSelec, setMarcadasPorSelec,
         setFiguraJug1, setFiguraJug2, setFiguraJug3, setFiguraJug4, setJugador1, setJugador2, setJugador3, setJugador4,
-        setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta);
+        setListaMensajes, setColorProhibido, actualizarTemporizador, setManoMovimiento, bloquearCarta, bloquearCartas, desbloquearCarta,
+        handlePasarTurno);
     }, [desconexionesGame]);
 
     const handleVolver = async () => {
@@ -96,14 +97,15 @@ function Juego () {
         handleVolver();
     };
 
-    const handlePasarTurno = async () => {
+    const handlePasarTurno = async (timeout: boolean) => {
         setCartaMovimientoSeleccionado((cartaSeleccionada: CartaMovimiento | null) => {
             if (cartaSeleccionada !== null) cartaSeleccionada.seleccionada = false;
             return null;
         });
         DeshacerMovimientos(idPartida, idJugador, setManoMovimiento);
+        if(!timeout)
         PasarTurno(idPartida, idJugador);
-    }
+    };
 
     useEffect(() => {
         if(turnoActual === idJugador) setManoMovimiento((cartas: CartaMovimiento[] | null) =>{
@@ -187,7 +189,7 @@ function Juego () {
                 <Chat listaMensajes={listaMensajes}/>        
                 <button id="AbandonarPartida" onClick={handleAbandonarPartida}>Abandonar Partida</button>
                 {idJugador === turnoActual ?
-                    <button id="PasarTurno" onClick={handlePasarTurno}>Pasar Turno</button> :
+                    <button id="PasarTurno" onClick={()=>handlePasarTurno(true)}>Pasar Turno</button> :
                     <button id="PasarTurno" disabled>Pasar Turno</button>
                 }
                 <MostrarMovimientos
